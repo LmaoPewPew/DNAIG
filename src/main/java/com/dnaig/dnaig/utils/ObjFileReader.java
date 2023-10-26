@@ -1,5 +1,6 @@
 package com.dnaig.dnaig.utils;
 
+import com.dnaig.dnaig.objData.Entity;
 import com.dnaig.dnaig.objData.Face;
 import com.dnaig.dnaig.objData.Vertex;
 
@@ -19,7 +20,7 @@ public class ObjFileReader {
 
         BufferedReader br = new BufferedReader(new FileReader(path));
 
-        String line, name = "Object";
+        String line, name = "";
         while((line = br.readLine()) != null){
 
             line = line.trim();
@@ -71,26 +72,26 @@ public class ObjFileReader {
 
             /*
              * Face
-             * Reads arbitrary amount of vertice-indexes
+             * Reads arbitrary amount of vertex-indexes
              * structure: f v/vt/vn v/vt/vn v/vt/vn v/vt/vn
              */
             else if(line.startsWith("f ")){
 
-                // int[numberOfVerticesPerFace][indexOfVerticeType]
-                String[][] indexSeperation = new String[parts.length - 1][];
+                // int[numberOfVerticesPerFace][indexOfVertexType]
+                String[][] indexSeparation = new String[parts.length - 1][];
                 int[][] indexes = new int[parts.length - 1][];
 
-                // for each vertice per face the indexes for the vertices are split
+                // for each vertex per face the indexes for the vertices are split
                 // additionally for each iteration the array for the indexes is created with the corresponding size
                 for (int i = 1; i < parts.length; i++) {
-                    indexSeperation[i - 1] = parts[i].split("/");
-                    indexes[i - 1] = new int[indexSeperation[i - 1].length];
+                    indexSeparation[i - 1] = parts[i].split("/");
+                    indexes[i - 1] = new int[indexSeparation[i - 1].length];
                 }
 
                 // each index is stored per face
-                for (int i = 0; i < indexSeperation.length; i++) {
-                    for (int j = 0; j < indexSeperation[i].length; j++) {
-                        indexes[i][j] = Integer.parseInt(indexSeperation[i][j]);
+                for (int i = 0; i < indexSeparation.length; i++) {
+                    for (int j = 0; j < indexSeparation[i].length; j++) {
+                        indexes[i][j] = Integer.parseInt(indexSeparation[i][j]);
                     }
                 }
 
@@ -99,7 +100,7 @@ public class ObjFileReader {
 
                 int i = 0;
                 for (int[] idx : indexes) {
-                    // first index is for the regular vertice
+                    // first index is for the regular vertex
                     Vector3D v = vertexList.get(idx[0] - 1);
 
                     /*
@@ -133,7 +134,8 @@ public class ObjFileReader {
         }
         br.close();
 
-        faces.forEach(ev -> System.out.println(ev.toString()));
+        Entity entity = new Entity(name, faces, vertexList.size(), false);
+        System.out.println(entity);
     }
 
     public static void main(String[] args) {
