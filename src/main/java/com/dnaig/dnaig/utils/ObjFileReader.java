@@ -1,14 +1,10 @@
 package com.dnaig.dnaig.utils;
 
-import com.dnaig.dnaig.objData.Entity;
-import com.dnaig.dnaig.objData.Face;
-import com.dnaig.dnaig.objData.Material;
-import com.dnaig.dnaig.objData.Vertex;
+import com.dnaig.dnaig.objData.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class ObjFileReader {
@@ -17,12 +13,18 @@ public class ObjFileReader {
         ArrayList<Vector3D> vertexList = new ArrayList<>();
         ArrayList<Vector3D> vertexNormalList = new ArrayList<>();
         ArrayList<Vector3D> vertexTextureList = new ArrayList<>();
+        ArrayList<Group> groups = new ArrayList<>();
 
-        ArrayList<Face> faces = new ArrayList<>();
+        int objectEdges = 0;
+        String mtlPath = "";
+
 
         BufferedReader br = new BufferedReader(new FileReader(path));
 
         String line, name = "";
+        String groupName = "";
+        Group group = null;
+        int smoothingGroup = 0;
         while((line = br.readLine()) != null){
 
             line = line.trim();
@@ -31,11 +33,12 @@ public class ObjFileReader {
 
             String[] tokens = line.split(" ");
 
-            /*
-             * Vertex
-             * Parses all 3 coordinates into floats and stores in 3D Vector
-             */
+
             switch (tokens[0]) {
+                /*
+                 * Vertex
+                 * Parses all 3 coordinates into floats and stores in 3D Vector
+                 */
                 case "v" -> {
                     float x = Float.parseFloat(tokens[1]);
                     float y = Float.parseFloat(tokens[2]);
@@ -43,10 +46,7 @@ public class ObjFileReader {
 
                     Vector3D vector3d = new Vector3D(x, y, z);
                     vertexList.add(vector3d);
-
-                    //System.out.println("x: " + x + " y: " + y + " z: " + z);
                 }
-
 
                 /*
                  * Vertex normal
@@ -61,7 +61,6 @@ public class ObjFileReader {
                     vertexNormalList.add(vector3d);
                 }
 
-
                 /*
                  * Vertex texture coordinates
                  * Parses both u and v coordinates into floats and stores in 3D Vector
@@ -75,7 +74,6 @@ public class ObjFileReader {
                     vertexTextureList.add(vector3d);
                 }
 
-
                 /*
                  * Face
                  * Reads arbitrary amount of vertex-indexes
@@ -83,6 +81,7 @@ public class ObjFileReader {
                  */
                 case "f" -> {
 
+                    objectEdges += tokens.length - 1;
                     // int[numberOfVerticesPerFace][indexOfVertexType]
                     String[][] indexSeparation = new String[tokens.length - 1][];
                     int[][] indexes = new int[tokens.length - 1][];
@@ -123,23 +122,53 @@ public class ObjFileReader {
                                 vn
                         );
                     }
-                    Face face = new Face(vertices);
-                    faces.add(face);
+
+                    Face face = new Face(vertices, smoothingGroup);
+                    assert group != null;
+                    group.addFace(face);
                 }
 
                 /*
                  * object name
                  * Reads the object name if existing
                  */
-                case "o" -> name = tokens[1];
+                case "o" -> {
+                    name = tokens[1];
+                }
+
+                /*
+                 * material file path
+                 */
+                case "mtllib" ->{
+                    mtlPath = tokens[1];
+                }
+
+                /*
+                 * groups faces
+                 */
+                case "g" ->{
+                    if(group != null)
+                        groups.add(group);
+                    if(tokens.length > 1) {
+                        StringBuilder temp = new StringBuilder();
+                        for (int i = 1; i < tokens.length; i++) {
+                            temp.append(tokens[i]);
+                        }
+                        groupName = temp.toString();
+                    }
+                    else
+                        groupName = "";
+                    group = new Group(groupName);
+                }
+
+                case "s" ->{
+                    smoothingGroup = Integer.parseInt(tokens[1]);
+                }
             }
         }
         br.close();
 
-        Entity entity = new Entity(name, faces, null, vertexList.size(), false);
-        System.out.println(entity);
-
-        return entity;
+        return new Entity(name, groups, null, vertexList.size(), objectEdges, false);
     }
 
     public static ArrayList<Material> createMaterial(String path) throws IOException{
@@ -189,7 +218,6 @@ public class ObjFileReader {
                         case "illum" ->{
                             material.setIllum(Integer.parseInt(tokens[1]));
                         }
-
                     }
                 }
             }
@@ -200,7 +228,8 @@ public class ObjFileReader {
                 }
             }
         }
-        materials.add(material);
+        if(material != null)
+            materials.add(material);
         return materials;
     }
 
@@ -211,13 +240,14 @@ public class ObjFileReader {
         }
         return rgb;
     }
+
     public static void main(String[] args) {
         Entity entity = null;
         ArrayList<Material> materials;
         try {
-            entity = createObject("C:\\Users\\Leon\\Documents\\ObjFileImporter\\src\\obj\\star-destroyer\\stardestroyer.obj");
+            entity = createObject("C:\\Users\\Leon\\Downloads\\astonMartin\\astonMartin.obj");
+            System.out.println(entity);
             materials = createMaterial("C:\\Users\\Leon\\Documents\\ObjFileImporter\\src\\obj\\star-destroyer\\stardestroyer.mtl");
-            materials.forEach(System.out::println);
         } catch (IOException e) {
             e.printStackTrace();
         }
