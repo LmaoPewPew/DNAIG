@@ -3,6 +3,7 @@ package com.dnaig.dnaig.objData;
 public class Face {
     private final Vertex[] vertices;  // array of vertices that make up the face
     private int smoothingGroup;
+    private Material material;
 
     // default constructor initializes face
     public Face() {
@@ -14,9 +15,10 @@ public class Face {
     }
 
     // constructor sets the vertices of the face
-    public Face(Vertex[] vertices, int smoothingGroup) {
+    public Face(Vertex[] vertices, Material material, int smoothingGroup) {
         this.vertices = vertices;
         this.smoothingGroup = smoothingGroup;
+        this.material = material;
     }
 
     // get number of vertices of the face
@@ -27,6 +29,8 @@ public class Face {
     public int getSmoothingGroup() {
         return this.smoothingGroup;
     }
+
+    public Material getMaterial() { return this.material; }
 
     // string representation of the face
     @Override
