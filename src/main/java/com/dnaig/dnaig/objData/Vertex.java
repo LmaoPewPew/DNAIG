@@ -2,48 +2,98 @@ package com.dnaig.dnaig.objData;
 
 import com.dnaig.dnaig.utils.Vector3D;
 
+/**
+ * Represents a vertex in 3D space with associated coordinates, normal, and texture information.
+ */
 public class Vertex {
-    private Vector3D coordinates;   // 3D coordinates of the vertex
-    private Vector3D normal;    // normal vector of the vertex
-    private Vector3D texture;   // texture coordinates at the vertex
+    private Vector3D coordinates;
+    private Vector3D normal;
+    private Vector3D texture;
 
-    // default constructor initializes all components to zero vectors
+
+    /**
+     * Initializes a vertex with all components set to zero vectors.
+     */
     public Vertex(){
         this.coordinates = new Vector3D();
         this.normal = new Vector3D();
         this.texture = new Vector3D();
     }
 
-    // constructor to set the vertex components
+    /**
+     * Initializes a vertex with the specified coordinates, normal, and texture components.
+     *
+     * @param coordinates The 3D coordinates of the vertex.
+     * @param normal The normal vector of the vertex.
+     * @param texture The texture coordinates at the vertex.
+     */
     public Vertex(Vector3D coordinates, Vector3D normal, Vector3D texture) {
         this.coordinates = coordinates;
         this.texture = texture;
         this.normal = normal;
     }
 
-    // getter methods to access properties
+    /**
+     * Gets the normal vector associated with the vertex.
+     *
+     * @return The normal vector.
+     */
     public Vector3D getNormal() {
         return normal;
     }
+
+    /**
+     * Gets the texture coordinates associated with the vertex.
+     *
+     * @return The texture coordinates.
+     */
     public Vector3D getTexture() {
         return texture;
     }
+
+    /**
+     * Gets the 3D coordinates of the vertex.
+     *
+     * @return The 3D coordinates.
+     */
     public Vector3D getCoordinates() {
         return coordinates;
     }
 
-    // setter methods to set properties
+
+    /**
+     * Sets the normal vector associated with the vertex.
+     *
+     * @param normal The new normal vector.
+     */
     public void setNormal(Vector3D normal) {
         this.normal = normal;
     }
+
+    /**
+     * Sets the texture coordinates associated with the vertex.
+     *
+     * @param texture The new texture coordinates.
+     */
     public void setTexture(Vector3D texture) {
         this.texture = texture;
     }
+
+    /**
+     * Sets the 3D coordinates of the vertex.
+     *
+     * @param coordinates The new 3D coordinates.
+     */
     public void setCoordinates(Vector3D coordinates) {
         this.coordinates = coordinates;
     }
 
-    // string representation of the vertex
+
+    /**
+     * Provides a string representation of the vertex, including its coordinates, normal, and texture information.
+     *
+     * @return A formatted string representation of the vertex.
+     */
     @Override
     public String toString(){
         return String.format(

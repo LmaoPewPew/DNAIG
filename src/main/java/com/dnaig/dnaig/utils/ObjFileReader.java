@@ -16,9 +16,9 @@ public class ObjFileReader {
     /**
      * Creates an Entity object from a Wavefront OBJ file.
      *
-     * @param path          The file path to the Wavefront OBJ file.
-     * @return              An Entity object representing the 3D model defined in the OBJ file.
-     * @throws IOException  If there is an error reading the file
+     * @param path The file path to the Wavefront OBJ file.
+     * @return An Entity object representing the 3D model defined in the OBJ file.
+     * @throws IOException If there is an error reading the file
      */
     public static Entity createObject(String path) throws IOException {
 
@@ -33,8 +33,6 @@ public class ObjFileReader {
 
         // HashMap containing all Materials accessed via the material name.
         HashMap<String, Material> materialsMap = new HashMap<>();
-
-        int objectEdges = 0;
 
         // String containing the path to the Material.
         String mtlPath;
@@ -52,10 +50,10 @@ public class ObjFileReader {
         BufferedReader br = new BufferedReader(new FileReader(path));
         String line;
 
-        while((line = br.readLine()) != null){
-            // remove unnecessary whitespaces
+        while ((line = br.readLine()) != null) {
+            // Remove unnecessary whitespaces.
             line = line.trim();
-            // removes multiple whitespaces
+            // Removes multiple whitespaces.
             line = line.replaceAll("^ +| +$|( )+", "$1");
 
             /*
@@ -90,8 +88,7 @@ public class ObjFileReader {
                     float y = Float.parseFloat(tokens[2]);
                     float z = Float.parseFloat(tokens[3]);
 
-                    Vector3D vector3d = new Vector3D(x, y, z);
-                    vertexNormalList.add(vector3d);
+                    vertexNormalList.add(new Vector3D(x, y, z));
                 }
 
                 /*
@@ -136,8 +133,6 @@ public class ObjFileReader {
                  These variations are respected and covered in this parser.
                  */
                 case "f" -> {
-                    objectEdges += tokens.length - 1;
-
                     /*
                     The 2D arrays store the arbitrary amount of vertices per line.
                     The outer array stores the information for each vertex independently.
@@ -184,8 +179,8 @@ public class ObjFileReader {
                         /*
                         The value 0 can be used to create a Null-vector, in the Wavefront OBJ file is no definition of 0 as an index value,
                         so it can be used as an indicator.
-                        - The second index is for the vertex texture.
-                        - The third index is for the vertex normal.
+                            - The second index is for the vertex texture.
+                            - The third index is for the vertex normal.
                          */
                         Vector3D vt = idx[1] == 0 ? new Vector3D() : vertexTextureList.get(idx[1] - 1);
                         Vector3D vn = idx[2] == 0 ? new Vector3D() : vertexNormalList.get(idx[2] - 1);
@@ -232,7 +227,7 @@ public class ObjFileReader {
 
                     // StringBuilder is used to concatenate the MTL file path.
                     StringBuilder str = new StringBuilder();
-                    for (String t: temp) {
+                    for (String t : temp) {
                         str.append(t).append("/");
                     }
 
@@ -246,7 +241,7 @@ public class ObjFileReader {
                  */
                 case "s" -> {
                     // Older files containing "off" as an alias for 0.
-                    if(tokens[1].equals("off"))
+                    if (tokens[1].equals("off"))
                         smoothingGroup = 0;
                     else
                         smoothingGroup = Integer.parseInt(tokens[1]);
@@ -263,39 +258,59 @@ public class ObjFileReader {
         br.close();
 
         //An Entity object representing the 3D model defined in the OBJ file.
-        return new Entity(objectName, faceList,  vertexList.size(), objectEdges);
+        return new Entity(objectName, faceList, vertexList.size());
     }
 
     /**
      * Creates a mapping of material names to Material objects from a MTL file.
      *
-     * @param path          The file path to the MTL file.
-     * @return              A HashMap containing material names as keys and Material objects as a values.
-     * @throws IOException  If there is an error reading the MTL file.
+     * @param path The file path to the MTL file.
+     * @return A HashMap containing material names as keys and Material objects as a values.
+     * @throws IOException If there is an error reading the MTL file.
      */
-    public static HashMap<String, Material> createMaterial(String path) throws IOException{
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(path));
+    public static HashMap<String, Material> createMaterial(String path) throws IOException {
 
+        // HashMap containing all Materials accessed via the material name.
         HashMap<String, Material> materials = new HashMap<>();
 
+        // Material containing the currently chosen material of the OBJ file.
         Material material = null;
 
+        // BufferedReader to read in the lines of the OBJ file.
+        BufferedReader br = new BufferedReader(new FileReader(path));
         String line;
-        while((line = bufferedReader.readLine()) != null){
 
+        while ((line = br.readLine()) != null) {
+
+            // Remove unnecessary whitespaces.
             line = line.trim();
+            // Removes multiple whitespaces.
             line = line.replaceAll("^ +| +$|( )+", "$1");
 
-            String[] tokens = line.split(" ");
-            if(tokens.length > 1){
-                String command = tokens[0];
 
-                if(command.equals("newmtl")){
+            /*
+            Tokenizing the current line.
+            tokens[0] always contains the current token, unless the line is empty.
+            e.g.:
+            line = ka 3.0 4.34 5.423
+            -> tokens = {ka, 3.0, 4.34, 5.423}
+             */
+            String[] tokens = line.split(" ");
+
+            // Check if the current line is not empty.
+            if (tokens.length > 1) {
+
+                // If current line contains token "newmtl" a new Material object is created.
+                if (tokens[0].equals("newmtl")) {
+                    if (material != null) {
+                        materials.put(material.getMatName(), material);
+                    }
                     material = new Material();
-                    material.setName(tokens[1]);
+                    material.setMatName(tokens[1]);
                 }
-                else if(material != null){
-                    switch (tokens[0]){
+                // Else the material object gets its properties set.
+                else if (material != null) {
+                    switch (tokens[0]) {
                         case "Ka" -> material.setKa(parseToRGB(tokens));
                         case "Kd" -> material.setKd(parseToRGB(tokens));
                         case "Ks" -> material.setKs(parseToRGB(tokens));
@@ -307,26 +322,25 @@ public class ObjFileReader {
                     }
                 }
             }
-            else{
-                if(material != null) {
-                    materials.put(material.getName(), material);
-                    material = null;
-                }
-            }
         }
-        bufferedReader.close();
-        if(material != null)
-            materials.put(material.getName(), material);
+        // BufferedReader is closed after finishing parsing the file.
+        br.close();
+
+        // After the loop terminated, the last material created is stored in the list.
+        if (material != null)
+            materials.put(material.getMatName(), material);
+
+        // A HashMap containing material names as keys and Material objects as a values.
         return materials;
     }
 
     /**
      * Parses an array of tokens containing RGB values and returns them as an array of floats.
      *
-     * @param token         An array of tokens containing RGB values.
-     * @return              An array of floats representing RBG values.
+     * @param token An array of tokens containing RGB values.
+     * @return An array of floats representing RBG values.
      */
-    private static float[] parseToRGB(String[] token){
+    private static float[] parseToRGB(String[] token) {
         float[] rgb = new float[token.length - 1];
         for (int i = 1; i < token.length; i++) {
             rgb[i - 1] = Float.parseFloat(token[i]);
