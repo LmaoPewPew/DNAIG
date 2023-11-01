@@ -3,6 +3,6 @@ module com.softpro.dnaig.softpro {
     requires javafx.fxml;
 
 
-    opens com.softpro.dnaig.softpro to javafx.fxml;
-    exports com.softpro.dnaig.softpro;
+    opens com.softpro.dnaig to javafx.fxml;
+    exports com.softpro.dnaig;
 }
