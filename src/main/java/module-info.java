@@ -1,8 +1,8 @@
-module com.dnaig.dnaig {
+module com.softpro.dnaig.softpro {
     requires javafx.controls;
     requires javafx.fxml;
 
 
-    opens com.dnaig.dnaig to javafx.fxml;
-    exports com.dnaig.dnaig;
+    opens com.softpro.dnaig to javafx.fxml;
+    exports com.softpro.dnaig;
 }
