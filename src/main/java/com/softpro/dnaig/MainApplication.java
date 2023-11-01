@@ -1,4 +1,4 @@
-package com.softpro.dnaig.softpro;
+package com.softpro.dnaig;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -91,7 +91,7 @@ public class MainApplication extends Application {
 
     /**************THEME**************/
     private void setDarkTheme(Scene scene) throws MalformedURLException {
-        File style = new File("src/main/java/com/softpro/dnaig/softpro/DarkMode.css");
+        File style = new File("src/main/java/com/softpro/dnaig/softpro/style/DarkMode.css");
         scene.getStylesheets().add(style.toURI().toURL().toExternalForm());
         /*
             String darkTheme = "-fx-background-color: #333333; -fx-text-fill: white;";
@@ -100,7 +100,7 @@ public class MainApplication extends Application {
     }
 
     private void setLightTheme(Scene scene) throws MalformedURLException {
-        File style = new File("src/main/java/com/softpro/dnaig/softpro/LightMode.css");
+        File style = new File("src/main/java/com/softpro/dnaig/softpro/style/LightMode.css");
         scene.getStylesheets().add(style.toURI().toURL().toExternalForm());
         /*
         /*  String lightTheme = "-fx-background-color: white; -fx-text-fill: black;";
