@@ -4,12 +4,10 @@ import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 
 //https://github.com/LmaoPewPew/SoftProject.git
@@ -19,11 +17,23 @@ public class MainApplication extends Application {
 
 
     @Override
-    public void start(Stage stage) throws IOException {
+    public void start(Stage stage) {
         //FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("hello-view.fxml"));
         /*BACKBONE OF THE CODE*/
-        VBox root = new VBox();
+
+
+        StackPane root = new StackPane();
+        BorderPane borderPane = new BorderPane();
+        VBox objectWindow = new VBox();
+        HBox layerWindow = new HBox();
+
         Scene scene = new Scene(root, screenRes, screenRes / 16 * 9);
+
+        //TODO: temporary!!
+        // shows viewer where everythings is located
+        tempStyleDiff(borderPane, "lightblue");
+        tempStyleDiff(objectWindow, "orange");
+        tempStyleDiff(layerWindow, "red");
 
         /*MENUBAR SETTING*/
         MenuBar menuBar = new MenuBar();
@@ -32,12 +42,29 @@ public class MainApplication extends Application {
         /*Starting-THEMES*/
         //setLightTheme(scene);
 
-        Button btnTest = new Button("click Me");
-        btnTest.setOnAction(actionEvent -> btnTest.setText("i've been Clicked"));
 
 
-        /* ******************************************/
-        root.getChildren().addAll(menuBar, btnTest);
+        Button btnBP = new Button("BP");
+        btnBP.setOnAction(actionEvent -> btnBP.setText("i've been Clicked"));
+        Button btnVB = new Button("VB");
+        btnVB.setOnAction(actionEvent -> btnVB.setText("i've been Clicked"));
+        Button btnHB = new Button("HB");
+        btnHB.setOnAction(actionEvent -> btnHB.setText("i've been Clicked"));
+
+
+        /* *****************DESIGN-AREA*************************/
+
+        root.getChildren().addAll(borderPane);
+        borderPane.setTop(menuBar);
+        borderPane.setCenter(btnBP);
+        borderPane.setRight(objectWindow);
+        borderPane.setBottom(layerWindow);
+
+        objectWindow.getChildren().add(btnVB);
+        layerWindow.getChildren().add(btnHB);
+
+
+        /* *****************STAGE*************************/
         //Filepath: src/main/resources/com/softpro/dnaig/assets/icon.png
         stage.getIcons().add(new Image("https://i.imgur.com/tkYVF4s.jpg"));
         stage.setTitle("DNAIG-RayTracer!");
@@ -47,6 +74,11 @@ public class MainApplication extends Application {
     /* **********************METHODE_REGION***********************/
 
     /**************MENUBAR**************/
+    private void tempStyleDiff(Pane pane, String color) {
+        pane.setStyle("-fx-background-color:" + color + ";");
+    }
+
+
     public void menuBarMethode(Scene scene, MenuBar menuBar) {
         //Menu File
         Menu mFile = new Menu("File");
@@ -66,16 +98,16 @@ public class MainApplication extends Application {
         theme.setOnAction(event -> {
             isDarkMode = !isDarkMode;
             /**
-            try {
-                if (isDarkMode) {
-                    setDarkTheme(scene);
-                } else {
-                    setLightTheme(scene);
-                }
-            } catch (MalformedURLException e) {
-                throw new RuntimeException(e);
-            }
-            //*/
+             try {
+             if (isDarkMode) {
+             setDarkTheme(scene);
+             } else {
+             setLightTheme(scene);
+             }
+             } catch (MalformedURLException e) {
+             throw new RuntimeException(e);
+             }
+             //*/
         });
         mEdit.getItems().addAll(theme, itemEdit2);
 
