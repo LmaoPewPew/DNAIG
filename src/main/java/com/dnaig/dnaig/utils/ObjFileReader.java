@@ -53,7 +53,7 @@ public class ObjFileReader {
         while ((line = br.readLine()) != null) {
             // Remove unnecessary whitespaces.
             line = line.trim();
-            // Removes multiple whitespaces.
+            // Remove multiple whitespaces.
             line = line.replaceAll("^ +| +$|( )+", "$1");
 
             /*
@@ -118,7 +118,7 @@ public class ObjFileReader {
                  f 1/2/3 2/3/4 5/3/1 5/3/2
 
                  The face in the example contains 4 vertices.
-                 Each vertex composites out of the 3 index values.
+                 Each vertex is composed of the 3 index values.
                      - The first index stands for the vertex (v) in the Wavefront OBJ file.
                      - The second index stands for the vertex texture (vt) in the Wavefront OBJ file.
                      - The third index stands for the vertex normal (vn) in the Wavefront OBJ file.
@@ -159,7 +159,7 @@ public class ObjFileReader {
                     // For each vertex the values per index are parsed into integer values.
                     for (int i = 0; i < indexSeparation.length; i++) {
                         for (int j = 0; j < indexSeparation[i].length; j++) {
-                            // For the case of different definitions like: f v//vn, empty indexes are replaced by an ASCII-String 0.
+                            // In case of different definitions like: f v//vn, empty indexes are replaced by an ASCII-String 0.
                             String temp = Objects.equals(indexSeparation[i][j], "") ? "0" : indexSeparation[i][j];
                             indexes[i][j] = Integer.parseInt(temp);
                         }
@@ -196,7 +196,7 @@ public class ObjFileReader {
                     // Material, smoothing group mode and array with vertices are passed to the Face constructor.
                     Face face = new Face(vertices, material, smoothingGroup);
 
-                    // Created face is added to the
+                    // Created face is added to the list containing all faces.
                     faceList.add(face);
                 }
 
@@ -249,20 +249,20 @@ public class ObjFileReader {
 
                 /*
                 Material to use:
-                Reads the name of the material applied for alle following faces.
+                Reads the name of the material applied for all following faces.
                  */
                 case "usemtl" -> material = materialsMap.get(tokens[1]);
             }
         }
-        // BufferedReader is closed after finishing parsing the file.
+        // BufferedReader is closed after parsing the file.
         br.close();
 
-        //An Entity object representing the 3D model defined in the OBJ file.
+        // An Entity object representing the 3D model defined in the OBJ file.
         return new Entity(objectName, faceList, vertexList.size());
     }
 
     /**
-     * Creates a mapping of material names to Material objects from a MTL file.
+     * Creates a mapping of material names to Material objects from an MTL file.
      *
      * @param path The file path to the MTL file.
      * @return A HashMap containing material names as keys and Material objects as a values.
@@ -284,7 +284,7 @@ public class ObjFileReader {
 
             // Remove unnecessary whitespaces.
             line = line.trim();
-            // Removes multiple whitespaces.
+            // Remove multiple whitespaces.
             line = line.replaceAll("^ +| +$|( )+", "$1");
 
 
@@ -300,7 +300,7 @@ public class ObjFileReader {
             // Check if the current line is not empty.
             if (tokens.length > 1) {
 
-                // If current line contains token "newmtl" a new Material object is created.
+                // If current line contains token "newmtl", a new Material object is created.
                 if (tokens[0].equals("newmtl")) {
                     if (material != null) {
                         materials.put(material.getMatName(), material);
@@ -308,7 +308,7 @@ public class ObjFileReader {
                     material = new Material();
                     material.setMatName(tokens[1]);
                 }
-                // Else the material object gets its properties set.
+                // Else, the material object gets its properties set.
                 else if (material != null) {
                     switch (tokens[0]) {
                         case "Ka" -> material.setKa(parseToRGB(tokens));
@@ -323,7 +323,7 @@ public class ObjFileReader {
                 }
             }
         }
-        // BufferedReader is closed after finishing parsing the file.
+        // BufferedReader is closed after parsing the file.
         br.close();
 
         // After the loop terminated, the last material created is stored in the list.

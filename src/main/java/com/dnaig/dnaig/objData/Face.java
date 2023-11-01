@@ -40,7 +40,7 @@ public class Face {
      *
      * @return The number of vertices in the face.
      */
-    public int getVerticeCount() {
+    public int getVertexCount() {
         return this.vertices.length;
     }
 
@@ -58,7 +58,9 @@ public class Face {
      *
      * @return The material associated with the face.
      */
-    public Material getMaterial() { return this.material; }
+    public Material getMaterial() {
+        return this.material;
+    }
 
     /**
      * Provides a string representation of the Face, including the vertices and their positions.
