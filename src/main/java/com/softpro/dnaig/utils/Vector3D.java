@@ -48,6 +48,7 @@ public class Vector3D {
         return new Vector3D(this.x - v.getX(), this.y - v.getY(), this.z - v.getZ());
     }
 
+
     /**
      * Normalizes the vector and returns a new vector as the result.
      *
@@ -84,12 +85,12 @@ public class Vector3D {
     }
 
     /**
-     * Calculates the scalar/dot product of two vectors and returns a scalar value as the result.
+     * Calculates the dot product of two vectors and returns a scalar value as the result.
      *
      * @param v The other vector for the dot product calculation.
      * @return The dot product value.
      */
-    public float scalarProduct(Vector3D v) {
+    public float skalarProduct(Vector3D v) {
         return this.x * v.getX() + this.y * v.getY() + this.z * v.getZ();
     }
 
@@ -99,7 +100,7 @@ public class Vector3D {
      * @param f The scalar value to multiply by the current vector.
      * @return A new vector representing the scalar multiplication result.
      */
-    public Vector3D scalarMultiplication(float f) {
+    public Vector3D skalarMultiplication(float f) {
         return new Vector3D(this.x * f, this.y * f, this.z * f);
     }
 

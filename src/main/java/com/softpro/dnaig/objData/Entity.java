@@ -20,7 +20,7 @@ public class Entity {
     private Vector3D pivot;
     // 3D Vector which contains the orientation of the Entity.
     private Vector3D orient;
-    // Number of vertices
+    // Amount of vertices
     private final int vertexCount;
     // Unique identifier.
     private final int id;

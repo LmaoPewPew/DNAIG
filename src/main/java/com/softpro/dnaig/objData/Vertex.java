@@ -2,6 +2,7 @@ package com.softpro.dnaig.objData;
 
 import com.softpro.dnaig.utils.Vector3D;
 
+
 /**
  * Represents a vertex in 3D space with associated coordinates, normal, and texture information.
  */
@@ -14,7 +15,7 @@ public class Vertex {
     /**
      * Initializes a vertex with all components set to zero vectors.
      */
-    public Vertex(){
+    public Vertex() {
         this.coordinates = new Vector3D();
         this.normal = new Vector3D();
         this.texture = new Vector3D();
@@ -24,8 +25,8 @@ public class Vertex {
      * Initializes a vertex with the specified coordinates, normal, and texture components.
      *
      * @param coordinates The 3D coordinates of the vertex.
-     * @param normal The normal vector of the vertex.
-     * @param texture The texture coordinates at the vertex.
+     * @param normal      The normal vector of the vertex.
+     * @param texture     The texture coordinates at the vertex.
      */
     public Vertex(Vector3D coordinates, Vector3D normal, Vector3D texture) {
         this.coordinates = coordinates;
@@ -95,8 +96,7 @@ public class Vertex {
      * @return A formatted string representation of the vertex.
      */
     @Override
-    public String toString(){
-        return String.format(
-                "\tcoordinates: %s\n\tnormal: %s\n\ttexture: %s", coordinates, normal, texture);
+    public String toString() {
+        return String.format("\tcoordinates: %s\n\tnormal: %s\n\ttexture: %s", coordinates, normal, texture);
     }
 }

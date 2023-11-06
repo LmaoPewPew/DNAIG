@@ -9,5 +9,8 @@
         <module name="dnaig" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SoftPro" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

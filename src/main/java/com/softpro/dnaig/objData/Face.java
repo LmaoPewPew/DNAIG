@@ -15,11 +15,7 @@ public class Face {
      * Constructs a default Face with three default vertices.
      */
     public Face() {
-        this.vertices = new Vertex[]{
-                new Vertex(),
-                new Vertex(),
-                new Vertex()
-        };
+        this.vertices = new Vertex[]{new Vertex(), new Vertex(), new Vertex()};
     }
 
     /**
@@ -40,7 +36,7 @@ public class Face {
      *
      * @return The number of vertices in the face.
      */
-    public int getVertexCount() {
+    public int getVerticeCount() {
         return this.vertices.length;
     }
 
@@ -72,10 +68,7 @@ public class Face {
         StringBuilder str = new StringBuilder();
         int i = 0;
         for (Vertex vertex : vertices) {
-            str.append(
-                    String.format(
-                            "vert %d\n%s\n", ++i, vertex)
-            );
+            str.append(String.format("vert %d\n%s\n", ++i, vertex));
         }
 
         return str.toString();
