@@ -1,5 +1,6 @@
 package com.softpro.dnaig.objData;
 
+
 /**
  * Represents a material in a 3D model, including properties like name, color coefficients, and more.
  */

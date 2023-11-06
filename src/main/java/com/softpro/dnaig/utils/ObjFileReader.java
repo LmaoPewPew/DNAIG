@@ -1,9 +1,6 @@
 package com.softpro.dnaig.utils;
 
-import com.softpro.dnaig.objData.Entity;
-import com.softpro.dnaig.objData.Face;
-import com.softpro.dnaig.objData.Material;
-import com.softpro.dnaig.objData.Vertex;
+import com.softpro.dnaig.objData.*;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -23,7 +20,7 @@ public class ObjFileReader {
      * @return An Entity object representing the 3D model defined in the OBJ file.
      * @throws IOException If there is an error reading the file
      */
-    public static com.softpro.dnaig.objData.Entity createObject(String path) throws IOException {
+    public static Entity createObject(String path) throws IOException {
 
         // ArrayLists containing all vertex data.
         ArrayList<Vector3D> vertexList = new ArrayList<>();
@@ -56,7 +53,7 @@ public class ObjFileReader {
         while ((line = br.readLine()) != null) {
             // Remove unnecessary whitespaces.
             line = line.trim();
-            // Remove multiple whitespaces.
+            // Removes multiple whitespaces.
             line = line.replaceAll("^ +| +$|( )+", "$1");
 
             /*
@@ -121,7 +118,7 @@ public class ObjFileReader {
                  f 1/2/3 2/3/4 5/3/1 5/3/2
 
                  The face in the example contains 4 vertices.
-                 Each vertex is composed of the 3 index values.
+                 Each vertex composites out of the 3 index values.
                      - The first index stands for the vertex (v) in the Wavefront OBJ file.
                      - The second index stands for the vertex texture (vt) in the Wavefront OBJ file.
                      - The third index stands for the vertex normal (vn) in the Wavefront OBJ file.
@@ -162,7 +159,7 @@ public class ObjFileReader {
                     // For each vertex the values per index are parsed into integer values.
                     for (int i = 0; i < indexSeparation.length; i++) {
                         for (int j = 0; j < indexSeparation[i].length; j++) {
-                            // In case of different definitions like: f v//vn, empty indexes are replaced by an ASCII-String 0.
+                            // For the case of different definitions like: f v//vn, empty indexes are replaced by an ASCII-String 0.
                             String temp = Objects.equals(indexSeparation[i][j], "") ? "0" : indexSeparation[i][j];
                             indexes[i][j] = Integer.parseInt(temp);
                         }
@@ -195,7 +192,7 @@ public class ObjFileReader {
                     // Material, smoothing group mode and array with vertices are passed to the Face constructor.
                     Face face = new Face(vertices, material, smoothingGroup);
 
-                    // Created face is added to the list containing all faces.
+                    // Created face is added to the
                     faceList.add(face);
                 }
 
@@ -246,20 +243,20 @@ public class ObjFileReader {
 
                 /*
                 Material to use:
-                Reads the name of the material applied for all following faces.
+                Reads the name of the material applied for alle following faces.
                  */
                 case "usemtl" -> material = materialsMap.get(tokens[1]);
             }
         }
-        // BufferedReader is closed after parsing the file.
+        // BufferedReader is closed after finishing parsing the file.
         br.close();
 
-        // An Entity object representing the 3D model defined in the OBJ file.
+        //An Entity object representing the 3D model defined in the OBJ file.
         return new Entity(objectName, faceList, vertexList.size());
     }
 
     /**
-     * Creates a mapping of material names to Material objects from an MTL file.
+     * Creates a mapping of material names to Material objects from a MTL file.
      *
      * @param path The file path to the MTL file.
      * @return A HashMap containing material names as keys and Material objects as a values.
@@ -281,7 +278,7 @@ public class ObjFileReader {
 
             // Remove unnecessary whitespaces.
             line = line.trim();
-            // Remove multiple whitespaces.
+            // Removes multiple whitespaces.
             line = line.replaceAll("^ +| +$|( )+", "$1");
 
 
@@ -297,7 +294,7 @@ public class ObjFileReader {
             // Check if the current line is not empty.
             if (tokens.length > 1) {
 
-                // If current line contains token "newmtl", a new Material object is created.
+                // If current line contains token "newmtl" a new Material object is created.
                 if (tokens[0].equals("newmtl")) {
                     if (material != null) {
                         materials.put(material.getMatName(), material);
@@ -305,7 +302,7 @@ public class ObjFileReader {
                     material = new Material();
                     material.setMatName(tokens[1]);
                 }
-                // Else, the material object gets its properties set.
+                // Else the material object gets its properties set.
                 else if (material != null) {
                     switch (tokens[0]) {
                         case "Ka" -> material.setKa(parseToRGB(tokens));
@@ -316,11 +313,12 @@ public class ObjFileReader {
                         case "Ni" -> material.setNi(Float.parseFloat(tokens[1]));
                         case "d" -> material.setD(Float.parseFloat(tokens[1]));
                         case "illum" -> material.setIllum(Integer.parseInt(tokens[1]));
+                        case "map_Kd" -> material.setMapKd(tokens[1]);
                     }
                 }
             }
         }
-        // BufferedReader is closed after parsing the file.
+        // BufferedReader is closed after finishing parsing the file.
         br.close();
 
         // After the loop terminated, the last material created is stored in the list.
@@ -348,9 +346,9 @@ public class ObjFileReader {
         Entity entity;
         HashMap<String, Material> materials;
         try {
-            entity = createObject("C:\\Users\\leonv\\Downloads\\cars\\cars\\golf5\\VW Golf 5 neondesign.obj");
+            entity = createObject("C:\\Users\\Leon\\Downloads\\astonMartin\\astonMartin.obj");
             System.out.println(entity);
-            materials = createMaterial("C:\\Users\\leonv\\Downloads\\cars\\cars\\golf5\\VW_Golf_5_neondesign.mtl");
+            materials = createMaterial("C:\\Users\\Leon\\Downloads\\astonMartin\\astonMartin.mtl");
 
             materials.forEach((key, value) -> System.out.println(value));
         } catch (IOException e) {
