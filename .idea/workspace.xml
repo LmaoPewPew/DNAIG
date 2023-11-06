@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="" />
+    <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/lightsource_Img.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,8 +39,8 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "ObjectImporter",
-    "last_opened_file_path": "D:/Code/java/school/sofo/SoftProject",
+    "git-widget-placeholder": "GUI",
+    "last_opened_file_path": "D:/Code/java/school/sofo/SoftProject/src/main/java/com/softpro/dnaig/assets",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -44,6 +49,11 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets" />
+    </key>
+  </component>
   <component name="RunManager" selected="Application.ObjFileReader">
     <configuration name="MainApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.softpro.dnaig.MainApplication" />
