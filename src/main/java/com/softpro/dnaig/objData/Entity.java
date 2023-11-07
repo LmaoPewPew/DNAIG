@@ -4,8 +4,6 @@ import com.softpro.dnaig.utils.Vector3D;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Spliterator;
-import java.util.function.Consumer;
 
 /**
  * Represents an Entity in 3D space, with properties such as its name, position, orientation,
@@ -77,12 +75,34 @@ public class Entity implements Iterable<Face>{
     }
 
     /**
-     * Rotates the Entity by a specified angle.
+     * Rotates the vertices for each face.
      *
-     * @param angle The rotation angle in radians.
+     * @param x Rotation on the x-axis.
+     * @param y Rotation on the y-axis.
+     * @param z Rotation on the z-axis.
      */
-    public void rotate(double angle) {
+    public void rotate(double x, double y, double z) {
+        for (Face face:faces) {
+            for (Vertex vertex:face) {
+                Vector3D newCoordinates = vertex.getCoordinates();
+                newCoordinates = newCoordinates.rotateX(x);
+                newCoordinates = newCoordinates.rotateY(y);
+                newCoordinates = newCoordinates.rotateZ(z);
 
+                vertex.setCoordinates(newCoordinates);
+            }
+        }
+    }
+
+    /**
+     * An alias for the standard rotate function, but with degree parameters.
+     *
+     * @param x Rotation on the x-axis.
+     * @param y Rotation on the y-axis.
+     * @param z Rotation on the z-axis.
+     */
+    public void rotateByDegree(double x, double y, double z){
+        rotate(Math.toRadians(x), Math.toRadians(y), Math.toRadians(z));
     }
 
     /**

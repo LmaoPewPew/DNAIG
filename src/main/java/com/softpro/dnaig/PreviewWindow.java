@@ -14,8 +14,8 @@ import javafx.stage.Stage;
 
 public class PreviewWindow extends Application {
 
-    private final int HEIGHT = 1280;
-    private final int WIDTH = 720;
+    private final int WIDTH = 1280;
+    private final int HEIGHT = 720;
 
     private final int yOffset = HEIGHT / 2;
     private final int xOffset = WIDTH / 2;
@@ -25,23 +25,28 @@ public class PreviewWindow extends Application {
 
         stage.setTitle("3D Cube Projection in JavaFX");
         Group root = new Group();
-        Scene scene = new Scene(root, HEIGHT, WIDTH);
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
 
-        Canvas canvas = new Canvas(HEIGHT, WIDTH);
+        Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Import OBJ-File and create an entity object.
-        Entity cube = ObjFileReader.createObject("ObjFiles/porsche/porsche.obj");
+        Entity cube = ObjFileReader.createObject("ObjFiles/cube/cube.obj");
+
+
 
         // Debug coordinates before scaling.
         cube.forEach(System.out::println);
 
         // Scaling object.
-        cube.scale(4);
+        cube.scale(100);
+
+        // Rotate object.
+        cube.rotateByDegree(30,10,50);
 
         // Set new pivot point.
         cube.setPivot(new Vector3D(
-                0,100,0
+                200,0,0
         ));
 
         // Print out new adapted coordinates.
@@ -49,6 +54,9 @@ public class PreviewWindow extends Application {
 
         // Set 3D depth, with this value the depth of the 3D model can be influenced and adjusted.
         double depth = 400;
+
+        gc.setStroke(Color.RED);
+        gc.strokeLine(0,yOffset,WIDTH,yOffset);
 
         // Set stroke color.
         gc.setStroke(Color.BLACK);
