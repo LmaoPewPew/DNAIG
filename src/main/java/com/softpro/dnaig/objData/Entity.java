@@ -3,12 +3,15 @@ package com.softpro.dnaig.objData;
 import com.softpro.dnaig.utils.Vector3D;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Spliterator;
+import java.util.function.Consumer;
 
 /**
  * Represents an Entity in 3D space, with properties such as its name, position, orientation,
  * and a collection of faces that make up the Entity.
  */
-public class Entity {
+public class Entity implements Iterable<Face>{
     // Static unique identifier for each object.
     private static int entityID = 0;
 
@@ -61,11 +64,16 @@ public class Entity {
 
     /**
      * Scales the Entity by a specified factor.
+     * Iterates through each face and scales for each vertex per face the coordinates up.
      *
      * @param factor The scaling factor.
      */
     public void scale(float factor) {
-
+        for (Face face:faces) {
+            for (Vertex vertex:face) {
+                vertex.setCoordinates(vertex.getCoordinates().skalarMultiplication(factor));
+            }
+        }
     }
 
     /**
@@ -138,6 +146,12 @@ public class Entity {
      */
     public void setPivot(Vector3D pivot) {
         this.pivot = pivot;
+
+        for (Face face:faces) {
+            for (Vertex vertex:face) {
+                vertex.setCoordinates(vertex.getCoordinates().add(pivot));
+            }
+        }
     }
 
     /**
@@ -165,4 +179,22 @@ public class Entity {
                 Position: %s
                 """, objName, id, faces.size(), vertexCount, pivot);
     }
+
+    @Override
+    public Iterator<Face> iterator() {
+        return new Iterator<Face>() {
+            int idx = 0;
+            @Override
+            public boolean hasNext() {
+                return idx < faces.size();
+            }
+
+            @Override
+            public Face next() {
+                return faces.get(idx++);
+            }
+        };
+    }
 }
+
+
