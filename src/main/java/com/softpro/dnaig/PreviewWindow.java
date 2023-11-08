@@ -1,14 +1,8 @@
 package com.softpro.dnaig;
 
-import com.softpro.dnaig.objData.Entity;
-import com.softpro.dnaig.objData.Face;
-import com.softpro.dnaig.objData.Vertex;
-import com.softpro.dnaig.utils.ObjFileReader;
-import com.softpro.dnaig.utils.Vector3D;
 import javafx.application.Application;
-import javafx.scene.*;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.Scene;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -21,17 +15,31 @@ public class PreviewWindow extends Application {
     private final int xOffset = WIDTH / 2;
 
     @Override
-    public void start(Stage stage) throws Exception {
-
+    public void start(Stage stage) {
         stage.setTitle("3D Cube Projection in JavaFX");
-        Group root = new Group();
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        StackPane root = new StackPane();
 
-        Canvas canvas = new Canvas(WIDTH, HEIGHT);
+        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        scene.setFill(Color.rgb(30,30,30));
+
+        stage.setScene(scene);
+
+        View view = new View(stage);
+
+        root.getChildren().add(view.getSubScene());
+
+        new CameraController(stage, view);
+
+        /*Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
 
         // Import OBJ-File and create an entity object.
-        Entity cube = ObjFileReader.createObject("ObjFiles/cube/cube.obj");
+        Entity cube = ObjFileReader.createObject("ObjFiles/porsche/porsche.obj");
+
+
+
+
+
 
 
 
@@ -39,14 +47,14 @@ public class PreviewWindow extends Application {
         cube.forEach(System.out::println);
 
         // Scaling object.
-        cube.scale(100);
+        cube.scale(5);
 
         // Rotate object.
-        cube.rotateByDegree(30,10,50);
+        cube.rotateByDegree(10,20,30);
 
         // Set new pivot point.
         cube.setPivot(new Vector3D(
-                200,0,0
+                0,0,0
         ));
 
         // Print out new adapted coordinates.
@@ -65,38 +73,37 @@ public class PreviewWindow extends Application {
         for (Face face : cube) {
 
             // Each face needs at least 3 vertices.
-            if (face.getVerticeCount() >= 3) {
+            if (face.getVerticeCount() < 3)
+                return;
 
-                // Iterate through each vertex.
-                for (int i = 0; i < face.getVerticeCount(); i++) {
-                    Vertex currentVertex = face.getVertex(i);
-                    Vertex nextVertex = face.getVertex((i + 1) % face.getVerticeCount());
+            // Iterate through each vertex.
+            for (int i = 0; i < face.getVerticeCount(); i++) {
+                Vertex currentVertex = face.getVertex(i);
+                Vertex nextVertex = face.getVertex((i + 1) % face.getVerticeCount());
 
-                    // Scaled x and y coordinates to create 3D effect with z and depth.
-                    double scaledCurrentX = currentVertex.getCoordinates().getX() / (currentVertex.getCoordinates().getZ() + depth);
-                    double scaledCurrentY = currentVertex.getCoordinates().getY() / (currentVertex.getCoordinates().getZ() + depth);
+                // Scaled x and y coordinates to create 3D effect with z and depth.
+                double scaledCurrentX = currentVertex.getCoordinates().getX() / (currentVertex.getCoordinates().getZ() + depth);
+                double scaledCurrentY = currentVertex.getCoordinates().getY() / (currentVertex.getCoordinates().getZ() + depth);
 
-                    // Scaled x and y coordinates to create 3D effect with z and depth.
-                    double scaledNextX = nextVertex.getCoordinates().getX() / (nextVertex.getCoordinates().getZ() + depth);
-                    double scaledNextY = nextVertex.getCoordinates().getY() / (nextVertex.getCoordinates().getZ() + depth);
+                // Scaled x and y coordinates to create 3D effect with z and depth.
+                double scaledNextX = nextVertex.getCoordinates().getX() / (nextVertex.getCoordinates().getZ() + depth);
+                double scaledNextY = nextVertex.getCoordinates().getY() / (nextVertex.getCoordinates().getZ() + depth);
 
-                    // Adding offset for the screen canvas.
-                    double x1 = scaledCurrentX * xOffset + xOffset;
-                    double y1 = -scaledCurrentY * yOffset + yOffset;
+                // Adding offset for the screen canvas.
+                double x1 = scaledCurrentX * xOffset + xOffset;
+                double y1 = -scaledCurrentY * yOffset + yOffset;
 
-                    // Adding offset for the screen canvas.
-                    double x2 = scaledNextX * xOffset + xOffset;
-                    double y2 = -scaledNextY * yOffset + yOffset;
+                // Adding offset for the screen canvas.
+                double x2 = scaledNextX * xOffset + xOffset;
+                double y2 = -scaledNextY * yOffset + yOffset;
 
-                    // Draw line.
-                    gc.strokeLine(x1, y1, x2, y2);
-                }
+                // Draw line.
+                gc.strokeLine(x1, y1, x2, y2);
             }
         }
 
-        root.getChildren().add(canvas);
+        root.getChildren().add(canvas);*/
 
-        stage.setScene(scene);
         stage.show();
     }
 

@@ -1,15 +1,18 @@
 package com.softpro.dnaig.objData;
 
 import com.softpro.dnaig.utils.Vector3D;
+import org.fxyz3d.geometry.Point3D;
+import org.fxyz3d.shapes.primitives.TriangulatedMesh;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Represents an Entity in 3D space, with properties such as its name, position, orientation,
  * and a collection of faces that make up the Entity.
  */
-public class Entity implements Iterable<Face>{
+public class Entity implements Iterable<Face> {
     // Static unique identifier for each object.
     private static int entityID = 0;
 
@@ -112,6 +115,10 @@ public class Entity implements Iterable<Face>{
      */
     public int getID() {
         return id;
+    }
+
+    public ArrayList<Face> getFaces() {
+        return faces;
     }
 
     /**

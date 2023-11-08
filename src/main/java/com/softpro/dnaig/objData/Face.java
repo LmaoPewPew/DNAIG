@@ -5,7 +5,7 @@ import java.util.Iterator;
 /**
  * Represents a Face in a 3D model, composed of vertices, a smoothing group, and a material.
  */
-public class Face implements Iterable<Vertex>{
+public class Face implements Iterable<Vertex> {
     // Array of Vertex objects that make up a Face object.
     private final Vertex[] vertices;
     // Integer that contains the smoothing group mode.
