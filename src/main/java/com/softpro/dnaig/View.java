@@ -3,6 +3,7 @@ package com.softpro.dnaig;
 import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 import org.fxyz3d.importers.Importer3D;
 import org.fxyz3d.importers.Model3D;
@@ -31,20 +32,9 @@ public class View {
         camera.getTransforms().add(rz);
         camera.setTranslateX(600);
         camera.setTranslateY(400);
-        camera.translateZProperty().set(-300.0);
-        //camera.setRotate(0);
-        //camera.setFieldOfView(20);
+        camera.getTransforms().add(new Translate(0, 0, -300));
 
-        /*CameraTransformer cameraTransformer = new CameraTransformer();
-        cameraTransformer.getChildren().add(camera);
-        cameraTransformer.ry.setAngle(-30.0);
-        cameraTransformer.rx.setAngle(-15.0);*/
-
-        /*SpringMesh spring = new SpringMesh(10, 2, 2, 8 * 2 * Math.PI, 200, 100, 0, 0);
-        spring.setCullFace(CullFace.NONE);
-        spring.setTextureModeVertices3D(1530, p -> p.f);*/
-
-        Group group = new Group(/*cameraTransformer, */model.getRoot()/*, spring*/);
+        Group group = new Group(model.getRoot());
 
         subScene = new SubScene(group, 1280, 720, true, SceneAntialiasing.BALANCED);
         subScene.widthProperty().bind(stage.getScene().widthProperty());

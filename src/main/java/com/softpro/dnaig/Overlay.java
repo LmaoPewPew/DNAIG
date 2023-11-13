@@ -1,4 +1,4 @@
-package com.softpro.dnaig.utils;
+package com.softpro.dnaig;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

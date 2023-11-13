@@ -1,6 +1,5 @@
 package com.softpro.dnaig;
 
-import com.softpro.dnaig.utils.Overlay;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Point2D;
 import javafx.scene.Camera;
@@ -30,7 +29,6 @@ public class CameraController {
 
         stage.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             oldPos = new Point2D(event.getSceneX(), event.getSceneY());
-            //System.out.println("Mouse pressed");
         });
 
         stage.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
@@ -39,12 +37,10 @@ public class CameraController {
                 rX.setAngle(newAngleX);
                 rY.setAngle(rY.getAngle() - oldPos.getX() + event.getSceneX());
                 oldPos = new Point2D(event.getSceneX(), event.getSceneY());
-                //System.out.println("Mouse dragged 1");
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 t.setX(t.getX() + (oldPos.getX() - event.getSceneX())*0.2);
                 t.setY(t.getY() + (oldPos.getY() - event.getSceneY())*0.2);
                 oldPos = new Point2D(event.getSceneX(), event.getSceneY());
-                //System.out.println("Mouse dragged 2");
             }
         });
 
@@ -52,7 +48,6 @@ public class CameraController {
             double delta = event.getDeltaY();
             Camera camera = view.getCamera();
             camera.setTranslateZ(camera.getTranslateZ() + delta * 2);
-            //System.out.println("Scrolled");
         });
 
         overlay.getLblRotX().textProperty().bind(Bindings.concat("Rotation X: ", rX.angleProperty().asString()));
