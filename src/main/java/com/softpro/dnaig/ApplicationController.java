@@ -1,14 +1,16 @@
 package com.softpro.dnaig;
 
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 
 public class ApplicationController {
-    @FXML
-    private Label welcomeText;
+    private Button btnObjectImporter;
+    private Button btnLightImporter;
+    private Button btnRender;
+
 
     @FXML
-    protected void onHelloButtonClick() {
-        welcomeText.setText("Welcome to JavaFX Application!");
+    public void btnObjImp(){
+
     }
 }

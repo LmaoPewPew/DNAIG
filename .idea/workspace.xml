@@ -5,10 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/lightsource_Img.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img_LIGHTTHEME.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/light_Img_LIGHTTHEME.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img_DARKTHEME.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/lightsource_Img.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/light_Img_DARKTHEME.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,30 +37,30 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "GUI",
-    "last_opened_file_path": "D:/Code/java/school/sofo/SoftProject/src/main/java/com/softpro/dnaig/assets",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;GUI&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Code/java/Test/javaFX/PrototypeSofPro/demo&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.ObjFileReader">
+  <component name="RunManager" selected="Application.MainApplication">
     <configuration name="MainApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.softpro.dnaig.MainApplication" />
       <module name="dnaig" />
@@ -83,8 +89,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ObjFileReader" />
         <item itemvalue="Application.MainApplication" />
+        <item itemvalue="Application.ObjFileReader" />
       </list>
     </recent_temporary>
   </component>
@@ -98,6 +104,11 @@
       <updated>1698858385842</updated>
       <workItem from="1698858386920" duration="315000" />
       <workItem from="1698858716443" duration="139000" />
+      <workItem from="1699372680740" duration="1318000" />
+      <workItem from="1699455995608" duration="1143000" />
+      <workItem from="1699458214939" duration="367000" />
+      <workItem from="1699891430478" duration="3405000" />
+      <workItem from="1699899747700" duration="1244000" />
     </task>
     <servers />
   </component>
