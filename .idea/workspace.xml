@@ -5,16 +5,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img_LIGHTTHEME.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/light_Img_LIGHTTHEME.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img_DARKTHEME.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/lightsource_Img.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/light_Img_DARKTHEME.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/MainApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,6 +17,13 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="ObjectImporter-Closed" />
+      </list>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -108,7 +109,8 @@
       <workItem from="1699455995608" duration="1143000" />
       <workItem from="1699458214939" duration="367000" />
       <workItem from="1699891430478" duration="3405000" />
-      <workItem from="1699899747700" duration="1244000" />
+      <workItem from="1699899747700" duration="2916000" />
+      <workItem from="1699903100651" duration="360000" />
     </task>
     <servers />
   </component>
