@@ -1,5 +1,7 @@
 package com.softpro.dnaig;
 
+import com.softpro.dnaig.utils.Overlay;
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Point2D;
 import javafx.scene.Camera;
 import javafx.scene.input.MouseButton;
@@ -17,7 +19,7 @@ public class CameraController {
 
     private Point2D oldPos;
 
-    public CameraController(Stage stage, View view) {
+    public CameraController(Stage stage, View view, Overlay overlay) {
 
         Rotate rX = new Rotate(0, Rotate.X_AXIS);
         Rotate rY = new Rotate(0, Rotate.Y_AXIS);
@@ -52,5 +54,9 @@ public class CameraController {
             camera.setTranslateZ(camera.getTranslateZ() + delta * 2);
             //System.out.println("Scrolled");
         });
+
+        overlay.getLblRotX().textProperty().bind(Bindings.concat("Rotation X: ", rX.angleProperty().asString()));
+        overlay.getLblRotY().textProperty().bind(Bindings.concat("Rotation Y: ", rY.angleProperty().asString()));
+        overlay.getLblZoom().textProperty().bind(Bindings.concat("Z: ", view.getCamera().translateZProperty().asString()));
     }
 }

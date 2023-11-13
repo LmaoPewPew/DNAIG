@@ -1,5 +1,6 @@
 package com.softpro.dnaig;
 
+import com.softpro.dnaig.utils.Overlay;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.StackPane;
@@ -25,10 +26,11 @@ public class PreviewWindow extends Application {
         stage.setScene(scene);
 
         View view = new View(stage);
+        Overlay overlay = new Overlay();
 
-        root.getChildren().add(view.getSubScene());
+        root.getChildren().addAll(view.getSubScene(), overlay);
 
-        new CameraController(stage, view);
+        new CameraController(stage, view, overlay);
 
         /*Canvas canvas = new Canvas(WIDTH, HEIGHT);
         GraphicsContext gc = canvas.getGraphicsContext2D();
