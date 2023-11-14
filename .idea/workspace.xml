@@ -5,10 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/TEstr.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin.mtl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img_DARKTHEME.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/Obj_img_DARKTHEME.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/Obj_img_LIGHTTHEME.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/Obj_img_LIGHTTHEME.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/light_Img_DARKTHEME.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/light_Img_DARKTHEME.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/light_Img_LIGHTTHEME.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/light_Img_LIGHTTHEME.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/ObjFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/ObjFileReader.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/MainApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/MainApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/ObjFileReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/ObjFileReader.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,12 +67,22 @@
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
     &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15429688&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.43930635&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\objFile" />
+      <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\objFile\mtl" />
+      <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\objFile\obj" />
+      <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\objfile" />
+      <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\sprites" />
     </key>
   </component>
   <component name="RunManager" selected="Application.MainApplication">
@@ -110,7 +134,8 @@
       <workItem from="1699458214939" duration="367000" />
       <workItem from="1699891430478" duration="3405000" />
       <workItem from="1699899747700" duration="2916000" />
-      <workItem from="1699903100651" duration="360000" />
+      <workItem from="1699903100651" duration="871000" />
+      <workItem from="1699973257243" duration="3730000" />
     </task>
     <servers />
   </component>

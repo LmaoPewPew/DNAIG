@@ -1,0 +1,171 @@
+# Max2Mtl Version 4.0 Mar 10th, 2001
+#
+# Multi/Sub Material__44 (19) to come 
+#
+newmtl piant
+Ka  0.1 0.3 0.2
+Kd  0.1 0.3 0.2
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+#
+newmtl grill
+Ka  0.8 0.9 1.0
+Kd  0.8 0.9 1.0
+Ks  0.7 0.9 0.9
+d  1.0
+Ns  0.0
+illum 2
+bump M_GRILL.png
+#
+newmtl chrome2
+Ka  0.2 0.2 0.1
+Kd  0.2 0.2 0.1
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+map_Kd WHEEL.png
+#
+newmtl black
+Ka  0.0 0.0 0.0
+Kd  0.0 0.0 0.0
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+#
+newmtl bumper
+Ka  0.2 0.2 0.1
+Kd  0.2 0.2 0.1
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+map_Kd WHEEL.png
+#
+newmtl number_plate
+Ka  0.2 0.2 0.1
+Kd  0.2 0.2 0.1
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+map_Kd NOPLATE.png
+#
+newmtl NAME
+Ka  0.2 0.2 0.2
+Kd  0.2 0.2 0.2
+Ks  0.0 0.0 0.0
+d  1.0
+Ns  0.5
+illum 2
+#
+newmtl leather
+Ka  0.8 0.7 0.6
+Kd  0.8 0.7 0.6
+Ks  0.9 0.9 0.8
+d  1.0
+Ns  0.5
+illum 2
+bump STUCCO.png
+#
+newmtl beige
+Ka  0.8 0.8 0.7
+Kd  0.8 0.8 0.7
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+#
+newmtl paint
+Ka  0.1 0.3 0.2
+Kd  0.1 0.3 0.2
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+#
+newmtl int
+Ka  0.8 0.7 0.6
+Kd  0.8 0.7 0.6
+Ks  0.9 0.9 0.8
+d  1.0
+Ns  0.5
+illum 2
+bump STUCCO.png
+#
+newmtl glass
+Ka  0.1 0.2 0.0
+Kd  0.1 0.2 0.0
+Ks  1.0 1.0 1.0
+d  0.5
+Ns  0.5
+illum 2
+#
+newmtl handel
+Ka  0.2 0.2 0.1
+Kd  0.2 0.2 0.1
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+map_Kd WHEEL.png
+#
+newmtl mirror
+Ka  0.2 0.2 0.1
+Kd  0.2 0.2 0.1
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+map_Kd WHEEL.png
+#
+newmtl indicators1
+Ka  1.0 0.4 0.0
+Kd  1.0 0.4 0.0
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+#
+newmtl glass2
+Ka  1.0 1.0 1.0
+Kd  1.0 1.0 1.0
+Ks  1.0 1.0 1.0
+d  0.0
+Ns  0.5
+illum 2
+map_d LIGHTSB.png
+bump LIGHTSB.png
+#
+newmtl stop_lights1
+Ka  1.0 0.2 0.2
+Kd  1.0 0.2 0.2
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+#
+newmtl goma
+Ka  0.1 0.1 0.1
+Kd  0.1 0.1 0.1
+Ks  0.9 0.9 0.9
+d  1.0
+Ns  0.5
+illum 2
+bump M_TRYEB.png
+#
+newmtl chrome3
+Ka  0.2 0.2 0.1
+Kd  0.2 0.2 0.1
+Ks  1.0 1.0 1.0
+d  1.0
+Ns  0.5
+illum 2
+map_Kd WHEEL.png
+#
+# Multi/Sub Material__44 done 
+#
+# EOF
