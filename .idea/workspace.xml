@@ -4,42 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.mtl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.mtl" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/CameraControlWrapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/CameraController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/Overlay.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/PreviewWindow.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/View.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/MainApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/TEstr.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/TEstr.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin.mtl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.mtl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.obj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/objData/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/objData/Entity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/objData/Face.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/objData/Face.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/ObjFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/ObjFileReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/Vector3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/Vector3D.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/MainApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/MainApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/objData/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/objData/Entity.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/objData/Face.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/objData/Face.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/ObjFileReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/ObjFileReader.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/Vector3D.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/Vector3D.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
-    </list>
-    <list id="607719a5-99a1-4753-8536-8838f31bbbfc" name="Changes by Dominik" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
-    </list>
+    <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="" />
+    <list id="607719a5-99a1-4753-8536-8838f31bbbfc" name="Changes by Dominik" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -48,6 +14,10 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+  }
+}]]></component>
   <component name="GithubProjectSettings">
     <option name="branchProtectionPatterns">
       <list>
@@ -55,19 +25,13 @@
       </list>
     </option>
   </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java">
-      <ranges>
-        <range start1="3" end1="3" start2="3" end2="4" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="6" end1="6" start2="7" end2="8" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="32" end1="32" start2="34" end2="37" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="54" end1="54" start2="59" end2="60" changelist="607719a5-99a1-4753-8536-8838f31bbbfc" />
-        <range start1="63" end1="63" start2="69" end2="71" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="69" end1="69" start2="77" end2="78" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="71" end1="71" start2="80" end2="85" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="76" end1="76" start2="90" end2="92" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-      </ranges>
-    </file>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="0eef3f11-527d-4b3c-b4b7-8d7a3c14dc1d" />
+        <option name="url" value="https://github.com/LmaoPewPew/SoftProject.git" />
+      </UrlAndAccount>
+    </option>
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -90,7 +54,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Merging GUI",
+    "git-widget-placeholder": "GUI",
     "last_opened_file_path": "D:/Code/java/Test/javaFX/PrototypeSofPro/demo",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
