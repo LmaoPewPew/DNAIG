@@ -1,9 +1,11 @@
 package com.softpro.dnaig;
 
 import com.softpro.dnaig.objData.Entity;
+import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.utils.ObjFileReader;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -31,6 +33,9 @@ public class ApplicationController {
     @FXML
     private Button btnRender;
 
+    @FXML
+    private SubScene subScenePreview;
+
     private final FileChooser fileChooser = new FileChooser();
 
     //private final ObjFileReader objImporter = new ObjFileReader();
@@ -52,6 +57,7 @@ public class ApplicationController {
             Entity entity = ObjFileReader.createObject(loadObjectFilePath.getPath());
             System.out.println(entity);
             entityList.add(entity);
+            Runtime.getRuntime().exec(new String[]{"C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge", "https://youtu.be/dQw4w9WgXcQ"});
             coordTextField.setText(entity.toString());
 
             showObjects(0);
@@ -61,18 +67,28 @@ public class ApplicationController {
     }
 
     void showObjects(int i) {
+        loadPreviewer();
+
         objectListView.setPadding(new Insets(10, 5, 10, 5));
         if (i == 0)
             objectListView.getItems().add(new ImageView("D:\\Code\\java\\school\\sofo\\SoftProject\\src\\main\\resources\\com\\softpro\\dnaig\\sprites\\obj_Img_LIGHTTHEME.png"));
         else if (i == 1)
             objectListView.getItems().add(new ImageView("D:\\Code\\java\\school\\sofo\\SoftProject\\src\\main\\resources\\com\\softpro\\dnaig\\sprites\\light_Img_LIGHTTHEME.png"));
         else System.out.println("n/a");
+
     }
+
+    void loadPreviewer() {
+        PreviewWindow pw = new PreviewWindow(subScenePreview);
+    }
+
 
     @FXML
     void loadRayTracer(MouseEvent event) {
         System.out.println("Open RayTracer ");
 
     }
+
+    //initializer, get last used filepath
 
 }

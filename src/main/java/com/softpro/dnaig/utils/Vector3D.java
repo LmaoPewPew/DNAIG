@@ -48,7 +48,6 @@ public class Vector3D {
         return new Vector3D(this.x - v.getX(), this.y - v.getY(), this.z - v.getZ());
     }
 
-
     /**
      * Normalizes the vector and returns a new vector as the result.
      *
@@ -102,6 +101,54 @@ public class Vector3D {
      */
     public Vector3D skalarMultiplication(float f) {
         return new Vector3D(this.x * f, this.y * f, this.z * f);
+    }
+
+    /**
+     * Rotating the vector on the x-axis, using standard matrix multiplication.
+     *
+     * @param angle Angle as radiant
+     * @return Returns a new Vector3D object.
+     */
+    public Vector3D rotateX(double angle){
+        double cosinus = Math.cos(angle);
+        double sinus = Math.sin(angle);
+
+        float newY = (float)(this.y * cosinus - this.z * sinus);
+        float newZ = (float)(this.y * sinus + this.z * cosinus);
+
+        return new Vector3D(this.x, newY, newZ);
+    }
+
+    /**
+     * Rotating the vector on the y-axis, using standard matrix multiplication.
+     *
+     * @param angle Angle as radiant.
+     * @return Returns a new Vector3D object.
+     */
+    public Vector3D rotateY(double angle){
+        double cosinus = Math.cos(angle);
+        double sinus = Math.sin(angle);
+
+        float newX = (float)(this.x * cosinus + this.z * sinus);
+        float newZ = (float)(-this.x * sinus + this.z * cosinus);
+
+        return new Vector3D(newX, this.y, newZ);
+    }
+
+    /**
+     * Rotating the vector on the y-axis, using standard matrix multiplication.
+     *
+     * @param angle Angle as radiant.
+     * @return Returns a new Vector3D object.
+     */
+    public Vector3D rotateZ(double angle){
+        double cosinus = Math.cos(angle);
+        double sinus = Math.sin(angle);
+
+        float newX = (float)(this.x * cosinus - this.y * sinus);
+        float newY = (float)(this.x * sinus + this.y * cosinus);
+
+        return new Vector3D(newX, newY, this.z);
     }
 
     /**

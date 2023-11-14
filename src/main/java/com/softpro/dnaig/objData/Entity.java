@@ -1,14 +1,18 @@
 package com.softpro.dnaig.objData;
 
 import com.softpro.dnaig.utils.Vector3D;
+import org.fxyz3d.geometry.Point3D;
+import org.fxyz3d.shapes.primitives.TriangulatedMesh;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Represents an Entity in 3D space, with properties such as its name, position, orientation,
  * and a collection of faces that make up the Entity.
  */
-public class Entity {
+public class Entity implements Iterable<Face> {
     // Static unique identifier for each object.
     private static int entityID = 0;
 
@@ -61,20 +65,47 @@ public class Entity {
 
     /**
      * Scales the Entity by a specified factor.
+     * Iterates through each face and scales for each vertex per face the coordinates up.
      *
      * @param factor The scaling factor.
      */
     public void scale(float factor) {
-
+        for (Face face:faces) {
+            for (Vertex vertex:face) {
+                vertex.setCoordinates(vertex.getCoordinates().skalarMultiplication(factor));
+            }
+        }
     }
 
     /**
-     * Rotates the Entity by a specified angle.
+     * Rotates the vertices for each face.
      *
-     * @param angle The rotation angle in radians.
+     * @param x Rotation on the x-axis.
+     * @param y Rotation on the y-axis.
+     * @param z Rotation on the z-axis.
      */
-    public void rotate(double angle) {
+    public void rotate(double x, double y, double z) {
+        for (Face face:faces) {
+            for (Vertex vertex:face) {
+                Vector3D newCoordinates = vertex.getCoordinates();
+                newCoordinates = newCoordinates.rotateX(x);
+                newCoordinates = newCoordinates.rotateY(y);
+                newCoordinates = newCoordinates.rotateZ(z);
 
+                vertex.setCoordinates(newCoordinates);
+            }
+        }
+    }
+
+    /**
+     * An alias for the standard rotate function, but with degree parameters.
+     *
+     * @param x Rotation on the x-axis.
+     * @param y Rotation on the y-axis.
+     * @param z Rotation on the z-axis.
+     */
+    public void rotateByDegree(double x, double y, double z){
+        rotate(Math.toRadians(x), Math.toRadians(y), Math.toRadians(z));
     }
 
     /**
@@ -84,6 +115,10 @@ public class Entity {
      */
     public int getID() {
         return id;
+    }
+
+    public ArrayList<Face> getFaces() {
+        return faces;
     }
 
     /**
@@ -138,6 +173,12 @@ public class Entity {
      */
     public void setPivot(Vector3D pivot) {
         this.pivot = pivot;
+
+        for (Face face:faces) {
+            for (Vertex vertex:face) {
+                vertex.setCoordinates(vertex.getCoordinates().add(pivot));
+            }
+        }
     }
 
     /**
@@ -165,4 +206,22 @@ public class Entity {
                 Position: %s
                 """, objName, id, faces.size(), vertexCount, pivot);
     }
+
+    @Override
+    public Iterator<Face> iterator() {
+        return new Iterator<Face>() {
+            int idx = 0;
+            @Override
+            public boolean hasNext() {
+                return idx < faces.size();
+            }
+
+            @Override
+            public Face next() {
+                return faces.get(idx++);
+            }
+        };
+    }
 }
+
+

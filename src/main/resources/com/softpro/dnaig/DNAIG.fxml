@@ -3,6 +3,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.Cursor?>
+<?import javafx.scene.SubScene?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
@@ -13,6 +14,7 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="748.8" minWidth="1331.2" prefHeight="400.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softpro.dnaig.ApplicationController">
@@ -30,12 +32,15 @@
         </Menu>
     </MenuBar>
     <SplitPane dividerPositions="0.9090225563909774" prefHeight="773.0" prefWidth="1332.0">
-        <SplitPane dividerPositions="0.7673" orientation="VERTICAL" prefHeight="460.0" prefWidth="1061.0" SplitPane.resizableWithParent="false">
+        <SplitPane dividerPositions="0.7673130193905817" orientation="VERTICAL" prefHeight="460.0" prefWidth="1061.0" SplitPane.resizableWithParent="false">
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="465.0">
-            <TextField alignment="TOP_LEFT" layoutX="14.0" layoutY="23.0" prefHeight="473.0" prefWidth="1161.0" promptText="THIS IS A COOL TEXTG">
-               <opaqueInsets>
-                  <Insets bottom="10.0" left="5.0" right="5.0" top="10.0" />
-               </opaqueInsets></TextField>
+            <children>
+               <SubScene fx:id="subScenePreview" fill="BLACK" height="531.0" width="1192.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+                 <root>
+                   <Region />
+                 </root>
+               </SubScene>
+            </children>
             </AnchorPane>
          <ListView fx:id="objectListView" orientation="HORIZONTAL" prefHeight="200.0" prefWidth="200.0" />
         </SplitPane>

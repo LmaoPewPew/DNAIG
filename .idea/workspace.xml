@@ -5,24 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/sprites/Obj_img_DARKTHEME.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/sprites/Obj_img_LIGHTTHEME.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/sprites/icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/sprites/light_Img_DARKTHEME.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/sprites/light_Img_LIGHTTHEME.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.mtl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.mtl" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/CameraControlWrapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/CameraController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/Overlay.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/PreviewWindow.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/preview/View.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/Obj_img_DARKTHEME.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/sprites/Obj_img_DARKTHEME.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/Obj_img_LIGHTTHEME.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/sprites/Obj_img_LIGHTTHEME.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/sprites/icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/light_Img_DARKTHEME.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/sprites/light_Img_DARKTHEME.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/sprites/light_Img_LIGHTTHEME.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/sprites/light_Img_LIGHTTHEME.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/MainApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/MainApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/TEstr.txt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/TEstr.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin.mtl" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.mtl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin.obj" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.obj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/objData/Entity.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/objData/Entity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/objData/Face.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/objData/Face.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/ObjFileReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/ObjFileReader.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/Vector3D.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/utils/Vector3D.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/module-info.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/module-info.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/ApplicationController.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/MainApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/MainApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/objData/Entity.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/objData/Entity.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/objData/Face.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/objData/Face.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/ObjFileReader.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/ObjFileReader.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/Vector3D.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/utils/Vector3D.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/module-info.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/module-info.class" afterDir="false" />
     </list>
-    <list id="607719a5-99a1-4753-8536-8838f31bbbfc" name="Changes by Dominik" comment="" />
-    <list id="156c68d5-e4bf-40c0-a20c-5a591921fe78" name="Changes by leonv" comment="">
+    <list id="607719a5-99a1-4753-8536-8838f31bbbfc" name="Changes by Dominik" comment="">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -43,16 +58,14 @@
   <component name="LineStatusTrackerManager">
     <file path="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java">
       <ranges>
-        <range start1="2" end1="2" start2="2" end2="4" changelist="156c68d5-e4bf-40c0-a20c-5a591921fe78" />
-        <range start1="3" end1="3" start2="5" end2="6" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="4" end1="5" start2="7" end2="10" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="10" end1="10" start2="15" end2="18" changelist="156c68d5-e4bf-40c0-a20c-5a591921fe78" />
-        <range start1="12" end1="13" start2="20" end2="20" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="14" end1="15" start2="21" end2="26" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="22" end1="23" start2="33" end2="38" changelist="156c68d5-e4bf-40c0-a20c-5a591921fe78" />
-        <range start1="27" end1="27" start2="42" end2="43" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="33" end1="33" start2="49" end2="60" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
-        <range start1="34" end1="34" start2="61" end2="70" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="3" end1="3" start2="3" end2="4" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="6" end1="6" start2="7" end2="8" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="32" end1="32" start2="34" end2="37" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="54" end1="54" start2="59" end2="60" changelist="607719a5-99a1-4753-8536-8838f31bbbfc" />
+        <range start1="63" end1="63" start2="69" end2="71" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="69" end1="69" start2="77" end2="78" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="71" end1="71" start2="80" end2="85" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="76" end1="76" start2="90" end2="92" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
       </ranges>
     </file>
   </component>
@@ -77,7 +90,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "GUI",
+    "git-widget-placeholder": "Merging GUI",
     "last_opened_file_path": "D:/Code/java/Test/javaFX/PrototypeSofPro/demo",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -96,11 +109,11 @@
       <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\objFile\rest" />
       <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\objFile" />
       <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\objFile\mtl" />
       <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\objFile\obj" />
       <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\objfile" />
-      <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets\sprites" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="com.softpro.dnaig" />
@@ -133,10 +146,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="PreviewWindow" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.softpro.dnaig.preview.PreviewWindow" />
+      <module name="dnaig" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.softpro.dnaig.preview.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.MainApplication" />
         <item itemvalue="Application.ObjFileReader" />
+        <item itemvalue="Application.PreviewWindow" />
       </list>
     </recent_temporary>
   </component>
@@ -157,7 +184,7 @@
       <workItem from="1699899747700" duration="2916000" />
       <workItem from="1699903100651" duration="871000" />
       <workItem from="1699973257243" duration="3730000" />
-      <workItem from="1699979076765" duration="3870000" />
+      <workItem from="1699979076765" duration="6458000" />
     </task>
     <servers />
   </component>
