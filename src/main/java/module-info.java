@@ -7,4 +7,6 @@ module com.dnaig.dnaig {
     opens com.softpro.dnaig to javafx.fxml;
 
     exports com.softpro.dnaig;
+    exports com.softpro.dnaig.preview;
+    opens com.softpro.dnaig.preview to javafx.fxml;
 }

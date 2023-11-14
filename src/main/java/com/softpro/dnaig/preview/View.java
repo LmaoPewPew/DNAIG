@@ -1,4 +1,4 @@
-package com.softpro.dnaig;
+package com.softpro.dnaig.preview;
 
 import javafx.scene.*;
 import javafx.scene.paint.Color;
@@ -10,21 +10,16 @@ import org.fxyz3d.importers.Model3D;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 
 public class View {
 
     Model3D model;
     Camera camera;
+    Group group;
     SubScene subScene;
 
-    View(Stage stage) {
-
-        try {
-            model = Importer3D.load(new File("C:/Users/Dominik/OneDrive/Studium/23-24/Software Projekt/Beispielmodelle/cars/porsche/porsche.obj").toURI().toURL());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+    public View(Stage stage) {
         camera = new PerspectiveCamera(true);
         camera.setNearClip(0.1);
         camera.setFarClip(50000.0);
@@ -34,7 +29,7 @@ public class View {
         camera.setTranslateY(400);
         camera.getTransforms().add(new Translate(0, 0, -300));
 
-        Group group = new Group(model.getRoot());
+        group = new Group();
 
         subScene = new SubScene(group, 1280, 720, true, SceneAntialiasing.BALANCED);
         subScene.widthProperty().bind(stage.getScene().widthProperty());
@@ -43,8 +38,15 @@ public class View {
         subScene.setFill(Color.rgb(80, 80, 80));
         subScene.setCamera(camera);
 
-        model.getRoot().translateXProperty().bind(subScene.widthProperty().divide(2));
-        model.getRoot().translateYProperty().bind(subScene.heightProperty().divide(2));
+        //model.getRoot().translateXProperty().bind(subScene.widthProperty().divide(2));
+        //model.getRoot().translateYProperty().bind(subScene.heightProperty().divide(2));
+    }
+
+    public Model3D addObject(String path) throws IOException {
+        model = Importer3D.load(new File(path).toURI().toURL());
+        group.getChildren().add(model.getRoot());
+
+        return model;
     }
 
     public Model3D getModel() {
