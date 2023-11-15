@@ -82,12 +82,12 @@ public class ObjectProperties {
 
     public void setImageView(ImageView imageViews, TextField coordTextField) {
         this.imageView = imageViews;
-        this.imageView.setFitWidth(100);
-        this.imageView.setFitHeight(100);
+        this.imageView.setFitWidth(75);
+        this.imageView.setFitHeight(75);
 
         this.button.setGraphic(this.imageView);
         //this.button.setStyle("-fx-background-color: transparent;");
-        System.out.println("hi 1");
+
         this.button.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
@@ -107,17 +107,19 @@ public class ObjectProperties {
     }
 
 
-
     public String getAll() {
         return "ObjectProperties{" + "objID='" + objID + '\'' + ", objName='" + objName + '\'' + ", objFaces='" + objFaces + '\'' + ", objVertices='" + objVertices + '\'' + ", objPos=" + Arrays.toString(objPos) + ", objRot=" + Arrays.toString(objRot) + '}';
     }
+
     public void setImage(Image image) {
-        this.imageView = new ImageView(image);;
+        this.imageView = new ImageView(image);
+        ;
     }
 
     public void setButton(Button button) {
         this.button = button;
     }
+
     public Button getButton() {
         return button;
     }
