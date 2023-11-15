@@ -1,6 +1,12 @@
 package com.softpro.dnaig.object;
 
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.control.Button;
 
 import java.util.Arrays;
 
@@ -17,6 +23,8 @@ public class ObjectProperties {
     private String objPos[];
     private String objRot[];
     private ImageView imageView;
+
+    private Button button;
 
 
     public String getObjID() {
@@ -71,11 +79,21 @@ public class ObjectProperties {
         return imageView;
     }
 
-    public void setImageView(ImageView imageView) {
-        this.imageView = imageView;
 
+    public void setImageView(ImageView imageViews, TextField coordTextField) {
+        this.imageView = imageViews;
         this.imageView.setFitWidth(100);
         this.imageView.setFitHeight(100);
+
+        this.button.setGraphic(this.imageView);
+        //this.button.setStyle("-fx-background-color: transparent;");
+        System.out.println("hi 1");
+        this.button.setOnAction(new EventHandler<>() {
+            @Override
+            public void handle(ActionEvent e) {
+                coordTextField.setText(getAll());
+            }
+        });
     }
 
     public ObjectProperties(String objID, String objName, String objFaces, String objVertices, String[] objPos, String[] objRot) {
@@ -85,11 +103,22 @@ public class ObjectProperties {
         this.objVertices = objVertices;
         this.objPos = objPos;
         this.objRot = objRot;
+        this.button = new Button();
     }
 
 
-    @Override
-    public String toString() {
+
+    public String getAll() {
         return "ObjectProperties{" + "objID='" + objID + '\'' + ", objName='" + objName + '\'' + ", objFaces='" + objFaces + '\'' + ", objVertices='" + objVertices + '\'' + ", objPos=" + Arrays.toString(objPos) + ", objRot=" + Arrays.toString(objRot) + '}';
+    }
+    public void setImage(Image image) {
+        this.imageView = new ImageView(image);;
+    }
+
+    public void setButton(Button button) {
+        this.button = button;
+    }
+    public Button getButton() {
+        return button;
     }
 }

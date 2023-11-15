@@ -6,6 +6,7 @@ import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.utils.ObjFileReader;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -19,6 +20,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 public class ApplicationController {
@@ -28,8 +30,8 @@ public class ApplicationController {
 
     //Objects
     @FXML
-    private ListView<ImageView> objectListView;
-    private List<ObjectProperties> propertiesList = new ArrayList<>();
+    private ListView<Button> objectListView;
+    private LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
 
     //FileChooser
     private final FileChooser fileChooser = new FileChooser();
@@ -51,7 +53,7 @@ public class ApplicationController {
     @FXML
     void importLightObject(MouseEvent event) {
         System.out.println("Testst");
-        //showObjects(1);
+        createGUIObject(null);
     }
 
     @FXML
@@ -63,12 +65,53 @@ public class ApplicationController {
             entityList.add(entity);
             coordTextField.setText(entity.toString());
 
-            showObjects(entity, 0);
+            createGUIObject(entity);
             previewWindow.addObject(entityFile.getPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+    void createGUIObject(Entity e) {
+        loadObjectPorperties(e);
+        setObjectListView();
+    }
+    private void loadObjectPorperties(Entity e) {
+        ObjectProperties op = null;
+        int id;
+
+        if(e==null){     //load light properties
+            id = 1;
+        }else{          //load object properties
+            op = new ObjectProperties(Integer.toString(e.getID()), e.getObjName(),
+                    Integer.toString(e.getFaces().size()),
+                    Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()),
+                    Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())},
+                    new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()),
+                            Float.toString(e.getOrient().getZ())});
+            System.out.println("ID Cube: " + e.getID());
+            id = 0;
+        }
+        loadImage(op,id);
+    }
+    private void setObjectListView() {
+        //ObjectList Region
+        objectListView.setPadding(new Insets(10, 5, 10, 5));
+        objectListView.getItems().add(propertiesList.get(propertiesList.size()-1).getButton()); //Nix gehen
+    }
+    private void loadImage(ObjectProperties op, int id) {
+        if(id==0){      //object
+            Image image = new Image(objectIMG);
+            op.setImageView(new ImageView(image),coordTextField);
+            propertiesList.add(op);
+        }
+        else{       //light
+            Image image = new Image(objectIMG);
+            op.setImageView(new ImageView(image),coordTextField);
+            propertiesList.add(op);
+            //propertiesList.getLast().onClick();
+        }
+    }
+
 
     File fileChooser() {
         fileChooser.setTitle("Open .obj File");
@@ -81,17 +124,7 @@ public class ApplicationController {
         return latestFile;
     }
 
-    void showObjects(Entity e, int i) {
-        //ObjectList Region
-        objectListView.setPadding(new Insets(10, 5, 10, 5));
-        if (i == 0) {
-            fillObjectProperties(e, i);
-            objectListView.getItems().add(propertiesList.get(0).getImageView());
-        } else if (i == 1) {
-            objectListView.getItems().add(new ImageView(lightbulbIMG));
 
-        } else System.out.println("n/a");
-    }
 
     void fillObjectProperties(Entity e, int id) {
         ObjectProperties op = new ObjectProperties(e.getObjName(), Integer.toString(e.getID()),
@@ -99,8 +132,7 @@ public class ApplicationController {
                 new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())},
                 new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())});
         //OBJECTIMG
-        Image image = new Image(objectIMG);
-        op.setImageView(new ImageView(image));
+
 
         propertiesList.add(op);
     }
