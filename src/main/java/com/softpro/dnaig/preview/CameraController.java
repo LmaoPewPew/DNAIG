@@ -2,9 +2,11 @@ package com.softpro.dnaig.preview;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Camera;
-import javafx.scene.input.*;
+import javafx.scene.SubScene;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Translate;
-import javafx.stage.Stage;
 import org.fxyz3d.importers.Model3D;
 
 import java.util.HashMap;
@@ -20,7 +22,7 @@ public class CameraController {
     private HashMap<Model3D, CameraControlWrapper> modelCameraMap;
     private Model3D selected;
 
-    public CameraController(PreviewWindow previewWindow, Stage stage, View view, Overlay overlay) {
+    public CameraController(PreviewWindow previewWindow, SubScene subScene, /*Stage stage,*/ View view, Overlay overlay) {
 
         this.previewWindow = previewWindow;
 
@@ -33,11 +35,11 @@ public class CameraController {
         //view.getModel().getRoot().getTransforms().addAll(rX, rY);
         view.getCamera().getTransforms().add(t);
 
-        stage.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
+        previewWindow.root.addEventHandler(MouseEvent.MOUSE_PRESSED, event -> {
             oldPos = new Point2D(event.getSceneX(), event.getSceneY());
         });
 
-        stage.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
+        previewWindow.root.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 CameraControlWrapper wrapper = modelCameraMap.get(selected);
                 double newAngleX = wrapper.getrX().getAngle() + oldPos.getY() - event.getSceneY();
@@ -51,16 +53,10 @@ public class CameraController {
             }
         });
 
-        stage.addEventHandler(ScrollEvent.SCROLL, event -> {
+        previewWindow.root.addEventHandler(ScrollEvent.SCROLL, event -> {
             double delta = event.getDeltaY();
             Camera camera = view.getCamera();
             camera.setTranslateZ(camera.getTranslateZ() + delta * 2);
-        });
-
-        stage.addEventHandler(KeyEvent.KEY_RELEASED, event -> {
-            if (event.getCode().equals(KeyCode.F3)) {
-                previewWindow.addObject("ObjFiles/porsche/porsche.obj");
-            }
         });
 
         /*stage.addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
