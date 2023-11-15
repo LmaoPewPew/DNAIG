@@ -73,6 +73,9 @@ public class ObjectProperties {
 
     public void setImageView(ImageView imageView) {
         this.imageView = imageView;
+
+        this.imageView.setFitWidth(100);
+        this.imageView.setFitHeight(100);
     }
 
     public ObjectProperties(String objID, String objName, String objFaces, String objVertices, String[] objPos, String[] objRot) {

@@ -7,7 +7,7 @@
     <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/object/ObjectProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/object/ObjectProperties.java" afterDir="false" />
     </list>
     <list id="607719a5-99a1-4753-8536-8838f31bbbfc" name="Changes by Dominik" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -163,7 +163,7 @@
       <workItem from="1699903100651" duration="871000" />
       <workItem from="1699973257243" duration="3730000" />
       <workItem from="1699979076765" duration="6458000" />
-      <workItem from="1700044172682" duration="4050000" />
+      <workItem from="1700044172682" duration="4623000" />
     </task>
     <servers />
   </component>

@@ -35,6 +35,7 @@ public class ApplicationController implements Initializable {
     //Objects
     @FXML
     private ListView<ImageView> objectListView;
+
     private List<ObjectProperties> propertiesList = new ArrayList<>();
 
     //Rest
@@ -58,7 +59,7 @@ public class ApplicationController implements Initializable {
 
     @FXML
     void importObject(MouseEvent event) {
-        File loadObjectFilePath = fileChooser.showOpenDialog(new Stage());
+        File loadObjectFilePath = fileChooser.showOpenDialog(null);
         System.out.println(loadObjectFilePath);
 
         try {
@@ -117,6 +118,7 @@ public class ApplicationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+
 
     }
 
