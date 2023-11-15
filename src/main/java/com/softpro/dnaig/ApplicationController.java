@@ -9,6 +9,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
@@ -84,6 +85,11 @@ public class ApplicationController {
 
     public void initialize() {
         previewWindow = new PreviewWindow(previewPane);
+    }
+
+    public void handleKey(KeyEvent event) {
+        if (previewWindow != null)
+            previewWindow.handleKey(event);
     }
 
     //initializer, get last used filepath

@@ -1,15 +1,9 @@
 package com.softpro.dnaig.preview;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.SubScene;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import javafx.stage.Stage;
 import org.fxyz3d.importers.Model3D;
 
 import java.io.IOException;
@@ -50,6 +44,21 @@ public class PreviewWindow {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    public void removeObject(int id) {
+        Model3D model = cameraController.getSelected();
+        view.removeObject(model);
+        cameraController.getModelCameraMap().remove(model);
+        if (!cameraController.getModelCameraMap().isEmpty())
+            cameraController.setSelected((Model3D) cameraController.getModelCameraMap().keySet().toArray()[0]);
+    }
+
+    public void handleKey(KeyEvent event) {
+        switch (event.getCode()) {
+            case F3 -> addObject("src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj");
+            case DELETE -> removeObject(0);//todo
         }
     }
 }
