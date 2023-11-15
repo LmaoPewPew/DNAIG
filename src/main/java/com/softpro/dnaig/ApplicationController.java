@@ -6,7 +6,6 @@ import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.utils.ObjFileReader;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -47,7 +46,6 @@ public class ApplicationController {
     private List<Entity> entityList = new ArrayList<>();
 
 
-
     /************METHODS************/
 
     @FXML
@@ -74,7 +72,7 @@ public class ApplicationController {
 
     File fileChooser() {
         fileChooser.setTitle("Open .obj File");
-        String fileString = "";
+        String fileString;
 
         latestFile = fileChooser.showOpenDialog(new Stage());
         fileString = String.valueOf(latestFile.getParentFile());
