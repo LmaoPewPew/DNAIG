@@ -1,4 +1,4 @@
-module com.dnaig.dnaig {
+module com.softpro.dnaig {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.fxyz3d.core;
