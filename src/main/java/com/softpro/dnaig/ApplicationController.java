@@ -2,16 +2,18 @@ package com.softpro.dnaig;
 
 import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.object.ObjectProperties;
+import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.utils.ObjFileReader;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.control.SplitPane;
@@ -42,10 +44,10 @@ public class ApplicationController implements Initializable {
     @FXML
     private TextField coordTextField;
     @FXML
-    private SubScene subScenePreview;
-
+    private StackPane previewPane;
 
     private final FileChooser fileChooser = new FileChooser();
+    private PreviewWindow previewWindow;
 
     //private final ObjFileReader objImporter = new ObjFileReader();
     private List<Entity> entityList = new ArrayList<>();
@@ -69,15 +71,13 @@ public class ApplicationController implements Initializable {
             coordTextField.setText(entity.toString());
 
             showObjects(entity, 0);
+            previewWindow.addObject(loadObjectFilePath.getPath());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     void showObjects(Entity e, int i) {
-        //PreView Window
-        loadPreviewer();
-
         //ObjectList Region
         objectListView.setPadding(new Insets(10, 5, 10, 5));
         if (i == 0) {
@@ -105,11 +105,6 @@ public class ApplicationController implements Initializable {
 
     }
 
-    void loadPreviewer() {
-        //TODO: Preview Window
-    }
-
-
     @FXML
     void loadRayTracer(MouseEvent event) {
         System.out.println("Open RayTracer ");
@@ -118,10 +113,19 @@ public class ApplicationController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
+        previewWindow = new PreviewWindow(previewPane);
     }
 
     //TODO: initializer, get last used filepath
+    public void initialize() {
+
+    }
+
+    public void handleKey(KeyEvent event) {
+        if (previewWindow != null)
+            previewWindow.handleKey(event);
+    }
+
+    //initializer, get last used filepath
 
 }

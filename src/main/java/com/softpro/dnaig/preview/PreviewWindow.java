@@ -1,55 +1,31 @@
 package com.softpro.dnaig.preview;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.SubScene;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import javafx.stage.Stage;
 import org.fxyz3d.importers.Model3D;
 
 import java.io.IOException;
 
-public class PreviewWindow extends Application {
-
+public class PreviewWindow {
     private final int WIDTH = 1280;
     private final int HEIGHT = 720;
     private View view;
     private Overlay overlay;
     private CameraController cameraController;
-    public SubScene subScene;
+    public StackPane root;
 
+    public PreviewWindow(StackPane root) {
+        this.root = root;
 
-    public PreviewWindow(SubScene subScene) {
-        this.subScene = subScene;
-    }
-    //LEON <4
-
-    @Override
-    public void start(Stage stage) {
-        stage.setTitle("3D Cube Projection in JavaFX");
-        StackPane root = new StackPane();
-
-        //Scene scene = new Scene(root, WIDTH, HEIGHT);
-        //scene.setFill(Color.rgb(30, 30, 30));
-
-        stage.setScene(subScene.getScene());
-
-        view = new View(stage);
+        view = new View();
         overlay = new Overlay();
+        cameraController = new CameraController(this, view.getSubScene(), view, overlay);
 
         root.getChildren().addAll(view.getSubScene(), overlay);
 
-        cameraController = new CameraController(this, stage, view, overlay);
-
-        addObject("src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.obj");
-        stage.show();
-    }
-
-    public static void main(String[] args) {
-        launch(args);
+        //addObject("src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj");
     }
 
     public void addObject(String path) {
@@ -71,5 +47,18 @@ public class PreviewWindow extends Application {
         }
     }
 
+    public void removeObject(int id) {
+        Model3D model = cameraController.getSelected();
+        view.removeObject(model);
+        cameraController.getModelCameraMap().remove(model);
+        if (!cameraController.getModelCameraMap().isEmpty())
+            cameraController.setSelected((Model3D) cameraController.getModelCameraMap().keySet().toArray()[0]);
+    }
 
+    public void handleKey(KeyEvent event) {
+        switch (event.getCode()) {
+            case F3 -> addObject("src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj");
+            case DELETE -> removeObject(0);//todo
+        }
+    }
 }

@@ -4,13 +4,11 @@ import javafx.scene.*;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
-import javafx.stage.Stage;
 import org.fxyz3d.importers.Importer3D;
 import org.fxyz3d.importers.Model3D;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 
 public class View {
 
@@ -19,7 +17,7 @@ public class View {
     Group group;
     SubScene subScene;
 
-    public View(Stage stage) {
+    public View() {
         camera = new PerspectiveCamera(true);
         camera.setNearClip(0.1);
         camera.setFarClip(50000.0);
@@ -32,14 +30,9 @@ public class View {
         group = new Group();
 
         subScene = new SubScene(group, 1280, 720, true, SceneAntialiasing.BALANCED);
-        subScene.widthProperty().bind(stage.getScene().widthProperty());
-        subScene.heightProperty().bind(stage.getScene().heightProperty());
 
         subScene.setFill(Color.rgb(80, 80, 80));
         subScene.setCamera(camera);
-
-        //model.getRoot().translateXProperty().bind(subScene.widthProperty().divide(2));
-        //model.getRoot().translateYProperty().bind(subScene.heightProperty().divide(2));
     }
 
     public Model3D addObject(String path) throws IOException {
@@ -59,5 +52,9 @@ public class View {
 
     public SubScene getSubScene() {
         return subScene;
+    }
+
+    public void removeObject(Model3D model) {
+        group.getChildren().remove(model.getRoot());
     }
 }

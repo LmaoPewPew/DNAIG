@@ -20,6 +20,9 @@ public class MainApplication extends Application {
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();
+
+        ApplicationController controller = fxmlLoader.getController();
+        scene.setOnKeyReleased(controller::handleKey);
     }
 
     public static void main(String[] args) {
