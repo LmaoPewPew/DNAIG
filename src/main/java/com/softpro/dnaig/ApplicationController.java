@@ -4,6 +4,7 @@ import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.object.ObjectProperties;
 import com.softpro.dnaig.utils.ObjFileReader;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
@@ -13,19 +14,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.scene.control.SplitPane;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
-public class ApplicationController {
-    @FXML
-    private TextField coordTextField;
-
-    @FXML
-    private ListView<ImageView> objectListView;
-
+public class ApplicationController implements Initializable {
+    //Buttons
     @FXML
     private Button btnLight;
     @FXML
@@ -33,9 +32,16 @@ public class ApplicationController {
     @FXML
     private Button btnRender;
 
+    //Objects
+    @FXML
+    private ListView<ImageView> objectListView;
+    private List<ObjectProperties> propertiesList = new ArrayList<>();
+
+    //Rest
+    @FXML
+    private TextField coordTextField;
     @FXML
     private SubScene subScenePreview;
-    private List<ObjectProperties> propertiesList = new ArrayList<>();
 
 
     private final FileChooser fileChooser = new FileChooser();
@@ -106,6 +112,11 @@ public class ApplicationController {
     @FXML
     void loadRayTracer(MouseEvent event) {
         System.out.println("Open RayTracer ");
+
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
     }
 
