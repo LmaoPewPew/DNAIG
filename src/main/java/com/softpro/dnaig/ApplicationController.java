@@ -4,26 +4,23 @@ import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.object.ObjectProperties;
 import com.softpro.dnaig.utils.ObjFileReader;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.SubScene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import javafx.scene.control.SplitPane;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
 
-public class ApplicationController implements Initializable {
+public class ApplicationController {
     //Buttons
     @FXML
     private Button btnLight;
@@ -35,8 +32,11 @@ public class ApplicationController implements Initializable {
     //Objects
     @FXML
     private ListView<ImageView> objectListView;
-
     private List<ObjectProperties> propertiesList = new ArrayList<>();
+
+    //FileChooser
+    private final FileChooser fileChooser = new FileChooser();
+    File latestFile = new File("D:\\Code\\java\\school\\sofo\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\astonMartin");
 
     //Rest
     @FXML
@@ -45,11 +45,8 @@ public class ApplicationController implements Initializable {
     private SubScene subScenePreview;
 
 
-    private final FileChooser fileChooser = new FileChooser();
-
     //private final ObjFileReader objImporter = new ObjFileReader();
     private List<Entity> entityList = new ArrayList<>();
-    //vlt Flowpane?
 
     @FXML
     void importLightObject(MouseEvent event) {
@@ -59,11 +56,9 @@ public class ApplicationController implements Initializable {
 
     @FXML
     void importObject(MouseEvent event) {
-        File loadObjectFilePath = fileChooser.showOpenDialog(null);
-        System.out.println(loadObjectFilePath);
-
+        File entityFile = new File(fileChooser());
         try {
-            Entity entity = ObjFileReader.createObject(loadObjectFilePath.getPath());
+            Entity entity = ObjFileReader.createObject(entityFile.getPath());
             System.out.println(entity);
             entityList.add(entity);
             coordTextField.setText(entity.toString());
@@ -74,54 +69,48 @@ public class ApplicationController implements Initializable {
         }
     }
 
+    String fileChooser() {
+
+        fileChooser.setTitle("Open obj File");
+        String fileString = "";
+        latestFile = fileChooser.showOpenDialog(new Stage());
+        fileString = String.valueOf(latestFile.getParentFile());
+        latestFile = fileChooser.getInitialDirectory();
+        fileChooser.setInitialDirectory(new File(fileString));
+
+        return fileString;
+    }
+
     void showObjects(Entity e, int i) {
         //PreView Window
-        loadPreviewer();
 
         //ObjectList Region
         objectListView.setPadding(new Insets(10, 5, 10, 5));
         if (i == 0) {
             fillObjectProperties(e, i);
-            objectListView.getItems().add(propertiesList.get(0).getImageView()); //Nix gehen
+            objectListView.getItems().add(propertiesList.get(0).getImageView());
         } else if (i == 1) {
             objectListView.getItems().add(new ImageView("D:\\Code\\java\\school\\sofo\\src\\main\\resources\\com\\softpro\\dnaig\\sprites\\light_Img_LIGHTTHEME.png"));
-            fillObjectProperties(i);
+
         } else System.out.println("n/a");
-
-
-        //TODO:: Set Fix Image View SIZE!!!!
-
     }
 
     void fillObjectProperties(Entity e, int id) {
         ObjectProperties op = new ObjectProperties(e.getObjName(), Integer.toString(e.getID()), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())}, new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())});
 
-        op.setImageView(new ImageView("D:\\Code\\java\\school\\sofo\\src\\main\\resources\\com\\softpro\\dnaig\\sprites\\obj_Img_LIGHTTHEME.png"));
+        String relativePath = "/com/softpro/dnaig/sprites/Obj_img_LIGHTTHEME.png";
+        Image image = new Image(getClass().getResourceAsStream(relativePath));
+        op.setImageView(new ImageView(image));
+
         propertiesList.add(op);
-    }
-
-    void fillObjectProperties(int id) {
-
-
-    }
-
-    void loadPreviewer() {
-        //TODO: Preview Window
     }
 
 
     @FXML
     void loadRayTracer(MouseEvent event) {
-        System.out.println("Open RayTracer ");
-
+        //Button für RayTracer!
+        System.out.println("loading External Window for RayTracer...");
     }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-
-
-    }
-
-    //TODO: initializer, get last used filepath
 
 }

@@ -7,7 +7,11 @@
     <list default="true" id="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/object/ObjectProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/object/ObjectProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/softpro/dnaig/DNAIG.fxml" afterDir="false" />
+    </list>
+    <list id="83a84a44-2392-4589-8430-da122c1bbc32" name="Changes by Administrator" comment="">
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java" afterDir="false" />
     </list>
     <list id="607719a5-99a1-4753-8536-8838f31bbbfc" name="Changes by Dominik" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -47,6 +51,33 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="jar://$MAVEN_REPOSITORY$/org/openjfx/javafx-controls/19/javafx-controls-19-sources.jar!/javafx/scene/control/Control.java" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="LineStatusTrackerManager">
+    <file path="$PROJECT_DIR$/src/main/java/com/softpro/dnaig/ApplicationController.java">
+      <ranges>
+        <range start1="6" end1="7" start2="6" end2="6" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="12" end1="12" start2="11" end2="12" changelist="83a84a44-2392-4589-8430-da122c1bbc32" />
+        <range start1="16" end1="17" start2="16" end2="16" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="20" end1="21" start2="19" end2="19" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="23" end1="24" start2="21" end2="21" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="25" end1="26" start2="22" end2="23" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="37" end1="38" start2="34" end2="34" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="40" end1="40" start2="36" end2="40" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="47" end1="49" start2="47" end2="47" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="51" end1="52" start2="49" end2="49" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="61" end1="64" start2="58" end2="59" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="65" end1="66" start2="60" end2="61" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="75" end1="75" start2="70" end2="82" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="78" end1="79" start2="85" end2="85" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="84" end1="85" start2="90" end2="91" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="87" end1="88" start2="93" end2="94" changelist="83a84a44-2392-4589-8430-da122c1bbc32" />
+        <range start1="89" end1="93" start2="95" end2="95" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="98" end1="99" start2="100" end2="104" changelist="83a84a44-2392-4589-8430-da122c1bbc32" />
+        <range start1="102" end1="111" start2="107" end2="107" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="114" end1="116" start2="110" end2="112" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+        <range start1="118" end1="125" start2="114" end2="114" changelist="645990a0-6c5e-4bf6-b9eb-e9ba0abe64aa" />
+      </ranges>
+    </file>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -83,6 +114,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.softpro.dnaig" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Code\java\school\sofo\SoftProject\src\main\java\com\softpro\dnaig\assets" />
     </key>
@@ -163,7 +197,7 @@
       <workItem from="1699903100651" duration="871000" />
       <workItem from="1699973257243" duration="3730000" />
       <workItem from="1699979076765" duration="6458000" />
-      <workItem from="1700044172682" duration="4623000" />
+      <workItem from="1700044172682" duration="11259000" />
     </task>
     <servers />
   </component>
