@@ -1,32 +1,34 @@
-package simpleRayTracer;
+package com.softpro.dnaig.simpleRayTracer;
 
-import dnaig.objData.Entity;
-import dnaig.objData.Face;
 
-import java.awt.*;
+import com.softpro.dnaig.objData.Entity;
+import com.softpro.dnaig.objData.Face;
+import com.softpro.dnaig.utils.ColorConverter;
+import javafx.scene.paint.Color;
+
 import java.io.IOException;
 
 public class Ray {
-    public Vector3D position;
-    public Vector3D direction;
+    public Vector3D_RT position;
+    public Vector3D_RT direction;
 
-    public Ray(Vector3D pos, Vector3D dir) {
+    public Ray(Vector3D_RT pos, Vector3D_RT dir) {
         this.direction = dir.normalize();
         this.position = pos;
     }
 
-    public Ray(Vector3D from_point, Vector3D to_point, boolean dummy) {
+    public Ray(Vector3D_RT from_point, Vector3D_RT to_point, boolean dummy) {
         this.position = from_point;
         this.direction = from_point.subtract(from_point).normalize();
     }
 
     public int castPrimary(int depth) throws IOException {
         if(depth > Util.maxRecursionDepth){
-            return Color.BLACK.getRGB();
+            return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
         Object3D intersect = null;
         double t = Double.MAX_VALUE-1;
-        for(Object3D o: Scene.getScene().objects){
+        for(Object3D o: CustomScene.getScene().objects){
             double t2 = o.intersect(this);
             if(t2 > 0 && t2< t){
                 intersect = o;
@@ -36,16 +38,16 @@ public class Ray {
         if(intersect!=null){
             return intersect.getColor(this.getPosition(t), depth);
         } else {
-            return Color.BLACK.getRGB();
+            return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
     }
     public int castPrimary2(int depth) throws IOException {
         if(depth > Util.maxRecursionDepth){
-            return Color.BLACK.getRGB();
+            return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
         Triangle intersect = null;
         double t = Double.MAX_VALUE-1;
-        for(Entity e: Scene.getScene().entities){
+        for(Entity e: CustomScene.getScene().entities){
             for (int i = 0; i< e.getFaces().size(); i++) {
                 Triangle tri = new Triangle(e.getFaces().get(i), Color.BLUE);
                 double t2 = tri.intersect(this);
@@ -58,13 +60,13 @@ public class Ray {
         if(intersect!=null){
             return intersect.getColor(this.getPosition(t), depth);
         } else {
-            return Color.BLACK.getRGB();
+            return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
     }
 
     public boolean castShadow() throws IOException {
         double t = Double.MAX_VALUE-1;
-        for(Object3D o: Scene.getScene().objects){
+        for(Object3D o: CustomScene.getScene().objects){
             double t2 = o.intersect(this);
             if(t2 > 0 && t2< t){
                 return true;
@@ -75,7 +77,7 @@ public class Ray {
     public boolean castShadow2() throws IOException {
         double t = Double.MAX_VALUE-1;
 
-        for(Entity e: Scene.getScene().entities){
+        for(Entity e: CustomScene.getScene().entities){
             for (Face face: e.getFaces()) {
                 Triangle tri = new Triangle(face, Color.BLUE);
                 double t2 = tri.intersect(this);
@@ -87,7 +89,7 @@ public class Ray {
         return false;
     }
 
-    private Vector3D getPosition(double t) {
+    private Vector3D_RT getPosition(double t) {
         return Util.add(this.position, this.direction.skalarmultiplication(t));
     }
 }

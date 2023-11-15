@@ -1,4 +1,6 @@
-package simpleRayTracer;
+package com.softpro.dnaig.simpleRayTracer;
+
+import com.softpro.dnaig.Output;
 
 public class Camera {
     private int l = -Output.WIDTH/2;
@@ -6,18 +8,18 @@ public class Camera {
     private int t = Output.HEIGHT/2;
     private int b = -t;
 
-    private Vector3D UP = new Vector3D(0, 1, 0);
-    private Vector3D eye = new Vector3D(40, 40, -45);
-    private Vector3D Z = new Vector3D(0, 0, 0);
+    private Vector3D_RT UP = new Vector3D_RT(0, 1, 0);
+    private Vector3D_RT eye = new Vector3D_RT(40, 40, -45);
+    private Vector3D_RT Z = new Vector3D_RT(0, 0, 0);
 
-    private Vector3D screen;
+    private Vector3D_RT screen;
 
-    private Vector3D W = eye.subtract(Z).normalize();
-    private Vector3D U = UP.cross(W).normalize();
-    private Vector3D V = W.cross(U).normalize();
+    private Vector3D_RT W = eye.subtract(Z).normalize();
+    private Vector3D_RT U = UP.cross(W).normalize();
+    private Vector3D_RT V = W.cross(U).normalize();
 
     private double d = t/Math.tan(Math.PI/4)/2;
-    private Vector3D W_d_negated = W.skalarmultiplication(-d);
+    private Vector3D_RT W_d_negated = W.skalarmultiplication(-d);
     private boolean test;
 
     public Camera(){
@@ -41,27 +43,27 @@ public class Camera {
         this.b = b;
     }
 
-    public void setUP(Vector3D UP) {
+    public void setUP(Vector3D_RT UP) {
         this.UP = UP;
     }
 
-    public void setEye(Vector3D eye) {
+    public void setEye(Vector3D_RT eye) {
         this.eye = eye;
     }
 
-    public void setZ(Vector3D z) {
+    public void setZ(Vector3D_RT z) {
         Z = z;
     }
 
-    public void setW(Vector3D w) {
+    public void setW(Vector3D_RT w) {
         W = w;
     }
 
-    public void setU(Vector3D u) {
+    public void setU(Vector3D_RT u) {
         U = u;
     }
 
-    public void setV(Vector3D v) {
+    public void setV(Vector3D_RT v) {
         V = v;
     }
 
@@ -69,7 +71,7 @@ public class Camera {
         this.d = d;
     }
 
-    public void setW_d_negated(Vector3D w_d_negated) {
+    public void setW_d_negated(Vector3D_RT w_d_negated) {
         W_d_negated = w_d_negated;
     }
 
@@ -89,27 +91,27 @@ public class Camera {
         return b;
     }
 
-    public Vector3D getUP() {
+    public Vector3D_RT getUP() {
         return UP;
     }
 
-    public Vector3D getEye() {
+    public Vector3D_RT getEye() {
         return eye;
     }
 
-    public Vector3D getZ() {
+    public Vector3D_RT getZ() {
         return Z;
     }
 
-    public Vector3D getW() {
+    public Vector3D_RT getW() {
         return W;
     }
 
-    public Vector3D getU() {
+    public Vector3D_RT getU() {
         return U;
     }
 
-    public Vector3D getV() {
+    public Vector3D_RT getV() {
         return V;
     }
 
@@ -117,16 +119,16 @@ public class Camera {
         return d;
     }
 
-    public Vector3D getW_d_negated() {
+    public Vector3D_RT getW_d_negated() {
         return W_d_negated;
     }
 
 
-    public Vector3D getScreen() {
+    public Vector3D_RT getScreen() {
         return screen;
     }
 
-    public void setScreen(Vector3D screen) {
+    public void setScreen(Vector3D_RT screen) {
         this.screen = screen;
         eye = Util.add(screen, W.skalarmultiplication(40));
     }

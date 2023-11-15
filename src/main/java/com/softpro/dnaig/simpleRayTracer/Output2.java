@@ -1,15 +1,8 @@
-package simpleRayTracer;
+package com.softpro.dnaig.simpleRayTracer;
 
 import javafx.application.Application;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.stage.Stage;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.image.BufferedImage;
+import javafx.stage.Stage;
 
 public class Output2 extends Application {/*
 
