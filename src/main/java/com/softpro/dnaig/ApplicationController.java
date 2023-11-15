@@ -23,13 +23,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ApplicationController {
-    //Buttons
-    @FXML
-    private Button btnLight;
-    @FXML
-    private Button btnObjImp;
-    @FXML
-    private Button btnRender;
+    //IMG
+    String objectIMG = "https://i.imgur.com/4JzMipP.png";
+    String lightbulbIMG = "https://i.imgur.com/nbKsECu.png";
 
     //Objects
     @FXML
@@ -38,18 +34,21 @@ public class ApplicationController {
 
     //FileChooser
     private final FileChooser fileChooser = new FileChooser();
-    File latestFile = new File("D:\\Code\\java\\school\\sofo\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\astonMartin");
+    File latestFile = null;
 
     //Rest
     @FXML
     private TextField coordTextField;
     @FXML
     private StackPane previewPane;
-
     private PreviewWindow previewWindow;
 
     //private final ObjFileReader objImporter = new ObjFileReader();
     private List<Entity> entityList = new ArrayList<>();
+
+
+
+    /************METHODS************/
 
     @FXML
     void importLightObject(MouseEvent event) {
@@ -59,7 +58,7 @@ public class ApplicationController {
 
     @FXML
     void importObject(MouseEvent event) {
-        File entityFile = new File(fileChooser());
+        File entityFile = fileChooser();
         try {
             Entity entity = ObjFileReader.createObject(entityFile.getPath());
             System.out.println(entity);
@@ -73,16 +72,15 @@ public class ApplicationController {
         }
     }
 
-    String fileChooser() {
-
-        fileChooser.setTitle("Open obj File");
+    File fileChooser() {
+        fileChooser.setTitle("Open .obj File");
         String fileString = "";
+
         latestFile = fileChooser.showOpenDialog(new Stage());
         fileString = String.valueOf(latestFile.getParentFile());
-        latestFile = fileChooser.getInitialDirectory();
         fileChooser.setInitialDirectory(new File(fileString));
 
-        return fileString;
+        return latestFile;
     }
 
     void showObjects(Entity e, int i) {
@@ -92,16 +90,18 @@ public class ApplicationController {
             fillObjectProperties(e, i);
             objectListView.getItems().add(propertiesList.get(0).getImageView());
         } else if (i == 1) {
-            objectListView.getItems().add(new ImageView("D:\\Code\\java\\school\\sofo\\src\\main\\resources\\com\\softpro\\dnaig\\sprites\\light_Img_LIGHTTHEME.png"));
+            objectListView.getItems().add(new ImageView(lightbulbIMG));
 
         } else System.out.println("n/a");
     }
 
     void fillObjectProperties(Entity e, int id) {
-        ObjectProperties op = new ObjectProperties(e.getObjName(), Integer.toString(e.getID()), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())}, new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())});
-
-        String relativePath = "/com/softpro/dnaig/sprites/Obj_img_LIGHTTHEME.png";
-        Image image = new Image(getClass().getResourceAsStream(relativePath));
+        ObjectProperties op = new ObjectProperties(e.getObjName(), Integer.toString(e.getID()),
+                Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()),
+                new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())},
+                new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())});
+        //OBJECTIMG
+        Image image = new Image(objectIMG);
         op.setImageView(new ImageView(image));
 
         propertiesList.add(op);
