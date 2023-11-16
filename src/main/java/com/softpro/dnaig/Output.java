@@ -2,6 +2,7 @@ package com.softpro.dnaig;
 
 import com.softpro.dnaig.simpleRayTracer.RayTracer;
 import com.softpro.dnaig.utils.ColorConverter;
+import com.softpro.dnaig.utils.Config;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -14,8 +15,8 @@ import java.io.IOException;
 
 public class Output extends Application {
 
-    public static final int WIDTH = 1280;
-    public static final int HEIGHT = 720;
+    public static final int WIDTH = Config.WIDTH;
+    public static final int HEIGHT = Config.HEIGHT;
 
     private Canvas canvas;
     private static Output instance;

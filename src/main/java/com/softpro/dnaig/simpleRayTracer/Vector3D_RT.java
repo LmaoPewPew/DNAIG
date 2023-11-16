@@ -118,5 +118,4 @@ public class Vector3D_RT {
                 return Double.MAX_VALUE;
         }
     }
-
 }
