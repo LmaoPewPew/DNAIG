@@ -88,7 +88,7 @@ public class ApplicationController {
             op = new ObjectProperties(String.valueOf(objID), "light",
                  "0",
                     "0", new String[]{"0","0","0"},
-                    new String[]{"0","0","0"});
+                    new String[]{"0","0","0"}, null);
 
         }else{          //load object properties
             id = 0;
@@ -99,12 +99,16 @@ public class ApplicationController {
                 objID=0;
             }
 
-            op = new ObjectProperties(String.valueOf(objID), e.getObjName(),
+            op = new ObjectProperties(
+                    String.valueOf(objID), e.getObjName(),
                     Integer.toString(e.getFaces().size()),
                     Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()),
                     Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())},
-                    new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()),
-                            Float.toString(e.getOrient().getZ())});
+                    new String[]{
+                            Float.toString(e.getOrient().getX()),
+                            Float.toString(e.getOrient().getY()),
+                            Float.toString(e.getOrient().getZ())},
+                    previewWindow::updateSelected);
         }
         loadImage(op,id);
     }

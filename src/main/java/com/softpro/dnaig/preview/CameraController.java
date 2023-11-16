@@ -98,4 +98,21 @@ public class CameraController {
     protected void setSelected(Model3D selected) {
         this.selected = selected;
     }
+
+    public void resetCamera() {
+        cameraRX.setAngle(0.0);
+        cameraRY.setAngle(0.0);
+        cameraT.setX(0.0);
+        cameraT.setY(0.0);
+        System.out.println("reset");
+    }
+
+    public void moveCamera(String direction) {
+        switch (direction) {
+            case "R" -> cameraRY.setAngle(cameraRY.getAngle()+5);
+            case "L" -> cameraRY.setAngle(cameraRY.getAngle()-5);
+            case "D" -> cameraRX.setPivotX(cameraRX.getAngle()-5);
+            case "U" -> cameraRX.setAngle(cameraRX.getAngle()+5);
+        }
+    }
 }
