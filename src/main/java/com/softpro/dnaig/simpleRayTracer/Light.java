@@ -1,9 +1,11 @@
 package com.softpro.dnaig.simpleRayTracer;
 
+import com.softpro.dnaig.utils.Vector3D;
+
 public interface Light {
 
-    Vector3D_RT getPosition();
+    Vector3D getPosition();
 
-    Vector3D_RT getIntensity(Vector3D_RT fromPosition);
+    Vector3D getIntensity(Vector3D fromPosition);
 
 }

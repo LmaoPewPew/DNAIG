@@ -1,22 +1,24 @@
 package com.softpro.dnaig.simpleRayTracer;
 
 
-public class PointLight implements Light{
-    Vector3D_RT position;
-    Vector3D_RT intensity;
+import com.softpro.dnaig.utils.Vector3D;
 
-    public PointLight(Vector3D_RT position, Vector3D_RT intensity){
+public class PointLight implements Light{
+    Vector3D position;
+    Vector3D intensity;
+
+    public PointLight(Vector3D position, Vector3D intensity){
         this.position=position;
         this.intensity=intensity;
     }
 
     @Override
-    public Vector3D_RT getPosition() {
+    public Vector3D getPosition() {
         return position;
     }
 
     @Override
-    public Vector3D_RT getIntensity(Vector3D_RT fromPosition) {
+    public Vector3D getIntensity(Vector3D fromPosition) {
         return intensity;
     }
 }

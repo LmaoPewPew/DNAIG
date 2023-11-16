@@ -1,5 +1,7 @@
 package com.softpro.dnaig.utils;
 
+import com.softpro.dnaig.simpleRayTracer.Util;
+
 /**
  * Represents a 3D vector with components for x, y, and z coordinates.
  */
@@ -89,6 +91,10 @@ public class Vector3D {
         );
     }
 
+    public float product(Vector3D v){
+        return this.x * v.getX() + this.y * v.getY() + this.z * v.getZ();
+    }
+
     /**
      * Calculates the cross product of two vectors and returns a new vector as the result.
      *
@@ -130,6 +136,10 @@ public class Vector3D {
                 this.y * f,
                 this.z * f
         );
+    }
+
+    public Vector3D move(float epsilon, Vector3D positionToLight) {
+        return Util.add(this, positionToLight.scalarMultiplication(epsilon));
     }
 
     /**
