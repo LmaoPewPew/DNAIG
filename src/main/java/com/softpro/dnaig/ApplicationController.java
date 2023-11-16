@@ -151,6 +151,7 @@ public class ApplicationController {
 
     public void initialize() {
         previewWindow = new PreviewWindow(previewPane);
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Wavefront OBJ Files", "*.obj"));
     }
 
     public void handleKey(KeyEvent event) {
