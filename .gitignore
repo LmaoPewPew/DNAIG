@@ -24,6 +24,7 @@ hs_err_pid*
 replay_pid*
 
 target/
+out/
 
 .idea/**/workspace.xml
 .idea/**/tasks.xml
