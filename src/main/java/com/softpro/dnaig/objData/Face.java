@@ -1,9 +1,11 @@
 package com.softpro.dnaig.objData;
 
+import java.util.Iterator;
+
 /**
  * Represents a Face in a 3D model, composed of vertices, a smoothing group, and a material.
  */
-public class Face {
+public class Face implements Iterable<Vertex> {
     // Array of Vertex objects that make up a Face object.
     private final Vertex[] vertices;
     // Integer that contains the smoothing group mode.
@@ -29,6 +31,10 @@ public class Face {
         this.vertices = vertices;
         this.smoothingGroup = smoothingGroup;
         this.material = material;
+    }
+
+    public Vertex getVertex(int i){
+        return vertices[i];
     }
 
     /**
@@ -72,5 +78,21 @@ public class Face {
         }
 
         return str.toString();
+    }
+
+    @Override
+    public Iterator<Vertex> iterator() {
+        return new Iterator<Vertex>() {
+            int idx = 0;
+            @Override
+            public boolean hasNext() {
+                return idx < vertices.length;
+            }
+
+            @Override
+            public Vertex next() {
+                return vertices[idx++];
+            }
+        };
     }
 }

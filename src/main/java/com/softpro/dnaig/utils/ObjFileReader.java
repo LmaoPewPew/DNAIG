@@ -346,9 +346,9 @@ public class ObjFileReader {
         Entity entity;
         HashMap<String, Material> materials;
         try {
-            entity = createObject("C:\\Users\\Leon\\Downloads\\astonMartin\\astonMartin.obj");
+            entity = createObject("src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.obj");
             System.out.println(entity);
-            materials = createMaterial("C:\\Users\\Leon\\Downloads\\astonMartin\\astonMartin.mtl");
+            materials = createMaterial("src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.mtl");
 
             materials.forEach((key, value) -> System.out.println(value));
         } catch (IOException e) {

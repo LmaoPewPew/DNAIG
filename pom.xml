@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.dnaig</groupId>
+    <groupId>com.softpro</groupId>
     <artifactId>dnaig</artifactId>
     <version>1.0-SNAPSHOT</version>
     <name>dnaig</name>
@@ -25,6 +25,17 @@
             <artifactId>javafx-fxml</artifactId>
             <version>19</version>
         </dependency>
+        <dependency>
+            <groupId>org.fxyz3d</groupId>
+            <artifactId>fxyz3d</artifactId>
+            <version>0.6.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.fxyz3d</groupId>
+            <artifactId>fxyz3d-importers</artifactId>
+            <version>0.6.0</version>
+        </dependency>
+
 
         <dependency>
             <groupId>org.junit.jupiter</groupId>
