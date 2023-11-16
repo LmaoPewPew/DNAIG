@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.control.Button;
 
 import java.util.Arrays;
+import java.util.function.Consumer;
 
 public class ObjectProperties {
     //Object name: object0
@@ -23,6 +24,7 @@ public class ObjectProperties {
     private String objPos[];
     private String objRot[];
     private ImageView imageView;
+    private Consumer<Integer> previewCallbackWhenSelected;
 
     private Button button;
 
@@ -82,44 +84,44 @@ public class ObjectProperties {
 
     public void setImageView(ImageView imageViews, TextField coordTextField) {
         this.imageView = imageViews;
-        this.imageView.setFitWidth(75);
-        this.imageView.setFitHeight(75);
+        this.imageView.setFitWidth(100);
+        this.imageView.setFitHeight(100);
 
         this.button.setGraphic(this.imageView);
         //this.button.setStyle("-fx-background-color: transparent;");
-
+        System.out.println("hi 1");
         this.button.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
                 coordTextField.setText(getAll());
+                previewCallbackWhenSelected.accept(Integer.parseInt(objID));
             }
         });
     }
 
-    public ObjectProperties(String objID, String objName, String objFaces, String objVertices, String[] objPos, String[] objRot) {
+    public ObjectProperties(String objID, String objName, String objFaces, String objVertices, String[] objPos, String[] objRot, Consumer<Integer> previewCallbackWhenSelected) {
         this.objID = objID;
         this.objName = objName;
         this.objFaces = objFaces;
         this.objVertices = objVertices;
         this.objPos = objPos;
         this.objRot = objRot;
+        this.previewCallbackWhenSelected = previewCallbackWhenSelected;
         this.button = new Button();
     }
+
 
 
     public String getAll() {
         return "ObjectProperties{" + "objID='" + objID + '\'' + ", objName='" + objName + '\'' + ", objFaces='" + objFaces + '\'' + ", objVertices='" + objVertices + '\'' + ", objPos=" + Arrays.toString(objPos) + ", objRot=" + Arrays.toString(objRot) + '}';
     }
-
     public void setImage(Image image) {
         this.imageView = new ImageView(image);
-        ;
     }
 
     public void setButton(Button button) {
         this.button = button;
     }
-
     public Button getButton() {
         return button;
     }

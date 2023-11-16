@@ -6,6 +6,8 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Translate;
 import org.fxyz3d.importers.Importer3D;
 import org.fxyz3d.importers.Model3D;
+import org.fxyz3d.scene.Axes;
+import org.fxyz3d.scene.CubeWorld;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,11 +25,17 @@ public class View {
         camera.setFarClip(50000.0);
         Rotate rz = new Rotate(180.0, Rotate.Z_AXIS);
         camera.getTransforms().add(rz);
-        camera.setTranslateX(600);
-        camera.setTranslateY(400);
-        camera.getTransforms().add(new Translate(0, 0, -300));
+        camera.setTranslateX(200);
+        camera.setTranslateY(50);
+        camera.getTransforms().add(new Translate(0, 0, -600));
 
         group = new Group();
+
+        CubeWorld cubeWorld = new CubeWorld(5000, 100, true);
+        group.getChildren().add(cubeWorld);
+        Axes axes = new Axes();
+        axes.setHeight(2500);
+        group.getChildren().add(axes);
 
         subScene = new SubScene(group, 1280, 720, true, SceneAntialiasing.BALANCED);
 

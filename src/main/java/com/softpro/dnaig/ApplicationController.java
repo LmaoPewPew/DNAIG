@@ -52,7 +52,6 @@ public class ApplicationController {
 
     @FXML
     void importLightObject(MouseEvent event) {
-        System.out.println("Testst");
         createGUIObject(null);
     }
 
@@ -63,7 +62,6 @@ public class ApplicationController {
             Entity entity = ObjFileReader.createObject(entityFile.getPath());
             System.out.println(entity);
             entityList.add(entity);
-            coordTextField.setText(entity.toString());
 
             createGUIObject(entity);
             previewWindow.addObject(entityFile.getPath());
@@ -83,37 +81,57 @@ public class ApplicationController {
 
         if (e == null) {     //load light properties
             id = 1;
-        } else {          //load object properties
-            op = new ObjectProperties(Integer.toString(e.getID()), e.getObjName(),
+            int objID;
+            if(propertiesList.size()!=0){
+                objID= Integer.valueOf(propertiesList.getLast().getObjID())+1;
+            }else{
+                objID=0;
+            }
+            op = new ObjectProperties(String.valueOf(objID), "light",
+                 "0",
+                    "0", new String[]{"0","0","0"},
+                    new String[]{"0","0","0"}, null);
+
+        }else{          //load object properties
+            id = 0;
+            int objID;
+            if(propertiesList.size()!=0){
+                objID= Integer.valueOf(propertiesList.getLast().getObjID())+1;
+            }else{
+                objID=0;
+            }
+
+            op = new ObjectProperties(
+                    String.valueOf(objID), e.getObjName(),
                     Integer.toString(e.getFaces().size()),
                     Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()),
                     Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())},
-                    new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()),
-                            Float.toString(e.getOrient().getZ())});
-            System.out.println("ID Cube: " + e.getID());
-            id = 0;
+                    new String[]{
+                            Float.toString(e.getOrient().getX()),
+                            Float.toString(e.getOrient().getY()),
+                            Float.toString(e.getOrient().getZ())},
+                    previewWindow::updateSelected);
         }
-        loadImage(op, id);
+        loadImage(op,id);
     }
-
     private void setObjectListView() {
         //ObjectList Region
         objectListView.setPadding(new Insets(10, 5, 10, 5));
-        objectListView.getItems().add(propertiesList.get(propertiesList.size() - 1).getButton()); //Nix gehen
+        objectListView.getItems().add(propertiesList.get(propertiesList.size()-1).getButton());
     }
-
     private void loadImage(ObjectProperties op, int id) {
-        if (id == 0) {      //object
+        if(id==0){      //object
             Image image = new Image(objectIMG);
-            op.setImageView(new ImageView(image), coordTextField);
+            op.setImageView(new ImageView(image),coordTextField);
             propertiesList.add(op);
-        } else {       //light
-            Image image = new Image(objectIMG);
-            op.setImageView(new ImageView(image), coordTextField);
+        }
+        else{       //light
+            Image image = new Image(lightbulbIMG);
+            op.setImageView(new ImageView(image),coordTextField);
             propertiesList.add(op);
-            //propertiesList.getLast().onClick();
         }
     }
+
 
     File fileChooser() {
         fileChooser.setTitle("Open .obj File");
@@ -126,13 +144,6 @@ public class ApplicationController {
         return latestFile;
     }
 
-    void fillObjectProperties(Entity e, int id) {
-        ObjectProperties op = new ObjectProperties(e.getObjName(), Integer.toString(e.getID()),
-                Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()),
-                new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())},
-                new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())});
-        propertiesList.add(op);
-    }
 
     @FXML
     void loadRayTracer(MouseEvent event) {
