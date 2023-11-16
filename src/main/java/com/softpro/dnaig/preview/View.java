@@ -25,9 +25,9 @@ public class View {
         camera.setFarClip(50000.0);
         Rotate rz = new Rotate(180.0, Rotate.Z_AXIS);
         camera.getTransforms().add(rz);
-        camera.setTranslateX(600);
-        camera.setTranslateY(400);
-        camera.getTransforms().add(new Translate(0, 0, -300));
+        camera.setTranslateX(200);
+        camera.setTranslateY(50);
+        camera.getTransforms().add(new Translate(0, 0, -600));
 
         group = new Group();
 

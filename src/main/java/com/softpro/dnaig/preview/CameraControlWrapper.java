@@ -15,6 +15,15 @@ public class CameraControlWrapper {
         this.t = t;
     }
 
+    public void updatePivotAfterMove() {
+        double x = t.getX();
+        double y = t.getY();
+        rX.setPivotX(x);
+        rX.setPivotY(y);
+        rY.setPivotX(x);
+        rY.setPivotY(y);
+    }
+
     public Rotate getrX() {
         return rX;
     }

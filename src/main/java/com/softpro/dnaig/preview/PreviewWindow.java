@@ -39,8 +39,8 @@ public class PreviewWindow {
 
             cameraController.setSelected(model);
 
-            model.getRoot().getTransforms().addAll(rX, rY);
-            model.getRoot().getParent().getTransforms().add(t);
+            model.getRoot().getTransforms().addAll(rX, rY, t);
+            //model.getRoot().getParent().getTransforms().add(t);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
