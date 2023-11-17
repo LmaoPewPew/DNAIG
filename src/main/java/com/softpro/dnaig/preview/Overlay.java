@@ -9,6 +9,7 @@ import javafx.scene.layout.VBox;
 public class Overlay extends BorderPane {
 
     private final Label lblMode = new Label("Mode: ");
+    private final Label lblModifier = new Label("Modifier: ");
     private final Label lblCameraRx = new Label("Rotation X: ");
     private final Label lblCameraRy = new Label("Rotation Y: ");
     private final Label lblCameraRz = new Label("Rotation Z: ");
@@ -23,13 +24,18 @@ public class Overlay extends BorderPane {
         left.setSpacing(10);
 
         VBox.setMargin(lblMode, new Insets(0, 0, 20, 0));
+        VBox.setMargin(lblModifier, new Insets(0, 0, 20, 0));
 
-        left.getChildren().addAll(lblMode, new Label("Camera: "), lblCameraRx, lblCameraRy, lblCameraTx, lblCameraTy, lblCameraTz);
+        left.getChildren().addAll(lblMode, lblModifier, new Label("Camera: "), lblCameraRx, lblCameraRy, lblCameraTx, lblCameraTy, lblCameraTz);
         setLeft(left);
     }
 
     public Label getLblMode() {
         return lblMode;
+    }
+
+    public Label getLblModifier() {
+        return lblModifier;
     }
 
     public Label getLblCameraRx() {
