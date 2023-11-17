@@ -8,31 +8,51 @@ import javafx.scene.layout.VBox;
 
 public class Overlay extends BorderPane {
 
-    private final Label lblRotX = new Label("Rotation X: ");
-    private final Label lblRotY = new Label("Rotation Y: ");
-    private final Label lblZoom = new Label("Z: ");
+    private final Label lblMode = new Label("Mode: ");
+    private final Label lblCameraRx = new Label("Rotation X: ");
+    private final Label lblCameraRy = new Label("Rotation Y: ");
+    private final Label lblCameraRz = new Label("Rotation Z: ");
+    private final Label lblCameraTx = new Label("X: ");
+    private final Label lblCameraTy = new Label("Y: ");
+    private final Label lblCameraTz = new Label("Z: ");
 
     public Overlay() {
-        VBox right = new VBox();
-        right.setAlignment(Pos.CENTER_LEFT);
-        right.setPadding(new Insets(10));
-        right.setSpacing(10);
+        VBox left = new VBox();
+        left.setAlignment(Pos.TOP_LEFT);
+        left.setPadding(new Insets(30));
+        left.setSpacing(10);
 
-        Label lblCamera = new Label("Camera: ");
-        VBox.setMargin(lblCamera, new Insets(50, 0, 0, 0));
-        right.getChildren().addAll(new Label("Model: "), lblRotX, lblRotY, lblCamera, lblZoom);
-        setRight(right);
+        VBox.setMargin(lblMode, new Insets(0, 0, 20, 0));
+
+        left.getChildren().addAll(lblMode, new Label("Camera: "), lblCameraRx, lblCameraRy, lblCameraTx, lblCameraTy, lblCameraTz);
+        setLeft(left);
     }
 
-    public Label getLblRotX() {
-        return lblRotX;
+    public Label getLblMode() {
+        return lblMode;
     }
 
-    public Label getLblRotY() {
-        return lblRotY;
+    public Label getLblCameraRx() {
+        return lblCameraRx;
     }
 
-    public Label getLblZoom() {
-        return lblZoom;
+    public Label getLblCameraRy() {
+        return lblCameraRy;
+    }
+
+    public Label getLblCameraRz() {
+        return lblCameraRz;
+    }
+
+    public Label getLblCameraTx() {
+        return lblCameraTx;
+    }
+
+    public Label getLblCameraTy() {
+        return lblCameraTy;
+    }
+
+    public Label getLblCameraTz() {
+        return lblCameraTz;
     }
 }
