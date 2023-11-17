@@ -1,5 +1,7 @@
 package com.softpro.dnaig.preview;
 
+import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
@@ -18,6 +20,7 @@ public class PreviewWindow {
     private CameraController cameraController;
     private Map<Integer, Model3D> tempModelList;
     private int tempModelCount = 0;
+    private ObjectProperty<Mode> currentMode = new SimpleObjectProperty<>(Mode.MOVE_CAMERA_FREE);
     public StackPane root;
 
     public PreviewWindow(StackPane root) {
@@ -45,6 +48,7 @@ public class PreviewWindow {
             cameraController.getModelCameraMap().put(model, new CameraControlWrapper(rX, rY, t));
 
             cameraController.setSelected(model);
+            currentMode.set(Mode.MOVE_OBJECT_FREE);
 
             model.getRoot().getTransforms().addAll(rX, rY, t);
             //model.getRoot().getParent().getTransforms().add(t);
@@ -66,16 +70,14 @@ public class PreviewWindow {
         Model3D model = cameraController.getSelected();
         view.removeObject(model);
         cameraController.getModelCameraMap().remove(model);
-        if (!cameraController.getModelCameraMap().isEmpty())
-            cameraController.setSelected((Model3D) cameraController.getModelCameraMap().keySet().toArray()[0]);
-        cameraController.setSelected(null);
+        updateSelected(-1);
     }
 
     public void handleKey(KeyEvent event) {
         switch (event.getCode()) {
             case F3 -> addObject("src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj");
             case DELETE -> removeSelected();
-            case ESCAPE -> cameraController.setSelected(null);
+            case ESCAPE -> updateSelected(-1);
             case R -> cameraController.resetCamera();
             case LEFT -> cameraController.moveCamera("L");
             case RIGHT -> cameraController.moveCamera("R");
@@ -85,9 +87,16 @@ public class PreviewWindow {
     }
 
     public void updateSelected(int id) {
-        if (id < 0)
+        if (id < 0) {
             cameraController.setSelected(null);
-        else
+            currentMode.set(Mode.MOVE_CAMERA_FREE);
+        } else {
             cameraController.setSelected(tempModelList.get(id));
+            currentMode.set(Mode.MOVE_OBJECT_FREE);
+        }
+    }
+
+    public ObjectProperty<Mode> getCurrentMode() {
+        return currentMode;
     }
 }
