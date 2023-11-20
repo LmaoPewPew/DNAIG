@@ -46,16 +46,17 @@ public class PreviewWindow {
             Model3D model = view.addObject(path);
             Rotate rX = new Rotate(0, Rotate.X_AXIS);
             Rotate rY = new Rotate(0, Rotate.Y_AXIS);
+            Rotate rZ = new Rotate(0, Rotate.Z_AXIS);
             Translate t = new Translate();
 
             tempModelList.put(tempModelCount++, model);
 
-            cameraController.getModelCameraMap().put(model, new CameraControlWrapper(rX, rY, t));
+            cameraController.getModelCameraMap().put(model, new CameraControlWrapper(rX, rY, rZ, t));
 
             cameraController.setSelected(model);
             currentMode.set(Mode.MOVE_OBJECT_FREE);
 
-            model.getRoot().getTransforms().addAll(rX, rY, t);
+            model.getRoot().getTransforms().addAll(rX, rY, rZ, t);
             //model.getRoot().getParent().getTransforms().add(t);
 
         } catch (IOException e) {
@@ -89,20 +90,36 @@ public class PreviewWindow {
                 case RIGHT -> cameraController.moveCamera("R");
                 case UP -> cameraController.moveCamera("U");
                 case DOWN -> cameraController.moveCamera("D");
-                case M -> setCurrentModifier(event.getCode());
+                case M,R -> setCurrentModifier(event.getCode());
             }
         } else if (currentModifier.get() == KeyCode.M) {
             switch (event.getCode()) {
                 case X -> {
-                    currentMode.set(currentMode.get().getType() == Mode.ModeType.CAMERA ? Mode.MOVE_CAMERA_X : Mode.MOVE_OBJECT_X);
+                    currentMode.set(currentMode.get().getTargetType() == Mode.TargetType.CAMERA ? Mode.MOVE_CAMERA_X : Mode.MOVE_OBJECT_X);
                     currentModifier.set(null);
                 }
                 case Y -> {
-                    currentMode.set(currentMode.get().getType() == Mode.ModeType.CAMERA ? Mode.MOVE_CAMERA_Y : Mode.MOVE_OBJECT_Y);
+                    currentMode.set(currentMode.get().getTargetType() == Mode.TargetType.CAMERA ? Mode.MOVE_CAMERA_Y : Mode.MOVE_OBJECT_Y);
                     currentModifier.set(null);
                 }
                 case Z -> {
-                    currentMode.set(currentMode.get().getType() == Mode.ModeType.CAMERA ? Mode.MOVE_CAMERA_Z : Mode.MOVE_OBJECT_Z);
+                    currentMode.set(currentMode.get().getTargetType() == Mode.TargetType.CAMERA ? Mode.MOVE_CAMERA_Z : Mode.MOVE_OBJECT_Z);
+                    currentModifier.set(null);
+                }
+                default -> currentModifier.set(null);
+            }
+        } else if (currentModifier.get() == KeyCode.R) {
+            switch (event.getCode()) {
+                case X -> {
+                    currentMode.set(currentMode.get().getTargetType() == Mode.TargetType.CAMERA ? Mode.ROTATE_CAMERA_X : Mode.ROTATE_OBJECT_X);
+                    currentModifier.set(null);
+                }
+                case Y -> {
+                    currentMode.set(currentMode.get().getTargetType() == Mode.TargetType.CAMERA ? Mode.ROTATE_CAMERA_Y : Mode.ROTATE_OBJECT_Y);
+                    currentModifier.set(null);
+                }
+                case Z -> {
+                    currentMode.set(currentMode.get().getTargetType() == Mode.TargetType.CAMERA ? Mode.ROTATE_CAMERA_Z : Mode.ROTATE_OBJECT_Z);
                     currentModifier.set(null);
                 }
                 default -> currentModifier.set(null);

@@ -2,23 +2,33 @@ package com.softpro.dnaig.preview;
 
 public enum Mode {
 
-    ERROR("01100101 01110010 01110010 01101111 01110010", ModeType.ERROR),
-    MOVE_CAMERA_FREE("move camera (free)", ModeType.CAMERA),
-    MOVE_CAMERA_X("move camera (x)", ModeType.CAMERA),
-    MOVE_CAMERA_Y("move camera (y)", ModeType.CAMERA),
-    MOVE_CAMERA_Z("move camera (z)", ModeType.CAMERA),
-    MOVE_OBJECT_FREE("move object (free)", ModeType.OBJECT),
-    MOVE_OBJECT_X("move object (x)", ModeType.OBJECT),
-    MOVE_OBJECT_Y("move object (y)", ModeType.OBJECT),
-    MOVE_OBJECT_Z("move object (z)", ModeType.OBJECT),
+    ERROR("01100101 01110010 01110010 01101111 01110010", TargetType.ERROR, ActionType.ERROR),
+    MOVE_CAMERA_FREE("move camera (free)", TargetType.CAMERA, ActionType.MOVE),
+    MOVE_CAMERA_X("move camera (x)", TargetType.CAMERA, ActionType.MOVE),
+    MOVE_CAMERA_Y("move camera (y)", TargetType.CAMERA, ActionType.MOVE),
+    MOVE_CAMERA_Z("move camera (z)", TargetType.CAMERA, ActionType.MOVE),
+    MOVE_OBJECT_FREE("move object (free)", TargetType.OBJECT, ActionType.MOVE),
+    MOVE_OBJECT_X("move object (x)", TargetType.OBJECT, ActionType.MOVE),
+    MOVE_OBJECT_Y("move object (y)", TargetType.OBJECT, ActionType.MOVE),
+    MOVE_OBJECT_Z("move object (z)", TargetType.OBJECT, ActionType.MOVE),
+    ROTATE_CAMERA_FREE("rotate camera (free)", TargetType.CAMERA, ActionType.ROTATE),
+    ROTATE_CAMERA_X("rotate camera (x)", TargetType.CAMERA, ActionType.ROTATE),
+    ROTATE_CAMERA_Y("rotate camera (y)", TargetType.CAMERA, ActionType.ROTATE),
+    ROTATE_CAMERA_Z("rotate camera (z)", TargetType.CAMERA, ActionType.ROTATE),
+    ROTATE_OBJECT_FREE("rotate object (free)", TargetType.OBJECT, ActionType.ROTATE),
+    ROTATE_OBJECT_X("rotate object (x)", TargetType.OBJECT, ActionType.ROTATE),
+    ROTATE_OBJECT_Y("rotate object (y)", TargetType.OBJECT, ActionType.ROTATE),
+    ROTATE_OBJECT_Z("rotate object (z)", TargetType.OBJECT, ActionType.ROTATE),
     ;
 
-    private String name;
-    private ModeType type;
+    private final String name;
+    private final TargetType targetType;
+    private final ActionType actionType;
 
-    Mode(String name, ModeType type) {
+    Mode(String name, TargetType targetType, ActionType actionType) {
         this.name = name;
-        this.type = type;
+        this.targetType = targetType;
+        this.actionType = actionType;
     }
 
     @Override
@@ -26,13 +36,19 @@ public enum Mode {
         return name;
     }
 
-    public ModeType getType() {
-        return type;
+    public TargetType getTargetType() {
+        return targetType;
     }
 
-    protected enum ModeType {
+    protected enum TargetType {
         CAMERA,
         OBJECT,
+        ERROR
+    }
+
+    protected enum ActionType {
+        MOVE,
+        ROTATE,
         ERROR
     }
 }

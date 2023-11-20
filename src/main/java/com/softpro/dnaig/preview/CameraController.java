@@ -48,20 +48,48 @@ public class CameraController {
 
         previewWindow.root.addEventHandler(MouseEvent.MOUSE_DRAGGED, event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                if (selected != null) {
-                    CameraControlWrapper wrapper = modelCameraMap.get(selected);
-                    double newAngleX = wrapper.getrX().getAngle() + oldPos.getY() - event.getSceneY();
-                    wrapper.getrX().setAngle(newAngleX);
-                    wrapper.getrY().setAngle(wrapper.getrY().getAngle() - oldPos.getX() + event.getSceneX());
-                    oldPos = new Point2D(event.getSceneX(), event.getSceneY());
-                } else {
-                    // todo
+                switch (previewWindow.getCurrentMode().get()) {
+                    case ROTATE_CAMERA_FREE -> {}
+                    case ROTATE_CAMERA_X -> {}
+                    case ROTATE_CAMERA_Y -> {}
+                    case ROTATE_CAMERA_Z -> {}
+                    case ROTATE_OBJECT_FREE -> {}
+                    case ROTATE_OBJECT_X -> {
+                        CameraControlWrapper wrapper = modelCameraMap.get(selected);
+                        wrapper.getrX().setAngle(wrapper.getrX().getAngle() + oldPos.getY() - event.getSceneY());
+                        oldPos = new Point2D(event.getSceneX(), event.getSceneY());
+                    }
+                    case ROTATE_OBJECT_Y -> {
+                        CameraControlWrapper wrapper = modelCameraMap.get(selected);
+                        wrapper.getrY().setAngle(wrapper.getrY().getAngle() - oldPos.getX() + event.getSceneX());
+                        oldPos = new Point2D(event.getSceneX(), event.getSceneY());
+                    }
+                    case ROTATE_OBJECT_Z -> {
+                        CameraControlWrapper wrapper = modelCameraMap.get(selected);
+                        wrapper.getrZ().setAngle(wrapper.getrZ().getAngle() - oldPos.getX() + event.getSceneX());
+                        oldPos = new Point2D(event.getSceneX(), event.getSceneY());
+                    }
+                    case ERROR -> {
+                        System.out.println("01100101 01110010 01110010 01101111 01110010");
+                    }
                 }
             } else if (event.getButton() == MouseButton.SECONDARY) {
                 switch (previewWindow.getCurrentMode().get()) {
                     case MOVE_CAMERA_FREE -> {
                         this.view.getCamera().setTranslateX(this.view.getCamera().getTranslateX() - (oldPos.getX() - event.getSceneX()) * 0.2);
                         this.view.getCamera().setTranslateY(this.view.getCamera().getTranslateY() - (oldPos.getY() - event.getSceneY()) * 0.2);
+                        oldPos = new Point2D(event.getSceneX(), event.getSceneY());
+                    }
+                    case MOVE_CAMERA_X -> {
+                        this.view.getCamera().setTranslateX(this.view.getCamera().getTranslateX() - (oldPos.getX() - event.getSceneX()) * 0.2);
+                        oldPos = new Point2D(event.getSceneX(), event.getSceneY());
+                    }
+                    case MOVE_CAMERA_Y -> {
+                        this.view.getCamera().setTranslateY(this.view.getCamera().getTranslateY() - (oldPos.getY() - event.getSceneY()) * 0.2);
+                        oldPos = new Point2D(event.getSceneX(), event.getSceneY());
+                    }
+                    case MOVE_CAMERA_Z -> {
+                        this.view.getCamera().setTranslateZ(this.view.getCamera().getTranslateZ() - (oldPos.getX() - event.getSceneX()) * 0.2);
                         oldPos = new Point2D(event.getSceneX(), event.getSceneY());
                     }
                     case MOVE_OBJECT_FREE -> {
@@ -71,7 +99,27 @@ public class CameraController {
                         wrapper.updatePivotAfterMove();
                         oldPos = new Point2D(event.getSceneX(), event.getSceneY());
                     }
-                    case ERROR -> {}
+                    case MOVE_OBJECT_X -> {
+                        CameraControlWrapper wrapper = modelCameraMap.get(selected);
+                        wrapper.getT().setX(wrapper.getT().getX() + (oldPos.getX() - event.getSceneX()) * 0.2);
+                        wrapper.updatePivotAfterMove();
+                        oldPos = new Point2D(event.getSceneX(), event.getSceneY());
+                    }
+                    case MOVE_OBJECT_Y -> {
+                        CameraControlWrapper wrapper = modelCameraMap.get(selected);
+                        wrapper.getT().setY(wrapper.getT().getY() + (oldPos.getY() - event.getSceneY()) * 0.2);
+                        wrapper.updatePivotAfterMove();
+                        oldPos = new Point2D(event.getSceneX(), event.getSceneY());
+                    }
+                    case MOVE_OBJECT_Z -> {
+                        CameraControlWrapper wrapper = modelCameraMap.get(selected);
+                        wrapper.getT().setZ(wrapper.getT().getZ() - (oldPos.getX() - event.getSceneX()) * 0.2);
+                        wrapper.updatePivotAfterMove();
+                        oldPos = new Point2D(event.getSceneX(), event.getSceneY());
+                    }
+                    case ERROR -> {
+                        System.out.println("01100101 01110010 01110010 01101111 01110010");
+                    }
                 }
             }
         });
