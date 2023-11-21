@@ -7,7 +7,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.control.Button;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -95,7 +94,7 @@ public class ObjectProperties {
         this.button.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
-                ac.setlastclickedID(getObjID());
+                ac.setLastClickedID(getObjID());
                 coordTextField.setText(getAll());
                 previewCallbackWhenSelected.accept(Integer.parseInt(objID));
             }
@@ -115,10 +114,10 @@ public class ObjectProperties {
     }
 
 
-
     public String getAll() {
         return "ObjectProperties{" + "objID='" + objID + '\'' + ", objName='" + objName + '\'' + ", objFaces='" + objFaces + '\'' + ", objVertices='" + objVertices + '\'' + ", objPos=" + Arrays.toString(objPos) + ", objRot=" + Arrays.toString(objRot) + '}';
     }
+
     public void setImage(Image image) {
         this.imageView = new ImageView(image);
     }
@@ -126,6 +125,7 @@ public class ObjectProperties {
     public void setButton(Button button) {
         this.button = button;
     }
+
     public Button getButton() {
         return button;
     }
