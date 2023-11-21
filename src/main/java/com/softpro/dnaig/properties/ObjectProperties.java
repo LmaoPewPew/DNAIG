@@ -4,10 +4,8 @@ import com.softpro.dnaig.ApplicationController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.text.Text;
 
 import java.util.Arrays;
 import java.util.function.Consumer;
@@ -18,15 +16,15 @@ public class ObjectProperties {
     // Faces: 8207
     // Vertices: 11312
     // Position: x: 0,000000 y: 0,000000 z: 0,000000
-    private ApplicationController ac;
+    private final ApplicationController ac;
     private String objName;
     private String objID;
     private String objFaces;
     private String objVertices;
-    private String objPos[];
-    private String objRot[];
+    private String[] objPos;
+    private String[] objRot;
     private ImageView imageView;
-    private Consumer<Integer> previewCallbackWhenSelected;
+    private final Consumer<Integer> previewCallbackWhenSelected;
 
     private Button button;
 
@@ -91,14 +89,11 @@ public class ObjectProperties {
 
         this.button.setGraphic(this.imageView);
         //this.button.setStyle("-fx-background-color: transparent;");
-        this.button.setOnAction(new EventHandler<>() {
-            @Override
-            public void handle(ActionEvent e) {
-                ac.setLastClickedID(getObjID());
-                //System.out.println(getAll());
-                previewCallbackWhenSelected.accept(Integer.parseInt(objID));
+        this.button.setOnAction(e -> {
+            ac.setLastClickedID(getObjID());
+            System.out.println(getAll());
+            previewCallbackWhenSelected.accept(Integer.parseInt(objID));
 
-            }
         });
     }
 

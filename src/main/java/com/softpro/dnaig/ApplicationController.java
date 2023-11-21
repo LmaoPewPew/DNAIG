@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -55,15 +56,15 @@ public class ApplicationController {
     private Text facesTXT;
     @FXML
     private Text verticesTXT;
-    private TextField[] textFieldArray = {nameTXT, xPosTXT, yPosTXT, zPosTXT, xRotTXT, yRotTXT, zRotTXT};
-    private Text[] textArray = {facesTXT, verticesTXT};
+    //private  TextField[] textFieldArray = {nameTXT, xPosTXT, yPosTXT, zPosTXT, xRotTXT, yRotTXT, zRotTXT};
+    //private  Text[] textArray = {facesTXT, verticesTXT};
 
     //Rest
     @FXML
     private ChoiceBox<?> choiceBoxLightProperties;
     @FXML
     private ListView<Button> objectListView;
-    private LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
+    private final LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
     private String lastClickedID = "0";
     private final FileChooser fileChooser = new FileChooser();
     File latestFile = null;
@@ -72,7 +73,7 @@ public class ApplicationController {
     private PreviewWindow previewWindow;
 
     //private final ObjFileReader objImporter = new ObjFileReader();
-    private List<Entity> entityList = new ArrayList<>();
+    private final List<Entity> entityList = new ArrayList<>();
 
     public ApplicationController() {
     }
@@ -88,7 +89,7 @@ public class ApplicationController {
     }
 
     private String open_propertieWindows() throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("lightproperties.fxml"));
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightproperties.fxml")));
 
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
@@ -127,7 +128,7 @@ public class ApplicationController {
     }
 
     private void loadObjectProperties(Entity e) {
-        ObjectProperties op = null;
+        ObjectProperties op;
         int id;
 
         if (e == null) {     //load light properties
