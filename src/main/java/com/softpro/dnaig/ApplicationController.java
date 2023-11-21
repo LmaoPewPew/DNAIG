@@ -4,10 +4,13 @@ import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.object.ObjectProperties;
 import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.utils.ObjFileReader;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -16,6 +19,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -23,7 +27,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class ApplicationController {
     //IMG
@@ -31,6 +34,9 @@ public class ApplicationController {
     String lightbulbIMG = "https://i.imgur.com/nbKsECu.png";
 
     //Objects
+    @FXML
+    private ChoiceBox<String> choiceBoxLightProperties;
+
     @FXML
     private ListView<Button> objectListView;
     private LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
@@ -52,9 +58,26 @@ public class ApplicationController {
 
     /************METHODS************/
 
+
     @FXML
-    void importLightObject(MouseEvent event) {
+    void importLightObject(MouseEvent event) throws IOException{
+        String values = open_propertieWindows();
         createGUIObject(null);
+    }
+
+    private String open_propertieWindows() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("lightproperties.fxml"));
+
+        Scene scene =new Scene(root);
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("lightproperties");
+        primaryStage.setScene(scene);
+
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+
+
+        return "0";
     }
 
     @FXML
