@@ -126,7 +126,7 @@
                </center>
             </BorderPane>
             <padding>
-               <Insets bottom="10.0" top="10.0" />
+               <Insets bottom="10.0" top="5.0" />
             </padding>
            </SplitPane>
       </items>
