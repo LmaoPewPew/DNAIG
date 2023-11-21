@@ -100,7 +100,13 @@ public class CameraController {
     }
 
     private void handleMouseRelease(MouseEvent event) {
-        previewWindow.getCurrentMode().set(Mode.MOVE_CAMERA_XY); //TODO: previous mode?
+        Mode currentMode = previewWindow.getCurrentMode().get();
+        if (currentMode.getTargetType() == Mode.TargetType.CAMERA && currentMode != Mode.MOVE_CAMERA_XY) {
+            previewWindow.getCurrentMode().set(Mode.MOVE_CAMERA_XY);
+        } else if (currentMode.getTargetType() == Mode.TargetType.OBJECT && currentMode != Mode.ROTATE_OBJECT_XY) {
+            previewWindow.getCurrentMode().set(Mode.MOVE_OBJECT_XY);
+        }
+        //TODO: previous mode?
     }
 
     private void handleMouseMove(MouseEvent event) {
