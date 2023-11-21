@@ -84,7 +84,7 @@ public class CameraController {
         switch (direction) {
             case "R" -> cameraRY.setAngle(cameraRY.getAngle()+5);
             case "L" -> cameraRY.setAngle(cameraRY.getAngle()-5);
-            case "D" -> cameraRX.setPivotX(cameraRX.getAngle()-5);
+            case "D" -> cameraRX.setAngle(cameraRX.getAngle()-5);
             case "U" -> cameraRX.setAngle(cameraRX.getAngle()+5);
         }
     }
