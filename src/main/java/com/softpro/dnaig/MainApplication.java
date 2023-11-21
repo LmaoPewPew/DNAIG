@@ -14,7 +14,7 @@ public class MainApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("DNAIG.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), screenRes, screenRes/16*9);
+        Scene scene = new Scene(fxmlLoader.load(), screenRes, screenRes / 16 * 9);
         stage.setTitle("DNAIG-RayTracer");
         stage.getIcons().add(new Image("https://i.imgur.com/tkYVF4s.jpg"));
         stage.setResizable(false);
@@ -28,4 +28,6 @@ public class MainApplication extends Application {
     public static void main(String[] args) {
         launch();
     }
+
+
 }
