@@ -31,11 +31,11 @@ public class View {
 
         group = new Group();
 
-        CubeWorld cubeWorld = new CubeWorld(5000, 100, true);
-        group.getChildren().add(cubeWorld);
         Axes axes = new Axes();
         axes.setHeight(2500);
-        group.getChildren().add(axes);
+        final Group grid = Grid.createGrid(1000, 25);
+
+        group.getChildren().addAll(axes, grid);
 
         subScene = new SubScene(group, 1280, 720, true, SceneAntialiasing.BALANCED);
 
