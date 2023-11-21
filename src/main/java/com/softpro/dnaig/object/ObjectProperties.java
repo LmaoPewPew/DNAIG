@@ -1,5 +1,6 @@
 package com.softpro.dnaig.object;
 
+import com.softpro.dnaig.ApplicationController;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
@@ -17,6 +18,7 @@ public class ObjectProperties {
     // Faces: 8207
     // Vertices: 11312
     // Position: x: 0,000000 y: 0,000000 z: 0,000000
+    private ApplicationController ac;
     private String objName;
     private String objID;
     private String objFaces;
@@ -93,13 +95,14 @@ public class ObjectProperties {
         this.button.setOnAction(new EventHandler<>() {
             @Override
             public void handle(ActionEvent e) {
+                ac.setlastclickedID(getObjID());
                 coordTextField.setText(getAll());
                 previewCallbackWhenSelected.accept(Integer.parseInt(objID));
             }
         });
     }
 
-    public ObjectProperties(String objID, String objName, String objFaces, String objVertices, String[] objPos, String[] objRot, Consumer<Integer> previewCallbackWhenSelected) {
+    public ObjectProperties(String objID, String objName, String objFaces, String objVertices, String[] objPos, String[] objRot, Consumer<Integer> previewCallbackWhenSelected, ApplicationController ac) {
         this.objID = objID;
         this.objName = objName;
         this.objFaces = objFaces;
@@ -108,6 +111,7 @@ public class ObjectProperties {
         this.objRot = objRot;
         this.previewCallbackWhenSelected = previewCallbackWhenSelected;
         this.button = new Button();
+        this.ac = ac;
     }
 
 

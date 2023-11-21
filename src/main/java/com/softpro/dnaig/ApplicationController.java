@@ -4,6 +4,7 @@ import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.object.ObjectProperties;
 import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.utils.ObjFileReader;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -22,6 +23,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 
 public class ApplicationController {
     //IMG
@@ -32,7 +34,7 @@ public class ApplicationController {
     @FXML
     private ListView<Button> objectListView;
     private LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
-
+    private String lastclickedID="0";
     //FileChooser
     private final FileChooser fileChooser = new FileChooser();
     File latestFile = null;
@@ -69,6 +71,10 @@ public class ApplicationController {
             e.printStackTrace();
         }
     }
+
+    public void setlastclickedID(String s){
+        this.lastclickedID = s;
+    }
     void createGUIObject(Entity e) {
         loadObjectPorperties(e);
         setObjectListView();
@@ -88,7 +94,7 @@ public class ApplicationController {
             op = new ObjectProperties(String.valueOf(objID), "light",
                  "0",
                     "0", new String[]{"0","0","0"},
-                    new String[]{"0","0","0"}, null);
+                    new String[]{"0","0","0"}, null,this);
 
         }else{          //load object properties
             id = 0;
@@ -108,7 +114,7 @@ public class ApplicationController {
                             Float.toString(e.getOrient().getX()),
                             Float.toString(e.getOrient().getY()),
                             Float.toString(e.getOrient().getZ())},
-                    previewWindow::updateSelected);
+                    previewWindow::updateSelected,this);
         }
         loadImage(op,id);
     }
@@ -128,6 +134,9 @@ public class ApplicationController {
             op.setImageView(new ImageView(image),coordTextField);
             propertiesList.add(op);
         }
+    }
+    void deleteObject() {
+        objectListView.getItems().remove(Integer.parseInt(lastclickedID));
     }
 
 
