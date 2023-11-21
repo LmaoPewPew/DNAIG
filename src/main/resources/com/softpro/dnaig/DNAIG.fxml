@@ -14,7 +14,6 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -33,86 +32,103 @@
             <MenuItem mnemonicParsing="false" text="About" />
         </Menu>
     </MenuBar>
-     <SplitPane dividerPositions="3.5" orientation="VERTICAL" prefHeight="758.0" prefWidth="1332.0">
-      <SplitPane dividerPositions="1.5" prefHeight="160.0" prefWidth="200.0" SplitPane.resizableWithParent="false">
-         <items>
-               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="140.0" prefWidth="465.0">
-               <children>
-                   <StackPane fx:id="previewPane" prefHeight="551.0" prefWidth="1206.0">
-                       <cursor>
-                           <Cursor fx:constant="CROSSHAIR" />
-                       </cursor>
-                   </StackPane>
-               </children>
-               </AnchorPane>
-              <SplitPane dividerPositions="-1.5042" orientation="VERTICAL" prefHeight="200.0" prefWidth="160.0">
-                  <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" spacing="10.0" SplitPane.resizableWithParent="false">
-                      <padding>
-                          <Insets left="10.0" right="10.0" />
-                      </padding>
-                      <Button fx:id="btnObjImp" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onMouseClicked="#importObject" prefHeight="75.0" prefWidth="81.0" textAlignment="CENTER">
-                          <graphic>
-                              <ImageView accessibleText="Object Source" fitHeight="84.0" fitWidth="72.0" onMouseClicked="#importObject" pickOnBounds="true" preserveRatio="true">
-                                  <viewport>
-                                      <Rectangle2D width="50.0" />
-                                  </viewport>
-                                  <Image url="@sprites/Obj_img_LIGHTTHEME.png" />
-                              </ImageView>
-                          </graphic>
-                          <VBox.margin>
-                              <Insets top="10.0" />
-                          </VBox.margin>
-                      </Button>
-                      <Button fx:id="btnLight" mnemonicParsing="false" onMouseClicked="#importLightObject" prefHeight="70.0" prefWidth="90.0">
-                          <graphic>
-                              <ImageView accessibleText="Light Source" fitHeight="71.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true">
-                                  <Image url="@sprites/light_Img_LIGHTTHEME.png" />
-                           <viewport>
-                              <Rectangle2D width="50.0" />
-                           </viewport>
-                              </ImageView>
-                          </graphic>
-                          <VBox.margin>
-                              <Insets bottom="10.0" />
-                          </VBox.margin>
-                      </Button>
-                  </VBox>
-                   <TextField fx:id="coordTextField" alignment="TOP_LEFT" editable="false" prefHeight="282.0" prefWidth="76.0" promptText="Coordinats">
-                       <padding>
-                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                       </padding>
-                       <opaqueInsets>
-                           <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                       </opaqueInsets>
-                       <cursor>
-                           <Cursor fx:constant="DEFAULT" />
-                       </cursor>
-                   </TextField>
-              </SplitPane>
-         </items>
-      </SplitPane>
-      <SplitPane dividerPositions="0.9172932330827067" prefHeight="357.0" prefWidth="1330.0">
-        <items>
-            <ListView fx:id="objectListView" orientation="HORIZONTAL" prefHeight="200.0" prefWidth="200.0" />
-            <BorderPane prefHeight="95.0" prefWidth="115.0">
+   <SplitPane dividerPositions="1.5" prefHeight="784.0" prefWidth="1332.0">
+      <items>
+         <SplitPane dividerPositions="0.8" orientation="VERTICAL" prefHeight="91.0" prefWidth="1216.0">
+           <items>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="397.0" prefWidth="1216.0">
+                  <children>
+                      <StackPane fx:id="previewPane" prefHeight="551.0" prefWidth="1206.0">
+                          <cursor>
+                              <Cursor fx:constant="CROSSHAIR" />
+                          </cursor>
+                      </StackPane>
+                  </children>
+                  </AnchorPane>
+               <ListView fx:id="objectListView" minHeight="150.0" orientation="HORIZONTAL" prefHeight="225.0" prefWidth="1216.0" />
+           </items>
+         </SplitPane>
+           <SplitPane dividerPositions="0.21652421652421652, 0.9301994301994302" minHeight="-Infinity" orientation="VERTICAL" prefHeight="150.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
+               <VBox alignment="TOP_CENTER" minHeight="-Infinity" prefHeight="280.0" prefWidth="110.0">
+               <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="90.0">
+                  <graphic>
+                     <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@sprites/Camera_img.png" />
+                        </image>
+                     </ImageView>
+                  </graphic>
+                  <VBox.margin>
+                     <Insets bottom="5.0" top="10.0" />
+                  </VBox.margin>
+               </Button>
+                   <Button fx:id="btnObjImp" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importObject" prefHeight="80.0" prefWidth="90.0" textAlignment="CENTER">
+                       <graphic>
+                           <ImageView accessibleText="Object Source" fitHeight="70.0" fitWidth="80.0" onMouseClicked="#importObject" pickOnBounds="true" preserveRatio="true">
+                               <viewport>
+                                   <Rectangle2D width="50.0" />
+                               </viewport>
+                               <Image url="@sprites/Obj_img_LIGHTTHEME.png" />
+                           </ImageView>
+                       </graphic>
+                       <VBox.margin>
+                           <Insets bottom="5.0" top="5.0" />
+                       </VBox.margin>
+                   </Button>
+                   <Button fx:id="btnLight" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importLightObject" prefHeight="80.0" prefWidth="90.0">
+                       <graphic>
+                           <ImageView accessibleText="Light Source" fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                               <Image url="@sprites/light_Img_LIGHTTHEME.png" />
+                        <viewport>
+                           <Rectangle2D width="50.0" />
+                        </viewport>
+                           </ImageView>
+                       </graphic>
+                       <VBox.margin>
+                           <Insets bottom="10.0" top="5.0" />
+                       </VBox.margin>
+                   </Button>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+               </VBox>
+            <BorderPane prefHeight="61.0" prefWidth="110.0">
                <center>
-                  <Button id="btnRender" fx:id="btnRender" mnemonicParsing="false" onMouseClicked="#loadRayTracer" prefHeight="70.0" prefWidth="90.0" text="Render" textAlignment="CENTER" textFill="#161317">
-                     <padding>
-                        <Insets bottom="25.0" left="10.0" right="10.0" top="25.0" />
-                     </padding>
+                      <TextField fx:id="coordTextField" alignment="TOP_LEFT" editable="false" prefHeight="296.0" prefWidth="108.0" promptText="Coordinats" BorderPane.alignment="TOP_CENTER">
+                          <padding>
+                              <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
+                          </padding>
+                          <opaqueInsets>
+                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                          </opaqueInsets>
+                          <cursor>
+                              <Cursor fx:constant="DEFAULT" />
+                          </cursor>
                      <BorderPane.margin>
-                        <Insets />
+                        <Insets left="5.0" right="5.0" top="10.0" />
                      </BorderPane.margin>
+                      </TextField>
+               </center>
+            </BorderPane>
+            <BorderPane>
+               <center>
+                  <Button id="btnRender" fx:id="btnRender" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#loadRayTracer" prefHeight="50.0" prefWidth="90.0" text="Render" textAlignment="CENTER" textFill="#161317">
                      <font>
                         <Font name="Arial Bold" size="12.0" />
                      </font>
+                     <opaqueInsets>
+                        <Insets />
+                     </opaqueInsets>
+                     <BorderPane.margin>
+                        <Insets bottom="15.0" top="25.0" />
+                     </BorderPane.margin>
                   </Button>
                </center>
-               <padding>
-                  <Insets bottom="15.0" left="10.0" right="10.0" top="15.0" />
-               </padding>
             </BorderPane>
-        </items>
-      </SplitPane>
-     </SplitPane>
+            <padding>
+               <Insets bottom="10.0" top="10.0" />
+            </padding>
+           </SplitPane>
+      </items>
+   </SplitPane>
 </VBox>
