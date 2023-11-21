@@ -65,7 +65,7 @@
                         <Insets bottom="5.0" top="10.0"/>
                     </VBox.margin>
                 </Button>
-                <Button fx:id="btnObjImp" alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity"
+                <Button alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity"
                         minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importObject" prefHeight="80.0"
                         prefWidth="90.0" textAlignment="CENTER">
                     <graphic>
@@ -81,7 +81,7 @@
                         <Insets bottom="5.0" top="5.0"/>
                     </VBox.margin>
                 </Button>
-                <Button fx:id="btnLight" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
+                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false"
                         onMouseClicked="#importLightObject" prefHeight="80.0" prefWidth="90.0">
                     <graphic>
                         <ImageView accessibleText="Light Source" fitHeight="70.0" fitWidth="80.0" pickOnBounds="true"
@@ -187,39 +187,35 @@
                                GridPane.rowIndex="6"/>
                 </GridPane>
                 <VBox prefHeight="63.0" prefWidth="110.0">
-                    <children>
-                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
-                              minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="110.0">
-                            <children>
-                                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Faces: "/>
-                                <Text fx:id="facesTXT" strokeType="OUTSIDE" strokeWidth="0.0" text="Faces">
-                                    <HBox.margin>
-                                        <Insets left="17.0"/>
-                                    </HBox.margin>
-                                </Text>
-                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
-                              minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="110.0">
-                            <VBox.margin>
-                                <Insets right="5.0"/>
-                            </VBox.margin>
-                            <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vertices: "/>
-                            <Text fx:id="verticesTXT" strokeType="OUTSIDE" strokeWidth="0.0" text="Vertices">
-                                <HBox.margin>
-                                    <Insets left="5.0"/>
-                                </HBox.margin>
-                            </Text>
-                        </HBox>
-                    </children>
                     <VBox.margin>
                         <Insets left="5.0"/>
                     </VBox.margin>
+                    <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
+                          minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="110.0">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Faces: "/>
+                        <Text fx:id="facesTXT" strokeType="OUTSIDE" strokeWidth="0.0" text="Faces">
+                            <HBox.margin>
+                                <Insets left="17.0"/>
+                            </HBox.margin>
+                        </Text>
+                    </HBox>
+                    <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity"
+                          minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="110.0">
+                        <VBox.margin>
+                            <Insets right="5.0"/>
+                        </VBox.margin>
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vertices: "/>
+                        <Text fx:id="verticesTXT" strokeType="OUTSIDE" strokeWidth="0.0" text="Vertices">
+                            <HBox.margin>
+                                <Insets left="5.0"/>
+                            </HBox.margin>
+                        </Text>
+                    </HBox>
                 </VBox>
             </VBox>
          <BorderPane>
              <center>
-                 <Button id="btnRender" fx:id="btnRender" minHeight="-Infinity" minWidth="-Infinity"
+                 <Button id="btnRender" minHeight="-Infinity" minWidth="-Infinity"
                          mnemonicParsing="false" onMouseClicked="#loadRayTracer" prefHeight="50.0" prefWidth="90.0"
                          text="Render" textAlignment="CENTER" textFill="#161317">
                      <font>

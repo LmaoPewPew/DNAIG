@@ -84,17 +84,17 @@ public class ApplicationController {
 
     @FXML
     void importLightObject(MouseEvent event) throws IOException {
-        String values = open_propertieWindows();
+        String values = openPropertiesWindows();
         System.out.println("importLightObjects Values: " + values);
         createGUIObject(null);
     }
 
-    private String open_propertieWindows() throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightproperties.fxml")));
+    private String openPropertiesWindows() throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
 
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
-        primaryStage.setTitle("lightproperties");
+        primaryStage.setTitle("lightProperties");
         primaryStage.setScene(scene);
 
         primaryStage.initModality(Modality.APPLICATION_MODAL);
@@ -114,8 +114,7 @@ public class ApplicationController {
 
             createGUIObject(entity);
             previewWindow.addObject(entityFile.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
@@ -207,22 +206,6 @@ public class ApplicationController {
         this.xRotTXT.setText(op.getObjRot()[0]);
         this.yRotTXT.setText(op.getObjRot()[1]);
         this.zRotTXT.setText(op.getObjRot()[2]);
-
-
-        /*
-        this.nameTXT.setText(e.getObjName());
-        this.facesTXT.setText(String.valueOf(e.getFaces().size()));
-        this.verticesTXT.setText(String.valueOf(e.getVertexCount()));
-
-        this.xPosTXT.setText(String.valueOf(e.getPivot().getX()));
-        this.yPosTXT.setText(String.valueOf(e.getPivot().getY()));
-        this.zPosTXT.setText(String.valueOf(e.getPivot().getZ()));
-
-        this.xRotTXT.setText(String.valueOf(e.getOrient().getX()));
-        this.yRotTXT.setText(String.valueOf(e.getOrient().getY()));
-        this.zRotTXT.setText(String.valueOf(e.getOrient().getZ()));
-
-         */
     }
 
 
