@@ -85,6 +85,7 @@ public class ApplicationController {
     @FXML
     void importLightObject(MouseEvent event) throws IOException {
         String values = open_propertieWindows();
+        System.out.println("importLightObjects Values: " + values);
         createGUIObject(null);
     }
 

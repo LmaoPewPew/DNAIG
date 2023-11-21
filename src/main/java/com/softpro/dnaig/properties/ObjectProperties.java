@@ -1,8 +1,6 @@
 package com.softpro.dnaig.properties;
 
 import com.softpro.dnaig.ApplicationController;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
