@@ -22,7 +22,7 @@ public class PreviewWindow {
     private CameraController cameraController;
     private Map<Integer, Model3D> tempModelList;
     private int tempModelCount = 0;
-    private ObjectProperty<Mode> currentMode = new SimpleObjectProperty<>(Mode.MOVE_CAMERA_FREE);
+    private ObjectProperty<Mode> currentMode = new SimpleObjectProperty<>(Mode.MOVE_CAMERA_XY);
     private ObjectProperty<KeyCode> currentModifier = new SimpleObjectProperty<>(null);
     public StackPane root;
 
@@ -54,7 +54,7 @@ public class PreviewWindow {
             cameraController.getModelCameraMap().put(model, new CameraControlWrapper(rX, rY, rZ, t));
 
             cameraController.setSelected(model);
-            currentMode.set(Mode.MOVE_OBJECT_FREE);
+            currentMode.set(Mode.MOVE_OBJECT_XY);
 
             model.getRoot().getTransforms().addAll(rX, rY, rZ, t);
             //model.getRoot().getParent().getTransforms().add(t);
@@ -92,7 +92,7 @@ public class PreviewWindow {
                 case DOWN -> cameraController.moveCamera("D");
                 case M,R -> setCurrentModifier(event.getCode());
             }
-        } else if (currentModifier.get() == KeyCode.M) {
+        } else if (currentModifier.get() == KeyCode.M || currentModifier.get() == KeyCode.G) {
             switch (event.getCode()) {
                 case X -> {
                     currentMode.set(currentMode.get().getTargetType() == Mode.TargetType.CAMERA ? Mode.MOVE_CAMERA_X : Mode.MOVE_OBJECT_X);
@@ -134,10 +134,10 @@ public class PreviewWindow {
     public void updateSelected(int id) {
         if (id < 0) {
             cameraController.setSelected(null);
-            currentMode.set(Mode.MOVE_CAMERA_FREE);
+            currentMode.set(Mode.MOVE_CAMERA_XY);
         } else {
             cameraController.setSelected(tempModelList.get(id));
-            currentMode.set(Mode.MOVE_OBJECT_FREE);
+            currentMode.set(Mode.MOVE_OBJECT_XY);
         }
     }
 
