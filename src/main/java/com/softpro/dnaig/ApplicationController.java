@@ -114,6 +114,9 @@ public class ApplicationController {
 
             createGUIObject(entity);
             previewWindow.addObject(entityFile.getPath());
+
+            String fileNameExe = entityFile.getName();
+
         } catch (IOException ignored) {
         }
     }
@@ -149,6 +152,9 @@ public class ApplicationController {
             } else {
                 objID = 0;
             }
+
+            String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
+            e.setObjName(objFileName);
 
             op = new ObjectProperties(String.valueOf(objID), e.getObjName(), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())}, new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())}, previewWindow::updateSelected, this);
 
@@ -206,6 +212,8 @@ public class ApplicationController {
         this.xRotTXT.setText(op.getObjRot()[0]);
         this.yRotTXT.setText(op.getObjRot()[1]);
         this.zRotTXT.setText(op.getObjRot()[2]);
+
+
     }
 
 
