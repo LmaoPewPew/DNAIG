@@ -175,7 +175,7 @@
                         <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="110.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Faces: " />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Faces">
+                              <Text fx:id="facesTXT" strokeType="OUTSIDE" strokeWidth="0.0" text="Faces">
                                  <HBox.margin>
                                     <Insets left="17.0" />
                                  </HBox.margin>
@@ -185,7 +185,7 @@
                         <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="110.0">
                            <children>
                               <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vertices: " />
-                              <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vertices">
+                              <Text fx:id="verticesTXT" strokeType="OUTSIDE" strokeWidth="0.0" text="Vertices">
                                  <HBox.margin>
                                     <Insets left="5.0" />
                                  </HBox.margin>

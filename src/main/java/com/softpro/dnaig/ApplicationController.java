@@ -1,16 +1,22 @@
 package com.softpro.dnaig;
 
 import com.softpro.dnaig.objData.Entity;
-import com.softpro.dnaig.object.ObjectProperties;
+import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.utils.ObjFileReader;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -21,12 +27,8 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
+import javafx.scene.text.Text;
+import javafx.scene.control.ChoiceBox;
 
 public class ApplicationController {
     //IMG
@@ -50,22 +52,30 @@ public class ApplicationController {
     private TextField zRotTXT;
 
     @FXML
-    private ListView<Button> objectListView;
-    private LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
-    private String lastClickedID = "0";
-    //FileChooser
-    private final FileChooser fileChooser = new FileChooser();
-    File latestFile = null;
+    private Text facesTXT;
+    @FXML
+    private Text verticesTXT;
+    private TextField[] textFieldArray = {nameTXT, xPosTXT, yPosTXT, zPosTXT, xRotTXT, yRotTXT, zRotTXT};
+    private Text[] textArray = {facesTXT, verticesTXT};
 
     //Rest
     @FXML
-    private TextField coordTextField;
+    private ChoiceBox<?> choiceBoxLightProperties;
+    @FXML
+    private ListView<Button> objectListView;
+    private LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
+    private String lastClickedID = "0";
+    private final FileChooser fileChooser = new FileChooser();
+    File latestFile = null;
     @FXML
     private StackPane previewPane;
     private PreviewWindow previewWindow;
 
     //private final ObjFileReader objImporter = new ObjFileReader();
     private List<Entity> entityList = new ArrayList<>();
+
+    public ApplicationController() {
+    }
 
 
     /************METHODS************/
@@ -128,7 +138,7 @@ public class ApplicationController {
             } else {
                 objID = 0;
             }
-            op = new ObjectProperties(String.valueOf(objID), "light", "0", "0", new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, null, this);
+            op = new ObjectProperties(String.valueOf(objID), "light", "N/A", "N/A", new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, null, this);
 
         } else {          //load object properties
             id = 0;
@@ -140,8 +150,10 @@ public class ApplicationController {
             }
 
             op = new ObjectProperties(String.valueOf(objID), e.getObjName(), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())}, new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())}, previewWindow::updateSelected, this);
-            writeObjectProperties(e);
+
         }
+
+        updateObjectPropertiesMenu(op);
         loadImage(op, id);
     }
 
@@ -158,25 +170,57 @@ public class ApplicationController {
         } else {       //light
             image = new Image(lightOBJIMG);
         }
-
-
         op.setImageView(new ImageView(image));
         propertiesList.add(op);
     }
 
-    void writeObjectProperties(Entity e) {
-        //e.getObjName(), Integer.toString(e.getFaces().size()),
-        // Integer.toString(e.getVertexCount()),
-        // new String[]{Float.toString(e.getPivot().getX()),
-        // Float.toString(e.getPivot().getY()),
-        // Float.toString(e.getPivot().getZ())},
-        // new String[]{Float.toString(e.getOrient().getX()),
-        // Float.toString(e.getOrient().getY()),
-        // Float.toString(e.getOrient().getZ())
 
-       // nameTXT.setText();
+    //TRASH!!!
+    /*
+    void updateObjectPropertiesMenu(ObjectProperties op) {
+        textFieldArray = op.getTextFieldValues(textFieldArray);
+        textArray = op.getTextValues();
+
+        for (TextField textField : textFieldArray) {
+        System.out.println("textFieldArray:  " + textField.getText());
+       }
+
+        for (Text text : op.getTextValues()) {
+            System.out.println("TextArray:  " + text.getText());
+        }
+    }
+
+     */
+
+    void updateObjectPropertiesMenu(ObjectProperties op) {
+
+        this.nameTXT.setText(op.getObjName());
+        this.facesTXT.setText(op.getObjFaces());
+        this.verticesTXT.setText(op.getObjVertices());
+
+        this.xPosTXT.setText(op.getObjPos()[0]);
+        this.yPosTXT.setText(op.getObjPos()[1]);
+        this.zPosTXT.setText(op.getObjPos()[2]);
+
+        this.xRotTXT.setText(op.getObjRot()[0]);
+        this.yRotTXT.setText(op.getObjRot()[1]);
+        this.zRotTXT.setText(op.getObjRot()[2]);
 
 
+        /*
+        this.nameTXT.setText(e.getObjName());
+        this.facesTXT.setText(String.valueOf(e.getFaces().size()));
+        this.verticesTXT.setText(String.valueOf(e.getVertexCount()));
+
+        this.xPosTXT.setText(String.valueOf(e.getPivot().getX()));
+        this.yPosTXT.setText(String.valueOf(e.getPivot().getY()));
+        this.zPosTXT.setText(String.valueOf(e.getPivot().getZ()));
+
+        this.xRotTXT.setText(String.valueOf(e.getOrient().getX()));
+        this.yRotTXT.setText(String.valueOf(e.getOrient().getY()));
+        this.zRotTXT.setText(String.valueOf(e.getOrient().getZ()));
+
+         */
     }
 
 
