@@ -33,7 +33,7 @@ public class Face implements Iterable<Vertex> {
         this.material = material;
     }
 
-    public Vertex getVertex(int i){
+    public Vertex getVertex(int i) {
         return vertices[i];
     }
 
@@ -84,6 +84,7 @@ public class Face implements Iterable<Vertex> {
     public Iterator<Vertex> iterator() {
         return new Iterator<Vertex>() {
             int idx = 0;
+
             @Override
             public boolean hasNext() {
                 return idx < vertices.length;

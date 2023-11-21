@@ -70,8 +70,8 @@ public class Entity implements Iterable<Face> {
      * @param factor The scaling factor.
      */
     public void scale(float factor) {
-        for (Face face:faces) {
-            for (Vertex vertex:face) {
+        for (Face face : faces) {
+            for (Vertex vertex : face) {
                 vertex.setCoordinates(vertex.getCoordinates().skalarMultiplication(factor));
             }
         }
@@ -85,8 +85,8 @@ public class Entity implements Iterable<Face> {
      * @param z Rotation on the z-axis.
      */
     public void rotate(double x, double y, double z) {
-        for (Face face:faces) {
-            for (Vertex vertex:face) {
+        for (Face face : faces) {
+            for (Vertex vertex : face) {
                 Vector3D newCoordinates = vertex.getCoordinates();
                 newCoordinates = newCoordinates.rotateX(x);
                 newCoordinates = newCoordinates.rotateY(y);
@@ -104,7 +104,7 @@ public class Entity implements Iterable<Face> {
      * @param y Rotation on the y-axis.
      * @param z Rotation on the z-axis.
      */
-    public void rotateByDegree(double x, double y, double z){
+    public void rotateByDegree(double x, double y, double z) {
         rotate(Math.toRadians(x), Math.toRadians(y), Math.toRadians(z));
     }
 
@@ -174,8 +174,8 @@ public class Entity implements Iterable<Face> {
     public void setPivot(Vector3D pivot) {
         this.pivot = pivot;
 
-        for (Face face:faces) {
-            for (Vertex vertex:face) {
+        for (Face face : faces) {
+            for (Vertex vertex : face) {
                 vertex.setCoordinates(vertex.getCoordinates().add(pivot));
             }
         }
@@ -211,6 +211,7 @@ public class Entity implements Iterable<Face> {
     public Iterator<Face> iterator() {
         return new Iterator<Face>() {
             int idx = 0;
+
             @Override
             public boolean hasNext() {
                 return idx < faces.size();

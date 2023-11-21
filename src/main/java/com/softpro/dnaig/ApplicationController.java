@@ -4,7 +4,6 @@ import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.object.ObjectProperties;
 import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.utils.ObjFileReader;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
@@ -23,18 +22,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
 
 public class ApplicationController {
     //IMG
     String objectIMG = "https://i.imgur.com/4JzMipP.png";
-    String lightbulbIMG = "https://i.imgur.com/nbKsECu.png";
+    String lightOBJIMG = "https://i.imgur.com/nbKsECu.png";
 
     //Objects
     @FXML
     private ListView<Button> objectListView;
     private LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
-    private String lastclickedID="0";
+    private String lastClickedID = "0";
     //FileChooser
     private final FileChooser fileChooser = new FileChooser();
     File latestFile = null;
@@ -72,71 +70,62 @@ public class ApplicationController {
         }
     }
 
-    public void setlastclickedID(String s){
-        this.lastclickedID = s;
+    public void setLastClickedID(String s) {
+        this.lastClickedID = s;
     }
+
     void createGUIObject(Entity e) {
-        loadObjectPorperties(e);
+        loadObjectProperties(e);
         setObjectListView();
     }
-    private void loadObjectPorperties(Entity e) {
+
+    private void loadObjectProperties(Entity e) {
         ObjectProperties op = null;
         int id;
 
-        if(e==null){     //load light properties
+        if (e == null) {     //load light properties
             id = 1;
             int objID;
-            if(propertiesList.size()!=0){
-                objID= Integer.valueOf(propertiesList.getLast().getObjID())+1;
-            }else{
-                objID=0;
+            if (!propertiesList.isEmpty()) {
+                objID = Integer.parseInt(propertiesList.getLast().getObjID()) + 1;
+            } else {
+                objID = 0;
             }
-            op = new ObjectProperties(String.valueOf(objID), "light",
-                 "0",
-                    "0", new String[]{"0","0","0"},
-                    new String[]{"0","0","0"}, null,this);
+            op = new ObjectProperties(String.valueOf(objID), "light", "0", "0", new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, null, this);
 
-        }else{          //load object properties
+        } else {          //load object properties
             id = 0;
             int objID;
-            if(propertiesList.size()!=0){
-                objID= Integer.valueOf(propertiesList.getLast().getObjID())+1;
-            }else{
-                objID=0;
+            if (!propertiesList.isEmpty()) {
+                objID = Integer.parseInt(propertiesList.getLast().getObjID()) + 1;
+            } else {
+                objID = 0;
             }
 
-            op = new ObjectProperties(
-                    String.valueOf(objID), e.getObjName(),
-                    Integer.toString(e.getFaces().size()),
-                    Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()),
-                    Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())},
-                    new String[]{
-                            Float.toString(e.getOrient().getX()),
-                            Float.toString(e.getOrient().getY()),
-                            Float.toString(e.getOrient().getZ())},
-                    previewWindow::updateSelected,this);
+            op = new ObjectProperties(String.valueOf(objID), e.getObjName(), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())}, new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())}, previewWindow::updateSelected, this);
         }
-        loadImage(op,id);
+        loadImage(op, id);
     }
+
     private void setObjectListView() {
         //ObjectList Region
         objectListView.setPadding(new Insets(10, 5, 10, 5));
-        objectListView.getItems().add(propertiesList.get(propertiesList.size()-1).getButton());
+        objectListView.getItems().add(propertiesList.get(propertiesList.size() - 1).getButton());
     }
+
     private void loadImage(ObjectProperties op, int id) {
-        if(id==0){      //object
-            Image image = new Image(objectIMG);
-            op.setImageView(new ImageView(image),coordTextField);
-            propertiesList.add(op);
+        Image image;
+        if (id == 0) {      //object
+            image = new Image(objectIMG);
+        } else {       //light
+            image = new Image(lightOBJIMG);
         }
-        else{       //light
-            Image image = new Image(lightbulbIMG);
-            op.setImageView(new ImageView(image),coordTextField);
-            propertiesList.add(op);
-        }
+        op.setImageView(new ImageView(image), coordTextField);
+        propertiesList.add(op);
     }
+
     void deleteObject() {
-        objectListView.getItems().remove(Integer.parseInt(lastclickedID));
+        objectListView.getItems().remove(Integer.parseInt(lastClickedID));
     }
 
 
@@ -164,7 +153,6 @@ public class ApplicationController {
     }
 
     public void handleKey(KeyEvent event) {
-        if (previewWindow != null)
-            previewWindow.handleKey(event);
+        if (previewWindow != null) previewWindow.handleKey(event);
     }
 }
