@@ -33,9 +33,21 @@ public class ApplicationController {
     String objectIMG = "https://i.imgur.com/4JzMipP.png";
     String lightOBJIMG = "https://i.imgur.com/nbKsECu.png";
 
-    //Objects
+    //ObjectTextField
     @FXML
-    private ChoiceBox<String> choiceBoxLightProperties;
+    private TextField nameTXT;
+    @FXML
+    private TextField xPosTXT;
+    @FXML
+    private TextField xRotTXT;
+    @FXML
+    private TextField yPosTXT;
+    @FXML
+    private TextField yRotTXT;
+    @FXML
+    private TextField zPosTXT;
+    @FXML
+    private TextField zRotTXT;
 
     @FXML
     private ListView<Button> objectListView;
@@ -60,7 +72,7 @@ public class ApplicationController {
 
 
     @FXML
-    void importLightObject(MouseEvent event) throws IOException{
+    void importLightObject(MouseEvent event) throws IOException {
         String values = open_propertieWindows();
         createGUIObject(null);
     }
@@ -68,7 +80,7 @@ public class ApplicationController {
     private String open_propertieWindows() throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("lightproperties.fxml"));
 
-        Scene scene =new Scene(root);
+        Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
         primaryStage.setTitle("lightproperties");
         primaryStage.setScene(scene);
@@ -128,6 +140,7 @@ public class ApplicationController {
             }
 
             op = new ObjectProperties(String.valueOf(objID), e.getObjName(), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())}, new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())}, previewWindow::updateSelected, this);
+            writeObjectProperties(e);
         }
         loadImage(op, id);
     }
@@ -145,9 +158,27 @@ public class ApplicationController {
         } else {       //light
             image = new Image(lightOBJIMG);
         }
-        op.setImageView(new ImageView(image), coordTextField);
+
+
+        op.setImageView(new ImageView(image));
         propertiesList.add(op);
     }
+
+    void writeObjectProperties(Entity e) {
+        //e.getObjName(), Integer.toString(e.getFaces().size()),
+        // Integer.toString(e.getVertexCount()),
+        // new String[]{Float.toString(e.getPivot().getX()),
+        // Float.toString(e.getPivot().getY()),
+        // Float.toString(e.getPivot().getZ())},
+        // new String[]{Float.toString(e.getOrient().getX()),
+        // Float.toString(e.getOrient().getY()),
+        // Float.toString(e.getOrient().getZ())
+
+       // nameTXT.setText();
+
+
+    }
+
 
     void deleteObject() {
         objectListView.getItems().remove(Integer.parseInt(lastClickedID));

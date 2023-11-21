@@ -83,7 +83,7 @@ public class ObjectProperties {
     }
 
 
-    public void setImageView(ImageView imageViews, TextField coordTextField) {
+    public void setImageView(ImageView imageViews) {
         this.imageView = imageViews;
         this.imageView.setFitWidth(100);
         this.imageView.setFitHeight(100);
@@ -95,7 +95,7 @@ public class ObjectProperties {
             @Override
             public void handle(ActionEvent e) {
                 ac.setLastClickedID(getObjID());
-                coordTextField.setText(getAll());
+                System.out.println(getAll());
                 previewCallbackWhenSelected.accept(Integer.parseInt(objID));
             }
         });
