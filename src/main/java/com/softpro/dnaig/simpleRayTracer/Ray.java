@@ -4,21 +4,20 @@ package com.softpro.dnaig.simpleRayTracer;
 import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.objData.Face;
 import com.softpro.dnaig.utils.ColorConverter;
-import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
 
 public class Ray {
-    public Vector3D position;
-    public Vector3D direction;
+    public Vector3D_RT position;
+    public Vector3D_RT direction;
 
-    public Ray(Vector3D pos, Vector3D dir) {
+    public Ray(Vector3D_RT pos, Vector3D_RT dir) {
         this.direction = dir.normalize();
         this.position = pos;
     }
 
-    public Ray(Vector3D from_point, Vector3D to_point, boolean dummy) {
+    public Ray(Vector3D_RT from_point, Vector3D_RT to_point, boolean dummy) {
         this.position = from_point;
         this.direction = from_point.subtract(from_point).normalize();
     }
@@ -28,9 +27,9 @@ public class Ray {
             return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
         Object3D intersect = null;
-        float t = Float.MAX_VALUE-1;
+        double t = Double.MAX_VALUE-1;
         for(Object3D o: CustomScene.getScene().objects){
-            float t2 = o.intersect(this);
+            double t2 = o.intersect(this);
             if(t2 > 0 && t2< t){
                 intersect = o;
                 t = t2;
@@ -47,11 +46,11 @@ public class Ray {
             return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
         Triangle intersect = null;
-        float t = Float.MAX_VALUE-1;
+        double t = Double.MAX_VALUE-1;
         for(Entity e: CustomScene.getScene().entities){
             for (int i = 0; i< e.getFaces().size(); i++) {
                 Triangle tri = new Triangle(e.getFaces().get(i), Color.BLUE);
-                float t2 = tri.intersect(this);
+                double t2 = tri.intersect(this);
                 if (t2 > 0 && t2 < t) {
                     intersect = tri;
                     t = t2;
@@ -90,7 +89,7 @@ public class Ray {
         return false;
     }
 
-    private Vector3D getPosition(float t) {
-        return Util.add(this.position, this.direction.scalarMultiplication(t));
+    private Vector3D_RT getPosition(double t) {
+        return Util.add(this.position, this.direction.skalarmultiplication(t));
     }
 }

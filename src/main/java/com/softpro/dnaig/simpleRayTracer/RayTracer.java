@@ -2,7 +2,6 @@ package com.softpro.dnaig.simpleRayTracer;
 
 
 import com.softpro.dnaig.Output;
-import com.softpro.dnaig.utils.Vector3D;
 
 import java.io.IOException;
 
@@ -14,13 +13,13 @@ public class RayTracer {
     public void trace() throws IOException {
         for(int i = 0; i< Output.WIDTH; i++){
             for(int j = 0; j<Output.HEIGHT; j++){
-                float u= camera.getL() + i + 0.5f;
+                double u= camera.getL() + i + 0.5;
                 u = u/200;
-                float v= camera.getT() - (j+0.5f);
+                double v= camera.getT() - (j+0.5);
                 v = v/200;
                 //Vector3D s = Util.add(camera.getU().skalarmultiplication(u), camera.getV().skalarmultiplication(v), camera.getW_d_negated());
-                Vector3D s = Util.add(camera.getU().scalarMultiplication(u), camera.getV().scalarMultiplication(v), camera.getScreen()).subtract(camera.getEye());
-                Vector3D dir = s.normalize();
+                Vector3D_RT s = Util.add(camera.getU().skalarmultiplication(u), camera.getV().skalarmultiplication(v), camera.getScreen()).subtract(camera.getEye());
+                Vector3D_RT dir = s.normalize();
 
                 n++;
                 Ray r = new Ray(camera.getEye(), dir);

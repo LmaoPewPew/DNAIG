@@ -138,9 +138,12 @@ public class Vector3D {
         );
     }
 
+    /*
     public Vector3D move(float epsilon, Vector3D positionToLight) {
         return Util.add(this, positionToLight.scalarMultiplication(epsilon));
     }
+
+     */
 
     /**
      * Rotating the vector on the x-axis, using standard matrix multiplication.

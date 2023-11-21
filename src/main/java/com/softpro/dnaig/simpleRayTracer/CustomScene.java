@@ -41,9 +41,9 @@ public class CustomScene {
 
 
          */
-        com.softpro.dnaig.utils.Vector3D v1 = new com.softpro.dnaig.utils.Vector3D(-1,-1,1);
-        com.softpro.dnaig.utils.Vector3D v2 = new com.softpro.dnaig.utils.Vector3D(0,1,0);
-        com.softpro.dnaig.utils.Vector3D v3 = new com.softpro.dnaig.utils.Vector3D(3,-1,2);
+        Vector3D v1 = new Vector3D(-1,-1,1);
+        Vector3D v2 = new Vector3D(0,1,0);
+        Vector3D v3 = new Vector3D(3,-1,2);
         Vertex vertex1 = new Vertex(v1, v1, v1);
         Vertex vertex2 = new Vertex(v2, v2, v2);
         Vertex vertex3 = new Vertex(v3, v3, v3);
@@ -52,13 +52,13 @@ public class CustomScene {
         ArrayList<Face> faceArrayList = new ArrayList<>();
         faceArrayList.add(face);
         Entity entity2 = new Entity("Test", faceArrayList, 3);
-        Entity entity = ObjFileReader.createObject("C:\\Users\\Leon\\Downloads\\cube.obj");
+        Entity entity = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\cube.obj");
         //entity.scale(10);
         entities.add(entity);
-        lights.add(new PointLight(new Vector3D(15, 15, 15), new Vector3D(50, 50, 50)));
-        lights.add(new PointLight(new Vector3D(0, 2, -2), new Vector3D(20, 20, 20)));
-        lights.add(new PointLight(new Vector3D(-15, 15, -15), new Vector3D(50, 50, 50)));
-        lights.add(new PointLight(new Vector3D(-15, 15, 15), new Vector3D(50, 50, 50)));
+        //lights.add(new PointLight(new Vector3D_RT(15, 15, 15), new Vector3D_RT(50, 50, 50)));
+        lights.add(new PointLight(new Vector3D_RT(0, 2, -2), new Vector3D_RT(5, 5, 5)));
+        //lights.add(new PointLight(new Vector3D_RT(-15, 15, -15), new Vector3D_RT(50, 50, 50)));
+       // lights.add(new PointLight(new Vector3D_RT(-15, 15, 15), new Vector3D_RT(50, 50, 50)));
     }
 
     public static CustomScene getScene() throws IOException {
@@ -68,7 +68,7 @@ public class CustomScene {
         return scene;
     }
 
-    public void addEntity(Entity entity, com.softpro.dnaig.utils.Vector3D position){
+    public void addEntity(Entity entity, Vector3D position){
         entities.add(entity);
     }
 }
