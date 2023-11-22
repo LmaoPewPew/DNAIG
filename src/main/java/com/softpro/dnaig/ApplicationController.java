@@ -41,12 +41,13 @@ public class ApplicationController {
     String lightObjImg = "https://i.imgur.com/nbKsECu.png";
     String cameraObjImg = "https://i.imgur.com/nbKsECu.png"; //WRONG IMAGE LINK
 
-    /*
-    //Relative Path, wont work
-    String objectIMG = "../resources/com/softpro/dnaig/sprites/Obj_img_OLD.png";
-    String lightObjImg = "../resources/com/softpro/dnaig/sprites/light_Img_OLD.png";
-    String cameraObjImg = "../resources/com/softpro/dnaig/sprites/Camera_img.png";
+    /**
+     * //Relative Path, won't work
+     * String objectIMG = "../resources/com/softpro/dnaig/sprites/Obj_img_OLD.png";
+     * String lightObjImg = "../resources/com/softpro/dnaig/sprites/light_Img_OLD.png";
+     * String cameraObjImg = "../resources/com/softpro/dnaig/sprites/Camera_img.png";
      */
+
 
     //ObjectTextField
     @FXML
@@ -68,6 +69,7 @@ public class ApplicationController {
     private Text facesTXT;
     @FXML
     private Text verticesTXT;
+
     //private  TextField[] textFieldArray = {nameTXT, xPosTXT, yPosTXT, zPosTXT, xRotTXT, yRotTXT, zRotTXT};
     //private  Text[] textArray = {facesTXT, verticesTXT};
 
@@ -91,7 +93,7 @@ public class ApplicationController {
     private PreviewWindow previewWindow;
 
     //private final ObjFileReader objImporter = new ObjFileReader();
-    private final List<Entity> entityList = new ArrayList<>();
+    final List<Entity> entityList = new ArrayList<>();
 
     public ApplicationController() {
     }
@@ -285,7 +287,7 @@ public class ApplicationController {
 
     // Location might change once finished (?)
     void deleteObject() {
-        //?? onKeyPressed (entf or backspace)
+        //?? onKeyPressed (del or backspace)
         objectListView.getItems().remove(Integer.parseInt(lastClickedID));
     }
 
