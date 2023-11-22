@@ -267,21 +267,21 @@ public class ApplicationController {
     /*************THEME CHANGE**************/
 
     private void setLightMode() {
-        //parent.getStylesheets().remove("../resources/com/softpro/dnaig/style/DarkMode.css");
-        //parent.getStylesheets().add("../resources/com/softpro/dnaig/style/LightMode.css");
+        parent.getStylesheets().remove("../resources/com/softpro/dnaig/style/DarkMode.css");
+        parent.getStylesheets().add("../resources/com/softpro/dnaig/style/LightMode.css");
 
-        parent.getStylesheets().remove("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\DarkMode.css");
-        parent.getStylesheets().add("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\LightMode.css");
+        //parent.getStylesheets().remove("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\DarkMode.css");
+        //parent.getStylesheets().add("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\LightMode.css");
 
     }
 
     private void setDarkMode() {
-        //parent.getStylesheets().remove("../resources/com/softpro/dnaig/style/LightMode.css");
-        //parent.getStylesheets().add("../resources/com/softpro/dnaig/style/DarkMode.css");
+        parent.getStylesheets().remove("../resources/com/softpro/dnaig/style/LightMode.css");
+        parent.getStylesheets().add("../resources/com/softpro/dnaig/style/DarkMode.css");
 
 
-        parent.getStylesheets().remove("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\LightMode.css");
-        parent.getStylesheets().add("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\DarkMode.css");
+        //parent.getStylesheets().remove("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\LightMode.css");
+        //parent.getStylesheets().add("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\DarkMode.css");
     }
 
     /*************One Time METHODS**************/
