@@ -79,9 +79,6 @@ public class ApplicationController {
     private boolean isLightMode = true;
 
 
-    //Rest
-    @FXML
-    private ChoiceBox<?> choiceBoxLightProperties;
     @FXML
     private ListView<Button> objectListView;
     private final LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
@@ -180,9 +177,9 @@ public class ApplicationController {
         ObjectProperties op;
         int id;
 
-        //TODO
-        // 3D model from a light and camera in loadOBJ folder, needs to be added when button clicked
-        // /////////////////////////////////////////////////////////////////////////////////////////  //
+        // TODO
+        //  3D model from a light and camera in loadOBJ folder, needs to be added when button clicked   //
+        //  /////////////////////////////////////////////////////////////////////////////////////////  //
 
         if (e == null) {     //load light properties
             id = 1;
@@ -252,7 +249,6 @@ public class ApplicationController {
         this.yRotTXT.setText(op.getObjRot()[1]);
         this.zRotTXT.setText(op.getObjRot()[2]);
     }
-
 
     // Live Update Coord-Sys Bar
 

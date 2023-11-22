@@ -79,7 +79,6 @@ public class ObjectProperties {
         return imageView;
     }
 
-
     public void setImageView(ImageView imageViews) {
         this.imageView = imageViews;
         this.imageView.setFitWidth(100);
@@ -107,50 +106,9 @@ public class ObjectProperties {
         this.ac = ac;
     }
 
-
     public String getAll() {
         return "ObjectProperties{" + "objID='" + objID + '\'' + ", objName='" + objName + '\'' + ", objFaces='" + objFaces + '\'' + ", objVertices='" + objVertices + '\'' + ", objPos=" + Arrays.toString(objPos) + ", objRot=" + Arrays.toString(objRot) + '}';
     }
-
-/*
-    //set Value of more Important Values
-    public TextField[] getTextFieldValues(TextField[] textFieldArray) {
-        String[] valuesArr = {objName, objPos[0], objPos[1], objPos[2], objRot[0], objRot[1], objRot[2]};
-
-        System.out.println("\n\n\n\n");
-        for (int i = 0; i < textFieldArray.length && i < valuesArr.length; i++) {
-            // textFieldArray[i].setText(valuesArr[i]);
-            System.out.println(valuesArr[i]);
-        }
-        return textFieldArray;
-
- */
-
-/*
-        nameTXT.setText(e.getObjName());
-        setFaces.setText(String.valueOf(e.getFaces().size()));
-        setVertices.setText(String.valueOf(e.getVertexCount()));
-
-        xPosTXT.setText(String.valueOf(e.getPivot().getX()));
-        yPosTXT.setText(String.valueOf(e.getPivot().getY()));
-        zPosTXT.setText(String.valueOf(e.getPivot().getZ()));
-
-        xRotTXT.setText(String.valueOf(e.getOrient().getX()));
-        yRotTXT.setText(String.valueOf(e.getOrient().getY()));
-        zRotTXT.setText(String.valueOf(e.getOrient().getZ()));
- */
-
-/*
-    public Text[] getTextValues() {
-        Text[] textArray = new Text[2];
-
-        textArray[0].setText("objFaces");
-        textArray[1].setText("objVertices");
-
-        return textArray;
-    }
-
- */
 
     public void setImage(Image image) {
         this.imageView = new ImageView(image);

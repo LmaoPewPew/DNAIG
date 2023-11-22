@@ -8,41 +8,38 @@
 <?import javafx.scene.layout.FlowPane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="149.0"
-      prefWidth="269.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="com.softpro.dnaig.properties.LightPropertiesController">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="149.0" prefWidth="269.0" stylesheets="@style/LightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softpro.dnaig.properties.LightPropertiesController">
    <FlowPane alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="269.0">
       <Label minWidth="80.0" text="Helligkeit">
          <FlowPane.margin>
-            <Insets/>
+            <Insets />
          </FlowPane.margin>
       </Label>
-      <TextField/>
+      <TextField />
    </FlowPane>
    <FlowPane alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
       <Label minWidth="80.0" text="Position: ">
          <FlowPane.margin>
-            <Insets/>
+            <Insets />
          </FlowPane.margin>
       </Label>
-      <Label text="X:"/>
-      <TextField maxWidth="50.0"/>
-      <Label text="Y:"/>
-      <TextField maxWidth="50.0"/>
-      <Label text="Z:"/>
-      <TextField maxWidth="50.0"/>
+      <Label text="X:" />
+      <TextField maxWidth="50.0" />
+      <Label text="Y:" />
+      <TextField maxWidth="50.0" />
+      <Label text="Z:" />
+      <TextField maxWidth="50.0" />
    </FlowPane>
    <FlowPane alignment="CENTER_LEFT" prefHeight="32.0" prefWidth="600.0">
-      <Label minWidth="80.0" text="Lichtvariante:"/>
-      <ChoiceBox fx:id="choiceBoxLightProperties" prefWidth="150.0"/>
+      <Label minWidth="80.0" text="Lichtvariante:" />
+      <ChoiceBox fx:id="choiceBoxLightProperties" prefWidth="150.0" />
    </FlowPane>
    <FlowPane alignment="CENTER" prefHeight="37.0" prefWidth="600.0">
-      <Button contentDisplay="CENTER" mnemonicParsing="false" text="Submit">
+      <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#submitProperties" text="Submit">
          <FlowPane.margin>
-            <Insets right="50.0"/>
+            <Insets right="50.0" />
          </FlowPane.margin>
       </Button>
-      <Button contentDisplay="CENTER" mnemonicParsing="false" text="Cancel"/>
+      <Button contentDisplay="CENTER" mnemonicParsing="false" onAction="#cancelPropertiesWindow" text="Cancel" />
    </FlowPane>
 </VBox>
