@@ -71,8 +71,6 @@ public class ApplicationController {
     @FXML
     private TextField verticesTXT;
 
-    private TextField[] textFieldArray = {idTXT, nameTXT, facesTXT, verticesTXT, xPosTXT, yPosTXT, zPosTXT, xRotTXT, yRotTXT, zRotTXT};
-
     //Menu
     @FXML
     private MenuItem menuTheme;
