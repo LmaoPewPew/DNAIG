@@ -50,6 +50,7 @@ public class ApplicationController {
 
 
     //ObjectTextField
+    //EDITABLE
     @FXML
     private TextField nameTXT;
     @FXML
@@ -65,13 +66,15 @@ public class ApplicationController {
     @FXML
     private TextField zRotTXT;
 
+    //NOT EDITABLE
     @FXML
-    private Text facesTXT;
+    private TextField idTXT;
     @FXML
-    private Text verticesTXT;
+    private TextField facesTXT;
+    @FXML
+    private TextField verticesTXT;
 
-    //private  TextField[] textFieldArray = {nameTXT, xPosTXT, yPosTXT, zPosTXT, xRotTXT, yRotTXT, zRotTXT};
-    //private  Text[] textArray = {facesTXT, verticesTXT};
+    private TextField[] textFieldArray = {idTXT, nameTXT, facesTXT, verticesTXT, xPosTXT, yPosTXT, zPosTXT, xRotTXT, yRotTXT, zRotTXT};
 
     //Menu
     @FXML
@@ -207,7 +210,7 @@ public class ApplicationController {
 
         }
 
-        updateObjectPropertiesMenu(op);
+        updateObjectPropertiesMenuOnLoad(op);
         loadImage(op, id);
     }
 
@@ -235,8 +238,9 @@ public class ApplicationController {
     /*************OBJECT COORDINATES**************/
 
     // Write values into Coord-Sys
-    void updateObjectPropertiesMenu(ObjectProperties op) {
+    void updateObjectPropertiesMenuOnLoad(ObjectProperties op) {
 
+        this.idTXT.setText(op.getObjID());
         this.nameTXT.setText(op.getObjName());
         this.facesTXT.setText(op.getObjFaces());
         this.verticesTXT.setText(op.getObjVertices());
@@ -249,6 +253,25 @@ public class ApplicationController {
         this.yRotTXT.setText(op.getObjRot()[1]);
         this.zRotTXT.setText(op.getObjRot()[2]);
     }
+
+
+    public void updateObjectPropertiesMenuOnLoad(String[] s) {
+
+        //objID fehlt hier noch
+        this.idTXT.setText(s[0]);
+        this.nameTXT.setText(s[1]);
+        this.facesTXT.setText(s[2]);
+        this.verticesTXT.setText(s[3]);
+
+        this.xPosTXT.setText(s[4]);
+        this.yPosTXT.setText(s[5]);
+        this.zPosTXT.setText(s[6]);
+
+        this.xRotTXT.setText(s[7]);
+        this.yRotTXT.setText(s[8]);
+        this.zRotTXT.setText(s[9]);
+    }
+
 
     // Live Update Coord-Sys Bar
 

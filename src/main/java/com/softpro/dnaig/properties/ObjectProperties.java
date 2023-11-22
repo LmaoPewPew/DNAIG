@@ -5,7 +5,6 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
 
 public class ObjectProperties {
@@ -79,6 +78,7 @@ public class ObjectProperties {
         return imageView;
     }
 
+
     public void setImageView(ImageView imageViews) {
         this.imageView = imageViews;
         this.imageView.setFitWidth(100);
@@ -88,7 +88,7 @@ public class ObjectProperties {
         //this.button.setStyle("-fx-background-color: transparent;");
         this.button.setOnAction(e -> {
             ac.setLastClickedID(getObjID());
-            System.out.println(getAll());
+            ac.updateObjectPropertiesMenuOnLoad(this.getAll());
             previewCallbackWhenSelected.accept(Integer.parseInt(objID));
 
         });
@@ -106,8 +106,9 @@ public class ObjectProperties {
         this.ac = ac;
     }
 
-    public String getAll() {
-        return "ObjectProperties{" + "objID='" + objID + '\'' + ", objName='" + objName + '\'' + ", objFaces='" + objFaces + '\'' + ", objVertices='" + objVertices + '\'' + ", objPos=" + Arrays.toString(objPos) + ", objRot=" + Arrays.toString(objRot) + '}';
+
+    public String[] getAll() {
+        return new String[]{this.objID, this.objName, this.objFaces, this.objVertices, this.objPos[0],this.objPos[1],this.objPos[2], this.objRot[0], this.objRot[1], this.objRot[2]}; //Return objID, objName, objFaces, objVertices, pos x, pos y, pos z, rot x, rot y, rot z
     }
 
     public void setImage(Image image) {
