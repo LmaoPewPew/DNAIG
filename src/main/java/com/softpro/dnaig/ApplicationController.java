@@ -265,6 +265,30 @@ public class ApplicationController {
 
     /*************THEME CHANGE**************/
 
+
+    private void setLightMode() {
+        removeStylesheet("DarkMode.css");
+        addStylesheet("LightMode.css");
+    }
+
+    private void setDarkMode() {
+        removeStylesheet("LightMode.css");
+        addStylesheet("DarkMode.css");
+    }
+
+    private void addStylesheet(String stylesheet) {
+        String stylesheetPath = getClass().getResource("/com/softpro/dnaig/style/" + stylesheet).toExternalForm();
+        parent.getStylesheets().add(stylesheetPath);
+    }
+
+    private void removeStylesheet(String stylesheet) {
+        String stylesheetPath = getClass().getResource("/com/softpro/dnaig/style/" + stylesheet).toExternalForm();
+        parent.getStylesheets().remove(stylesheetPath);
+    }
+
+
+
+    /*
     private void setLightMode() {
         parent.getStylesheets().remove("../resources/com/softpro/dnaig/style/DarkMode.css");
         parent.getStylesheets().add("../resources/com/softpro/dnaig/style/LightMode.css");
