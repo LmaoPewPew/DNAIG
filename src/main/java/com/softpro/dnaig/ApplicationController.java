@@ -126,9 +126,6 @@ public class ApplicationController {
 
             createGUIObject(entity);
             previewWindow.addObject(entityFile.getPath());
-
-            String fileNameExe = entityFile.getName();
-
         } catch (IOException ignored) {
         }
     }
