@@ -88,7 +88,7 @@ public class ObjectProperties {
         //this.button.setStyle("-fx-background-color: transparent;");
         this.button.setOnAction(e -> {
             ac.setLastClickedID(getObjID());
-            ac.updateObjectPropertiesMenuOnLoad(this.getAll());
+            ac.updateObjectPropertiesMenu(this.getAll());
             previewCallbackWhenSelected.accept(Integer.parseInt(objID));
 
         });

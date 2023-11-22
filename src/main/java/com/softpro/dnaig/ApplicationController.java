@@ -208,7 +208,7 @@ public class ApplicationController {
 
         }
 
-        updateObjectPropertiesMenuOnLoad(op);
+        updateObjectPropertiesMenu(op);
         loadImage(op, id);
     }
 
@@ -236,7 +236,7 @@ public class ApplicationController {
     /*************OBJECT COORDINATES**************/
 
     // Write values into Coord-Sys
-    void updateObjectPropertiesMenuOnLoad(ObjectProperties op) {
+    void updateObjectPropertiesMenu(ObjectProperties op) {
 
         this.idTXT.setText(op.getObjID());
         this.nameTXT.setText(op.getObjName());
@@ -252,10 +252,8 @@ public class ApplicationController {
         this.zRotTXT.setText(op.getObjRot()[2]);
     }
 
+    public void updateObjectPropertiesMenu(String[] s) {
 
-    public void updateObjectPropertiesMenuOnLoad(String[] s) {
-
-        //objID fehlt hier noch
         this.idTXT.setText(s[0]);
         this.nameTXT.setText(s[1]);
         this.facesTXT.setText(s[2]);
@@ -294,12 +292,12 @@ public class ApplicationController {
     }
 
     private void addStylesheet(String stylesheet) {
-        String stylesheetPath = getClass().getResource("/com/softpro/dnaig/style/" + stylesheet).toExternalForm();
+        String stylesheetPath = Objects.requireNonNull(getClass().getResource("/com/softpro/dnaig/style/" + stylesheet)).toExternalForm();
         parent.getStylesheets().add(stylesheetPath);
     }
 
     private void removeStylesheet(String stylesheet) {
-        String stylesheetPath = getClass().getResource("/com/softpro/dnaig/style/" + stylesheet).toExternalForm();
+        String stylesheetPath = Objects.requireNonNull(getClass().getResource("/com/softpro/dnaig/style/" + stylesheet)).toExternalForm();
         parent.getStylesheets().remove(stylesheetPath);
     }
 
