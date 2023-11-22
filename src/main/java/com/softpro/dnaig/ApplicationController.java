@@ -253,6 +253,23 @@ public class ApplicationController {
         this.zRotTXT.setText(op.getObjRot()[2]);
     }
 
+    public void updateObjectPropertiesMenu(String[] s) {
+
+        //objID fehlt hier noch
+
+        this.nameTXT.setText(s[1]);
+        this.facesTXT.setText(s[2]);
+        this.verticesTXT.setText(s[3]);
+
+        this.xPosTXT.setText(s[4]);
+        this.yPosTXT.setText(s[5]);
+        this.zPosTXT.setText(s[6]);
+
+        this.xRotTXT.setText(s[7]);
+        this.yRotTXT.setText(s[8]);
+        this.zRotTXT.setText(s[9]);
+    }
+
 
     // Live Update Coord-Sys Bar
 

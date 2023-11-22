@@ -89,7 +89,7 @@ public class ObjectProperties {
         //this.button.setStyle("-fx-background-color: transparent;");
         this.button.setOnAction(e -> {
             ac.setLastClickedID(getObjID());
-            System.out.println(getAll());
+            ac.updateObjectPropertiesMenu(this.getAll());
             previewCallbackWhenSelected.accept(Integer.parseInt(objID));
 
         });
@@ -108,8 +108,9 @@ public class ObjectProperties {
     }
 
 
-    public String getAll() {
-        return "ObjectProperties{" + "objID='" + objID + '\'' + ", objName='" + objName + '\'' + ", objFaces='" + objFaces + '\'' + ", objVertices='" + objVertices + '\'' + ", objPos=" + Arrays.toString(objPos) + ", objRot=" + Arrays.toString(objRot) + '}';
+    public String[] getAll() {
+        String[] ret = {this.objID, this.objName, this.objFaces, this.objVertices, this.objPos[0],this.objPos[1],this.objPos[2], this.objRot[0], this.objRot[1], this.objRot[2]};
+        return ret; //Return objID, objName, objFaces, objVertices, pos x, pos y, pos z, rot x, rot y, rot z
     }
 
 /*
