@@ -22,7 +22,7 @@ public class Sphere implements Object3D{
     public Sphere(int radius, Vector3D_RT center, Color c) {
         this.radius=radius;
         this.center=center;
-        this.m = new Material_RT(new Vector3D_RT(c.getRed()/255, c.getGreen()/255, c.getBlue()/255), this);
+        this.m = new Material_RT(new Vector3D_RT(c.getRed(), c.getGreen(), c.getBlue()), this);
         m.setReference(this);
     }
 
@@ -30,14 +30,25 @@ public class Sphere implements Object3D{
     public double intersect(Ray ray) {
         Vector3D_RT dir = ray.direction;
         Vector3D_RT origin = ray.position;
+
+        // a = dir * dir
         double a = dir.prod(dir);
+        // b = 2 * dir * (origin - center)
         Vector3D_RT ec = origin.subtract(center);
+        // c = (origin - center) * (origin - center) - radius * radius
         double b = 2*dir.prod(ec);
+        // c = (origin - center) * (origin - center) - radius * radius
         double c = ec.prod(ec)-radius*radius;
+
+        // Calculate the discriminant
         Vector3D_RT result = Util.mitternachtsformel(a, b, c);
+
+        // If there is no solution, return -1
         switch ((int)Math.round(result.getZ())){
+            // If there is no solution, return -1
             case 1:
                 return result.getX();
+            // If there are two solutions, return the smaller one (closer to the camera)
             case 2:
                 if(result.getX()<0){
                     if(result.getY()<0){
@@ -52,6 +63,7 @@ public class Sphere implements Object3D{
                         return Math.min(result.getX(), result.getY());
                     }
                 }
+            // If there is one solution, return the solution
             default:
                 return Double.MAX_VALUE;
         }

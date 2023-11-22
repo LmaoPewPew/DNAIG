@@ -3,22 +3,29 @@ package com.softpro.dnaig.simpleRayTracer;
 import com.softpro.dnaig.Output;
 
 public class Camera {
-    private int l = -Output.WIDTH/2;
-    private int r = -l;
-    private int t = Output.HEIGHT/2;
-    private int b = -t;
+    // Screen coordinates
+    private int screenLeft = -Output.WIDTH/2;
+    private int screenRight = -screenLeft;
+    private int screenTop = Output.HEIGHT/2;
+    private int screenBottom = -screenTop;
 
+    // Camera position
     private Vector3D_RT UP = new Vector3D_RT(0, 1, 0);
     private Vector3D_RT eye = new Vector3D_RT(40, 40, -45);
     private Vector3D_RT Z = new Vector3D_RT(0, 0, 0);
 
+    // Screen position
     private Vector3D_RT screen;
 
+    // Camera coordinate system
     private Vector3D_RT W = eye.subtract(Z).normalize();
     private Vector3D_RT U = UP.cross(W).normalize();
     private Vector3D_RT V = W.cross(U).normalize();
 
-    private double d = t/Math.tan(Math.PI/4)/2;
+    // Distance from eye to screen
+    private double d = screenTop / Math.tan(Math.PI / 4) / 2;
+
+    // W * -d
     private Vector3D_RT W_d_negated = W.skalarmultiplication(-d);
     private boolean test;
 
@@ -27,20 +34,20 @@ public class Camera {
     }
 
 
-    public void setL(int l) {
-        this.l = l;
+    public void setScreenLeft(int l) {
+        this.screenLeft = l;
     }
 
-    public void setR(int r) {
-        this.r = r;
+    public void setScreenRight(int r) {
+        this.screenRight = r;
     }
 
-    public void setT(int t) {
-        this.t = t;
+    public void setScreenTop(int t) {
+        this.screenTop = t;
     }
 
-    public void setB(int b) {
-        this.b = b;
+    public void setScreenBottom(int b) {
+        this.screenBottom = b;
     }
 
     public void setUP(Vector3D_RT UP) {
@@ -75,20 +82,20 @@ public class Camera {
         W_d_negated = w_d_negated;
     }
 
-    public int getL() {
-        return l;
+    public int getScreenLeft() {
+        return screenLeft;
     }
 
-    public int getR() {
-        return r;
+    public int getScreenRight() {
+        return screenRight;
     }
 
-    public int getT() {
-        return t;
+    public int getScreenTop() {
+        return screenTop;
     }
 
-    public int getB() {
-        return b;
+    public int getScreenBottom() {
+        return screenBottom;
     }
 
     public Vector3D_RT getUP() {

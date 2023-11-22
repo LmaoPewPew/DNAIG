@@ -24,30 +24,43 @@ public class Triangle implements Object3D{
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
-        m = new Material_RT(new Vector3D_RT(color.getRed()/255, color.getGreen()/255, color.getBlue()/255));
+        m = new Material_RT(new Vector3D_RT(color.getRed(), color.getGreen(), color.getBlue()));
         m.setReference(this);
     }
 
     public Triangle(Face face, Color color){
         for (int i = 0; i<3; i++) {
             Vertex vertex = face.getVertex(i);
-            switch (i){
-                case 0:
-                    this.p1 = new Vector3D_RT(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());
-                    break;
-                case 1:
-                    this.p2 = new Vector3D_RT(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());
-                    break;
-                case 2:
-                    this.p3 = new Vector3D_RT(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());
-                    break;
-                default: break;
+            switch (i) {
+                case 0 ->
+                        this.p1 = new Vector3D_RT(
+                                vertex.getCoordinates().getX(),
+                                vertex.getCoordinates().getY(),
+                                vertex.getCoordinates().getZ()
+                        );
+                case 1 ->
+                        this.p2 = new Vector3D_RT(
+                                vertex.getCoordinates().getX(),
+                                vertex.getCoordinates().getY(),
+                                vertex.getCoordinates().getZ()
+                        );
+                case 2 ->
+                        this.p3 = new Vector3D_RT(
+                                vertex.getCoordinates().getX(),
+                                vertex.getCoordinates().getY(),
+                                vertex.getCoordinates().getZ()
+                        );
+                default -> {
+                }
             }
         }
         m = new Material_RT(new Vector3D_RT(color.getRed(), color.getGreen(), color.getBlue()));
         m.setReference(this);
     }
 
+    /**
+     * Calculates the intersection of the ray with the triangle.
+     */
     @Override
     public double intersect(Ray ray) {
         Vector3D_RT origin = ray.position;
