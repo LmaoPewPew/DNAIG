@@ -7,10 +7,7 @@ import com.softpro.dnaig.utils.ObjFileReader;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -327,9 +324,20 @@ public class ApplicationController {
     /*************One Time METHODS**************/
 
     // Location might change once finished (?)
-    void deleteObject() {
+    public void deleteObject() {
         //?? onKeyPressed (del or backspace)
-        objectListView.getItems().remove(Integer.parseInt(lastClickedID));
+        int objID = -1;
+
+        for(int i = 0; i < objectListView.getItems().size();i++){
+             if(objectListView.getItems().get(i).equals(propertiesList.get(Integer.parseInt(lastClickedID)).getButton())){
+                 objID = i;
+             }
+        }
+
+        System.out.println("OBJID beim deleten: " + objID);
+        if(objID > 0)
+            propertiesList.remove(objID);
+            objectListView.getItems().remove(objID);
     }
 
     // FILES AND PATHS
