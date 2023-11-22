@@ -134,6 +134,11 @@ public class ApplicationController {
         ObjectProperties op;
         int id;
 
+
+        //TODO
+        // 3D model from a light and camera in loadOBJ folder, needs to be added when button clicked
+        // /////////////////////////////////////////////////////////////////////////////////////////  //
+
         if (e == null) {     //load light properties
             id = 1;
             int objID;
@@ -242,7 +247,7 @@ public class ApplicationController {
 
     public void initialize() {
         previewWindow = new PreviewWindow(previewPane);
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Wavefront OBJ Files", "*.obj"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("OBJ Files", "*.obj"));
     }
 
     public void handleKey(KeyEvent event) {
