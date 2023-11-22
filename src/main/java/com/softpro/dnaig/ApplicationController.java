@@ -47,6 +47,7 @@ public class ApplicationController {
 
 
     //ObjectTextField
+    //EDITABLE
     @FXML
     private TextField nameTXT;
     @FXML
@@ -62,13 +63,15 @@ public class ApplicationController {
     @FXML
     private TextField zRotTXT;
 
+    //NOT EDITABLE
     @FXML
-    private Text facesTXT;
+    private TextField idTXT;
     @FXML
-    private Text verticesTXT;
+    private TextField facesTXT;
+    @FXML
+    private TextField verticesTXT;
 
-    //private  TextField[] textFieldArray = {nameTXT, xPosTXT, yPosTXT, zPosTXT, xRotTXT, yRotTXT, zRotTXT};
-    //private  Text[] textArray = {facesTXT, verticesTXT};
+    private TextField[] textFieldArray = {idTXT, nameTXT, facesTXT, verticesTXT, xPosTXT, yPosTXT, zPosTXT, xRotTXT, yRotTXT, zRotTXT};
 
     //Menu
     @FXML
@@ -76,9 +79,6 @@ public class ApplicationController {
     private boolean isLightMode = true;
 
 
-    //Rest
-    @FXML
-    private ChoiceBox<?> choiceBoxLightProperties;
     @FXML
     private ListView<Button> objectListView;
     private final LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
@@ -178,9 +178,9 @@ public class ApplicationController {
         ObjectProperties op;
         int id;
 
-        //TODO
-        // 3D model from a light and camera in loadOBJ folder, needs to be added when button clicked
-        // /////////////////////////////////////////////////////////////////////////////////////////  //
+        // TODO
+        //  3D model from a light and camera in loadOBJ folder, needs to be added when button clicked   //
+        //  /////////////////////////////////////////////////////////////////////////////////////////  //
 
         if (e == null) {     //load light properties
             id = 1;
@@ -208,7 +208,7 @@ public class ApplicationController {
 
         }
 
-        updateObjectPropertiesMenu(op);
+        updateObjectPropertiesMenuOnLoad(op);
         loadImage(op, id);
     }
 
@@ -236,8 +236,9 @@ public class ApplicationController {
     /*************OBJECT COORDINATES**************/
 
     // Write values into Coord-Sys
-    void updateObjectPropertiesMenu(ObjectProperties op) {
+    void updateObjectPropertiesMenuOnLoad(ObjectProperties op) {
 
+        this.idTXT.setText(op.getObjID());
         this.nameTXT.setText(op.getObjName());
         this.facesTXT.setText(op.getObjFaces());
         this.verticesTXT.setText(op.getObjVertices());
@@ -251,10 +252,11 @@ public class ApplicationController {
         this.zRotTXT.setText(op.getObjRot()[2]);
     }
 
-    public void updateObjectPropertiesMenu(String[] s) {
+
+    public void updateObjectPropertiesMenuOnLoad(String[] s) {
 
         //objID fehlt hier noch
-
+        this.idTXT.setText(s[0]);
         this.nameTXT.setText(s[1]);
         this.facesTXT.setText(s[2]);
         this.verticesTXT.setText(s[3]);
