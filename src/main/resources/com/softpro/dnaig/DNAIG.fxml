@@ -23,15 +23,15 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="748.8" minWidth="1331.2" prefHeight="400.0" prefWidth="582.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softpro.dnaig.ApplicationController">
-    <MenuBar>
+<VBox fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="748.8" minWidth="1331.2" prefHeight="400.0" prefWidth="582.0" styleClass="root" stylesheets="@style/LightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softpro.dnaig.ApplicationController">
+    <MenuBar styleClass="menu">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem mnemonicParsing="false" text="Save as" />
             <MenuItem mnemonicParsing="false" text="Export" />
             <MenuItem mnemonicParsing="false" text="Import" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem mnemonicParsing="false" text="Theme" />
+            <MenuItem fx:id="menuTheme" mnemonicParsing="false" onAction="#changeThemeMode" text="Theme" />
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
             <MenuItem mnemonicParsing="false" text="About" />
@@ -39,7 +39,7 @@
     </MenuBar>
     <SplitPane dividerPositions="0.9150375939849624" prefHeight="784.0" prefWidth="1332.0">
         <SplitPane dividerPositions="0.8" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="90.0" prefWidth="1216.0">
-            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="397.0" prefWidth="1216.0">
+            <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="397.0" prefWidth="1216.0" styleClass="content">
                 <StackPane fx:id="previewPane" prefHeight="551.0" prefWidth="1206.0">
                     <cursor>
                         <Cursor fx:constant="CROSSHAIR" />
@@ -65,7 +65,7 @@
                 </Button>
                 <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="80.0" prefWidth="90.0">
                     <graphic>
-                        <ImageView fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="70.0" fitWidth="80.0" onMouseClicked="#importCameraObject" pickOnBounds="true" preserveRatio="true">
                             <Image url="@sprites/Camera_img.png" />
                         </ImageView>
                     </graphic>
@@ -76,7 +76,7 @@
                 <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importLightObject" prefHeight="80.0" prefWidth="90.0">
                     <graphic>
                         <ImageView accessibleText="Light Source" fitHeight="70.0" fitWidth="80.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@sprites/light_Img_LIGHTTHEME.png" />
+                            <Image url="@sprites/light_Img.png" />
                             <viewport>
                                 <Rectangle2D width="50.0" />
                             </viewport>
@@ -108,36 +108,36 @@
                     <padding>
                         <Insets right="3.0" />
                     </padding>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Name: " textAlignment="CENTER">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Name: " textAlignment="CENTER">
                   <GridPane.margin>
                      <Insets left="5.0" />
                   </GridPane.margin></Text>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X_Pos:" textAlignment="CENTER" GridPane.rowIndex="1">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X_Pos:" textAlignment="CENTER" GridPane.rowIndex="1">
                         <GridPane.margin>
                             <Insets left="5.0" />
                         </GridPane.margin>
                     </Text>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Y_Pos:" GridPane.rowIndex="2">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Y_Pos:" GridPane.rowIndex="2">
                         <GridPane.margin>
                             <Insets left="5.0" />
                         </GridPane.margin>
                     </Text>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Z_Pos:" GridPane.rowIndex="3">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Z_Pos:" GridPane.rowIndex="3">
                         <GridPane.margin>
                             <Insets left="5.0" />
                         </GridPane.margin>
                     </Text>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="X_Rot:" GridPane.rowIndex="4">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X_Rot:" GridPane.rowIndex="4">
                         <GridPane.margin>
                             <Insets left="5.0" />
                         </GridPane.margin>
                     </Text>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Y_Rot:" GridPane.rowIndex="5">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Y_Rot:" GridPane.rowIndex="5">
                         <GridPane.margin>
                             <Insets left="5.0" />
                         </GridPane.margin>
                     </Text>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Z_Rot:" GridPane.rowIndex="6">
+                    <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Z_Rot:" GridPane.rowIndex="6">
                         <GridPane.margin>
                             <Insets left="5.0" />
                         </GridPane.margin>
@@ -168,8 +168,8 @@
                         <Insets left="5.0" />
                     </VBox.margin>
                     <HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="110.0">
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Faces: " />
-                        <Text fx:id="facesTXT" strokeType="OUTSIDE" strokeWidth="0.0" text="Faces">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Faces: " />
+                        <Text fx:id="facesTXT" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Faces">
                             <HBox.margin>
                                 <Insets left="17.0" />
                             </HBox.margin>
@@ -179,8 +179,8 @@
                         <VBox.margin>
                             <Insets right="5.0" />
                         </VBox.margin>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Vertices: " />
-                        <Text fx:id="verticesTXT" strokeType="OUTSIDE" strokeWidth="0.0" text="Vertices">
+                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Vertices: " />
+                        <Text fx:id="verticesTXT" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Vertices">
                             <HBox.margin>
                                 <Insets left="5.0" />
                             </HBox.margin>
