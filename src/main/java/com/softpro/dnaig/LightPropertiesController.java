@@ -1,4 +1,4 @@
-package com.softpro.dnaig.properties;
+package com.softpro.dnaig;
 
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;

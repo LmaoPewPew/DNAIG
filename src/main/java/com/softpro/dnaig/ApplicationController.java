@@ -106,7 +106,8 @@ public class ApplicationController {
     @FXML
     void importLightObject(MouseEvent event) throws IOException {
         String values = openPropertiesWindows();
-        System.out.println("importLightObjects Values: " + values);
+        //System.out.println("importLightObjects Values: " + values);
+        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj");
         createGUIObject(null);
     }
 
