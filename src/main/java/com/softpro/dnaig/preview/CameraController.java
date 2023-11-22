@@ -110,7 +110,7 @@ public class CameraController {
     }
 
     private void handleMouseMove(MouseEvent event) {
-        switch (previewWindow.getCurrentMode().get()) {
+        /*switch (previewWindow.getCurrentMode().get()) {
             case ROTATE_CAMERA_XY -> {}
             case ROTATE_CAMERA_X -> {}
             case ROTATE_CAMERA_Y -> {}
@@ -164,7 +164,7 @@ public class CameraController {
             case ERROR -> {
                 System.out.println("01100101 01110010 01110010 01101111 01110010");
             }
-        }
+        }*/
     }
 
     private void handleMouseDrag(MouseEvent event) {
@@ -246,7 +246,7 @@ public class CameraController {
     }
 
     private void handleMouseExit(MouseEvent event) {
-        System.out.printf("%f %f %f %f %f %f\n", event.getSceneX(), event.getSceneY(), event.getX(), event.getY(), event.getScreenX(), event.getScreenY());
+        //System.out.printf("%f %f %f %f %f %f\n", event.getSceneX(), event.getSceneY(), event.getX(), event.getY(), event.getScreenX(), event.getScreenY());
         //mouseEvent.get
     }
 
