@@ -188,21 +188,37 @@ public class ApplicationController {
             } else {
                 objID = 0;
             }
-            op = new ObjectProperties(String.valueOf(objID), "light", "N/A", "N/A", new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, null, this);
+            op = new ObjectProperties(
+                    String.valueOf(objID),
+                    "light",
+                    "N/A",
+                    "N/A",
+                    new String[]{"0", "0", "0"},
+                    new String[]{"0", "0", "0"},
+                    null,
+                    this);
 
         } else {          //load object properties
             id = 0;
-            int objID;
-            if (!propertiesList.isEmpty()) {
-                objID = Integer.parseInt(propertiesList.getLast().getObjID()) + 1;
-            } else {
-                objID = 0;
-            }
 
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
             e.setObjName(objFileName);
 
-            op = new ObjectProperties(String.valueOf(objID), e.getObjName(), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())}, new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())}, previewWindow::updateSelected, this);
+            op = new ObjectProperties(
+                    String.valueOf(e.getID()),
+                    e.getObjName(),
+                    Integer.toString(e.getFaces().size()),
+                    Integer.toString(e.getVertexCount()),
+                    new String[]{
+                            Float.toString(e.getPivot().getX()),
+                            Float.toString(e.getPivot().getY()),
+                            Float.toString(e.getPivot().getZ())},
+                    new String[]{
+                            Float.toString(e.getOrient().getX()),
+                            Float.toString(e.getOrient().getY()),
+                            Float.toString(e.getOrient().getZ())},
+                    previewWindow::updateSelected,
+                    this);
 
         }
 
