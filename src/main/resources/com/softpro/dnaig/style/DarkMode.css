@@ -1,0 +1,40 @@
+/* Dark Mode Styles */
+
+.root {
+    -fx-base: #333333; /* Base color for controls */
+}
+
+/* MenuBar styles */
+.menu-bar {
+    -fx-background-color: #292929;
+}
+
+.menu {
+    -fx-text-fill: #ffffff;
+}
+
+.menu-item {
+    -fx-border-color: #444444; /* Subtle border color */
+    -fx-border-width: 1px;
+    -fx-padding: 5 10 5 10; /* Adjust padding as needed */
+}
+
+/* Button styles */
+.button {
+    -fx-background-color: #8c8c8c;
+    -fx-text-fill: #ffffff;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
+}
+
+/* TextField styles */
+.text-field {
+    -fx-background-color: #333333;
+    -fx-text-fill: #ffffff;
+}
+
+/* Text styles */
+.text {
+    -fx-fill: #ffffff;
+}

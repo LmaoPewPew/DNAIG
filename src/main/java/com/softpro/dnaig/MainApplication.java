@@ -17,6 +17,7 @@ public class MainApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), screenRes, screenRes / 16 * 9);
         stage.setTitle("DNAIG-RayTracer");
         stage.getIcons().add(new Image("https://i.imgur.com/tkYVF4s.jpg"));
+        //stage.getIcons().add(new Image("../resources/com/softpro/dnaig/sprites/icon.png"));
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();

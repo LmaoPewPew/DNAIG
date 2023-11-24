@@ -90,7 +90,7 @@ public class PreviewWindow {
                 case RIGHT -> cameraController.moveCamera("R");
                 case UP -> cameraController.moveCamera("U");
                 case DOWN -> cameraController.moveCamera("D");
-                case M,R -> setCurrentModifier(event.getCode());
+                case M, R -> setCurrentModifier(event.getCode());
             }
         } else if (currentModifier.get() == KeyCode.M || currentModifier.get() == KeyCode.G) {
             switch (event.getCode()) {

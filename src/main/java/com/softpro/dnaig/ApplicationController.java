@@ -1,60 +1,117 @@
 package com.softpro.dnaig;
 
 import com.softpro.dnaig.objData.Entity;
-import com.softpro.dnaig.object.ObjectProperties;
+import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.utils.ObjFileReader;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import javafx.scene.text.Text;
 
 public class ApplicationController {
-    //IMG
-    String objectIMG = "https://i.imgur.com/4JzMipP.png";
-    String lightbulbIMG = "https://i.imgur.com/nbKsECu.png";
 
-    //Objects
+    // Root
+    @FXML
+    private VBox parent;
+
+    //IMGs
+    String objectIMG = "https://i.imgur.com/4JzMipP.png";
+    String lightObjImg = "https://i.imgur.com/nbKsECu.png";
+    String cameraObjImg = "https://i.imgur.com/nbKsECu.png"; //WRONG IMAGE LINK
+
+    /**
+     * //Relative Path, won't work
+     * String objectIMG = "../resources/com/softpro/dnaig/sprites/Obj_img_OLD.png";
+     * String lightObjImg = "../resources/com/softpro/dnaig/sprites/light_Img_OLD.png";
+     * String cameraObjImg = "../resources/com/softpro/dnaig/sprites/Camera_img.png";
+     */
+
+
+    //ObjectTextField
+    //EDITABLE
+    @FXML
+    private TextField nameTXT;
+    @FXML
+    private TextField xPosTXT;
+    @FXML
+    private TextField xRotTXT;
+    @FXML
+    private TextField yPosTXT;
+    @FXML
+    private TextField yRotTXT;
+    @FXML
+    private TextField zPosTXT;
+    @FXML
+    private TextField zRotTXT;
+
+    //NOT EDITABLE
+    @FXML
+    private TextField idTXT;
+    @FXML
+    private TextField facesTXT;
+    @FXML
+    private TextField verticesTXT;
+
+    //Menu
+    @FXML
+    private MenuItem menuTheme;
+    private boolean isLightMode = true;
+
+
     @FXML
     private ListView<Button> objectListView;
-    private LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
-    private String lastclickedID="0";
-    //FileChooser
+    private final LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
+    private String lastClickedID = "0";
     private final FileChooser fileChooser = new FileChooser();
     File latestFile = null;
-
-    //Rest
-    @FXML
-    private TextField coordTextField;
     @FXML
     private StackPane previewPane;
     private PreviewWindow previewWindow;
 
     //private final ObjFileReader objImporter = new ObjFileReader();
-    private List<Entity> entityList = new ArrayList<>();
+    final List<Entity> entityList = new ArrayList<>();
+
+    public ApplicationController() {
+    }
 
 
-    /************METHODS************/
+    //TODO: cache ThemeMode and last opened FilePath, even after Closed
+
+    /* *****************************************METHODS***************************************** */
+
+
+    /*************BUTTON CLICK ACTION METHODS**************/
 
     @FXML
-    void importLightObject(MouseEvent event) {
+    void importLightObject(MouseEvent event) throws IOException {
+        String values = openPropertiesWindows();
+        //System.out.println("importLightObjects Values: " + values);
+        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj");
         createGUIObject(null);
+    }
+
+    @FXML
+    void importCameraObject(MouseEvent event) {
+        System.out.println("ADD CAMERA");
     }
 
     @FXML
@@ -67,79 +124,222 @@ public class ApplicationController {
 
             createGUIObject(entity);
             previewWindow.addObject(entityFile.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
     }
 
-    public void setlastclickedID(String s){
-        this.lastclickedID = s;
+    @FXML
+    void loadRayTracer(MouseEvent event) {
+        //TODO: open new scene/window from RayTracer after button Pressed!
+        System.out.println("loading External Window for RayTracer...");
     }
+
+
+    /*************MENU-ITEM METHODS**************/
+    //FILE
+
+    //EDIT
+    @FXML
+    void changeThemeMode(ActionEvent event) {
+        isLightMode = !isLightMode;
+        if (isLightMode) setLightMode();
+        else setDarkMode();
+    }
+
+    //HELP
+
+    /*************OBJECTS**************/
+
+    // OPEN OBJECT SETTINGS SCENE (LIGHT AND/OR CAMERA)
+    private String openPropertiesWindows() throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
+
+        Scene scene = new Scene(root);
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("lightProperties");
+        primaryStage.setScene(scene);
+
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+
+        return "0";
+    }
+
+    // ListView
     void createGUIObject(Entity e) {
-        loadObjectPorperties(e);
+        loadObjectProperties(e);
         setObjectListView();
     }
-    private void loadObjectPorperties(Entity e) {
-        ObjectProperties op = null;
+
+    // ListView add Objects (IMG-View)
+    private void loadObjectProperties(Entity e) {
+        ObjectProperties op;
         int id;
 
-        if(e==null){     //load light properties
+        // TODO
+        //  3D model from a light and camera in loadOBJ folder, needs to be added when button clicked   //
+        //  /////////////////////////////////////////////////////////////////////////////////////////  //
+
+        if (e == null) {     //load light properties
             id = 1;
             int objID;
-            if(propertiesList.size()!=0){
-                objID= Integer.valueOf(propertiesList.getLast().getObjID())+1;
-            }else{
-                objID=0;
+            if (!propertiesList.isEmpty()) {
+                objID = Integer.parseInt(propertiesList.getLast().getObjID()) + 1;
+            } else {
+                objID = 0;
             }
-            op = new ObjectProperties(String.valueOf(objID), "light",
-                 "0",
-                    "0", new String[]{"0","0","0"},
-                    new String[]{"0","0","0"}, null,this);
+            op = new ObjectProperties(String.valueOf(objID), "light", "N/A", "N/A", new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, null, this);
 
-        }else{          //load object properties
+        } else {          //load object properties
             id = 0;
             int objID;
-            if(propertiesList.size()!=0){
-                objID= Integer.valueOf(propertiesList.getLast().getObjID())+1;
-            }else{
-                objID=0;
+            if (!propertiesList.isEmpty()) {
+                objID = Integer.parseInt(propertiesList.getLast().getObjID()) + 1;
+            } else {
+                objID = 0;
             }
 
-            op = new ObjectProperties(
-                    String.valueOf(objID), e.getObjName(),
-                    Integer.toString(e.getFaces().size()),
-                    Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()),
-                    Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())},
-                    new String[]{
-                            Float.toString(e.getOrient().getX()),
-                            Float.toString(e.getOrient().getY()),
-                            Float.toString(e.getOrient().getZ())},
-                    previewWindow::updateSelected,this);
+            String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
+            e.setObjName(objFileName);
+
+            op = new ObjectProperties(String.valueOf(objID), e.getObjName(), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Float.toString(e.getPivot().getX()), Float.toString(e.getPivot().getY()), Float.toString(e.getPivot().getZ())}, new String[]{Float.toString(e.getOrient().getX()), Float.toString(e.getOrient().getY()), Float.toString(e.getOrient().getZ())}, previewWindow::updateSelected, this);
+
         }
-        loadImage(op,id);
+
+        updateObjectPropertiesMenu(op);
+        loadImage(op, id);
     }
+
     private void setObjectListView() {
         //ObjectList Region
         objectListView.setPadding(new Insets(10, 5, 10, 5));
-        objectListView.getItems().add(propertiesList.get(propertiesList.size()-1).getButton());
+        objectListView.getItems().add(propertiesList.get(propertiesList.size() - 1).getButton());
     }
+
+    // GET IMAGES
     private void loadImage(ObjectProperties op, int id) {
-        if(id==0){      //object
-            Image image = new Image(objectIMG);
-            op.setImageView(new ImageView(image),coordTextField);
-            propertiesList.add(op);
+        Image image;
+        if (id == 0) {      //object
+            image = new Image(objectIMG);
+        } else if (id == 1) {       //light
+            image = new Image(lightObjImg);
+        } else {
+            image = new Image(cameraObjImg);
         }
-        else{       //light
-            Image image = new Image(lightbulbIMG);
-            op.setImageView(new ImageView(image),coordTextField);
-            propertiesList.add(op);
-        }
-    }
-    void deleteObject() {
-        objectListView.getItems().remove(Integer.parseInt(lastclickedID));
+        op.setImageView(new ImageView(image));
+        propertiesList.add(op);
     }
 
 
+    /*************OBJECT COORDINATES**************/
+
+    // Write values into Coord-Sys
+    void updateObjectPropertiesMenu(ObjectProperties op) {
+
+        this.idTXT.setText(op.getObjID());
+        this.nameTXT.setText(op.getObjName());
+        this.facesTXT.setText(op.getObjFaces());
+        this.verticesTXT.setText(op.getObjVertices());
+
+        this.xPosTXT.setText(op.getObjPos()[0]);
+        this.yPosTXT.setText(op.getObjPos()[1]);
+        this.zPosTXT.setText(op.getObjPos()[2]);
+
+        this.xRotTXT.setText(op.getObjRot()[0]);
+        this.yRotTXT.setText(op.getObjRot()[1]);
+        this.zRotTXT.setText(op.getObjRot()[2]);
+    }
+
+    public void updateObjectPropertiesMenu(String[] s) {
+
+        this.idTXT.setText(s[0]);
+        this.nameTXT.setText(s[1]);
+        this.facesTXT.setText(s[2]);
+        this.verticesTXT.setText(s[3]);
+
+        this.xPosTXT.setText(s[4]);
+        this.yPosTXT.setText(s[5]);
+        this.zPosTXT.setText(s[6]);
+
+        this.xRotTXT.setText(s[7]);
+        this.yRotTXT.setText(s[8]);
+        this.zRotTXT.setText(s[9]);
+    }
+
+
+    // Live Update Coord-Sys Bar
+
+
+    // Read Values from Coord-Sys
+
+
+    // Update Object from updated values
+
+
+    /*************THEME CHANGE**************/
+
+
+    private void setLightMode() {
+        removeStylesheet("DarkMode.css");
+        addStylesheet("LightMode.css");
+    }
+
+    private void setDarkMode() {
+        removeStylesheet("LightMode.css");
+        addStylesheet("DarkMode.css");
+    }
+
+    private void addStylesheet(String stylesheet) {
+        String stylesheetPath = Objects.requireNonNull(getClass().getResource("/com/softpro/dnaig/style/" + stylesheet)).toExternalForm();
+        parent.getStylesheets().add(stylesheetPath);
+    }
+
+    private void removeStylesheet(String stylesheet) {
+        String stylesheetPath = Objects.requireNonNull(getClass().getResource("/com/softpro/dnaig/style/" + stylesheet)).toExternalForm();
+        parent.getStylesheets().remove(stylesheetPath);
+    }
+
+
+
+    /*
+    private void setLightMode() {
+        parent.getStylesheets().remove("../resources/com/softpro/dnaig/style/DarkMode.css");
+        parent.getStylesheets().add("../resources/com/softpro/dnaig/style/LightMode.css");
+
+        //parent.getStylesheets().remove("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\DarkMode.css");
+        //parent.getStylesheets().add("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\LightMode.css");
+
+    }
+
+    private void setDarkMode() {
+        parent.getStylesheets().remove("../resources/com/softpro/dnaig/style/LightMode.css");
+        parent.getStylesheets().add("../resources/com/softpro/dnaig/style/DarkMode.css");
+
+
+        //parent.getStylesheets().remove("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\LightMode.css");
+        //parent.getStylesheets().add("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\DarkMode.css");
+    }
+
+    /*************One Time METHODS**************/
+
+    // Location might change once finished (?)
+    public void deleteObject() {
+        //?? onKeyPressed (del or backspace)
+        int objID = -1;
+
+        for(int i = 0; i < objectListView.getItems().size();i++){
+             if(objectListView.getItems().get(i).equals(propertiesList.get(Integer.parseInt(lastClickedID)).getButton())){
+                 objID = i;
+             }
+        }
+
+        System.out.println("OBJID beim deleten: " + objID);
+        if(objID > 0)
+            propertiesList.remove(objID);
+            objectListView.getItems().remove(objID);
+    }
+
+    // FILES AND PATHS
     File fileChooser() {
         fileChooser.setTitle("Open .obj File");
         String fileString;
@@ -151,20 +351,16 @@ public class ApplicationController {
         return latestFile;
     }
 
-
-    @FXML
-    void loadRayTracer(MouseEvent event) {
-        //Button für RayTracer!
-        System.out.println("loading External Window for RayTracer...");
+    public void setLastClickedID(String s) {
+        this.lastClickedID = s;
     }
 
     public void initialize() {
         previewWindow = new PreviewWindow(previewPane);
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Wavefront OBJ Files", "*.obj"));
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("OBJ Files", "*.obj"));
     }
 
     public void handleKey(KeyEvent event) {
-        if (previewWindow != null)
-            previewWindow.handleKey(event);
+        if (previewWindow != null) previewWindow.handleKey(event);
     }
 }
