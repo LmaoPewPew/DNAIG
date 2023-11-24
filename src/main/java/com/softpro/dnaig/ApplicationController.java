@@ -1,21 +1,19 @@
 package com.softpro.dnaig;
 
 import com.softpro.dnaig.objData.Entity;
-import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.preview.PreviewWindow;
+import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.utils.ObjFileReader;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.*;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -25,7 +23,13 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.scene.text.Text;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class ApplicationController {
 
@@ -339,20 +343,14 @@ public class ApplicationController {
     /*************One Time METHODS**************/
 
     // Location might change once finished (?)
-    public void deleteObject() {
-        //?? onKeyPressed (del or backspace)
-        int objID = -1;
-
-        for(int i = 0; i < objectListView.getItems().size();i++){
-             if(objectListView.getItems().get(i).equals(propertiesList.get(Integer.parseInt(lastClickedID)).getButton())){
-                 objID = i;
-             }
+    public void deleteObject(int objID) {
+        for (ObjectProperties objectProperties : propertiesList) {
+            if (objectProperties.getObjID().equals(String.valueOf(objID))) {
+                objectListView.getItems().remove(objectProperties.getButton());
+                propertiesList.remove(objectProperties);
+                break;
+            }
         }
-
-        System.out.println("OBJID beim deleten: " + objID);
-        if(objID > 0)
-            propertiesList.remove(objID);
-            objectListView.getItems().remove(objID);
     }
 
     // FILES AND PATHS
@@ -372,7 +370,7 @@ public class ApplicationController {
     }
 
     public void initialize() {
-        previewWindow = new PreviewWindow(previewPane);
+        previewWindow = new PreviewWindow(previewPane, this);
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("OBJ Files", "*.obj"));
     }
 

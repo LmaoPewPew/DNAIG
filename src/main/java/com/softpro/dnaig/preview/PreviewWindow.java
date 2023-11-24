@@ -1,5 +1,6 @@
 package com.softpro.dnaig.preview;
 
+import com.softpro.dnaig.ApplicationController;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -25,9 +26,11 @@ public class PreviewWindow {
     private ObjectProperty<Mode> currentMode = new SimpleObjectProperty<>(Mode.MOVE_CAMERA_XY);
     private ObjectProperty<KeyCode> currentModifier = new SimpleObjectProperty<>(null);
     public StackPane root;
+    private ApplicationController applicationController;
 
-    public PreviewWindow(StackPane root) {
+    public PreviewWindow(StackPane root, ApplicationController applicationController) {
         this.root = root;
+        this.applicationController = applicationController;
 
         view = new View();
         overlay = new Overlay();
@@ -76,6 +79,20 @@ public class PreviewWindow {
         Model3D model = cameraController.getSelected();
         view.removeObject(model);
         cameraController.getModelCameraMap().remove(model);
+
+        int id = -1;
+        for (Map.Entry<Integer, Model3D> integerModel3DEntry : tempModelList.entrySet()) {
+            if (integerModel3DEntry.getValue() == model) {
+                id = integerModel3DEntry.getKey();
+                tempModelList.remove(id);
+                break;
+            }
+        }
+
+        if (id > -1) {
+            applicationController.deleteObject(id);
+        }
+
         updateSelected(-1);
     }
 
