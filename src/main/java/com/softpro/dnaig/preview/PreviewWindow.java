@@ -22,7 +22,6 @@ public class PreviewWindow {
     private Overlay overlay;
     private CameraController cameraController;
     private Map<Integer, Model3D> tempModelList;
-    private int tempModelCount = 0;
     private ObjectProperty<Mode> currentMode = new SimpleObjectProperty<>(Mode.MOVE_CAMERA_XY);
     private ObjectProperty<KeyCode> currentModifier = new SimpleObjectProperty<>(null);
     public StackPane root;
@@ -44,7 +43,7 @@ public class PreviewWindow {
         //addObject("src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj");
     }
 
-    public void addObject(String path) {
+    public void addObject(String path, int id) {
         try {
             Model3D model = view.addObject(path);
             Rotate rX = new Rotate(0, Rotate.X_AXIS);
@@ -52,7 +51,7 @@ public class PreviewWindow {
             Rotate rZ = new Rotate(0, Rotate.Z_AXIS);
             Translate t = new Translate();
 
-            tempModelList.put(tempModelCount++, model);
+            tempModelList.put(id, model);
 
             cameraController.getModelCameraMap().put(model, new CameraControlWrapper(rX, rY, rZ, t));
 
@@ -99,7 +98,6 @@ public class PreviewWindow {
     public void handleKey(KeyEvent event) {
         if (currentModifier.get() == null) {
             switch (event.getCode()) {
-                case F3 -> addObject("src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj");
                 case DELETE -> removeSelected();
                 case ESCAPE -> updateSelected(-1);
                 case F9 -> cameraController.resetCamera();

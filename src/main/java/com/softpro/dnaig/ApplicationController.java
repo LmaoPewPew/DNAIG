@@ -109,7 +109,7 @@ public class ApplicationController {
     void importLightObject(MouseEvent event) throws IOException {
         String values = openPropertiesWindows();
         //System.out.println("importLightObjects Values: " + values);
-        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj");
+        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", -1);
         createGUIObject(null);
     }
 
@@ -127,7 +127,7 @@ public class ApplicationController {
             entityList.add(entity);
 
             createGUIObject(entity);
-            previewWindow.addObject(entityFile.getPath());
+            previewWindow.addObject(entityFile.getPath(), entity.getID());
         } catch (IOException ignored) {
         }
     }
@@ -186,6 +186,8 @@ public class ApplicationController {
 
         if (e == null) {     //load light properties
             id = 1;
+
+            //TODO: fix ID
             int objID;
             if (!propertiesList.isEmpty()) {
                 objID = Integer.parseInt(propertiesList.getLast().getObjID()) + 1;
@@ -223,7 +225,6 @@ public class ApplicationController {
                             Float.toString(e.getOrient().getZ())},
                     previewWindow::updateSelected,
                     this);
-
         }
 
         updateObjectPropertiesMenu(op);
