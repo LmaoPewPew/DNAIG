@@ -35,8 +35,8 @@ public class Material_RT {
             Vector3D_RT positionToLight = l.getPosition().subtract(position).normalize();
             Vector3D_RT moved = position.move(Util.EPSILON, positionToLight);
             Ray shadow = new Ray(moved, positionToLight);
-            //boolean shadowed = shadow.castShadow2();
-            boolean shadowed = shadow.castShadow();
+            boolean shadowed = shadow.castShadow2();
+
             Vector3D_RT ret = new Vector3D_RT();
             ret.add(ambient.multiply(l.getIntensity(position)));
 
@@ -59,7 +59,7 @@ public class Material_RT {
             double NV = Math.max(normal.prod(V), 0);
             Vector3D_RT refl = normal.skalarmultiplication(2*NV).subtract(V).normalize();
             Ray reflection = new Ray(position.move(Util.EPSILON, refl), refl);
-            int res = reflection.castPrimary2(depth +1);
+            int res = reflection.castPrimary(depth +1);
             Color c = ColorConverter.rgbToColorConverter(res);
             Vector3D_RT v = new Vector3D_RT(c.getRed(), c.getGreen(), c.getBlue());
             sum.add(v.skalarmultiplication(reflectionIdx));

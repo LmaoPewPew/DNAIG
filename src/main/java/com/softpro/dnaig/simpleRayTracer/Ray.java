@@ -4,7 +4,6 @@ package com.softpro.dnaig.simpleRayTracer;
 import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.objData.Face;
 import com.softpro.dnaig.utils.ColorConverter;
-import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -42,44 +41,23 @@ public class Ray {
             return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
     }
-    
-    /**
-     * 
-     * 
-     * @param depth
-     * @return
-     * @throws IOException
-     */
     public int castPrimary2(int depth) throws IOException {
         if(depth > Util.maxRecursionDepth){
             return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
         Triangle intersect = null;
         double t = Double.MAX_VALUE-1;
-
-        // For each entity in the scene
         for(Entity e: CustomScene.getScene().entities){
-            System.out.println(CustomScene.getScene().entities.size());
-            // For each face in the entity
-            //for (int i = 0; i< e.getFaces().size(); i++) {
-            for(Face face : e){
-                // Create a triangle from the face
-                Triangle tri = new Triangle(face, Color.BLUE);
-
-                // Check if the ray intersects the triangle
+            for (int i = 0; i< e.getFaces().size(); i++) {
+                Triangle tri = new Triangle(e.getFaces().get(i), Color.BLUE);
                 double t2 = tri.intersect(this);
-
-                // If intersection is found and is closer than the previous one
                 if (t2 > 0 && t2 < t) {
                     intersect = tri;
                     t = t2;
                 }
-                break;
             }
         }
-        // If an intersection is found
         if(intersect!=null){
-            // Return the color of the intersected triangle
             return intersect.getColor(this.getPosition(t), depth);
         } else {
             return ColorConverter.colorToRGBConverter(Color.BLACK);

@@ -57,6 +57,37 @@ public class Triangle implements Object3D{
         m = new Material_RT(new Vector3D_RT(color.getRed(), color.getGreen(), color.getBlue()));
         m.setReference(this);
     }
+    public Triangle(Face face, double factor, Color color){
+        for (int i = 0; i<3; i++) {
+            Vertex vertex = face.getVertex(i);
+            switch (i) {
+                case 0 ->
+                        this.p1 = new Vector3D_RT(
+                                vertex.getCoordinates().getX()/factor,
+                                vertex.getCoordinates().getY()/factor,
+                                vertex.getCoordinates().getZ()/factor
+                        );
+                case 1 ->
+                        this.p2 = new Vector3D_RT(
+                                vertex.getCoordinates().getX()/factor,
+                                vertex.getCoordinates().getY()/factor,
+                                vertex.getCoordinates().getZ()/factor
+                        );
+                case 2 ->
+                        this.p3 = new Vector3D_RT(
+                                vertex.getCoordinates().getX()/factor,
+                                vertex.getCoordinates().getY()/factor,
+                                vertex.getCoordinates().getZ()/factor
+                        );
+                default -> {
+                }
+            }
+        }
+        m = new Material_RT(new Vector3D_RT(color.getRed(), color.getGreen(), color.getBlue()));
+        m.setReference(this);
+    }
+
+
 
     /**
      * Calculates the intersection of the ray with the triangle.
@@ -75,6 +106,7 @@ public class Triangle implements Object3D{
         double res = normal.prod(o);
         double r = (res-normal.prod(origin))/normal.prod(direction);
         Vector3D_RT intersection = Util.add(origin, direction.skalarmultiplication(r));
+
         double v2v , v1v;
         v2v = v1v = Double.MAX_VALUE;
         int[] lines = {-1, -1, -1};
@@ -107,7 +139,7 @@ public class Triangle implements Object3D{
                         for (int n = i+1; n<3; n++){
                             if(lines[n] == 0){
                                 double div = v1.getValue(n)*v1vv + v2.getValue(n);
-                                v2v = (intersection.getValue(i) - (v1.getValue(i) * v1vn + o.getValue(i))) / div;
+                                v2v = (intersection.getValue(n) - (v1.getValue(n) * v1vn + o.getValue(n))) / div;
                                 v1v = v1vn + v1vv * v2v;
                                 break;
                             }
