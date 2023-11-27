@@ -72,7 +72,7 @@ public class Entity implements Iterable<Face> {
     public void scale(float factor) {
         for (Face face : faces) {
             for (Vertex vertex : face) {
-                vertex.setCoordinates(vertex.getCoordinates().skalarMultiplication(factor));
+                vertex.setCoordinates(vertex.getCoordinates().scalarMultiplication(factor));
             }
         }
     }

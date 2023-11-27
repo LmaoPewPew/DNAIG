@@ -346,11 +346,17 @@ public class ObjFileReader {
         Entity entity;
         HashMap<String, Material> materials;
         try {
-            entity = createObject("src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.obj");
-            System.out.println(entity);
-            materials = createMaterial("src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.mtl");
-
-            materials.forEach((key, value) -> System.out.println(value));
+            entity = createObject("C:\\Users\\leonv\\Desktop\\tri.obj");
+            entity.forEach(ev -> {
+                ev.forEach(e -> {
+                    System.out.printf("x: %s y: %s z: %s\n",
+                            e.getCoordinates().getX(),
+                            e.getCoordinates().getY(),
+                            e.getCoordinates().getZ()
+                            );
+                });
+                System.out.println();
+            });
         } catch (IOException e) {
             System.out.println("File not found");
         }

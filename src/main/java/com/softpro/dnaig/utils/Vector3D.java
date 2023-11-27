@@ -1,5 +1,7 @@
 package com.softpro.dnaig.utils;
 
+import com.softpro.dnaig.simpleRayTracer.Util;
+
 /**
  * Represents a 3D vector with components for x, y, and z coordinates.
  */
@@ -35,7 +37,11 @@ public class Vector3D {
      * @return A new vector representing the addition result.
      */
     public Vector3D add(Vector3D v) {
-        return new Vector3D(this.x + v.getX(), this.y + v.getY(), this.z + v.getZ());
+        return new Vector3D(
+                this.x + v.getX(),
+                this.y + v.getY(),
+                this.z + v.getZ()
+        );
     }
 
     /**
@@ -45,7 +51,11 @@ public class Vector3D {
      * @return A new vector representing the subtraction result.
      */
     public Vector3D subtract(Vector3D v) {
-        return new Vector3D(this.x - v.getX(), this.y - v.getY(), this.z - v.getZ());
+        return new Vector3D(
+                this.x - v.getX(),
+                this.y - v.getY(),
+                this.z - v.getZ()
+        );
     }
 
     /**
@@ -56,7 +66,11 @@ public class Vector3D {
     public Vector3D normalize() {
         float len = length();
         if (len != 0) {
-            return new Vector3D(this.x / len, this.y / len, this.z / len);
+            return new Vector3D(
+                    this.x / len,
+                    this.y / len,
+                    this.z / len
+            );
         }
 
         // Return a new vector (0, 0, 0) to avoid division by zero if the length is 0.
@@ -69,8 +83,16 @@ public class Vector3D {
      * @param v The vector to multiply by the current vector.
      * @return A new vector representing the multiplication result.
      */
-    public Vector3D mul(Vector3D v) {
-        return new Vector3D(this.x * v.getX(), this.y * v.getY(), this.z * v.getZ());
+    public Vector3D multiply(Vector3D v) {
+        return new Vector3D(
+                this.x * v.getX(),
+                this.y * v.getY(),
+                this.z * v.getZ()
+        );
+    }
+
+    public float product(Vector3D v){
+        return this.x * v.getX() + this.y * v.getY() + this.z * v.getZ();
     }
 
     /**
@@ -80,7 +102,11 @@ public class Vector3D {
      * @return A new vector representing the cross product result.
      */
     public Vector3D crossProduct(Vector3D v) {
-        return new Vector3D(this.y * v.getZ() - v.getY() * this.z, this.z * v.getX() - v.getZ() * this.x, this.x * v.getY() - v.getX() * this.y);
+        return new Vector3D(
+                this.y * v.getZ() - v.getY() * this.z,
+                this.z * v.getX() - v.getZ() * this.x,
+                this.x * v.getY() - v.getX() * this.y
+        );
     }
 
     /**
@@ -89,8 +115,13 @@ public class Vector3D {
      * @param v The other vector for the dot product calculation.
      * @return The dot product value.
      */
-    public float skalarProduct(Vector3D v) {
-        return this.x * v.getX() + this.y * v.getY() + this.z * v.getZ();
+    public float scalarProduct(Vector3D v) {
+        float tmp = this.x * v.getX() + this.y * v.getY() + this.z * v.getZ();
+
+        if(tmp == 0)
+            return 0;
+
+        return (float) Math.sqrt(tmp);
     }
 
     /**
@@ -99,9 +130,20 @@ public class Vector3D {
      * @param f The scalar value to multiply by the current vector.
      * @return A new vector representing the scalar multiplication result.
      */
-    public Vector3D skalarMultiplication(float f) {
-        return new Vector3D(this.x * f, this.y * f, this.z * f);
+    public Vector3D scalarMultiplication(float f) {
+        return new Vector3D(
+                this.x * f,
+                this.y * f,
+                this.z * f
+        );
     }
+
+    /*
+    public Vector3D move(float epsilon, Vector3D positionToLight) {
+        return Util.add(this, positionToLight.scalarMultiplication(epsilon));
+    }
+
+     */
 
     /**
      * Rotating the vector on the x-axis, using standard matrix multiplication.
@@ -149,6 +191,50 @@ public class Vector3D {
         float newY = (float)(this.x * sinus + this.y * cosinus);
 
         return new Vector3D(newX, newY, this.z);
+    }
+
+    /**
+     * Sets the value of the x, y and z coordinates depending on their index.
+     * x: index = 0
+     * y: index = 1
+     * z: index = 2
+     *
+     * @param idx
+     * @param value
+     */
+    public void setValue(int idx, float value){
+        switch (idx) {
+            case 0 -> x = value;
+            case 1 -> y = value;
+            case 2 -> z = value;
+        }
+    }
+
+    /**
+     * Returns the value of the x, y and z coordinates depending on their index.
+     * If the index is out of bounds, the maximum value of the float-type is returned.
+     * x: index = 0
+     * y: index = 1
+     * z: index = 2
+     *
+     * @param idx Index for the x, y and z values.
+     * @return The value of the corresponding index.
+     */
+    public float getValue(int idx){
+        switch (idx) {
+            case 0 -> {
+                return x;
+            }
+            case 1 -> {
+                return y;
+            }
+            case 2 -> {
+                return z;
+            }
+            default -> {
+                return Float.MAX_VALUE;
+            }
+        }
     }
 
     /**
