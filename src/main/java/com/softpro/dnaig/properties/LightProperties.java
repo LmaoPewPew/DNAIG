@@ -44,7 +44,7 @@ public class LightProperties {
         //this.button.setStyle("-fx-background-color: transparent;");
         this.button.setOnAction(e -> {
             ac.setLastClickedID(getId());
-            ac.updateObjectPropertiesMenuOnLoad(this.getAll());
+            ac.updateObjectPropertiesMenu(this.getAll());
             previewCallbackWhenSelected.accept(Integer.parseInt(getId()));
         });
     }
