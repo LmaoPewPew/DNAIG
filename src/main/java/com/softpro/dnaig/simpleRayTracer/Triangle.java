@@ -9,7 +9,7 @@ import java.io.IOException;
 public class Triangle implements Object3D{
 
     Vector3D_RT p1, p2, p3;
-    Material_RT m = new Material_RT(new Vector3D_RT(1, 0, 0));;
+    Material_RT m = new Material_RT(new Vector3D_RT(1, 0, 0));
     {
         m.setReference(this);
     }

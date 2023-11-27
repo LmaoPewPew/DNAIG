@@ -1,6 +1,5 @@
 package com.softpro.dnaig.utils;
 
-import com.softpro.dnaig.simpleRayTracer.Util;
 
 /**
  * Represents a 3D vector with components for x, y, and z coordinates.

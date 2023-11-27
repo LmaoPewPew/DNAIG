@@ -190,11 +190,12 @@ public class CameraController {
                     wrapper.getrZ().setAngle(wrapper.getrZ().getAngle() - oldPos.getX() + event.getSceneX());
                     oldPos = new Point2D(event.getSceneX(), event.getSceneY());
                 }
-                case ERROR -> {
-                    System.out.println("01100101 01110010 01110010 01101111 01110010");
-                }
+                case ERROR -> System.out.println("01100101 01110010 01110010 01101111 01110010");
             }
-        } else if (event.getButton() == MouseButton.SECONDARY) {
+        } else {
+            if (event.getButton() != MouseButton.SECONDARY) {
+                return;
+            }
             switch (previewWindow.getCurrentMode().get()) {
                 case MOVE_CAMERA_XY -> {
                     this.view.getCamera().setTranslateX(this.view.getCamera().getTranslateX() - (oldPos.getX() - event.getSceneX()) * 0.2);
@@ -238,9 +239,7 @@ public class CameraController {
                     wrapper.updatePivotAfterMove();
                     oldPos = new Point2D(event.getSceneX(), event.getSceneY());
                 }
-                case ERROR -> {
-                    System.out.println("01100101 01110010 01110010 01101111 01110010");
-                }
+                case ERROR -> System.out.println("01100101 01110010 01110010 01101111 01110010");
             }
         }
     }

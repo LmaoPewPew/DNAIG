@@ -348,13 +348,11 @@ public class ObjFileReader {
         try {
             entity = createObject("C:\\Users\\leonv\\Desktop\\tri.obj");
             entity.forEach(ev -> {
-                ev.forEach(e -> {
-                    System.out.printf("x: %s y: %s z: %s\n",
-                            e.getCoordinates().getX(),
-                            e.getCoordinates().getY(),
-                            e.getCoordinates().getZ()
-                            );
-                });
+                ev.forEach(e -> System.out.printf("x: %s y: %s z: %s\n",
+                        e.getCoordinates().getX(),
+                        e.getCoordinates().getY(),
+                        e.getCoordinates().getZ()
+                        ));
                 System.out.println();
             });
         } catch (IOException e) {
