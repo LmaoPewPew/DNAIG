@@ -50,8 +50,7 @@ public class LightProperties {
     }
 
     public String[] getAll() {
-        String[] ret = {this.id, this.name, String.valueOf(this.lightvariants), this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]};
-        return ret; //Return objID, objName, lightvariant, pos x, pos y, pos z, rot x, rot y, rot z
+        return new String[]{this.id, this.name, String.valueOf(this.lightvariants), this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, lightvariant, pos x, pos y, pos z, rot x, rot y, rot z
     }
 
 
