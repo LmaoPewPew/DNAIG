@@ -9,4 +9,6 @@ module com.softpro.dnaig {
     exports com.softpro.dnaig;
     exports com.softpro.dnaig.preview;
     opens com.softpro.dnaig.preview to javafx.fxml;
+    exports com.softpro.dnaig.properties;
+    opens com.softpro.dnaig.properties to javafx.fxml;
 }
