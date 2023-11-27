@@ -7,5 +7,5 @@ public interface Object3D {
 
     int getColor(Vector3D_RT position, int depth) throws IOException;
 
-    public Vector3D_RT getNormal(Vector3D_RT position);
+    Vector3D_RT getNormal(Vector3D_RT position);
 }

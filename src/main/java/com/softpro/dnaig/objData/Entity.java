@@ -1,12 +1,9 @@
 package com.softpro.dnaig.objData;
 
 import com.softpro.dnaig.utils.Vector3D;
-import org.fxyz3d.geometry.Point3D;
-import org.fxyz3d.shapes.primitives.TriangulatedMesh;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 /**
  * Represents an Entity in 3D space, with properties such as its name, position, orientation,

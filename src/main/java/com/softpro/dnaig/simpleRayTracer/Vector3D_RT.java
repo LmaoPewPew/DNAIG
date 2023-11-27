@@ -107,16 +107,12 @@ public class Vector3D_RT {
     }
 
     public double getValue(int idx){
-        switch (idx){
-            case 0:
-                return x;
-            case 1:
-                return y;
-            case 2:
-                return z;
-            default:
-                return Double.MAX_VALUE;
-        }
+        return switch (idx) {
+            case 0 -> x;
+            case 1 -> y;
+            case 2 -> z;
+            default -> Double.MAX_VALUE;
+        };
     }
 
 }
