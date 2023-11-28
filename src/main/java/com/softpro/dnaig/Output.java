@@ -1,5 +1,6 @@
 package com.softpro.dnaig;
 
+import com.softpro.dnaig.properties.Properties;
 import com.softpro.dnaig.simpleRayTracer.RayTracer;
 import com.softpro.dnaig.utils.ColorConverter;
 import com.softpro.dnaig.utils.Config;
@@ -9,9 +10,11 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.LinkedList;
 
 public class Output extends Application {
 
@@ -26,6 +29,29 @@ public class Output extends Application {
     public Output(int width, int height) {
         canvas = new Canvas(width, height);
         drawDefaultBackground();
+    }
+
+    public static void openRayTracer(LinkedList<Properties> propertiesList) {
+        //ToDO:abarbeiten der propertiesListe
+
+        //toDo: open new window
+        Output panel = getOutput();
+
+        StackPane root = new StackPane();
+        root.getChildren().add(panel.canvas);
+        Stage primaryStage = new Stage();
+
+        primaryStage.setTitle("Simple Raytracer");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.setResizable(false);
+        primaryStage.show();
+
+        RayTracer r = new RayTracer();
+        try {
+            r.trace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private void drawDefaultBackground() {
@@ -70,7 +96,6 @@ public class Output extends Application {
 
         RayTracer r = new RayTracer();
         r.trace();
-
     }
 
 
