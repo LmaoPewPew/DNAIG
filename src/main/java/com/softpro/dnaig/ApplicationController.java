@@ -3,6 +3,8 @@ package com.softpro.dnaig;
 import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.properties.ObjectProperties;
+import com.softpro.dnaig.properties.Properties;
+import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -83,7 +85,7 @@ public class ApplicationController {
 
     @FXML
     private ListView<Button> objectListView;
-    private final LinkedList<ObjectProperties> propertiesList = new LinkedList<>();
+    private final LinkedList<Properties> propertiesList = new LinkedList<>();
     private String lastClickedID = "0";
     private final FileChooser fileChooser = new FileChooser();
     File latestFile = null;
@@ -107,18 +109,16 @@ public class ApplicationController {
 
     @FXML
     void importLightObject(MouseEvent event) throws IOException {
-        String values = openLightPropertiesWindows();
-        //System.out.println("importLightObjects Values: " + values);
+        openLightPropertiesWindows();
         previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", -1);
-        createGUIObject(null, 1);
+        createGUIObject(null, Config.type.LIGHT);
     }
 
     @FXML
     void importCameraObject(MouseEvent event) throws IOException{
-        String values = openCameraPropertiesWindows();
-        //System.out.println("importLightObjects Values: " + values);
+        openCameraPropertiesWindows();
         previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", -1);
-        createGUIObject(null, 2);
+        createGUIObject(null, Config.type.CAMERA);
     }
 
     @FXML
@@ -129,7 +129,7 @@ public class ApplicationController {
             System.out.println(entity);
             entityList.add(entity);
 
-            createGUIObject(entity, 0);
+            createGUIObject(entity, Config.type.OBJECT);
             previewWindow.addObject(entityFile.getPath(), entity.getID());
         } catch (IOException ignored) {
         }
@@ -139,6 +139,10 @@ public class ApplicationController {
     void loadRayTracer(MouseEvent event) {
         //TODO: open new scene/window from RayTracer after button Pressed!
         System.out.println("loading External Window for RayTracer...");
+
+        for (Properties properties : propertiesList) {
+            System.out.println("Test -> propertiesID: " + properties.getId());
+        }
     }
 
 
@@ -186,31 +190,30 @@ public class ApplicationController {
         return "0";
     }
 
-
-
     // ListView
-    void createGUIObject(Entity e, int objectType) {
+    void createGUIObject(Entity e, Config.type objectType) {
         loadObjectProperties(e,objectType);
         setObjectListView();
     }
 
     // ListView add Objects (IMG-View)
-    private void loadObjectProperties(Entity e, int objectType) {
+    private void loadObjectProperties(Entity e, Config.type categoryType) {
         ObjectProperties op;
 
         // TODO
         //  3D model from a light and camera in loadOBJ folder, needs to be added when button clicked   //
         //  /////////////////////////////////////////////////////////////////////////////////////////  //
 
-        if (objectType == 1) {     //load light properties
+        if (categoryType == Config.type.LIGHT) {     //load light properties
             //TODO: fix ID
             int objID;
             if (!propertiesList.isEmpty()) {
-                objID = Integer.parseInt(propertiesList.getLast().getObjID()) + 1;
+                objID = Integer.parseInt(propertiesList.getLast().getId()) + 1;
             } else {
                 objID = 0;
             }
             op = new ObjectProperties(
+                    categoryType,
                     String.valueOf(objID),
                     "light",
                     "N/A",
@@ -220,12 +223,13 @@ public class ApplicationController {
                     null,
                     this);
 
-        } else if(objectType == 0){          //load object properties
+        } else if(categoryType == Config.type.OBJECT){          //load object properties
             ////TODO: fix id -> id ist noch nicht gesynced mit der ID in der LinkedList
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
             e.setObjName(objFileName);
 
             op = new ObjectProperties(
+                    categoryType,
                     String.valueOf(e.getID()),
                     e.getObjName(),
                     Integer.toString(e.getFaces().size()),
@@ -243,12 +247,13 @@ public class ApplicationController {
         }else{          //load camera properties
             int objID;
             if (!propertiesList.isEmpty()) {
-                objID = Integer.parseInt(propertiesList.getLast().getObjID()) + 1;
+                objID = Integer.parseInt(propertiesList.getLast().getId()) + 1;
             } else {
                 objID = 0;
             }
 
             op = new ObjectProperties(
+                    categoryType,
                     String.valueOf(objID),
                     "camera",
                     "N/A",
@@ -260,7 +265,7 @@ public class ApplicationController {
         }
 
         updateObjectPropertiesMenu(op);
-        loadImage(op, objectType);
+        loadImage(op, categoryType);
     }
 
     private void setObjectListView() {
@@ -270,11 +275,11 @@ public class ApplicationController {
     }
 
     // GET IMAGES
-    private void loadImage(ObjectProperties op, int id) {
+    private void loadImage(ObjectProperties op, Config.type categoryType) {
         Image image;
-        if (id == 0) {      //object
+        if (categoryType == Config.type.OBJECT) {      //object
             image = new Image(objectIMG);
-        } else if (id == 1) {       //light
+        } else if (categoryType == Config.type.LIGHT) {       //light
             image = new Image(lightObjImg);
         } else {    // camera
             image = new Image(cameraObjImg);
@@ -289,18 +294,18 @@ public class ApplicationController {
     // Write values into Coord-Sys
     void updateObjectPropertiesMenu(ObjectProperties op) {
 
-        this.idTXT.setText(op.getObjID());
-        this.nameTXT.setText(op.getObjName());
-        this.facesTXT.setText(op.getObjFaces());
-        this.verticesTXT.setText(op.getObjVertices());
+        this.idTXT.setText(op.getId());
+        this.nameTXT.setText(op.getName());
+        this.facesTXT.setText(op.getFaces());
+        this.verticesTXT.setText(op.getVertices());
 
-        this.xPosTXT.setText(op.getObjPos()[0]);
-        this.yPosTXT.setText(op.getObjPos()[1]);
-        this.zPosTXT.setText(op.getObjPos()[2]);
+        this.xPosTXT.setText(op.getPos()[0]);
+        this.yPosTXT.setText(op.getPos()[1]);
+        this.zPosTXT.setText(op.getPos()[2]);
 
-        this.xRotTXT.setText(op.getObjRot()[0]);
-        this.yRotTXT.setText(op.getObjRot()[1]);
-        this.zRotTXT.setText(op.getObjRot()[2]);
+        this.xRotTXT.setText(op.getRot()[0]);
+        this.yRotTXT.setText(op.getRot()[1]);
+        this.zRotTXT.setText(op.getRot()[2]);
     }
 
     public void updateObjectPropertiesMenu(String[] s) {
@@ -377,10 +382,10 @@ public class ApplicationController {
 
     // Location might change once finished (?)
     public void deleteObject(int objID) {
-        for (ObjectProperties objectProperties : propertiesList) {
-            if (objectProperties.getObjID().equals(String.valueOf(objID))) {
-                objectListView.getItems().remove(objectProperties.getButton());
-                propertiesList.remove(objectProperties);
+        for (Properties properties : propertiesList) {
+            if (properties.getId().equals(String.valueOf(objID))) {
+                objectListView.getItems().remove(properties.getButton());
+                propertiesList.remove(properties);
                 break;
             }
         }
