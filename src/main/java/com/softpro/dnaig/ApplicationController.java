@@ -28,6 +28,8 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -40,9 +42,9 @@ public class ApplicationController {
     private VBox parent;
 
     //IMGs
-    String objectIMG = "https://i.imgur.com/4JzMipP.png";
-    String lightObjImg = "https://i.imgur.com/nbKsECu.png";
-    String cameraObjImg = "https://imgur.com/a/dOBCfej"; //WRONG IMAGE LINK
+    URL objectIMG = getClass().getResource("sprites/Obj_img.png");
+    URL lightObjImg = getClass().getResource("sprites/light_Img.png");
+    URL cameraObjImg = getClass().getResource("sprites/Camera_img.png");
 
     /**
      * //Relative Path, won't work
@@ -68,7 +70,6 @@ public class ApplicationController {
     private TextField zPosTXT;
     @FXML
     private TextField zRotTXT;
-
     //NOT EDITABLE
     @FXML
     private TextField idTXT;
@@ -139,10 +140,11 @@ public class ApplicationController {
     void loadRayTracer(MouseEvent event) {
         //TODO: open new scene/window from RayTracer after button Pressed!
         System.out.println("loading External Window for RayTracer...");
+        //openRayTracer(propertiesList)
 
-        for (Properties properties : propertiesList) {
-            System.out.println("Test -> propertiesID: " + properties.getId());
-        }
+        //for (Properties properties : propertiesList) {
+        //    System.out.println("Test -> propertiesID: " + properties.getId());
+        //}
     }
 
 
@@ -278,11 +280,23 @@ public class ApplicationController {
     private void loadImage(ObjectProperties op, Config.type categoryType) {
         Image image;
         if (categoryType == Config.type.OBJECT) {      //object
-            image = new Image(objectIMG);
+            try {
+                image = new Image(objectIMG.toURI().getPath().substring(1));
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
         } else if (categoryType == Config.type.LIGHT) {       //light
-            image = new Image(lightObjImg);
+            try {
+                image = new Image(lightObjImg.toURI().getPath().substring(1));
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
         } else {    // camera
-            image = new Image(cameraObjImg);
+            try {
+                image = new Image(cameraObjImg.toURI().getPath().substring(1));
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
         }
         op.setImageView(new ImageView(image));
         propertiesList.add(op);
