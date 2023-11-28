@@ -15,11 +15,13 @@ public class CameraProperties implements Properties{
     private String id;
     private String[] pos;
     private String[] rot;
+    private int width;
+    private int length;
     private ImageView imageView;
     private final Consumer<Integer> previewCallbackWhenSelected;
     private Button button;
 
-    public CameraProperties(Config.type categoryType, Config.cameravariants cameravariants, ApplicationController ac, String objName, String objID, String[] pos, String[] objRot, ImageView imageView, Consumer<Integer> previewCallbackWhenSelected, Button button) {
+    public CameraProperties(Config.type categoryType, Config.cameravariants cameravariants, ApplicationController ac, String objName, String objID, String[] pos, String[] objRot, int width, int length, Consumer<Integer> previewCallbackWhenSelected) {
         this.categoryType = categoryType;
         this.cameravariants = cameravariants;
         this.ac = ac;
@@ -27,9 +29,10 @@ public class CameraProperties implements Properties{
         this.id = objID;
         this.pos = pos;
         this.rot = objRot;
-        this.imageView = imageView;
+        this.width = width;
+        this.length = length;
         this.previewCallbackWhenSelected = previewCallbackWhenSelected;
-        this.button = button;
+        this.button = new Button();
     }
 
     public void setImageView(ImageView imageViews) {
@@ -42,6 +45,7 @@ public class CameraProperties implements Properties{
         this.button.setOnAction(e -> {
             ac.setLastClickedID(getId());
             ac.updateObjectPropertiesMenu(this.getAll());
+            ac.updateProperties(Config.type.CAMERA);
             previewCallbackWhenSelected.accept(Integer.parseInt(getId()));
         });
     }
@@ -101,5 +105,21 @@ public class CameraProperties implements Properties{
 
     public void setLightvariants(Config.cameravariants cameravariants) {
         this.cameravariants = cameravariants;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }

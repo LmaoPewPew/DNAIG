@@ -91,8 +91,8 @@ public class ObjectProperties implements Properties {
         this.button.setOnAction(e -> {
             ac.setLastClickedID(getId());
             ac.updateObjectPropertiesMenu(this.getAll());
+            ac.updateProperties(Config.type.OBJECT);
             previewCallbackWhenSelected.accept(Integer.parseInt(id));
-
         });
     }
 

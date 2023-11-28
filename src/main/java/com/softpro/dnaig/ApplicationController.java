@@ -2,6 +2,8 @@ package com.softpro.dnaig;
 
 import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.preview.PreviewWindow;
+import com.softpro.dnaig.properties.CameraProperties;
+import com.softpro.dnaig.properties.LightProperties;
 import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.properties.Properties;
 import com.softpro.dnaig.utils.Config;
@@ -12,22 +14,22 @@ import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.PortUnreachableException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -81,6 +83,8 @@ public class ApplicationController {
     //Menu
     @FXML
     private MenuItem menuTheme;
+    @FXML
+    private ScrollPane scrollPaneProperties;
     private boolean isLightMode = true;
 
 
@@ -201,6 +205,8 @@ public class ApplicationController {
     // ListView add Objects (IMG-View)
     private void loadObjectProperties(Entity e, Config.type categoryType) {
         ObjectProperties op;
+        LightProperties lp;
+        CameraProperties cp;
 
         // TODO
         //  3D model from a light and camera in loadOBJ folder, needs to be added when button clicked   //
@@ -208,25 +214,28 @@ public class ApplicationController {
 
         if (categoryType == Config.type.LIGHT) {     //load light properties
             //TODO: fix ID
+
             int objID;
             if (!propertiesList.isEmpty()) {
                 objID = Integer.parseInt(propertiesList.getLast().getId()) + 1;
             } else {
                 objID = 0;
             }
-            op = new ObjectProperties(
+            lp = new LightProperties(
                     categoryType,
-                    String.valueOf(objID),
+                    Config.lightvariants.POINT,
+                    100,
+                    this,
                     "light",
-                    "N/A",
-                    "N/A",
+                    String.valueOf(objID),
                     new String[]{"0", "0", "0"},
                     new String[]{"0", "0", "0"},
-                    null,
-                    this);
-
+                    null);
+            //updateObjectPropertiesMenu(lp);
+            loadImage(lp, categoryType);
         } else if(categoryType == Config.type.OBJECT){          //load object properties
             ////TODO: fix id -> id ist noch nicht gesynced mit der ID in der LinkedList
+
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
             e.setObjName(objFileName);
 
@@ -246,6 +255,8 @@ public class ApplicationController {
                             Float.toString(e.getOrient().getZ())},
                     previewWindow::updateSelected,
                     this);
+            //updateObjectPropertiesMenu(op);
+            loadImage(op, categoryType);
         }else{          //load camera properties
             int objID;
             if (!propertiesList.isEmpty()) {
@@ -254,20 +265,20 @@ public class ApplicationController {
                 objID = 0;
             }
 
-            op = new ObjectProperties(
+            cp = new CameraProperties(
                     categoryType,
-                    String.valueOf(objID),
+                    Config.cameravariants.CAM1,
+                    this,
                     "camera",
-                    "N/A",
-                    "N/A",
+                    String.valueOf(objID),
                     new String[]{"0", "0", "0"},
                     new String[]{"0", "0", "0"},
-                    null,
-                    this);
+                    1920,
+                    1080,
+                    null);
+            //updateObjectPropertiesMenu(cp);
+            loadImage(cp, categoryType);
         }
-
-        updateObjectPropertiesMenu(op);
-        loadImage(op, categoryType);
     }
 
     private void setObjectListView() {
@@ -277,7 +288,7 @@ public class ApplicationController {
     }
 
     // GET IMAGES
-    private void loadImage(ObjectProperties op, Config.type categoryType) {
+    private void loadImage(Properties op, Config.type categoryType) {
         Image image;
         if (categoryType == Config.type.OBJECT) {      //object
             try {
@@ -306,7 +317,7 @@ public class ApplicationController {
     /*************OBJECT COORDINATES**************/
 
     // Write values into Coord-Sys
-    void updateObjectPropertiesMenu(ObjectProperties op) {
+    /*void updateObjectPropertiesMenu(Properties op) {
 
         this.idTXT.setText(op.getId());
         this.nameTXT.setText(op.getName());
@@ -321,9 +332,9 @@ public class ApplicationController {
         this.yRotTXT.setText(op.getRot()[1]);
         this.zRotTXT.setText(op.getRot()[2]);
     }
-
+    */
     public void updateObjectPropertiesMenu(String[] s) {
-
+        /*
         this.idTXT.setText(s[0]);
         this.nameTXT.setText(s[1]);
         this.facesTXT.setText(s[2]);
@@ -336,6 +347,80 @@ public class ApplicationController {
         this.xRotTXT.setText(s[7]);
         this.yRotTXT.setText(s[8]);
         this.zRotTXT.setText(s[9]);
+        */
+    }
+
+    public void updateProperties(Config.type contentType){
+        GridPane gp = new GridPane();
+        gp.setVisible(true);
+        gp.addColumn(2);
+        gp.addRow(10);
+        int id= Integer.parseInt(lastClickedID);
+
+        //add properties: id, name, pos xyz, rot xyz
+        gp.add(new Text("ID:"),0,0);
+        gp.add(new TextField(propertiesList.get(id).getId()),1,0);
+
+        gp.add(new Text("Name:"),0,1);
+        gp.add(new TextField(propertiesList.get(id).getName()),1,1);
+
+        gp.add(new Text("Position:"),0,2);
+        gp.add(new Text("X:"),0,3);
+        gp.add(new TextField(propertiesList.get(id).getPos()[0]),1,3);
+        gp.add(new Text("Y:"),0,4);
+        gp.add(new TextField(propertiesList.get(id).getPos()[1]),1,4);
+        gp.add(new Text("Z:"),0,5);
+        gp.add(new TextField(propertiesList.get(id).getPos()[2]),1,5);
+
+        gp.add(new Text("Rotation:"),0,6);
+        gp.add(new Text("X:"),0,7);
+        gp.add(new TextField(propertiesList.get(id).getRot()[0]),1,7);
+        gp.add(new Text("Y:"),0,8);
+        gp.add(new TextField(propertiesList.get(id).getRot()[1]),1,8);
+        gp.add(new Text("Z:"),0,9);
+        gp.add(new TextField(propertiesList.get(id).getRot()[2]),1,9);
+
+        if(contentType == Config.type.OBJECT){
+            System.out.println("Object");
+            ObjectProperties op = (ObjectProperties) propertiesList.get(id);
+            gp.addRow(2);
+
+            gp.add(new Text("Faces:"),0,10);
+            gp.add(new TextField(op.getFaces()),1,10);
+
+            gp.add(new Text("Vertices:"),0,11);
+            gp.add(new TextField(op.getVertices()),1,11);
+        } else if (contentType == Config.type.LIGHT) {
+            System.out.println("Light");
+            LightProperties lp = (LightProperties) propertiesList.get(id);
+            gp.addRow(2);
+
+            gp.add(new Text("Brigthness:"),0,10);
+            gp.add(new TextField(String.valueOf(lp.getBrightness())),1,10);
+
+            gp.add(new Text("Variant:"),0,11);
+            ChoiceBox<String> cb = new ChoiceBox<>();
+            String[] choice = {"Light A", "Light B", "Light C"};
+            cb.getItems().setAll(choice);
+            gp.add(cb,1,11);
+        }else if(contentType == Config.type.CAMERA){
+            System.out.println("Camera");
+            CameraProperties cp = (CameraProperties) propertiesList.get(id);
+            gp.addRow(3);
+
+            gp.add(new Text("Length:"),0,10);
+            gp.add(new TextField(String.valueOf(cp.getLength())),1,10);
+
+            gp.add(new Text("Width:"),0,11);
+            gp.add(new TextField(String.valueOf(cp.getWidth())),1,11);
+
+            gp.add(new Text("Variants:"),0,12);
+            ChoiceBox<String> cb = new ChoiceBox<>();
+            String[] choice = {"Camera A", "Camera B", "Camera C"};
+            cb.getItems().setAll(choice);
+            gp.add(cb,1,12);
+        }
+        scrollPaneProperties.setContent(gp);
     }
 
 

@@ -90,9 +90,9 @@
                     <Insets left="15.0" right="15.0" />
                 </padding>
             </VBox>
-         <ScrollPane minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
+         <ScrollPane fx:id="scrollPaneProperties" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
             <content>
-                   <GridPane alignment="CENTER" hgap="5.0" vgap="5.0">
+                   <GridPane alignment="CENTER" hgap="5.0" vgap="5.0" visible="false">
                        <columnConstraints>
                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="54.0" minWidth="10.0" prefWidth="41.0" />
                            <ColumnConstraints hgrow="SOMETIMES" maxWidth="66.0" minWidth="10.0" prefWidth="61.0" />

@@ -20,7 +20,7 @@ public class LightProperties implements Properties {
     private final Consumer<Integer> previewCallbackWhenSelected;
     private Button button;
 
-    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, int brightness, ApplicationController ac, String objName, String objID, String[] pos, String[] objRot, ImageView imageView, Consumer<Integer> previewCallbackWhenSelected, Button button) {
+    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, int brightness, ApplicationController ac, String objName, String objID, String[] pos, String[] objRot, Consumer<Integer> previewCallbackWhenSelected) {
         this.categoryType = categoryType;
         this.lightvariants = lightvariants;
         this.brightness = brightness;
@@ -29,9 +29,8 @@ public class LightProperties implements Properties {
         this.id = objID;
         this.pos = pos;
         this.rot = objRot;
-        this.imageView = imageView;
         this.previewCallbackWhenSelected = previewCallbackWhenSelected;
-        this.button = button;
+        this.button = new Button();
     }
 
     public void setImageView(ImageView imageViews) {
@@ -44,6 +43,7 @@ public class LightProperties implements Properties {
         this.button.setOnAction(e -> {
             ac.setLastClickedID(getId());
             ac.updateObjectPropertiesMenu(this.getAll());
+            ac.updateProperties(Config.type.LIGHT);
             previewCallbackWhenSelected.accept(Integer.parseInt(getId()));
         });
     }

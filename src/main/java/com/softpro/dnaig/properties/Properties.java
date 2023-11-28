@@ -14,4 +14,11 @@ public interface Properties {
     Button button = null;
     String getId();
     Button getButton();
+    void setImageView(ImageView iv);
+
+    String getName();
+
+    String[] getPos();
+
+    String[] getRot();
 }
