@@ -48,8 +48,8 @@ public class Entity implements Iterable<Face> {
      * @param faces       A list of Face objects that make up the Entity.
      * @param vertexCount The number of vertices in the Entity
      */
-    public Entity(String objName, ArrayList<Face> faces, int vertexCount) {
-        this.id = entityID++;
+    public Entity(String objName, int id, ArrayList<Face> faces, int vertexCount) {
+        this.id = id;
 
         this.faces = faces;
         this.pivot = new Vector3D();

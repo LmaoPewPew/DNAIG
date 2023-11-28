@@ -91,16 +91,14 @@ public class ApplicationController {
     @FXML
     private ListView<Button> objectListView;
     private final LinkedList<Properties> propertiesList = new LinkedList<>();
-    private static int globalID=0;
     private String lastClickedID = "0";
     private final FileChooser fileChooser = new FileChooser();
     File latestFile = null;
     @FXML
     private StackPane previewPane;
     private PreviewWindow previewWindow;
-
-    //private final ObjFileReader objImporter = new ObjFileReader();
     final List<Entity> entityList = new ArrayList<>();
+    private static int objectID = 0;
 
     public ApplicationController() {
     }
@@ -115,27 +113,30 @@ public class ApplicationController {
 
     @FXML
     void importLightObject(MouseEvent event) throws IOException {
+        int id = objectID++;
         openLightPropertiesWindows();
-        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", -1);
-        createGUIObject(null, Config.type.LIGHT);
+        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", id);
+        createGUIObject(null, id, Config.type.LIGHT);
     }
 
     @FXML
     void importCameraObject(MouseEvent event) throws IOException{
+        int id = objectID++;
         openCameraPropertiesWindows();
-        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", -1);
-        createGUIObject(null, Config.type.CAMERA);
+        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", id);
+        createGUIObject(null, id, Config.type.CAMERA);
     }
 
     @FXML
     void importObject(MouseEvent event) {
         File entityFile = fileChooser();
         try {
-            Entity entity = ObjFileReader.createObject(entityFile.getPath());
+            int id = objectID++;
+            Entity entity = ObjFileReader.createObject(entityFile.getPath(), id);
             System.out.println(entity);
             entityList.add(entity);
 
-            createGUIObject(entity, Config.type.OBJECT);
+            createGUIObject(entity, id, Config.type.OBJECT);
             previewWindow.addObject(entityFile.getPath(), entity.getID());
         } catch (IOException ignored) {
         }
@@ -198,13 +199,13 @@ public class ApplicationController {
     }
 
     // ListView
-    void createGUIObject(Entity e, Config.type objectType) {
-        loadObjectProperties(e,objectType);
+    void createGUIObject(Entity e, int id, Config.type objectType) {
+        loadObjectProperties(e, id, objectType);
         setObjectListView();
     }
 
     // ListView add Objects (IMG-View)
-    private void loadObjectProperties(Entity e, Config.type categoryType) {
+    private void loadObjectProperties(Entity e, int id, Config.type categoryType) {
         ObjectProperties op;
         LightProperties lp;
         CameraProperties cp;
@@ -214,30 +215,25 @@ public class ApplicationController {
         //  /////////////////////////////////////////////////////////////////////////////////////////  //
 
         if (categoryType == Config.type.LIGHT) {     //load light properties
-            //TODO: fix ID
-
             lp = new LightProperties(
                     categoryType,
                     Config.lightvariants.POINT,
                     100,
                     this,
                     "light",
-                    String.valueOf(globalID++),
+                    String.valueOf(id),
                     new String[]{"0", "0", "0"},
                     new String[]{"0", "0", "0"},
-                    null);
+                    previewWindow::updateSelected);
             //updateObjectPropertiesMenu(lp);
             loadImage(lp, categoryType);
-        } else if(categoryType == Config.type.OBJECT){          //load object properties
-            ////TODO: fix id -> id ist noch nicht gesynced mit der ID in der LinkedList
-
-
+        } else if (categoryType == Config.type.OBJECT) {          //load object properties
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
             e.setObjName(objFileName);
 
             op = new ObjectProperties(
                     categoryType,
-                    String.valueOf(globalID++), //vorher: String.valueOf(e.getID())
+                    String.valueOf(id),
                     e.getObjName(),
                     Integer.toString(e.getFaces().size()),
                     Integer.toString(e.getVertexCount()),
@@ -253,18 +249,18 @@ public class ApplicationController {
                     this);
             //updateObjectPropertiesMenu(op);
             loadImage(op, categoryType);
-        }else{          //load camera properties
+        } else {          //load camera properties
             cp = new CameraProperties(
                     categoryType,
                     Config.cameravariants.CAM1,
                     this,
                     "camera",
-                    String.valueOf(globalID++),
+                    String.valueOf(id),
                     new String[]{"0", "0", "0"},
                     new String[]{"0", "0", "0"},
                     1920,
                     1080,
-                    null);
+                    previewWindow::updateSelected);
             //updateObjectPropertiesMenu(cp);
             loadImage(cp, categoryType);
         }
