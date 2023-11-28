@@ -91,6 +91,7 @@ public class ApplicationController {
     @FXML
     private ListView<Button> objectListView;
     private final LinkedList<Properties> propertiesList = new LinkedList<>();
+    private static int globalID=0;
     private String lastClickedID = "0";
     private final FileChooser fileChooser = new FileChooser();
     File latestFile = null;
@@ -215,19 +216,13 @@ public class ApplicationController {
         if (categoryType == Config.type.LIGHT) {     //load light properties
             //TODO: fix ID
 
-            int objID;
-            if (!propertiesList.isEmpty()) {
-                objID = Integer.parseInt(propertiesList.getLast().getId()) + 1;
-            } else {
-                objID = 0;
-            }
             lp = new LightProperties(
                     categoryType,
                     Config.lightvariants.POINT,
                     100,
                     this,
                     "light",
-                    String.valueOf(objID),
+                    String.valueOf(globalID++),
                     new String[]{"0", "0", "0"},
                     new String[]{"0", "0", "0"},
                     null);
@@ -236,20 +231,13 @@ public class ApplicationController {
         } else if(categoryType == Config.type.OBJECT){          //load object properties
             ////TODO: fix id -> id ist noch nicht gesynced mit der ID in der LinkedList
 
-            //test
-            int objID;
-            if (!propertiesList.isEmpty()) {
-                objID = Integer.parseInt(propertiesList.getLast().getId()) + 1;
-            } else {
-                objID = 0;
-            } //test ende
 
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
             e.setObjName(objFileName);
 
             op = new ObjectProperties(
                     categoryType,
-                    String.valueOf(objID), //vorher: String.valueOf(e.getID())
+                    String.valueOf(globalID++), //vorher: String.valueOf(e.getID())
                     e.getObjName(),
                     Integer.toString(e.getFaces().size()),
                     Integer.toString(e.getVertexCount()),
@@ -266,19 +254,12 @@ public class ApplicationController {
             //updateObjectPropertiesMenu(op);
             loadImage(op, categoryType);
         }else{          //load camera properties
-            int objID;
-            if (!propertiesList.isEmpty()) {
-                objID = Integer.parseInt(propertiesList.getLast().getId()) + 1;
-            } else {
-                objID = 0;
-            }
-
             cp = new CameraProperties(
                     categoryType,
                     Config.cameravariants.CAM1,
                     this,
                     "camera",
-                    String.valueOf(objID),
+                    String.valueOf(globalID++),
                     new String[]{"0", "0", "0"},
                     new String[]{"0", "0", "0"},
                     1920,
@@ -363,7 +344,14 @@ public class ApplicationController {
         gp.setVisible(true);
         gp.addColumn(2);
         gp.addRow(10);
-        int id= Integer.parseInt(lastClickedID);
+        int id=0;
+
+        for(int i = 0; i < propertiesList.size();i++){
+            if (propertiesList.get(i).getId().equals(String.valueOf(lastClickedID))) {
+                id = i;
+            }
+        }
+
 
         //add properties: id, name, pos xyz, rot xyz
         gp.add(new Text("ID:"),0,0);
