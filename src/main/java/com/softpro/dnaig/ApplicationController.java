@@ -40,7 +40,7 @@ public class ApplicationController {
     //IMGs
     String objectIMG = "https://i.imgur.com/4JzMipP.png";
     String lightObjImg = "https://i.imgur.com/nbKsECu.png";
-    String cameraObjImg = "https://i.imgur.com/nbKsECu.png"; //WRONG IMAGE LINK
+    String cameraObjImg = "https://imgur.com/a/dOBCfej"; //WRONG IMAGE LINK
 
     /**
      * //Relative Path, won't work
@@ -107,15 +107,18 @@ public class ApplicationController {
 
     @FXML
     void importLightObject(MouseEvent event) throws IOException {
-        String values = openPropertiesWindows();
+        String values = openLightPropertiesWindows();
         //System.out.println("importLightObjects Values: " + values);
         previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", -1);
-        createGUIObject(null);
+        createGUIObject(null, 1);
     }
 
     @FXML
-    void importCameraObject(MouseEvent event) {
-        System.out.println("ADD CAMERA");
+    void importCameraObject(MouseEvent event) throws IOException{
+        String values = openCameraPropertiesWindows();
+        //System.out.println("importLightObjects Values: " + values);
+        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", -1);
+        createGUIObject(null, 2);
     }
 
     @FXML
@@ -126,7 +129,7 @@ public class ApplicationController {
             System.out.println(entity);
             entityList.add(entity);
 
-            createGUIObject(entity);
+            createGUIObject(entity, 0);
             previewWindow.addObject(entityFile.getPath(), entity.getID());
         } catch (IOException ignored) {
         }
@@ -155,7 +158,7 @@ public class ApplicationController {
     /*************OBJECTS**************/
 
     // OPEN OBJECT SETTINGS SCENE (LIGHT AND/OR CAMERA)
-    private String openPropertiesWindows() throws IOException {
+    private String openLightPropertiesWindows() throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
 
         Scene scene = new Scene(root);
@@ -169,24 +172,37 @@ public class ApplicationController {
         return "0";
     }
 
+    private String openCameraPropertiesWindows() throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("cameraProperties.fxml")));
+
+        Scene scene = new Scene(root);
+        Stage primaryStage = new Stage();
+        primaryStage.setTitle("cameraProperties");
+        primaryStage.setScene(scene);
+
+        primaryStage.initModality(Modality.APPLICATION_MODAL);
+        primaryStage.show();
+
+        return "0";
+    }
+
+
+
     // ListView
-    void createGUIObject(Entity e) {
-        loadObjectProperties(e);
+    void createGUIObject(Entity e, int objectType) {
+        loadObjectProperties(e,objectType);
         setObjectListView();
     }
 
     // ListView add Objects (IMG-View)
-    private void loadObjectProperties(Entity e) {
+    private void loadObjectProperties(Entity e, int objectType) {
         ObjectProperties op;
-        int id;
 
         // TODO
         //  3D model from a light and camera in loadOBJ folder, needs to be added when button clicked   //
         //  /////////////////////////////////////////////////////////////////////////////////////////  //
 
-        if (e == null) {     //load light properties
-            id = 1;
-
+        if (objectType == 1) {     //load light properties
             //TODO: fix ID
             int objID;
             if (!propertiesList.isEmpty()) {
@@ -204,9 +220,8 @@ public class ApplicationController {
                     null,
                     this);
 
-        } else {          //load object properties
-            id = 0;
-
+        } else if(objectType == 0){          //load object properties
+            ////TODO: fix id -> id ist noch nicht gesynced mit der ID in der LinkedList
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
             e.setObjName(objFileName);
 
@@ -225,10 +240,27 @@ public class ApplicationController {
                             Float.toString(e.getOrient().getZ())},
                     previewWindow::updateSelected,
                     this);
+        }else{          //load camera properties
+            int objID;
+            if (!propertiesList.isEmpty()) {
+                objID = Integer.parseInt(propertiesList.getLast().getObjID()) + 1;
+            } else {
+                objID = 0;
+            }
+
+            op = new ObjectProperties(
+                    String.valueOf(objID),
+                    "camera",
+                    "N/A",
+                    "N/A",
+                    new String[]{"0", "0", "0"},
+                    new String[]{"0", "0", "0"},
+                    null,
+                    this);
         }
 
         updateObjectPropertiesMenu(op);
-        loadImage(op, id);
+        loadImage(op, objectType);
     }
 
     private void setObjectListView() {
@@ -244,7 +276,7 @@ public class ApplicationController {
             image = new Image(objectIMG);
         } else if (id == 1) {       //light
             image = new Image(lightObjImg);
-        } else {
+        } else {    // camera
             image = new Image(cameraObjImg);
         }
         op.setImageView(new ImageView(image));

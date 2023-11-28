@@ -10,9 +10,7 @@ import java.util.function.Consumer;
 public class LightProperties {
 
     private int brightness;
-
     private final ApplicationController ac;
-
     private Config.lightvariants lightvariants;
     private String name;
     private String id;

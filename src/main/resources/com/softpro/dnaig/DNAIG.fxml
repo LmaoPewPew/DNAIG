@@ -63,9 +63,9 @@
                         <Insets bottom="5.0" top="5.0" />
                     </VBox.margin>
                 </Button>
-                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="65.0" prefWidth="80.0">
+                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importCameraObject" prefHeight="65.0" prefWidth="80.0">
                     <graphic>
-                        <ImageView fitHeight="55.0" onMouseClicked="#importCameraObject" pickOnBounds="true" preserveRatio="true">
+                        <ImageView fitHeight="55.0" pickOnBounds="true" preserveRatio="true">
                             <Image url="@sprites/Camera_img.png" />
                         </ImageView>
                     </graphic>
