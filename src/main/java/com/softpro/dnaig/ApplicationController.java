@@ -236,12 +236,20 @@ public class ApplicationController {
         } else if(categoryType == Config.type.OBJECT){          //load object properties
             ////TODO: fix id -> id ist noch nicht gesynced mit der ID in der LinkedList
 
+            //test
+            int objID;
+            if (!propertiesList.isEmpty()) {
+                objID = Integer.parseInt(propertiesList.getLast().getId()) + 1;
+            } else {
+                objID = 0;
+            } //test ende
+
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
             e.setObjName(objFileName);
 
             op = new ObjectProperties(
                     categoryType,
-                    String.valueOf(e.getID()),
+                    String.valueOf(objID), //vorher: String.valueOf(e.getID())
                     e.getObjName(),
                     Integer.toString(e.getFaces().size()),
                     Integer.toString(e.getVertexCount()),

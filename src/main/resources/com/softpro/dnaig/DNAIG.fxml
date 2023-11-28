@@ -10,18 +10,13 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
 <VBox fx:id="parent" minHeight="748.8" minWidth="1331.2" prefHeight="400.0" prefWidth="1331.2" styleClass="root" stylesheets="@style/LightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softpro.dnaig.ApplicationController">
     <MenuBar styleClass="menu">
@@ -90,106 +85,7 @@
                     <Insets left="15.0" right="15.0" />
                 </padding>
             </VBox>
-         <ScrollPane fx:id="scrollPaneProperties" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0">
-            <content>
-                   <GridPane alignment="CENTER" hgap="5.0" vgap="5.0" visible="false">
-                       <columnConstraints>
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="54.0" minWidth="10.0" prefWidth="41.0" />
-                           <ColumnConstraints hgrow="SOMETIMES" maxWidth="66.0" minWidth="10.0" prefWidth="61.0" />
-                       </columnConstraints>
-                       <rowConstraints>
-                           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
-                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
-                           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
-                           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
-                           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
-                           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
-                           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
-                           <RowConstraints maxHeight="-Infinity" minHeight="-Infinity" prefHeight="35.0" vgrow="SOMETIMES" />
-                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
-                     <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="35.0" vgrow="SOMETIMES" />
-                       </rowConstraints>
-                       <padding>
-                           <Insets right="3.0" />
-                       </padding>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="ID: " textAlignment="CENTER">
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Text>
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Name: " textAlignment="CENTER" GridPane.rowIndex="1">
-                     <GridPane.margin>
-                        <Insets left="5.0" />
-                     </GridPane.margin>
-                  </Text>
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X_Pos:" textAlignment="CENTER" GridPane.rowIndex="2">
-                           <GridPane.margin>
-                               <Insets left="5.0" />
-                           </GridPane.margin>
-                       </Text>
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Y_Pos:" GridPane.rowIndex="3">
-                           <GridPane.margin>
-                               <Insets left="5.0" />
-                           </GridPane.margin>
-                       </Text>
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Z_Pos:" GridPane.rowIndex="4">
-                           <GridPane.margin>
-                               <Insets left="5.0" />
-                           </GridPane.margin>
-                       </Text>
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="X_Rot:" GridPane.rowIndex="5">
-                           <GridPane.margin>
-                               <Insets left="5.0" />
-                           </GridPane.margin>
-                       </Text>
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Y_Rot:" GridPane.rowIndex="6">
-                           <GridPane.margin>
-                               <Insets left="5.0" />
-                           </GridPane.margin>
-                       </Text>
-                       <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Z_Rot:" GridPane.rowIndex="7">
-                           <GridPane.margin>
-                               <Insets left="5.0" />
-                           </GridPane.margin>
-                       </Text>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Faces: " GridPane.rowIndex="8" />
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" styleClass="text" text="Vertices: " GridPane.rowIndex="9" />
-                  <TextField fx:id="idTXT" editable="false" prefHeight="16.0" prefWidth="62.0" promptText="Obj_ID" GridPane.columnIndex="1">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
-                     </padding>
-                     <opaqueInsets>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </opaqueInsets>
-                     <cursor>
-                        <Cursor fx:constant="DEFAULT" />
-                     </cursor>
-                  </TextField>
-                       <TextField fx:id="nameTXT" prefHeight="16.0" prefWidth="62.0" promptText="Obj_Name" GridPane.columnIndex="1" GridPane.rowIndex="1">
-                           <padding>
-                               <Insets bottom="5.0" left="5.0" right="10.0" top="5.0" />
-                           </padding>
-                           <opaqueInsets>
-                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </opaqueInsets>
-                           <cursor>
-                               <Cursor fx:constant="DEFAULT" />
-                           </cursor>
-                           <GridPane.margin>
-                               <Insets />
-                           </GridPane.margin>
-                       </TextField>
-                       <TextField promptText="Position" GridPane.columnIndex="1" GridPane.rowIndex="2" fx:id="xPosTXT" />
-                       <TextField fx:id="yPosTXT" promptText="Position" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                       <TextField fx:id="zPosTXT" promptText="Position" GridPane.columnIndex="1" GridPane.rowIndex="4" />
-                       <TextField promptText="Rotation" GridPane.columnIndex="1" GridPane.rowIndex="5" fx:id="xRotTXT" />
-                       <TextField fx:id="yRotTXT" promptText="Rotation" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                       <TextField fx:id="zRotTXT" promptText="Rotation" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-                  <TextField fx:id="facesTXT" editable="false" promptText="Rotation" GridPane.columnIndex="1" GridPane.rowIndex="8" />
-                  <TextField fx:id="verticesTXT" editable="false" promptText="Vertices" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-                   </GridPane>
-            </content>
-         </ScrollPane>
+         <ScrollPane fx:id="scrollPaneProperties" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" />
             <BorderPane>
                 <center>
                     <Button id="btnRender" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#loadRayTracer" prefHeight="50.0" prefWidth="90.0" text="Render" textAlignment="CENTER" textFill="#161317">
