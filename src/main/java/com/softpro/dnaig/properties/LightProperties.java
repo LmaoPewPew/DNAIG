@@ -42,7 +42,6 @@ public class LightProperties implements Properties {
         //this.button.setStyle("-fx-background-color: transparent;");
         this.button.setOnAction(e -> {
             ac.setLastClickedID(getId());
-            ac.updateObjectPropertiesMenu(this.getAll());
             ac.updateProperties(Config.type.LIGHT);
             previewCallbackWhenSelected.accept(Integer.parseInt(getId()));
         });

@@ -55,31 +55,6 @@ public class ApplicationController {
      * String cameraObjImg = "../resources/com/softpro/dnaig/sprites/Camera_img.png";
      */
 
-
-    //ObjectTextField
-    //EDITABLE
-    @FXML
-    private TextField nameTXT;
-    @FXML
-    private TextField xPosTXT;
-    @FXML
-    private TextField xRotTXT;
-    @FXML
-    private TextField yPosTXT;
-    @FXML
-    private TextField yRotTXT;
-    @FXML
-    private TextField zPosTXT;
-    @FXML
-    private TextField zRotTXT;
-    //NOT EDITABLE
-    @FXML
-    private TextField idTXT;
-    @FXML
-    private TextField facesTXT;
-    @FXML
-    private TextField verticesTXT;
-
     //Menu
     @FXML
     private MenuItem menuTheme;
@@ -115,7 +90,7 @@ public class ApplicationController {
     void importLightObject(MouseEvent event) throws IOException {
         int id = objectID++;
         openLightPropertiesWindows();
-        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", id);
+        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/lightbulb/lightbulb.obj", id);
         createGUIObject(null, id, Config.type.LIGHT);
     }
 
@@ -123,7 +98,7 @@ public class ApplicationController {
     void importCameraObject(MouseEvent event) throws IOException{
         int id = objectID++;
         openCameraPropertiesWindows();
-        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", id);
+        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/camera/camera.obj", id);
         createGUIObject(null, id, Config.type.CAMERA);
     }
 
@@ -242,7 +217,8 @@ public class ApplicationController {
                             Float.toString(e.getOrient().getY()),
                             Float.toString(e.getOrient().getZ())},
                     previewWindow::updateSelected,
-                    this);
+                    this,
+                    e.getPath());
             //updateObjectPropertiesMenu(op);
             loadImage(op, categoryType);
         } else {          //load camera properties
@@ -297,39 +273,6 @@ public class ApplicationController {
 
     /*************OBJECT COORDINATES**************/
 
-    // Write values into Coord-Sys
-    /*void updateObjectPropertiesMenu(Properties op) {
-
-        this.idTXT.setText(op.getId());
-        this.nameTXT.setText(op.getName());
-        this.facesTXT.setText(op.getFaces());
-        this.verticesTXT.setText(op.getVertices());
-
-        this.xPosTXT.setText(op.getPos()[0]);
-        this.yPosTXT.setText(op.getPos()[1]);
-        this.zPosTXT.setText(op.getPos()[2]);
-
-        this.xRotTXT.setText(op.getRot()[0]);
-        this.yRotTXT.setText(op.getRot()[1]);
-        this.zRotTXT.setText(op.getRot()[2]);
-    }
-    */
-    public void updateObjectPropertiesMenu(String[] s) {
-        /*
-        this.idTXT.setText(s[0]);
-        this.nameTXT.setText(s[1]);
-        this.facesTXT.setText(s[2]);
-        this.verticesTXT.setText(s[3]);
-
-        this.xPosTXT.setText(s[4]);
-        this.yPosTXT.setText(s[5]);
-        this.zPosTXT.setText(s[6]);
-
-        this.xRotTXT.setText(s[7]);
-        this.yRotTXT.setText(s[8]);
-        this.zRotTXT.setText(s[9]);
-        */
-    }
 
     public void updateProperties(Config.type contentType){
         GridPane gp = new GridPane();

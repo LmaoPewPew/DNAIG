@@ -80,6 +80,8 @@ public class ObjectProperties implements Properties {
         return imageView;
     }
 
+    private String path;
+
 
     public void setImageView(ImageView imageViews) {
         this.imageView = imageViews;
@@ -90,13 +92,12 @@ public class ObjectProperties implements Properties {
         //this.button.setStyle("-fx-background-color: transparent;");
         this.button.setOnAction(e -> {
             ac.setLastClickedID(getId());
-            ac.updateObjectPropertiesMenu(this.getAll());
             ac.updateProperties(Config.type.OBJECT);
             previewCallbackWhenSelected.accept(Integer.parseInt(id));
         });
     }
 
-    public ObjectProperties(Config.type categoryType,String id, String name, String faces, String vertices, String[] pos, String[] rot, Consumer<Integer> previewCallbackWhenSelected, ApplicationController ac) {
+    public ObjectProperties(Config.type categoryType,String id, String name, String faces, String vertices, String[] pos, String[] rot, Consumer<Integer> previewCallbackWhenSelected, ApplicationController ac, String path) {
         this.categoryType = categoryType;
         this.id = id;
         this.name = name;
@@ -107,6 +108,7 @@ public class ObjectProperties implements Properties {
         this.previewCallbackWhenSelected = previewCallbackWhenSelected;
         this.button = new Button();
         this.ac = ac;
+        this.path = path;
     }
 
 

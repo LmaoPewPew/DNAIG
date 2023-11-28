@@ -26,6 +26,8 @@ public class Entity implements Iterable<Face> {
     // Unique identifier.
     private final int id;
 
+    private String path;
+
     /**
      * Creates a new Entity with default values.
      */
@@ -219,6 +221,14 @@ public class Entity implements Iterable<Face> {
                 return faces.get(idx++);
             }
         };
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
 
