@@ -31,7 +31,7 @@ public class Output extends Application {
         drawDefaultBackground();
     }
 
-    public static void openRayTracer(LinkedList<Properties> propertiesList) {
+    public void openRayTracer(LinkedList<Properties> propertiesList) {
         //ToDO:abarbeiten der propertiesListe
 
         //toDo: open new window

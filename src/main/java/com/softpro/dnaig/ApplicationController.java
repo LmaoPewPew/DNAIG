@@ -121,7 +121,7 @@ public class ApplicationController {
     void loadRayTracer(MouseEvent event) {
         //TODO: open new scene/window from RayTracer after button Pressed!
         System.out.println("loading External Window for RayTracer...");
-        Output.openRayTracer(propertiesList);
+        Output.getOutput().openRayTracer(propertiesList);
     }
 
 
