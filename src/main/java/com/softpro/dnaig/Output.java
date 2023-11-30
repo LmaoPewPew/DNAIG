@@ -7,6 +7,7 @@ import com.softpro.dnaig.utils.Config;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
+import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -14,6 +15,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.LinkedList;
 
 public class Output extends Application {
@@ -89,9 +91,14 @@ public class Output extends Application {
         StackPane root = new StackPane();
         root.getChildren().add(panel.canvas);
 
-        primaryStage.setTitle("Simple Raytracer");
+        primaryStage.setTitle("Rendered Scene");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
+
+
+        URL logoIGM = getClass().getResource("sprites/LOGO.png");
+        primaryStage.getIcons().add(new Image(String.valueOf(logoIGM)));
+
         primaryStage.show();
 
         RayTracer r = new RayTracer();
