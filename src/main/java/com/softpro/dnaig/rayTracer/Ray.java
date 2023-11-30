@@ -1,23 +1,26 @@
-package com.softpro.dnaig.simpleRayTracer;
+package com.softpro.dnaig.rayTracer;
 
 
-import com.softpro.dnaig.objData.Entity;
-import com.softpro.dnaig.objData.Face;
+import com.softpro.dnaig.objData.mesh.Entity;
+import com.softpro.dnaig.objData.mesh.Face;
+import com.softpro.dnaig.objData.mesh.Object3D;
+import com.softpro.dnaig.objData.mesh.Triangle;
 import com.softpro.dnaig.utils.ColorConverter;
+import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
 
 public class Ray {
-    public Vector3D_RT position;
-    public Vector3D_RT direction;
+    public Vector3D position;
+    public Vector3D direction;
 
-    public Ray(Vector3D_RT pos, Vector3D_RT dir) {
+    public Ray(Vector3D pos, Vector3D dir) {
         this.direction = dir.normalize();
         this.position = pos;
     }
 
-    public Ray(Vector3D_RT from_point, Vector3D_RT to_point, boolean dummy) {
+    public Ray(Vector3D from_point, Vector3D to_point, boolean dummy) {
         this.position = from_point;
         this.direction = from_point.subtract(from_point).normalize();
     }
@@ -33,28 +36,6 @@ public class Ray {
             if(t2 > 0 && t2< t){
                 intersect = o;
                 t = t2;
-            }
-        }
-        if(intersect!=null){
-            return intersect.getColor(this.getPosition(t), depth);
-        } else {
-            return ColorConverter.colorToRGBConverter(Color.BLACK);
-        }
-    }
-    public int castPrimary2(int depth) throws IOException {
-        if(depth > Util.maxRecursionDepth){
-            return ColorConverter.colorToRGBConverter(Color.BLACK);
-        }
-        Triangle intersect = null;
-        double t = Double.MAX_VALUE-1;
-        for(Entity e: CustomScene.getScene().entities){
-            for (int i = 0; i< e.getFaces().size(); i++) {
-                Triangle tri = new Triangle(e.getFaces().get(i), Color.BLUE);
-                double t2 = tri.intersect(this);
-                if (t2 > 0 && t2 < t) {
-                    intersect = tri;
-                    t = t2;
-                }
             }
         }
         if(intersect!=null){
@@ -89,7 +70,7 @@ public class Ray {
         return false;
     }
 
-    private Vector3D_RT getPosition(double t) {
-        return Util.add(this.position, this.direction.skalarmultiplication(t));
+    private Vector3D getPosition(double t) {
+        return Util.add(this.position, this.direction.scalarMultiplication(t));
     }
 }

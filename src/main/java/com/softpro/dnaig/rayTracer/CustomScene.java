@@ -1,12 +1,12 @@
-package com.softpro.dnaig.simpleRayTracer;
+package com.softpro.dnaig.rayTracer;
 
 
-import com.softpro.dnaig.objData.Entity;
-import com.softpro.dnaig.objData.Face;
-import com.softpro.dnaig.objData.Material;
-import com.softpro.dnaig.objData.Vertex;
+import com.softpro.dnaig.objData.light.Light;
+import com.softpro.dnaig.objData.light.PointLight;
+import com.softpro.dnaig.objData.mesh.*;
 import com.softpro.dnaig.utils.ObjFileReader;
 import com.softpro.dnaig.utils.Vector3D;
+import javafx.scene.paint.Color;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -51,14 +51,57 @@ public class CustomScene {
         Face face = new Face(vertices, new Material(), 0);
         ArrayList<Face> faceArrayList = new ArrayList<>();
         faceArrayList.add(face);
-        Entity entity2 = new Entity("Test", faceArrayList, 3);
-        Entity entity = ObjFileReader.createObject("D:\\Code\\java\\school\\DNAIG\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\cube\\cube.obj");
-        //entity.scale(10);
+        //Entity entity2 = new Entity("Test", faceArrayList, 3);
+        Entity entity = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ico.obj");
+        Entity entity2 = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ico.obj");
+        Entity entity3 = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ico.obj");
+        Entity entity4  = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ico.obj");
+
+        Entity audi = ObjFileReader.createObject("C:\\THU\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\astonMartin\\astonMartin.obj");
         entities.add(entity);
         //lights.add(new PointLight(new Vector3D_RT(15, 15, 15), new Vector3D_RT(50, 50, 50)));
-        lights.add(new PointLight(new Vector3D_RT(0, 2, -2), new Vector3D_RT(5, 5, 5)));
+      //  lights.add(new PointLight(new Vector3D(0, 2, -2), new Vector3D(5, 5, 5)));
         //lights.add(new PointLight(new Vector3D_RT(-15, 15, -15), new Vector3D_RT(50, 50, 50)));
         // lights.add(new PointLight(new Vector3D_RT(-15, 15, 15), new Vector3D_RT(50, 50, 50)));
+
+        entity2.scale(0.5);
+        entity4.scale(0.25);
+
+        double maxX = Double.MIN_VALUE;
+        double maxY = Double.MIN_VALUE;
+        double maxZ = Double.MIN_VALUE;
+        for (Face face1: entity.getFaces()) {
+            for (int i = 0; i<face1.getVerticeCount(); i++) {
+                maxX = Math.max(maxX, Math.abs(face1.getVertex(i).getCoordinates().getX()));
+                maxY = Math.max(maxY, Math.abs(face1.getVertex(i).getCoordinates().getY()));
+                maxZ = Math.max(maxZ, Math.abs(face1.getVertex(i).getCoordinates().getZ()));
+            }
+        }
+        double factor = Math.max(Math.max(maxX, maxY), maxZ);
+
+        entity.setColor(Color.RED);
+        entity2.setColor(Color.GREEN);
+        entity3.setColor(Color.BLUE);
+        entity4.setColor(Color.YELLOW);
+
+
+        entity.setPivot(new Vector3D(.5, 0, .1));
+        entity2.setPivot(new Vector3D(0.25, 0.25, 0));
+        entity3.setPivot(new Vector3D(-0.25, -0.25, 0));
+        entity4.setPivot(new Vector3D(-0.5, 0, -0.1));
+
+
+        objects.addAll(entity.getTriangles(factor));
+        objects.addAll(entity2.getTriangles(factor));
+        objects.addAll(entity3.getTriangles(factor));
+        objects.addAll(entity4.getTriangles(factor));
+
+        System.out.println(objects.size());
+
+
+        lights.add(new PointLight(new Vector3D(0, 3, -3), new Vector3D(8, 5, 10)));
+        lights.add(new PointLight(new Vector3D(4, 2, -1.5), new Vector3D(13, 2, 1)));
+
     }
 
     public static CustomScene getScene() throws IOException {
