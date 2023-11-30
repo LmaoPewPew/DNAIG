@@ -15,7 +15,6 @@ public class LightProperties implements Properties {
     private String id;
     private String[] pos;
     private String[] rot;
-    private ImageView imageView;
     private Button button;
 
     public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, int brightness, String objName, String objID, String[] pos, String[] objRot) {

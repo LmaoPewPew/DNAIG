@@ -203,6 +203,7 @@ public class ApplicationController {
 
             op = new ObjectProperties(
                     categoryType,
+                    e,
                     String.valueOf(id),
                     e.getObjName(),
                     Integer.toString(e.getFaces().size()),
@@ -214,8 +215,7 @@ public class ApplicationController {
                     new String[]{
                             Float.toString(e.getOrient().getX()),
                             Float.toString(e.getOrient().getY()),
-                            Float.toString(e.getOrient().getZ())},
-                    e.getPath());
+                            Float.toString(e.getOrient().getZ())});
             loadImage(op, categoryType);
         } else {          //load camera properties
             cp = new CameraProperties(

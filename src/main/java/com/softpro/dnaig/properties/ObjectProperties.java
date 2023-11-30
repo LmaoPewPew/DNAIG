@@ -1,6 +1,7 @@
 package com.softpro.dnaig.properties;
 
 import com.softpro.dnaig.ApplicationController;
+import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -21,10 +22,9 @@ public class ObjectProperties implements Properties {
     private String vertices;
     private String[] pos;
     private String[] rot;
-    private ImageView imageView;
-
     private Button button;
 
+    private Entity entity;
 
     public String getId() {
         return id;
@@ -74,15 +74,11 @@ public class ObjectProperties implements Properties {
         this.rot = Rot;
     }
 
-    public ImageView getImageView() {
-        return imageView;
-    }
-
-    private String path;
 
 
-    public ObjectProperties(Config.type categoryType,String id, String name, String faces, String vertices, String[] pos, String[] rot, String path) {
+    public ObjectProperties(Config.type categoryType, Entity entity, String id, String name, String faces, String vertices, String[] pos, String[] rot) {
         this.categoryType = categoryType;
+        this.entity = entity;
         this.id = id;
         this.name = name;
         this.faces = faces;
@@ -90,7 +86,6 @@ public class ObjectProperties implements Properties {
         this.pos = pos;
         this.rot = rot;
         this.button = new Button();
-        this.path = path;
     }
 
 
@@ -98,9 +93,6 @@ public class ObjectProperties implements Properties {
         return new String[]{this.id, this.name, this.faces, this.vertices, this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return id, Name, Faces, Vertices, pos x, pos y, pos z, rot x, rot y, rot z
     }
 
-    public void setImage(Image image) {
-        this.imageView = new ImageView(image);
-    }
 
     public void setButton(Button button) {
         this.button = button;
@@ -108,5 +100,13 @@ public class ObjectProperties implements Properties {
 
     public Button getButton() {
         return button;
+    }
+
+    public Entity getEntity() {
+        return entity;
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
     }
 }
