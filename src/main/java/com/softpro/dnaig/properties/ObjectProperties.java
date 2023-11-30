@@ -15,7 +15,6 @@ public class ObjectProperties implements Properties {
     // Vertices: 11312
     // Position: x: 0,000000 y: 0,000000 z: 0,000000
     Config.type categoryType;
-    private final ApplicationController ac;
     private String name;
     private String id;
     private String faces;
@@ -23,7 +22,6 @@ public class ObjectProperties implements Properties {
     private String[] pos;
     private String[] rot;
     private ImageView imageView;
-    private final Consumer<Integer> previewCallbackWhenSelected;
 
     private Button button;
 
@@ -83,21 +81,7 @@ public class ObjectProperties implements Properties {
     private String path;
 
 
-    public void setImageView(ImageView imageViews) {
-        this.imageView = imageViews;
-        this.imageView.setFitWidth(100);
-        this.imageView.setFitHeight(100);
-
-        this.button.setGraphic(this.imageView);
-        //this.button.setStyle("-fx-background-color: transparent;");
-        this.button.setOnAction(e -> {
-            ac.setLastClickedID(getId());
-            ac.updateProperties(Config.type.OBJECT);
-            previewCallbackWhenSelected.accept(Integer.parseInt(id));
-        });
-    }
-
-    public ObjectProperties(Config.type categoryType,String id, String name, String faces, String vertices, String[] pos, String[] rot, Consumer<Integer> previewCallbackWhenSelected, ApplicationController ac, String path) {
+    public ObjectProperties(Config.type categoryType,String id, String name, String faces, String vertices, String[] pos, String[] rot, String path) {
         this.categoryType = categoryType;
         this.id = id;
         this.name = name;
@@ -105,9 +89,7 @@ public class ObjectProperties implements Properties {
         this.vertices = vertices;
         this.pos = pos;
         this.rot = rot;
-        this.previewCallbackWhenSelected = previewCallbackWhenSelected;
         this.button = new Button();
-        this.ac = ac;
         this.path = path;
     }
 

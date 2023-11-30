@@ -36,6 +36,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Consumer;
+
 
 public class ApplicationController {
 
@@ -75,7 +77,7 @@ public class ApplicationController {
     final List<Entity> entityList = new ArrayList<>();
     private static int objectID = 0;
 
-    public ApplicationController() {
+    public ApplicationController() {;
     }
 
 
@@ -190,13 +192,10 @@ public class ApplicationController {
                     categoryType,
                     Config.lightvariants.POINT,
                     100,
-                    this,
                     "light",
                     String.valueOf(id),
                     new String[]{"0", "0", "0"},
-                    new String[]{"0", "0", "0"},
-                    previewWindow::updateSelected);
-            //updateObjectPropertiesMenu(lp);
+                    new String[]{"0", "0", "0"});
             loadImage(lp, categoryType);
         } else if (categoryType == Config.type.OBJECT) {          //load object properties
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
@@ -216,24 +215,18 @@ public class ApplicationController {
                             Float.toString(e.getOrient().getX()),
                             Float.toString(e.getOrient().getY()),
                             Float.toString(e.getOrient().getZ())},
-                    previewWindow::updateSelected,
-                    this,
                     e.getPath());
-            //updateObjectPropertiesMenu(op);
             loadImage(op, categoryType);
         } else {          //load camera properties
             cp = new CameraProperties(
                     categoryType,
                     Config.cameravariants.CAM1,
-                    this,
                     "camera",
                     String.valueOf(id),
                     new String[]{"0", "0", "0"},
                     new String[]{"0", "0", "0"},
                     1920,
-                    1080,
-                    previewWindow::updateSelected);
-            //updateObjectPropertiesMenu(cp);
+                    1080);
             loadImage(cp, categoryType);
         }
     }
@@ -241,7 +234,25 @@ public class ApplicationController {
     private void setObjectListView() {
         //ObjectList Region
         objectListView.setPadding(new Insets(10, 5, 10, 5));
-        objectListView.getItems().add(propertiesList.get(propertiesList.size() - 1).getButton());
+        objectListView.getItems().add(propertiesList.getLast().getButton()); //davor  propertiesList.get(propertiesList.size() - 1).getButton()
+    }
+
+    private void setButton(ImageView iv, Config.type categoryType){
+        Button button = propertiesList.getLast().getButton();
+        iv.setFitWidth(100);
+        iv.setFitHeight(100);
+        button.setGraphic(iv);
+        button.setOnAction(e -> {
+            Object x = e.getSource();
+            for(int i = 0; i < propertiesList.size();i++){
+                if (propertiesList.get(i).getButton().equals(x)) {
+                    setLastClickedID(propertiesList.get(i).getId());
+                    break;
+                }
+            }
+            updateProperties(categoryType);
+            previewWindow.updateSelected(Integer.parseInt(lastClickedID));
+        });
     }
 
     // GET IMAGES
@@ -266,8 +277,8 @@ public class ApplicationController {
                 throw new RuntimeException(e);
             }
         }
-        op.setImageView(new ImageView(image));
         propertiesList.add(op);
+        setButton(new ImageView(image),categoryType); //setButton and call function
     }
 
 
@@ -286,7 +297,6 @@ public class ApplicationController {
                 id = i;
             }
         }
-
 
         //add properties: id, name, pos xyz, rot xyz
         gp.add(new Text("ID:"),0,0);

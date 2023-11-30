@@ -3,6 +3,8 @@ import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
+import java.util.function.Consumer;
+
 
 public interface Properties {
     Config.type categoryType = null;
@@ -14,11 +16,12 @@ public interface Properties {
     Button button = null;
     String getId();
     Button getButton();
-    void setImageView(ImageView iv);
 
     String getName();
 
     String[] getPos();
 
     String[] getRot();
+    void setButton(Button button);
+
 }

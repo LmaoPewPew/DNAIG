@@ -10,48 +10,28 @@ import java.util.function.Consumer;
 public class LightProperties implements Properties {
     Config.type categoryType;
     private int brightness;
-    private final ApplicationController ac;
     private Config.lightvariants lightvariants;
     private String name;
     private String id;
     private String[] pos;
     private String[] rot;
     private ImageView imageView;
-    private final Consumer<Integer> previewCallbackWhenSelected;
     private Button button;
 
-    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, int brightness, ApplicationController ac, String objName, String objID, String[] pos, String[] objRot, Consumer<Integer> previewCallbackWhenSelected) {
+    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, int brightness, String objName, String objID, String[] pos, String[] objRot) {
         this.categoryType = categoryType;
         this.lightvariants = lightvariants;
         this.brightness = brightness;
-        this.ac = ac;
         this.name = objName;
         this.id = objID;
         this.pos = pos;
         this.rot = objRot;
-        this.previewCallbackWhenSelected = previewCallbackWhenSelected;
         this.button = new Button();
-    }
-
-    public void setImageView(ImageView imageViews) {
-        this.imageView = imageViews;
-        this.imageView.setFitWidth(100);
-        this.imageView.setFitHeight(100);
-
-        this.button.setGraphic(this.imageView);
-        //this.button.setStyle("-fx-background-color: transparent;");
-        this.button.setOnAction(e -> {
-            ac.setLastClickedID(getId());
-            ac.updateProperties(Config.type.LIGHT);
-            previewCallbackWhenSelected.accept(Integer.parseInt(getId()));
-        });
     }
 
     public String[] getAll() {
         return new String[]{this.id, this.name, String.valueOf(this.lightvariants), this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, lightvariant, pos x, pos y, pos z, rot x, rot y, rot z
     }
-
-
 
 
     //getter and setter

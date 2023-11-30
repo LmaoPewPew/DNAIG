@@ -9,7 +9,6 @@ import java.util.function.Consumer;
 
 public class CameraProperties implements Properties{
     Config.type categoryType;
-    private final ApplicationController ac;
     private Config.cameravariants cameravariants;
     private String name;
     private String id;
@@ -18,35 +17,18 @@ public class CameraProperties implements Properties{
     private int width;
     private int length;
     private ImageView imageView;
-    private final Consumer<Integer> previewCallbackWhenSelected;
     private Button button;
 
-    public CameraProperties(Config.type categoryType, Config.cameravariants cameravariants, ApplicationController ac, String objName, String objID, String[] pos, String[] objRot, int width, int length, Consumer<Integer> previewCallbackWhenSelected) {
+    public CameraProperties(Config.type categoryType, Config.cameravariants cameravariants, String objName, String objID, String[] pos, String[] objRot, int width, int length) {
         this.categoryType = categoryType;
         this.cameravariants = cameravariants;
-        this.ac = ac;
         this.name = objName;
         this.id = objID;
         this.pos = pos;
         this.rot = objRot;
         this.width = width;
         this.length = length;
-        this.previewCallbackWhenSelected = previewCallbackWhenSelected;
         this.button = new Button();
-    }
-
-    public void setImageView(ImageView imageViews) {
-        this.imageView = imageViews;
-        this.imageView.setFitWidth(100);
-        this.imageView.setFitHeight(100);
-
-        this.button.setGraphic(this.imageView);
-        //this.button.setStyle("-fx-background-color: transparent;");
-        this.button.setOnAction(e -> {
-            ac.setLastClickedID(getId());
-            ac.updateProperties(Config.type.CAMERA);
-            previewCallbackWhenSelected.accept(Integer.parseInt(getId()));
-        });
     }
 
     public String[] getAll() {
