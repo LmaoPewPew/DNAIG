@@ -1,5 +1,7 @@
 package com.softpro.dnaig.objData.mesh;
 
+import javafx.scene.paint.Color;
+
 import java.util.Iterator;
 
 /**
@@ -78,6 +80,36 @@ public class Face implements Iterable<Vertex> {
         }
 
         return str.toString();
+    }
+
+    public Triangle[] toTriangle(double factor, Color color) {
+        Triangle[] triangles;
+        if (vertices.length >= 4) {
+            triangles = new Triangle[2];
+
+            triangles[0] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[1].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    color
+            );
+            triangles[1] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[3].getCoordinates().scalarMultiplication(1 / factor),
+                    color
+            );
+
+        } else {
+            triangles = new Triangle[1];
+            triangles[0] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[1].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    color
+            );
+        }
+        return triangles;
     }
 
     @Override

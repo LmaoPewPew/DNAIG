@@ -28,6 +28,7 @@ public class RayTracer {
                 Ray r = new Ray(camera.getEye(), dir);
 
                 int res_color = r.castPrimary(0);
+
                 Output.setPixel(i, j, res_color);
 
             }

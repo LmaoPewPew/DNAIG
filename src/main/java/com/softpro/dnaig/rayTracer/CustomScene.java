@@ -51,21 +51,8 @@ public class CustomScene {
         Face face = new Face(vertices, new Material(), 0);
         ArrayList<Face> faceArrayList = new ArrayList<>();
         faceArrayList.add(face);
-        //Entity entity2 = new Entity("Test", faceArrayList, 3);
-        Entity entity = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ico.obj", 0);
-        Entity entity2 = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ico.obj", 1);
-        Entity entity3 = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ico.obj", 2);
-        Entity entity4  = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ico.obj", 3);
 
-        Entity audi = ObjFileReader.createObject("C:\\THU\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\astonMartin\\astonMartin.obj", 4);
-        entities.add(entity);
-        //lights.add(new PointLight(new Vector3D_RT(15, 15, 15), new Vector3D_RT(50, 50, 50)));
-      //  lights.add(new PointLight(new Vector3D(0, 2, -2), new Vector3D(5, 5, 5)));
-        //lights.add(new PointLight(new Vector3D_RT(-15, 15, -15), new Vector3D_RT(50, 50, 50)));
-        // lights.add(new PointLight(new Vector3D_RT(-15, 15, 15), new Vector3D_RT(50, 50, 50)));
-
-        entity2.scale(0.5);
-        entity4.scale(0.25);
+        Entity entity = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\quad.obj", 0);
 
         double maxX = Double.MIN_VALUE;
         double maxY = Double.MIN_VALUE;
@@ -79,23 +66,11 @@ public class CustomScene {
         }
         double factor = Math.max(Math.max(maxX, maxY), maxZ);
 
+        entity.forEach(System.out::println);
         entity.setColor(Color.RED);
-        entity2.setColor(Color.GREEN);
-        entity3.setColor(Color.BLUE);
-        entity4.setColor(Color.YELLOW);
-
-
-        entity.setPivot(new Vector3D(.5, 0, .1));
-        entity2.setPivot(new Vector3D(0.25, 0.25, 0));
-        entity3.setPivot(new Vector3D(-0.25, -0.25, 0));
-        entity4.setPivot(new Vector3D(-0.5, 0, -0.1));
 
 
         objects.addAll(entity.getTriangles(factor));
-        objects.addAll(entity2.getTriangles(factor));
-        objects.addAll(entity3.getTriangles(factor));
-        objects.addAll(entity4.getTriangles(factor));
-
         System.out.println(objects.size());
 
 

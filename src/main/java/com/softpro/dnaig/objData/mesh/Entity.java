@@ -4,13 +4,14 @@ import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
  * Represents an Entity in 3D space, with properties such as its name, position, orientation,
  * and a collection of faces that make up the Entity.
  */
-public class Entity implements Iterable<Face> {
+public class Entity implements TriangleMesh, Iterable<Face> {
     // Static unique identifier for each object.
     private static int entityID = 0;
 
@@ -96,11 +97,9 @@ public class Entity implements Iterable<Face> {
         for (Face face : faces) {
             for (Vertex vertex : face) {
                 Vector3D newCoordinates = vertex.getCoordinates();
-                //newCoordinates = newCoordinates.rotateX(x);
-               // newCoordinates = newCoordinates.rotateY(y);
-                //newCoordinates = newCoordinates.rotateZ(z);
-
-                vertex.setCoordinates(newCoordinates);
+                newCoordinates.rotateX(x);
+                newCoordinates.rotateY(y);
+                newCoordinates.rotateZ(z);
             }
         }
     }
@@ -199,11 +198,10 @@ public class Entity implements Iterable<Face> {
         return color;
     }
 
+    @Override
     public ArrayList<Triangle> getTriangles(double factor) {
         ArrayList<Triangle> triangles = new ArrayList<>();
-        for (Face face: faces) {
-            triangles.add(new Triangle(face, factor / 2, color));
-        }
+        faces.forEach(face -> triangles.addAll(Arrays.asList(face.toTriangle(factor / 2, color))));
         return triangles;
     }
 

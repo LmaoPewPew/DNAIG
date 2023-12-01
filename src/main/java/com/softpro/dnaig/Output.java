@@ -83,6 +83,11 @@ public class Output extends Application {
         inst.canvas.getGraphicsContext2D().getPixelWriter().setColor(x, y, color);
     }
 
+    public static void dispose(){
+        Output inst = getOutput();
+
+    }
+
     @Override
     public void start(Stage primaryStage) throws IOException {
 
