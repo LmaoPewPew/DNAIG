@@ -6,7 +6,7 @@
 
 /* MenuBar styles */
 .menu-bar {
-    -fx-background-color: #f0f0f0;
+    -fx-background-color: #d7d7d7;
 }
 
 .menu {
@@ -24,20 +24,25 @@
     -fx-background-color: #e0e0e0;
     -fx-text-fill: #333333;
     -fx-border-color: black;
-    -fx-border-width: 1px;
+    -fx-border-width: 2px;
     -fx-border-radius: 5px;
 }
+
+.button:hover {
+    -fx-background-color: #bbbbbb;
+}
+
 
 /* TextField styles */
 .text-field {
     -fx-background-color: #ffffff;
     -fx-text-fill: #333333;
+    -fx-border-color: black;
+    -fx-border-width: 1px;
+    -fx-border-radius: 5px;
 }
 
 /* Text styles */
 .text {
     -fx-fill: #333333;
-}
-
-.content {
 }

@@ -8,10 +8,13 @@ import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.properties.Properties;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -97,7 +100,7 @@ public class ApplicationController {
     }
 
     @FXML
-    void importCameraObject(MouseEvent event) throws IOException{
+    void importCameraObject(MouseEvent event) throws IOException {
         int id = objectID++;
         openCameraPropertiesWindows();
         previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/camera/camera.obj", id);
@@ -188,45 +191,16 @@ public class ApplicationController {
         //  /////////////////////////////////////////////////////////////////////////////////////////  //
 
         if (categoryType == Config.type.LIGHT) {     //load light properties
-            lp = new LightProperties(
-                    categoryType,
-                    Config.lightvariants.POINT,
-                    100,
-                    "light",
-                    String.valueOf(id),
-                    new String[]{"0", "0", "0"},
-                    new String[]{"0", "0", "0"});
+            lp = new LightProperties(categoryType, Config.lightvariants.POINT, 100, "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"});
             loadImage(lp, categoryType);
         } else if (categoryType == Config.type.OBJECT) {          //load object properties
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
             e.setObjName(objFileName);
 
-            op = new ObjectProperties(
-                    categoryType,
-                    e,
-                    String.valueOf(id),
-                    e.getObjName(),
-                    Integer.toString(e.getFaces().size()),
-                    Integer.toString(e.getVertexCount()),
-                    new String[]{
-                            Double.toString(e.getPivot().getX()),
-                            Double.toString(e.getPivot().getY()),
-                            Double.toString(e.getPivot().getZ())},
-                    new String[]{
-                            Double.toString(e.getOrient().getX()),
-                            Double.toString(e.getOrient().getY()),
-                            Double.toString(e.getOrient().getZ())});
+            op = new ObjectProperties(categoryType, e, String.valueOf(id), e.getObjName(), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Double.toString(e.getPivot().getX()), Double.toString(e.getPivot().getY()), Double.toString(e.getPivot().getZ())}, new String[]{Double.toString(e.getOrient().getX()), Double.toString(e.getOrient().getY()), Double.toString(e.getOrient().getZ())});
             loadImage(op, categoryType);
         } else {          //load camera properties
-            cp = new CameraProperties(
-                    categoryType,
-                    Config.cameravariants.CAM1,
-                    "camera",
-                    String.valueOf(id),
-                    new String[]{"0", "0", "0"},
-                    new String[]{"0", "0", "0"},
-                    1920,
-                    1080);
+            cp = new CameraProperties(categoryType, Config.cameravariants.CAM1, "camera", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, 1920, 1080);
             loadImage(cp, categoryType);
         }
     }
@@ -237,14 +211,14 @@ public class ApplicationController {
         objectListView.getItems().add(propertiesList.getLast().getButton()); //davor  propertiesList.get(propertiesList.size() - 1).getButton()
     }
 
-    private void setButton(ImageView iv, Config.type categoryType){
+    private void setButton(ImageView iv, Config.type categoryType) {
         Button button = propertiesList.getLast().getButton();
         iv.setFitWidth(100);
         iv.setFitHeight(100);
         button.setGraphic(iv);
         button.setOnAction(e -> {
             Object x = e.getSource();
-            for(int i = 0; i < propertiesList.size();i++){
+            for (int i = 0; i < propertiesList.size(); i++) {
                 if (propertiesList.get(i).getButton().equals(x)) {
                     setLastClickedID(propertiesList.get(i).getId());
                     break;
@@ -278,91 +252,139 @@ public class ApplicationController {
             }
         }
         propertiesList.add(op);
-        setButton(new ImageView(image),categoryType); //setButton and call function
+        setButton(new ImageView(image), categoryType); //setButton and call function
     }
 
 
     /*************OBJECT COORDINATES**************/
 
 
-    public void updateProperties(Config.type contentType){
+    public void updateProperties(Config.type contentType) {
         GridPane gp = new GridPane();
         gp.setVisible(true);
         gp.addColumn(2);
-        gp.addRow(10);
-        int id=0;
+        gp.addRow(13);
 
-        for(int i = 0; i < propertiesList.size();i++){
+        gp.setPadding(new Insets(5, 10, 5, 10));
+        gp.setVgap(8);
+
+        int id = 0;
+
+        for (int i = 0; i < propertiesList.size(); i++) {
             if (propertiesList.get(i).getId().equals(String.valueOf(lastClickedID))) {
                 id = i;
             }
         }
 
         //add properties: id, name, pos xyz, rot xyz
-        gp.add(new Text("ID:"),0,0);
-        gp.add(new TextField(propertiesList.get(id).getId()),1,0);
 
-        gp.add(new Text("Name:"),0,1);
-        gp.add(new TextField(propertiesList.get(id).getName()),1,1);
+        TextField idTF = new TextField(propertiesList.get(id).getId());
+        idTF.setEditable(false);
 
-        gp.add(new Text("Position:"),0,2);
-        gp.add(new Text("X:"),0,3);
-        gp.add(new TextField(propertiesList.get(id).getPos()[0]),1,3);
-        gp.add(new Text("Y:"),0,4);
-        gp.add(new TextField(propertiesList.get(id).getPos()[1]),1,4);
-        gp.add(new Text("Z:"),0,5);
-        gp.add(new TextField(propertiesList.get(id).getPos()[2]),1,5);
+        gp.add(new Text("ID:"), 0, 0);
+        gp.add(idTF, 1, 0);
 
-        gp.add(new Text("Rotation:"),0,6);
-        gp.add(new Text("X:"),0,7);
-        gp.add(new TextField(propertiesList.get(id).getRot()[0]),1,7);
-        gp.add(new Text("Y:"),0,8);
-        gp.add(new TextField(propertiesList.get(id).getRot()[1]),1,8);
-        gp.add(new Text("Z:"),0,9);
-        gp.add(new TextField(propertiesList.get(id).getRot()[2]),1,9);
+        gp.add(new Text("Name:"), 0, 1);
+        gp.add(new TextField(propertiesList.get(id).getName()), 1, 1);
 
-        if(contentType == Config.type.OBJECT){
+
+        gp.add(new Text("Position:"), 0, 2);
+
+        TextField xPos = new TextField(propertiesList.get(id).getPos()[0]);
+        numericOnly(xPos);
+        TextField yPos = new TextField(propertiesList.get(id).getPos()[1]);
+        numericOnly(yPos);
+        TextField zPos = new TextField(propertiesList.get(id).getPos()[2]);
+        numericOnly(zPos);
+
+        gp.add(new Text("X:"), 0, 3);
+        gp.add(xPos, 1, 3);
+        gp.add(new Text("Y:"), 0, 4);
+        gp.add(yPos, 1, 4);
+        gp.add(new Text("Z:"), 0, 5);
+        gp.add(zPos, 1, 5);
+
+        gp.add(new Text("Rotation:"), 0, 6);
+
+        TextField xRot = new TextField(propertiesList.get(id).getRot()[0]);
+        numericOnly(xRot);
+        TextField yRot = new TextField(propertiesList.get(id).getRot()[1]);
+        numericOnly(yRot);
+        TextField zRot = new TextField(propertiesList.get(id).getRot()[2]);
+        numericOnly(zRot);
+
+        gp.add(new Text("X:"), 0, 7);
+        gp.add(xRot, 1, 7);
+        gp.add(new Text("Y:"), 0, 8);
+        gp.add(yRot, 1, 8);
+        gp.add(new Text("Z:"), 0, 9);
+        gp.add(zRot, 1, 9);
+
+        gp.add(new Text("Scale:"), 0, 10);
+        gp.add(new TextField(propertiesList.get(id).getRot()[0]), 1, 10);
+
+        if (contentType == Config.type.OBJECT) {
             System.out.println("Object");
             ObjectProperties op = (ObjectProperties) propertiesList.get(id);
+
+            TextField facesTF = new TextField(op.getFaces());
+            facesTF.setEditable(false);
+
+            TextField vertTF = new TextField(op.getVertices());
+            vertTF.setEditable(false);
+
             gp.addRow(2);
 
-            gp.add(new Text("Faces:"),0,10);
-            gp.add(new TextField(op.getFaces()),1,10);
+            gp.add(new Text("Faces:"), 0, 11);
+            gp.add(facesTF, 1, 11);
 
-            gp.add(new Text("Vertices:"),0,11);
-            gp.add(new TextField(op.getVertices()),1,11);
+            gp.add(new Text("Vertices:"), 0, 12);
+            gp.add(vertTF, 1, 12);
         } else if (contentType == Config.type.LIGHT) {
             System.out.println("Light");
             LightProperties lp = (LightProperties) propertiesList.get(id);
             gp.addRow(2);
 
-            gp.add(new Text("Brigthness:"),0,10);
-            gp.add(new TextField(String.valueOf(lp.getBrightness())),1,10);
+            gp.add(new Text("Brigthness:"), 0, 11);
+            gp.add(new TextField(String.valueOf(lp.getBrightness())), 1, 11);
 
-            gp.add(new Text("Variant:"),0,11);
+            gp.add(new Text("Variant:"), 0, 12);
             ChoiceBox<String> cb = new ChoiceBox<>();
             String[] choice = {"Light A", "Light B", "Light C"};
             cb.getItems().setAll(choice);
-            gp.add(cb,1,11);
-        }else if(contentType == Config.type.CAMERA){
+            gp.add(cb, 1, 12);
+        } else if (contentType == Config.type.CAMERA) {
             System.out.println("Camera");
             CameraProperties cp = (CameraProperties) propertiesList.get(id);
             gp.addRow(3);
 
-            gp.add(new Text("Length:"),0,10);
-            gp.add(new TextField(String.valueOf(cp.getLength())),1,10);
+            gp.add(new Text("Length:"), 0, 11);
+            gp.add(new TextField(String.valueOf(cp.getLength())), 1, 11);
 
-            gp.add(new Text("Width:"),0,11);
-            gp.add(new TextField(String.valueOf(cp.getWidth())),1,11);
+            gp.add(new Text("Width:"), 0, 12);
+            gp.add(new TextField(String.valueOf(cp.getWidth())), 1, 12);
 
-            gp.add(new Text("Variants:"),0,12);
+            gp.add(new Text("Variants:"), 0, 13);
             ChoiceBox<String> cb = new ChoiceBox<>();
             String[] choice = {"Camera A", "Camera B", "Camera C"};
             cb.getItems().setAll(choice);
-            gp.add(cb,1,12);
+            gp.add(cb, 1, 12);
         }
         scrollPaneProperties.setContent(gp);
     }
+
+    private void numericOnly(TextField field) {
+        field.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observable,
+                                String oldValue, String newValue) {
+                if (!newValue.matches("\\d*(\\.\\d*)?")) {
+                    field.setText(newValue.replaceAll("[^\\d.]", ""));
+                }
+            }
+        });
+    }
+
 
 
     // Live Update Coord-Sys Bar

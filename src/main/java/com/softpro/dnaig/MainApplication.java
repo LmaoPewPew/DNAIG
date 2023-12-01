@@ -19,7 +19,6 @@ public class MainApplication extends Application {
         stage.setTitle("DNAIG-RayTracer");
         URL logoIGM = getClass().getResource("sprites/LOGO.png");
         stage.getIcons().add(new Image(String.valueOf(logoIGM)));
-        //stage.getIcons().add(new Image("../resources/com/softpro/dnaig/sprites/icon.png"));
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();

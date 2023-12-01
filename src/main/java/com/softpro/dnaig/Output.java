@@ -95,7 +95,6 @@ public class Output extends Application {
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
 
-
         URL logoIGM = getClass().getResource("sprites/LOGO.png");
         primaryStage.getIcons().add(new Image(String.valueOf(logoIGM)));
 
