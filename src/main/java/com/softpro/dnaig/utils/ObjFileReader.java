@@ -1,6 +1,9 @@
 package com.softpro.dnaig.utils;
 
-import com.softpro.dnaig.objData.*;
+import com.softpro.dnaig.objData.mesh.Entity;
+import com.softpro.dnaig.objData.mesh.Face;
+import com.softpro.dnaig.objData.mesh.Material;
+import com.softpro.dnaig.objData.mesh.Vertex;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

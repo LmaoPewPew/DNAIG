@@ -1,6 +1,6 @@
 package com.softpro.dnaig;
 
-import com.softpro.dnaig.objData.Entity;
+import com.softpro.dnaig.objData.mesh.Entity;
 import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.properties.CameraProperties;
 import com.softpro.dnaig.properties.LightProperties;
@@ -77,7 +77,7 @@ public class ApplicationController {
     final List<Entity> entityList = new ArrayList<>();
     private static int objectID = 0;
 
-    public ApplicationController() {;
+    public ApplicationController() {
     }
 
 
@@ -209,13 +209,13 @@ public class ApplicationController {
                     Integer.toString(e.getFaces().size()),
                     Integer.toString(e.getVertexCount()),
                     new String[]{
-                            Float.toString(e.getPivot().getX()),
-                            Float.toString(e.getPivot().getY()),
-                            Float.toString(e.getPivot().getZ())},
+                            Double.toString(e.getPivot().getX()),
+                            Double.toString(e.getPivot().getY()),
+                            Double.toString(e.getPivot().getZ())},
                     new String[]{
-                            Float.toString(e.getOrient().getX()),
-                            Float.toString(e.getOrient().getY()),
-                            Float.toString(e.getOrient().getZ())});
+                            Double.toString(e.getOrient().getX()),
+                            Double.toString(e.getOrient().getY()),
+                            Double.toString(e.getOrient().getZ())});
             loadImage(op, categoryType);
         } else {          //load camera properties
             cp = new CameraProperties(

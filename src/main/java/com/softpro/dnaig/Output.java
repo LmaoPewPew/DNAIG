@@ -1,7 +1,7 @@
 package com.softpro.dnaig;
 
 import com.softpro.dnaig.properties.Properties;
-import com.softpro.dnaig.simpleRayTracer.RayTracer;
+import com.softpro.dnaig.rayTracer.RayTracer;
 import com.softpro.dnaig.utils.ColorConverter;
 import com.softpro.dnaig.utils.Config;
 import javafx.application.Application;
