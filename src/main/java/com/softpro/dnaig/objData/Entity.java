@@ -26,6 +26,8 @@ public class Entity implements Iterable<Face> {
     // Unique identifier.
     private final int id;
 
+    private String path;
+
     /**
      * Creates a new Entity with default values.
      */
@@ -48,8 +50,8 @@ public class Entity implements Iterable<Face> {
      * @param faces       A list of Face objects that make up the Entity.
      * @param vertexCount The number of vertices in the Entity
      */
-    public Entity(String objName, ArrayList<Face> faces, int vertexCount) {
-        this.id = entityID++;
+    public Entity(String objName, int id, ArrayList<Face> faces, int vertexCount) {
+        this.id = id;
 
         this.faces = faces;
         this.pivot = new Vector3D();
@@ -219,6 +221,14 @@ public class Entity implements Iterable<Face> {
                 return faces.get(idx++);
             }
         };
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
 

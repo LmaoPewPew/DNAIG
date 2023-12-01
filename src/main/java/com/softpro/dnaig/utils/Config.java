@@ -10,4 +10,17 @@ public class Config {
         SUN,    //maybe implemented
         AREA    //maybe implemented
     }
+
+    public static enum cameravariants{
+        CAM1,
+        CAM2,
+        CAM3,
+        CAM4
+    }
+
+    public static enum type{
+        OBJECT,
+        LIGHT,
+        CAMERA
+    }
 }

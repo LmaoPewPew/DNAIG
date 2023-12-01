@@ -51,8 +51,9 @@ public class CustomScene {
         Face face = new Face(vertices, new Material(), 0);
         ArrayList<Face> faceArrayList = new ArrayList<>();
         faceArrayList.add(face);
-        Entity entity2 = new Entity("Test", faceArrayList, 3);
-        Entity entity = ObjFileReader.createObject("D:\\Code\\java\\school\\DNAIG\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\cube\\cube.obj");
+        Entity entity2 = new Entity("Test", 0, faceArrayList, 3);
+        Entity entity = ObjFileReader.createObject("D:\\Code\\java\\school\\DNAIG\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\cube\\cube.obj", 1);
+        entity.setPath("D:\\Code\\java\\school\\DNAIG\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\cube\\cube.obj");
         //entity.scale(10);
         entities.add(entity);
         //lights.add(new PointLight(new Vector3D_RT(15, 15, 15), new Vector3D_RT(50, 50, 50)));

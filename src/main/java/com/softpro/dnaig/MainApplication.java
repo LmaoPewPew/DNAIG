@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class MainApplication extends Application {
     final double screenRes = 1331.2;
@@ -16,7 +17,8 @@ public class MainApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(MainApplication.class.getResource("DNAIG.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), screenRes, screenRes / 16 * 9);
         stage.setTitle("DNAIG-RayTracer");
-        stage.getIcons().add(new Image("https://i.imgur.com/tkYVF4s.jpg"));
+        URL logoIGM = getClass().getResource("sprites/LOGO.png");
+        stage.getIcons().add(new Image(String.valueOf(logoIGM)));
         //stage.getIcons().add(new Image("../resources/com/softpro/dnaig/sprites/icon.png"));
         stage.setResizable(false);
         stage.setScene(scene);

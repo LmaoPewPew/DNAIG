@@ -9,11 +9,11 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class LightPropertiesController implements Initializable {
+public class CameraPropertiesController implements Initializable {
 
 
     @FXML
-    private ChoiceBox<String> choiceBoxLightProperties;
+    private ChoiceBox<String> choiceBoxCameraProperties;
 
     @FXML
     void cancelPropertiesWindow(ActionEvent event) {
@@ -27,10 +27,10 @@ public class LightPropertiesController implements Initializable {
         System.out.println("submit settings ");
     }
 
-    String[] choice = {"Licht A", "Licht B", "Licht C"};
+    String[] choice = {"Camera A", "Camera B", "Camera C"};
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        choiceBoxLightProperties.getItems().setAll(choice);
+        choiceBoxCameraProperties.getItems().setAll(choice);
     }
 }

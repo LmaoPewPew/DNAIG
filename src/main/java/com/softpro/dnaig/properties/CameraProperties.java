@@ -1,37 +1,40 @@
 package com.softpro.dnaig.properties;
 
 import com.softpro.dnaig.ApplicationController;
+import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
 import java.util.function.Consumer;
 
-public class LightProperties implements Properties {
+public class CameraProperties implements Properties{
     Config.type categoryType;
-    private int brightness;
-    private Config.lightvariants lightvariants;
+    private Config.cameravariants cameravariants;
     private String name;
     private String id;
     private String[] pos;
     private String[] rot;
+    private int width;
+    private int length;
     private Button button;
 
-    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, int brightness, String objName, String objID, String[] pos, String[] objRot) {
+
+    public CameraProperties(Config.type categoryType, Config.cameravariants cameravariants, String objName, String objID, String[] pos, String[] objRot, int width, int length) {
         this.categoryType = categoryType;
-        this.lightvariants = lightvariants;
-        this.brightness = brightness;
+        this.cameravariants = cameravariants;
         this.name = objName;
         this.id = objID;
         this.pos = pos;
         this.rot = objRot;
+        this.width = width;
+        this.length = length;
         this.button = new Button();
     }
 
     public String[] getAll() {
-        return new String[]{this.id, this.name, String.valueOf(this.lightvariants), this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, lightvariant, pos x, pos y, pos z, rot x, rot y, rot z
+        return new String[]{this.id, this.name, String.valueOf(this.cameravariants), this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, cameravariant, pos x, pos y, pos z, rot x, rot y, rot z
     }
-
 
     //getter and setter
     public String getName() {
@@ -78,19 +81,27 @@ public class LightProperties implements Properties {
         this.button = button;
     }
 
-    public int getBrightness() {
-        return brightness;
+    public Config.cameravariants getCameravariants() {
+        return cameravariants;
     }
 
-    public void setBrightness(int brightness) {
-        this.brightness = brightness;
+    public void setLightvariants(Config.cameravariants cameravariants) {
+        this.cameravariants = cameravariants;
     }
 
-    public Config.lightvariants getLightvariants() {
-        return lightvariants;
+    public int getWidth() {
+        return width;
     }
 
-    public void setLightvariants(Config.lightvariants lightvariants) {
-        this.lightvariants = lightvariants;
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public int getLength() {
+        return length;
+    }
+
+    public void setLength(int length) {
+        this.length = length;
     }
 }

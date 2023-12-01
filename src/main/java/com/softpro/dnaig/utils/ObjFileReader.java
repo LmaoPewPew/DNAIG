@@ -20,7 +20,7 @@ public class ObjFileReader {
      * @return An Entity object representing the 3D model defined in the OBJ file.
      * @throws IOException If there is an error reading the file
      */
-    public static Entity createObject(String path) throws IOException {
+    public static Entity createObject(String path, int objectID) throws IOException {
 
         // ArrayLists containing all vertex data.
         ArrayList<Vector3D> vertexList = new ArrayList<>();
@@ -252,7 +252,7 @@ public class ObjFileReader {
         br.close();
 
         //An Entity object representing the 3D model defined in the OBJ file.
-        return new Entity(objectName, faceList, vertexList.size());
+        return new Entity(objectName, objectID, faceList, vertexList.size());
     }
 
     /**
@@ -346,7 +346,7 @@ public class ObjFileReader {
         Entity entity;
         HashMap<String, Material> materials;
         try {
-            entity = createObject("C:\\Users\\leonv\\Desktop\\tri.obj");
+            entity = createObject("C:\\Users\\leonv\\Desktop\\tri.obj", 0);
             entity.forEach(ev -> {
                 ev.forEach(e -> System.out.printf("x: %s y: %s z: %s\n",
                         e.getCoordinates().getX(),
