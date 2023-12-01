@@ -1,12 +1,8 @@
 package com.softpro.dnaig.properties;
 
-import com.softpro.dnaig.ApplicationController;
-import com.softpro.dnaig.objData.Entity;
 import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-
-import java.util.function.Consumer;
 
 public class CameraProperties implements Properties{
     Config.type categoryType;

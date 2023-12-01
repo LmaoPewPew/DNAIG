@@ -1,13 +1,8 @@
 package com.softpro.dnaig.properties;
 
-import com.softpro.dnaig.ApplicationController;
-import com.softpro.dnaig.objData.Entity;
+import com.softpro.dnaig.objData.mesh.Entity;
 import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-import java.util.function.Consumer;
 
 public class ObjectProperties implements Properties {
     //ect name: ect0
