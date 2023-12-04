@@ -8,8 +8,6 @@ import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.properties.Properties;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -143,7 +141,7 @@ public class ApplicationController {
     /*************OBJECTS**************/
 
     // OPEN OBJECT SETTINGS SCENE (LIGHT AND/OR CAMERA)
-    private String openLightPropertiesWindows() throws IOException {
+    private void openLightPropertiesWindows() throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
 
         Scene scene = new Scene(root);
@@ -154,10 +152,9 @@ public class ApplicationController {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
 
-        return "0";
     }
 
-    private String openCameraPropertiesWindows() throws IOException {
+    private void openCameraPropertiesWindows() throws IOException {
         Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("cameraProperties.fxml")));
 
         Scene scene = new Scene(root);
@@ -168,7 +165,6 @@ public class ApplicationController {
         primaryStage.initModality(Modality.APPLICATION_MODAL);
         primaryStage.show();
 
-        return "0";
     }
 
     // ListView
@@ -211,9 +207,9 @@ public class ApplicationController {
         button.setGraphic(iv);
         button.setOnAction(e -> {
             Object x = e.getSource();
-            for (int i = 0; i < propertiesList.size(); i++) {
-                if (propertiesList.get(i).getButton().equals(x)) {
-                    setLastClickedID(propertiesList.get(i).getId());
+            for (Properties properties : propertiesList) {
+                if (properties.getButton().equals(x)) {
+                    setLastClickedID(properties.getId());
                     break;
                 }
             }
@@ -324,14 +320,15 @@ public class ApplicationController {
         gp.add(new Text("Z:"), 0, 9);
         gp.add(zRot, 1, 9);
 
-        gp.add(new Text("Scale:"), 0, 10);
-        TextField scaleTF = new TextField(propertiesList.get(id).getRot()[0]);
-        gp.add(scaleTF, 1, 10);
-        textFieldVALUES[7] = scaleTF.getText();
 
         if (contentType == Config.type.OBJECT) {
             System.out.println("Object");
             ObjectProperties op = (ObjectProperties) propertiesList.get(id);
+
+            TextField scaleTF = new TextField(op.getRot()[0]);
+            gp.add(new Text("Scale:"), 0, 10);
+            gp.add(scaleTF, 1, 10);
+            textFieldVALUES[7] = scaleTF.getText();
 
             TextField facesTF = new TextField(op.getFaces());
             facesTF.setEditable(false);
@@ -346,8 +343,6 @@ public class ApplicationController {
             gp.add(new Text("Vertices:"), 0, 12);
             gp.add(vertTF, 1, 12);
 
-            textFieldVALUES[8] = facesTF.getText();
-            textFieldVALUES[9] = vertTF.getText();
         } else if (contentType == Config.type.LIGHT) {
             System.out.println("Light");
             LightProperties lp = (LightProperties) propertiesList.get(id);
@@ -356,15 +351,14 @@ public class ApplicationController {
             gp.add(new Text("Brigthness:"), 0, 11);
             gp.add(new TextField(String.valueOf(lp.getBrightness())), 1, 11);
 
-            gp.add(new Text("Variant:"), 0, 12);
             ChoiceBox<String> cb = new ChoiceBox<>();
             String[] choice = {"Light A", "Light B", "Light C"};
             cb.getItems().setAll(choice);
+            gp.add(new Text("Variant:"), 0, 12);
             gp.add(cb, 1, 12);
 
-
-            textFieldVALUES[8] = String.valueOf(lp.getBrightness());
-            textFieldVALUES[9] = cb.getValue();
+            textFieldVALUES[7] = String.valueOf(lp.getBrightness());
+            textFieldVALUES[8] = cb.getValue();
         } else if (contentType == Config.type.CAMERA) {
             System.out.println("Camera");
             CameraProperties cp = (CameraProperties) propertiesList.get(id);
@@ -376,60 +370,61 @@ public class ApplicationController {
             gp.add(new Text("Width:"), 0, 12);
             gp.add(new TextField(String.valueOf(cp.getWidth())), 1, 12);
 
-            gp.add(new Text("Variants:"), 0, 13);
             ChoiceBox<String> cb = new ChoiceBox<>();
             String[] choice = {"Camera A", "Camera B", "Camera C"};
             cb.getItems().setAll(choice);
-            gp.add(cb, 1, 12);
+            gp.add(new Text("Variants:"), 0, 13);
+            gp.add(cb, 1, 13);
 
-
-            textFieldVALUES[8] = String.valueOf(cp.getLength());
-            textFieldVALUES[9] = String.valueOf(cp.getWidth());
-            textFieldVALUES[10] = cb.getValue();
+            textFieldVALUES[7] = String.valueOf(cp.getLength());
+            textFieldVALUES[8] = String.valueOf(cp.getWidth());
+            textFieldVALUES[9] = cb.getValue();
         }
         scrollPaneProperties.setContent(gp);
         //updateModelSettings(contentType, id, textFieldVALUES);
     }
 
+
+    //////Da PreviewWindow nich wirklich wichtig ist, SOUT einfach den wert jedesMal
+
+        //Muss schauen ob das unten auch klappt
+
+
+
     // Live Update Coord-Sys Bar
     public void updateModelSettings(Config.type contentType, int id, String[] values) {
-        //change common settings like:
-        //name, POS, Rot, scale => Values Array
+        //change common settings:
+        propertiesList.get(id).setName(values[0]);
 
+        String[] pos = {values[1], values[2], values[3]};
+        propertiesList.get(id).setPos(pos);
+
+        String[] rot = {values[4], values[5], values[6]};
+        propertiesList.get(id).setRot(rot);
 
         if (contentType == Config.type.OBJECT) {
             ObjectProperties properties = (ObjectProperties) propertiesList.get(id);
 
-            properties.setName(values[6]);
-            /*properties.setName(values[1]);
-            properties.setName(values[2]);
-            properties.setName(values[3]);
-            properties.setName(values[4]);
-            properties.setName(values[5]);
-             */
-
-            System.out.println(values[6]);
-            System.out.println(propertiesList.get(id).getName());
-
-
+            properties.setScale(values[7]);
         } else if (contentType == Config.type.LIGHT) {
             LightProperties properties = (LightProperties) propertiesList.get(id);
 
+            properties.setBrightness(values[7]);
+            properties.setLightvariants(Config.lightvariants.valueOf(values[8]));
         } else if (contentType == Config.type.CAMERA) {
             CameraProperties properties = (CameraProperties) propertiesList.get(id);
+
+            properties.setLength(Integer.parseInt(values[7]));
+            properties.setWidth(Integer.parseInt(values[8]));
+            properties.setLightvariants(Config.cameravariants.valueOf(values[9]));
 
         }
     }
 
 
     private void numericOnly(TextField field) {
-        field.textProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                if (!newValue.matches("\\d*(\\.\\d*)?")) {
-                    field.setText(newValue.replaceAll("[^\\d.]", ""));
-                }
-            }
+        field.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*(\\.\\d*)?")) field.setText(newValue.replaceAll("[^\\d.]", ""));
         });
     }
 

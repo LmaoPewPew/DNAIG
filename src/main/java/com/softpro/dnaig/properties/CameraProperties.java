@@ -4,7 +4,7 @@ import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
-public class CameraProperties implements Properties{
+public class CameraProperties implements Properties {
     Config.type categoryType;
     private Config.cameravariants cameravariants;
     private String name;
@@ -29,7 +29,7 @@ public class CameraProperties implements Properties{
     }
 
     public String[] getAll() {
-        return new String[]{this.id, this.name, String.valueOf(this.cameravariants), this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, cameravariant, pos x, pos y, pos z, rot x, rot y, rot z
+        return new String[]{this.id, this.name, String.valueOf(this.cameravariants), this.pos[0], this.pos[1], this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, cameravariant, pos x, pos y, pos z, rot x, rot y, rot z
     }
 
     //getter and setter
@@ -61,14 +61,10 @@ public class CameraProperties implements Properties{
         return rot;
     }
 
-    @Override
-    public String getScale() {
-        return null;
-    }
-
     public void setRot(String[] rot) {
         this.rot = rot;
     }
+
 
     public ImageView getImageView() {
         return imageView;

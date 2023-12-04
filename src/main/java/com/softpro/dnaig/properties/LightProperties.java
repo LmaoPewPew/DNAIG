@@ -1,11 +1,8 @@
 package com.softpro.dnaig.properties;
 
-import com.softpro.dnaig.ApplicationController;
 import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-
-import java.util.function.Consumer;
 
 public class LightProperties implements Properties {
     Config.type categoryType;
@@ -31,7 +28,6 @@ public class LightProperties implements Properties {
     public String[] getAll() {
         return new String[]{this.id, this.name, String.valueOf(this.lightvariants), this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, lightvariant, pos x, pos y, pos z, rot x, rot y, rot z
     }
-
 
     //getter and setter
     public String getName() {
@@ -62,11 +58,6 @@ public class LightProperties implements Properties {
         return rot;
     }
 
-    @Override
-    public String getScale() {
-        return null;
-    }
-
     public void setRot(String[] rot) {
         this.rot = rot;
     }
@@ -87,8 +78,8 @@ public class LightProperties implements Properties {
         return brightness;
     }
 
-    public void setBrightness(int brightness) {
-        this.brightness = brightness;
+    public void setBrightness(String brightness) {
+        this.brightness = Integer.parseInt(brightness);
     }
 
     public Config.lightvariants getLightvariants() {
