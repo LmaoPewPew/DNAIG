@@ -61,6 +61,11 @@ public class CameraProperties implements Properties{
         return rot;
     }
 
+    @Override
+    public String getScale() {
+        return null;
+    }
+
     public void setRot(String[] rot) {
         this.rot = rot;
     }

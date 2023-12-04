@@ -14,7 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -32,14 +31,12 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.PortUnreachableException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
-import java.util.function.Consumer;
 
 
 public class ApplicationController {
@@ -186,10 +183,6 @@ public class ApplicationController {
         LightProperties lp;
         CameraProperties cp;
 
-        // TODO
-        //  3D model from a light and camera in loadOBJ folder, needs to be added when button clicked   //
-        //  /////////////////////////////////////////////////////////////////////////////////////////  //
-
         if (categoryType == Config.type.LIGHT) {     //load light properties
             lp = new LightProperties(categoryType, Config.lightvariants.POINT, 100, "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"});
             loadImage(lp, categoryType);
@@ -277,25 +270,32 @@ public class ApplicationController {
         }
 
         //add properties: id, name, pos xyz, rot xyz
+        String[] textFieldVALUES = new String[11];
 
         TextField idTF = new TextField(propertiesList.get(id).getId());
         idTF.setEditable(false);
+        TextField nameTF = new TextField(propertiesList.get(id).getName());
+        textFieldVALUES[0] = nameTF.getText();
 
         gp.add(new Text("ID:"), 0, 0);
         gp.add(idTF, 1, 0);
 
         gp.add(new Text("Name:"), 0, 1);
-        gp.add(new TextField(propertiesList.get(id).getName()), 1, 1);
+        gp.add(nameTF, 1, 1);
 
 
         gp.add(new Text("Position:"), 0, 2);
 
         TextField xPos = new TextField(propertiesList.get(id).getPos()[0]);
-        numericOnly(xPos);
         TextField yPos = new TextField(propertiesList.get(id).getPos()[1]);
-        numericOnly(yPos);
         TextField zPos = new TextField(propertiesList.get(id).getPos()[2]);
+        numericOnly(xPos);
+        numericOnly(yPos);
         numericOnly(zPos);
+        textFieldVALUES[1] = xPos.getText();
+        textFieldVALUES[2] = yPos.getText();
+        textFieldVALUES[3] = zPos.getText();
+
 
         gp.add(new Text("X:"), 0, 3);
         gp.add(xPos, 1, 3);
@@ -307,11 +307,15 @@ public class ApplicationController {
         gp.add(new Text("Rotation:"), 0, 6);
 
         TextField xRot = new TextField(propertiesList.get(id).getRot()[0]);
-        numericOnly(xRot);
         TextField yRot = new TextField(propertiesList.get(id).getRot()[1]);
-        numericOnly(yRot);
         TextField zRot = new TextField(propertiesList.get(id).getRot()[2]);
+        numericOnly(xRot);
+        numericOnly(yRot);
         numericOnly(zRot);
+        textFieldVALUES[4] = xRot.getText();
+        textFieldVALUES[5] = yRot.getText();
+        textFieldVALUES[6] = zRot.getText();
+
 
         gp.add(new Text("X:"), 0, 7);
         gp.add(xRot, 1, 7);
@@ -321,7 +325,9 @@ public class ApplicationController {
         gp.add(zRot, 1, 9);
 
         gp.add(new Text("Scale:"), 0, 10);
-        gp.add(new TextField(propertiesList.get(id).getRot()[0]), 1, 10);
+        TextField scaleTF = new TextField(propertiesList.get(id).getRot()[0]);
+        gp.add(scaleTF, 1, 10);
+        textFieldVALUES[7] = scaleTF.getText();
 
         if (contentType == Config.type.OBJECT) {
             System.out.println("Object");
@@ -337,9 +343,11 @@ public class ApplicationController {
 
             gp.add(new Text("Faces:"), 0, 11);
             gp.add(facesTF, 1, 11);
-
             gp.add(new Text("Vertices:"), 0, 12);
             gp.add(vertTF, 1, 12);
+
+            textFieldVALUES[8] = facesTF.getText();
+            textFieldVALUES[9] = vertTF.getText();
         } else if (contentType == Config.type.LIGHT) {
             System.out.println("Light");
             LightProperties lp = (LightProperties) propertiesList.get(id);
@@ -353,6 +361,10 @@ public class ApplicationController {
             String[] choice = {"Light A", "Light B", "Light C"};
             cb.getItems().setAll(choice);
             gp.add(cb, 1, 12);
+
+
+            textFieldVALUES[8] = String.valueOf(lp.getBrightness());
+            textFieldVALUES[9] = cb.getValue();
         } else if (contentType == Config.type.CAMERA) {
             System.out.println("Camera");
             CameraProperties cp = (CameraProperties) propertiesList.get(id);
@@ -369,32 +381,57 @@ public class ApplicationController {
             String[] choice = {"Camera A", "Camera B", "Camera C"};
             cb.getItems().setAll(choice);
             gp.add(cb, 1, 12);
+
+
+            textFieldVALUES[8] = String.valueOf(cp.getLength());
+            textFieldVALUES[9] = String.valueOf(cp.getWidth());
+            textFieldVALUES[10] = cb.getValue();
         }
         scrollPaneProperties.setContent(gp);
+        //updateModelSettings(contentType, id, textFieldVALUES);
     }
+
+    // Live Update Coord-Sys Bar
+    public void updateModelSettings(Config.type contentType, int id, String[] values) {
+        //change common settings like:
+        //name, POS, Rot, scale => Values Array
+
+
+        if (contentType == Config.type.OBJECT) {
+            ObjectProperties properties = (ObjectProperties) propertiesList.get(id);
+
+            properties.setName(values[6]);
+            /*properties.setName(values[1]);
+            properties.setName(values[2]);
+            properties.setName(values[3]);
+            properties.setName(values[4]);
+            properties.setName(values[5]);
+             */
+
+            System.out.println(values[6]);
+            System.out.println(propertiesList.get(id).getName());
+
+
+        } else if (contentType == Config.type.LIGHT) {
+            LightProperties properties = (LightProperties) propertiesList.get(id);
+
+        } else if (contentType == Config.type.CAMERA) {
+            CameraProperties properties = (CameraProperties) propertiesList.get(id);
+
+        }
+    }
+
 
     private void numericOnly(TextField field) {
         field.textProperty().addListener(new ChangeListener<String>() {
             @Override
-            public void changed(ObservableValue<? extends String> observable,
-                                String oldValue, String newValue) {
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
                 if (!newValue.matches("\\d*(\\.\\d*)?")) {
                     field.setText(newValue.replaceAll("[^\\d.]", ""));
                 }
             }
         });
     }
-
-
-
-    // Live Update Coord-Sys Bar
-
-
-    // Read Values from Coord-Sys
-
-
-    // Update Object from updated values
-
 
     /*************THEME CHANGE**************/
 
@@ -419,26 +456,6 @@ public class ApplicationController {
         parent.getStylesheets().remove(stylesheetPath);
     }
 
-
-
-    /*
-    private void setLightMode() {
-        parent.getStylesheets().remove("../resources/com/softpro/dnaig/style/DarkMode.css");
-        parent.getStylesheets().add("../resources/com/softpro/dnaig/style/LightMode.css");
-
-        //parent.getStylesheets().remove("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\DarkMode.css");
-        //parent.getStylesheets().add("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\LightMode.css");
-
-    }
-
-    private void setDarkMode() {
-        parent.getStylesheets().remove("../resources/com/softpro/dnaig/style/LightMode.css");
-        parent.getStylesheets().add("../resources/com/softpro/dnaig/style/DarkMode.css");
-
-
-        //parent.getStylesheets().remove("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\LightMode.css");
-        //parent.getStylesheets().add("D:\\Code\\java\\school\\DNAIG\\src\\main\\resources\\com\\softpro\\dnaig\\style\\DarkMode.css");
-    }
 
     /*************One Time METHODS**************/
 

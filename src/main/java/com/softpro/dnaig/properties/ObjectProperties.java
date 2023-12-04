@@ -65,6 +65,12 @@ public class ObjectProperties implements Properties {
         return rot;
     }
 
+    @Override
+    public String getScale() {
+        return null;
+    }
+
+
     public void setRot(String[] Rot) {
         this.rot = Rot;
     }
