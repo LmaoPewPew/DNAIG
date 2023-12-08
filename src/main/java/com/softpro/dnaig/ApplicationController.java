@@ -57,7 +57,19 @@ public class ApplicationController {
 
     //Menu
     @FXML
+    private MenuItem mExport;
+    @FXML
+    private MenuItem mImport;
+    @FXML
+    private MenuItem mSave;
+    @FXML
+    private MenuItem mSaveAs;
+    @FXML
     private MenuItem menuTheme;
+
+    //Rest
+    @FXML
+    private Button renderButton;
     @FXML
     private ScrollPane scrollPaneProperties;
     private boolean isLightMode = true;
@@ -78,8 +90,6 @@ public class ApplicationController {
     public ApplicationController() {
     }
 
-
-    //TODO: cache ThemeMode and last opened FilePath, even after Closed
 
     /* *****************************************METHODS***************************************** */
 
@@ -117,16 +127,27 @@ public class ApplicationController {
         }
     }
 
-    @FXML
-    void loadRayTracer(MouseEvent event) {
-        //TODO: open new scene/window from RayTracer after button Pressed!
-        System.out.println("loading External Window for RayTracer...");
-        Output.getOutput().openRayTracer(propertiesList);
-    }
-
-
     /*************MENU-ITEM METHODS**************/
     //FILE
+    @FXML
+    void saveFile(ActionEvent event) {
+        // Automatically Save .YAML file in Downloads folder
+    }
+
+    @FXML
+    void saveFileAs(ActionEvent event) {
+        // Save .YAML file in specific folder (Downloads will open first tho)
+    }
+
+    @FXML
+    void exportRenderedImage(ActionEvent event) {
+        // Save Image of the Rendered image in specific Folder (like SaveFileAs)
+    }
+
+    @FXML
+    void importYaml(ActionEvent event) {
+        // Loads .YAML file into project
+    }
 
     //EDIT
     @FXML
@@ -449,6 +470,41 @@ public class ApplicationController {
     private void removeStylesheet(String stylesheet) {
         String stylesheetPath = Objects.requireNonNull(getClass().getResource("/com/softpro/dnaig/style/" + stylesheet)).toExternalForm();
         parent.getStylesheets().remove(stylesheetPath);
+    }
+
+
+    /*************Render Functions**************/
+    @FXML
+    void renderFunc(ActionEvent event) {
+        switchRenderButtonStyleClass();
+
+        System.out.println(renderButton.getText());
+        System.out.println(renderButton.getStyleClass());
+
+        if ((renderButton.getText().equals("Cancel"))) loadRayTracer();
+        else cancelRayTracer();
+    }
+
+    void switchRenderButtonStyleClass() {
+        if ((renderButton.getText().equals("Render"))) {
+            renderButton.setText("Cancel");
+            renderButton.getStyleClass().remove("button");
+            renderButton.getStyleClass().add("renderButtonPressed");
+        } else {
+            renderButton.setText("Render");
+            renderButton.getStyleClass().remove("renderButtonPressed");
+            renderButton.getStyleClass().add("button");
+        }
+    }
+
+    void cancelRayTracer() {
+        //Code that stops RayTracer...
+        System.out.println("getting Canceled!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+    }
+
+    void loadRayTracer() {
+        //TODO: open new scene/window from RayTracer after button Pressed
+        Output.getOutput().openRayTracer(propertiesList);
     }
 
 

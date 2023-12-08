@@ -21,9 +21,10 @@
 <VBox fx:id="parent" minHeight="748.8" minWidth="1331.2" prefHeight="400.0" prefWidth="1331.2" styleClass="root" stylesheets="@style/LightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softpro.dnaig.ApplicationController">
     <MenuBar styleClass="menu">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" text="Save as" />
-            <MenuItem mnemonicParsing="false" text="Export" />
-            <MenuItem mnemonicParsing="false" text="Import" />
+         <MenuItem fx:id="mSave" mnemonicParsing="false" onAction="#saveFile" text="Save" />
+            <MenuItem fx:id="mSaveAs" mnemonicParsing="false" onAction="#saveFileAs" text="Save as" />
+            <MenuItem fx:id="mExport" mnemonicParsing="false" onAction="#exportRenderedImage" text="Export" />
+            <MenuItem fx:id="mImport" mnemonicParsing="false" onAction="#importYaml" text="Import" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
             <MenuItem fx:id="menuTheme" mnemonicParsing="false" onAction="#changeThemeMode" text="Theme" />
@@ -99,7 +100,7 @@
          <ScrollPane fx:id="scrollPaneProperties" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" />
             <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="125.0" SplitPane.resizableWithParent="false">
                 <center>
-                    <Button id="btnRender" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#loadRayTracer" prefHeight="30.0" prefWidth="90.0" text="Render" textAlignment="CENTER" textFill="#161317">
+                    <Button id="btnRender" fx:id="renderButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#renderFunc" prefHeight="30.0" prefWidth="90.0" text="Render" textAlignment="CENTER" textFill="#161317">
                         <font>
                             <Font name="Arial Bold" size="12.0" />
                         </font>

@@ -22,6 +22,7 @@
 /* Button styles */
 .button {
     -fx-background-color: #e0e0e0;
+    -fx-background-radius: 10px;
     -fx-text-fill: #333333;
     -fx-border-color: black;
     -fx-border-width: 2px;
@@ -32,6 +33,17 @@
     -fx-background-color: #bbbbbb;
 }
 
+.renderButtonPressed{
+    -fx-alignment: center;
+    -fx-background-color: #e82e2e;
+    -fx-background-radius: 10px;
+    -fx-border-color: black;
+    -fx-border-width: 2px;
+    -fx-border-radius: 5px;
+}
+.renderButtonPressed:hover{
+    -fx-background-color: #ff8787;
+}
 
 /* TextField styles */
 .text-field {
