@@ -6,6 +6,7 @@ import com.softpro.dnaig.objData.light.PointLight;
 import com.softpro.dnaig.objData.mesh.*;
 import com.softpro.dnaig.utils.ObjFileReader;
 import com.softpro.dnaig.utils.Vector3D;
+import com.softpro.dnaig.utils.YAMLexporter;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
@@ -53,7 +54,7 @@ public class CustomScene {
         faceArrayList.add(face);
 
         Entity entity = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\quad.obj", 0);
-
+        entities.add(entity);
         double maxX = Double.MIN_VALUE;
         double maxY = Double.MIN_VALUE;
         double maxZ = Double.MIN_VALUE;
@@ -76,6 +77,14 @@ public class CustomScene {
 
         lights.add(new PointLight(new Vector3D(0, 3, -3), new Vector3D(8, 5, 10)));
         lights.add(new PointLight(new Vector3D(4, 2, -1.5), new Vector3D(13, 2, 1)));
+
+
+        YAMLexporter.initExporter();
+        YAMLexporter.append(RayTracer.camera.yamlString());
+        entities.forEach(ent -> YAMLexporter.append("\tObjects:\n" + ent.yamlString()));
+        lights.forEach(light -> YAMLexporter.append(light.yamlString()));
+
+        YAMLexporter.export("scene", "C:\\Users\\leonv\\");
 
     }
 

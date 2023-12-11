@@ -8,6 +8,7 @@ public class Camera {
     private int r = -l;
     private int t = Output.HEIGHT/2;
     private int b = -t;
+    private int fov = 90;
 
     private Vector3D UP = new Vector3D(0, 1, 0);
     private Vector3D eye = new Vector3D(40, 40, -45);
@@ -132,5 +133,21 @@ public class Camera {
     public void setScreen(Vector3D screen) {
         this.screen = screen;
         eye = Util.add(screen, W.scalarMultiplication(40));
+    }
+
+    public String yamlString(){
+        return String.format(
+                """
+                \tcamera:
+                \t\tposition: %s
+                \t\tlookAt: %s
+                \t\tup: %s
+                \t\tfov: %d
+                """,
+                eye.yamlString(),
+                screen.yamlString(),
+                UP.yamlString(),
+                fov
+        );
     }
 }

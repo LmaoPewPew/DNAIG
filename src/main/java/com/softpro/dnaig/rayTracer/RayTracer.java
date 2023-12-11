@@ -35,5 +35,8 @@ public class RayTracer {
         }
 
         System.out.println("Time: " + (System.currentTimeMillis() - time) / 1000.0 + "s");
+
+
+
     }
 }

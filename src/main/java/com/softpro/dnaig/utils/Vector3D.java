@@ -210,4 +210,11 @@ public class Vector3D {
     public String toString() {
         return String.format("x: %f\t y: %f\t z: %f", x, y, z);
     }
+
+    public String yamlString(){
+        return String.format(
+                "[ %f, %f, %f ]",
+                x, y, z
+        );
+    }
 }

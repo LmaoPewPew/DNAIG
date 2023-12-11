@@ -5,4 +5,6 @@ import java.util.ArrayList;
 public interface TriangleMesh {
 
     ArrayList<Triangle> getTriangles(double factor);
+
+    String yamlString();
 }
