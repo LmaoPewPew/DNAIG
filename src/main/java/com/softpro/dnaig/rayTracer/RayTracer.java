@@ -16,6 +16,11 @@ public class RayTracer {
 
         for(int i = 0; i< Output.WIDTH; i++){
             for(int j = 0; j<Output.HEIGHT; j++){
+
+                // check if RayTracer thread was asked to cancel
+                if (Output.getOutput().isThreadCancelled())
+                    return;
+
                 double u= camera.getL() + i + 0.5;
                 u = u/200;
                 double v= camera.getT() - (j+0.5);
@@ -29,7 +34,8 @@ public class RayTracer {
 
                 int res_color = r.castPrimary(0);
 
-                Output.setPixel(i, j, res_color);
+
+                Output.getOutput().setPixel(i, j, res_color);
 
             }
         }

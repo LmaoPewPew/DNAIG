@@ -25,11 +25,11 @@ public class MainApplication extends Application {
 
         ApplicationController controller = fxmlLoader.getController();
         scene.setOnKeyReleased(controller::handleKey);
+
+        controller.setStage(stage);
     }
 
     public static void main(String[] args) {
         launch();
     }
-
-
 }

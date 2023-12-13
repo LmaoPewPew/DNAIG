@@ -525,18 +525,27 @@ public class ApplicationController {
         }
     }
 
-    private Output output = null;
     void cancelRayTracer() {
         //Code that stops RayTracer...
         System.out.println("getting Canceled!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
         //output.cancelRayTracer();
+        Output.getOutput().cancelRayTracer();
+        switchRenderButtonStyleClass();
+    }
+
+    private Stage stage;
+    public void setStage(Stage stage) {
+        this.stage = stage;
+    }
+
+    public void callbackWhenRayTracerFinished(Void unused) {
+        switchRenderButtonStyleClass();
     }
 
     void loadRayTracer() {
-        //TODO: open new scene/window from RayTracer after button Pressed
-        output = Output.getOutput();
+        Output output = Output.getOutput();
         output.clear();
-        output.openRayTracer(propertiesList);
+        output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished);
     }
 
 
