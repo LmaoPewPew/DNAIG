@@ -8,6 +8,7 @@ import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.properties.Properties;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
+import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -132,6 +133,20 @@ public class ApplicationController {
     @FXML
     void saveFile(ActionEvent event) {
         // Automatically Save .YAML file in Downloads folder
+        FileChooser directoryChooser = new FileChooser();
+
+        directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
+        directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPEG/JPG", "*.jpg", "*.jpeg"));
+        directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("BMP", "*.bmp"));
+
+        directoryChooser.setTitle("Save Image");
+        File file = directoryChooser.showSaveDialog(new Stage());
+        try{
+            Output.getOutput().exportImage(file);
+
+        }catch (Exception e){
+            System.out.println("No File selected");
+        }
     }
 
     @FXML
@@ -142,6 +157,7 @@ public class ApplicationController {
     @FXML
     void exportRenderedImage(ActionEvent event) {
         // Save Image of the Rendered image in specific Folder (like SaveFileAs)
+        Output.getOutput().exportScene();
     }
 
     @FXML
@@ -497,14 +513,18 @@ public class ApplicationController {
         }
     }
 
+    private Output output = null;
     void cancelRayTracer() {
         //Code that stops RayTracer...
         System.out.println("getting Canceled!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //output.cancelRayTracer();
     }
 
     void loadRayTracer() {
         //TODO: open new scene/window from RayTracer after button Pressed
-        Output.getOutput().openRayTracer(propertiesList);
+        output = Output.getOutput();
+        output.clear();
+        output.openRayTracer(propertiesList);
     }
 
 

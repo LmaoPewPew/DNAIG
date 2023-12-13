@@ -52,7 +52,7 @@ public class CustomScene {
         ArrayList<Face> faceArrayList = new ArrayList<>();
         faceArrayList.add(face);
         //Entity entity2 = new Entity("Test", faceArrayList, 3);
-        Entity entity = ObjFileReader.createObject("C:\\Users\\asdfg\\Downloads\\3dModels\\big\\bottle\\bottle.obj", 0);
+        Entity entity = ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ico.obj", 0);
         entities.add(entity);
 
         entity.scale(0.5);
