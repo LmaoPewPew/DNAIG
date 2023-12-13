@@ -6,5 +6,5 @@ public interface TriangleMesh {
 
     ArrayList<Triangle> getTriangles(double factor);
 
-    String yamlString();
+    String toYaml();
 }

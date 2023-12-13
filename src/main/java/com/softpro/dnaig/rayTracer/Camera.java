@@ -8,7 +8,7 @@ public class Camera {
     private int r = -l;
     private int t = Output.HEIGHT/2;
     private int b = -t;
-    private int fov = 90;
+    private float fov = 60.0f;
 
     private Vector3D UP = new Vector3D(0, 1, 0);
     private Vector3D eye = new Vector3D(40, 40, -45);
@@ -135,19 +135,16 @@ public class Camera {
         eye = Util.add(screen, W.scalarMultiplication(40));
     }
 
-    public String yamlString(){
+    public String toYaml(){
         return String.format(
                 """
-                \tcamera:
-                \t\tposition: %s
-                \t\tlookAt: %s
-                \t\tup: %s
-                \t\tfov: %d
-                """,
-                eye.yamlString(),
-                screen.yamlString(),
-                UP.yamlString(),
-                fov
+                \tposition: %s
+                \tlookAt: %s
+                \tupVec: %s
+                \tfieldOfView: %f
+                \twidth: %d
+                \theight: %d       \s
+                """, eye.toYaml(), Z.toYaml(), UP.toYaml(), fov, Output.WIDTH, Output.HEIGHT
         );
     }
 }

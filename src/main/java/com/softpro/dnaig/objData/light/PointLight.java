@@ -28,12 +28,12 @@ public class PointLight implements Light {
     }
 
     @Override
-    public String yamlString() {
-        return """
-                \tLight:
-                \t\t- type: PointLight
-                \t\t  position: %s
-                \t\t  intensity: %s
-                """.formatted(position.yamlString(), intensity.yamlString());
+    public String toYaml() {
+        return String.format(
+                """
+                -\tposition: %s
+                \tKe: { r: %f, g: %f, b: %f }      \s
+                """, position.toYaml(), intensity.getX(), intensity.getY(), intensity.getZ()
+        );
     }
 }

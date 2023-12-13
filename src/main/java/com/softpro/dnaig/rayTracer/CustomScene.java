@@ -111,13 +111,7 @@ public class CustomScene {
     }
 
     public void yamlExport(File file){
-        YAMLexporter.initExporter();
-        YAMLexporter.append(RayTracer.camera.yamlString());
-        entities.forEach(ent -> YAMLexporter.append("\tObjects:\n" + ent.yamlString()));
-        lights.forEach(light -> YAMLexporter.append(light.yamlString()));
-        YAMLexporter.export(file);
-
-        System.out.println("EXPORT");
+        YAMLexporter.exportScene(file, entities, lights, RayTracer.camera);
     }
 
     public static CustomScene getScene() throws IOException {

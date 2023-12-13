@@ -211,9 +211,9 @@ public class Vector3D {
         return String.format("x: %f\t y: %f\t z: %f", x, y, z);
     }
 
-    public String yamlString(){
+    public String toYaml(){
         return String.format(
-                "[ %f, %f, %f ]",
+                "{ x: %f, y: %f, z: %f }",
                 x, y, z
         );
     }

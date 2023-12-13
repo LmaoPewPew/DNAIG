@@ -165,6 +165,7 @@ public class ApplicationController {
         File file = directoryChooser.showSaveDialog(new Stage());
 
         try{
+            System.out.println(file.getPath());
             CustomScene.getScene().yamlExport(file);
         }catch (Exception e) {
             System.out.println("No File selected");

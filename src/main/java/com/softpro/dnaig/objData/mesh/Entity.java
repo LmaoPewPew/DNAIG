@@ -220,22 +220,15 @@ public class Entity implements TriangleMesh, Iterable<Face> {
     }
 
     @Override
-    public String yamlString() {
-        return
+    public String toYaml() {
+        return String.format(
                 """
-                \t\t- name: %s
-                \t\t  path: %s
-                \t\t  position: %s
-                \t\t  rotation: %s
-                \t\t  scale: %f
-                \t\t  id: %d
-                """.formatted(
-                        objName,
-                        path,
-                        pivot.yamlString(),
-                        orient.yamlString(),
-                        scale,
-                        id);
+                -\tfilePath: "%s"
+                \tposition: %s
+                \trotation: %s
+                \tscale: %f
+                """, objPath, pivot.toYaml(), orient.toYaml(), scale
+        );
     }
 
     /**
