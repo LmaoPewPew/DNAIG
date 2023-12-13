@@ -167,8 +167,7 @@ public class Output extends Application {
             ImageIO.write(SwingFXUtils.fromFXImage(canvas.snapshot(null, null), null), extension, file);
             System.out.println(extension);
             System.out.println(file.getPath());
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (IOException ignored) {
         }
 
     }
@@ -177,7 +176,4 @@ public class Output extends Application {
         launch(args);
     }
 
-    public void exportScene() {
-
-    }
 }

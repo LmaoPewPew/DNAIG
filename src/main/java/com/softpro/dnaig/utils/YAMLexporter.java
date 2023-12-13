@@ -1,6 +1,7 @@
 package com.softpro.dnaig.utils;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -19,10 +20,10 @@ public class YAMLexporter {
     }
 
 
-    public static void export(String name, String path){
+    public static void export(File file){
         try {
             BufferedWriter writer = null;
-            writer = new BufferedWriter(new FileWriter("C:\\Users\\leonv\\Desktop\\simpleRayTracer\\scene.yaml"));
+            writer = new BufferedWriter(new FileWriter(file));
             writer.write(sb.toString());
             writer.close();
         } catch (IOException e) {

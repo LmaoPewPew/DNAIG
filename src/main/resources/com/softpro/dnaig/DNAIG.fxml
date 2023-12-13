@@ -23,7 +23,7 @@
         <Menu mnemonicParsing="false" text="File">
          <MenuItem fx:id="mSave" mnemonicParsing="false" onAction="#saveFile" text="Save" />
             <MenuItem fx:id="mSaveAs" mnemonicParsing="false" onAction="#saveFileAs" text="Save as" />
-            <MenuItem fx:id="mExport" mnemonicParsing="false" onAction="#exportRenderedImage" text="Export" />
+            <MenuItem fx:id="mExport" mnemonicParsing="false" onAction="#exportYaml" text="Export" />
             <MenuItem fx:id="mImport" mnemonicParsing="false" onAction="#importYaml" text="Import" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">

@@ -9,6 +9,7 @@ import com.softpro.dnaig.utils.Vector3D;
 import com.softpro.dnaig.utils.YAMLexporter;
 import javafx.scene.paint.Color;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -60,6 +61,10 @@ public class CustomScene {
 
         Entity audi = ObjFileReader.createObject("C:\\THU\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\astonMartin\\astonMartin.obj", 4);
         entities.add(entity);
+        entities.add(entity2);
+        entities.add(entity3);
+        entities.add(entity4);
+
         //lights.add(new PointLight(new Vector3D_RT(15, 15, 15), new Vector3D_RT(50, 50, 50)));
       //  lights.add(new PointLight(new Vector3D(0, 2, -2), new Vector3D(5, 5, 5)));
         //lights.add(new PointLight(new Vector3D_RT(-15, 15, -15), new Vector3D_RT(50, 50, 50)));
@@ -102,15 +107,16 @@ public class CustomScene {
 
         lights.add(new PointLight(new Vector3D(0, 3, -3), new Vector3D(8, 5, 10)));
         lights.add(new PointLight(new Vector3D(4, 2, -1.5), new Vector3D(13, 2, 1)));
+    }
 
-
+    public void yamlExport(File file){
         YAMLexporter.initExporter();
         YAMLexporter.append(RayTracer.camera.yamlString());
         entities.forEach(ent -> YAMLexporter.append("\tObjects:\n" + ent.yamlString()));
         lights.forEach(light -> YAMLexporter.append(light.yamlString()));
+        YAMLexporter.export(file);
 
-        YAMLexporter.export("scene", "C:\\Users\\leonv\\");
-
+        System.out.println("EXPORT");
     }
 
     public static CustomScene getScene() throws IOException {

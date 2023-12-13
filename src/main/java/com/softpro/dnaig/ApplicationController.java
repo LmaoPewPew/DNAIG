@@ -6,9 +6,9 @@ import com.softpro.dnaig.properties.CameraProperties;
 import com.softpro.dnaig.properties.LightProperties;
 import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.properties.Properties;
+import com.softpro.dnaig.rayTracer.CustomScene;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
-import javafx.beans.property.BooleanProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -155,9 +155,20 @@ public class ApplicationController {
     }
 
     @FXML
-    void exportRenderedImage(ActionEvent event) {
+    void exportYaml(ActionEvent event) {
         // Save Image of the Rendered image in specific Folder (like SaveFileAs)
-        Output.getOutput().exportScene();
+        FileChooser directoryChooser = new FileChooser();
+
+        directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("YAML", "*.yaml"));
+        directoryChooser.setTitle("Save Scene");
+
+        File file = directoryChooser.showSaveDialog(new Stage());
+
+        try{
+            CustomScene.getScene().yamlExport(file);
+        }catch (Exception e) {
+            System.out.println("No File selected");
+        }
     }
 
     @FXML
