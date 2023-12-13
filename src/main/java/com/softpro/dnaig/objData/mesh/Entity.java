@@ -4,13 +4,14 @@ import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
  * Represents an Entity in 3D space, with properties such as its name, position, orientation,
  * and a collection of faces that make up the Entity.
  */
-public class Entity implements Iterable<Face> {
+public class Entity implements TriangleMesh, Iterable<Face> {
     // Static unique identifier for each object.
     private static int entityID = 0;
 
@@ -20,6 +21,9 @@ public class Entity implements Iterable<Face> {
    // private final ArrayList<Triangle> triangleFaces;
     // Object name.
     private String objName;
+    // Path to the object file.
+    private String objPath;
+
     // 3D Vector which contains the position of the Entity in the application world space.
     private Vector3D pivot;
     // 3D Vector which contains the orientation of the Entity.
@@ -32,6 +36,7 @@ public class Entity implements Iterable<Face> {
     private String path;
 
     private Color color;
+    private double scale;
 
     /**
      * Creates a new Entity with default values.
@@ -57,7 +62,7 @@ public class Entity implements Iterable<Face> {
      * @param faces       A list of Face objects that make up the Entity.
      * @param vertexCount The number of vertices in the Entity
      */
-    public Entity(String objName, int id, ArrayList<Face> faces, int vertexCount) {
+    public Entity(String objName, String objPath, int id, ArrayList<Face> faces, int vertexCount) {
         this.id = id;
 
         this.color = Color.WHITE;
@@ -67,8 +72,10 @@ public class Entity implements Iterable<Face> {
 
         this.vertexCount = vertexCount;
 
+        this.objPath = objPath;
         this.objName = objName.isEmpty() ? String.format("object%d", id) : objName;
         this.orient = new Vector3D(1, 0, 0);
+        this.scale = 1;
     }
 
     /**
@@ -96,11 +103,9 @@ public class Entity implements Iterable<Face> {
         for (Face face : faces) {
             for (Vertex vertex : face) {
                 Vector3D newCoordinates = vertex.getCoordinates();
-                //newCoordinates = newCoordinates.rotateX(x);
-               // newCoordinates = newCoordinates.rotateY(y);
-                //newCoordinates = newCoordinates.rotateZ(z);
-
-                vertex.setCoordinates(newCoordinates);
+                newCoordinates.rotateX(x);
+                newCoordinates.rotateY(y);
+                newCoordinates.rotateZ(z);
             }
         }
     }
@@ -165,6 +170,10 @@ public class Entity implements Iterable<Face> {
         return this.vertexCount;
     }
 
+    public String getObjPath() {
+        return objPath;
+    }
+
     /**
      * Sets the orientation of the Entity to a specified Vector3D.
      *
@@ -195,16 +204,38 @@ public class Entity implements Iterable<Face> {
         this.color = color;
     }
 
+    public void setObjPath(String objPath) {
+        this.objPath = objPath;
+    }
+
     public Color getColor() {
         return color;
     }
 
+    @Override
     public ArrayList<Triangle> getTriangles(double factor) {
         ArrayList<Triangle> triangles = new ArrayList<>();
-        for (Face face: faces) {
-            triangles.add(new Triangle(face, factor / 2, color));
-        }
+        faces.forEach(face -> triangles.addAll(Arrays.asList(face.toTriangle(factor / 2, color))));
         return triangles;
+    }
+
+    @Override
+    public String yamlString() {
+        return
+                """
+                \t\t- name: %s
+                \t\t  path: %s
+                \t\t  position: %s
+                \t\t  rotation: %s
+                \t\t  scale: %f
+                \t\t  id: %d
+                """.formatted(
+                        objName,
+                        path,
+                        pivot.yamlString(),
+                        orient.yamlString(),
+                        scale,
+                        id);
     }
 
     /**

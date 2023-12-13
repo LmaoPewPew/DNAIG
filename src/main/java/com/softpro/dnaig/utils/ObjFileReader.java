@@ -255,7 +255,7 @@ public class ObjFileReader {
         br.close();
 
         //An Entity object representing the 3D model defined in the OBJ file.
-        return new Entity(objectName, objectID, faceList, vertexList.size());
+        return new Entity(objectName, path, objectID, faceList, vertexList.size());
     }
 
     /**

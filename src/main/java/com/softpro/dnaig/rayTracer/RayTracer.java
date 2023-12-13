@@ -11,10 +11,7 @@ public class RayTracer {
     static Camera camera = new Camera();
     int n = 0;
 
-    boolean isRunning = false;
-
     public void trace() throws IOException {
-        isRunning = true;
         long time = System.currentTimeMillis();
 
         for(int i = 0; i< Output.WIDTH; i++){
@@ -31,16 +28,15 @@ public class RayTracer {
                 Ray r = new Ray(camera.getEye(), dir);
 
                 int res_color = r.castPrimary(0);
+
                 Output.setPixel(i, j, res_color);
 
             }
         }
 
         System.out.println("Time: " + (System.currentTimeMillis() - time) / 1000.0 + "s");
-        isRunning = false;
-    }
 
-    public boolean isRunning() {
-        return isRunning;
+
+
     }
 }
