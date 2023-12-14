@@ -9,7 +9,6 @@ import com.softpro.dnaig.properties.Properties;
 import com.softpro.dnaig.rayTracer.CustomScene;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
-
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -131,6 +130,7 @@ public class ApplicationController {
     //FILE
 
     private final FileChooser directoryChooser = new FileChooser();
+
     @FXML
     void saveFile(ActionEvent event) {
         // Automatically Save .YAML file in Downloads folder
@@ -142,10 +142,10 @@ public class ApplicationController {
 
         directoryChooser.setTitle("Save Image");
         File file = directoryChooser.showSaveDialog(new Stage());
-        try{
+        try {
             Output.getOutput().exportImage(file);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("No File selected");
         }
     }
@@ -165,10 +165,10 @@ public class ApplicationController {
 
         File file = directoryChooser.showSaveDialog(new Stage());
 
-        try{
+        try {
             System.out.println(file.getPath());
             CustomScene.getScene().yamlExport(file);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("No File selected");
         }
     }
@@ -183,10 +183,10 @@ public class ApplicationController {
 
         File file = directoryChooser.showOpenDialog(new Stage());
 
-        try{
+        try {
             System.out.println(file.getPath());
             CustomScene.getScene().yamlImport(file);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -517,7 +517,7 @@ public class ApplicationController {
             gp.add(width, 1, 12);
 
             ChoiceBox<String> cb = new ChoiceBox<>();
-            String[] choice = {"CAM1", "CAM2", "CAM3"};
+            String[] choice = {"Camera A", "Camera B", "Camera C"};
             cb.getItems().setAll(choice);
             cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
@@ -540,13 +540,13 @@ public class ApplicationController {
             textFieldVALUES[9] = cb.getValue();
         }
         scrollPaneProperties.setContent(gp);
-        //updateModelSettings(contentType, id, textFieldVALUES);
+        updateModelSettings(contentType, id, textFieldVALUES);
     }
 
 
     //////Da PreviewWindow nich wirklich wichtig ist, SOUT einfach den wert jedesMal
 
-        //Muss schauen ob das unten auch klappt
+    //Muss schauen ob das unten auch klappt
 
 
 
@@ -588,7 +588,6 @@ public class ApplicationController {
     }
 
     /*************THEME CHANGE**************/
-
 
     private void setLightMode() {
         removeStylesheet("DarkMode.css");
@@ -644,6 +643,7 @@ public class ApplicationController {
     }
 
     private Stage stage;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
