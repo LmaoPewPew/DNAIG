@@ -59,6 +59,8 @@ public class CustomScene {
         Entity entity3 = ObjFileReader.createObject("src/main/java/com/softpro/dnaig/assets/objFile/icosphere/ico.obj", 2);
         Entity entity4  = ObjFileReader.createObject("src/main/java/com/softpro/dnaig/assets/objFile/icosphere/ico.obj", 3);
 
+        //Entity entity = ObjFileReader.createObject("src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj", 0);
+
        // Entity audi = ObjFileReader.createObject("C:\\THU\\src\\main\\java\\com\\softpro\\dnaig\\assets\\objFile\\astonMartin\\astonMartin.obj", 4);
         entities.add(entity);
         entities.add(entity2);
@@ -71,6 +73,7 @@ public class CustomScene {
         // lights.add(new PointLight(new Vector3D_RT(-15, 15, 15), new Vector3D_RT(50, 50, 50)));
 
 
+        //entity.scale(3);
         entity2.scale(0.5);
         entity4.scale(0.25);
 
@@ -85,6 +88,7 @@ public class CustomScene {
             }
         }
         double factor = Math.max(Math.max(maxX, maxY), maxZ);
+        //factor = 100;
 
         entity.setColor(Color.RED);
         entity2.setColor(Color.GREEN);
