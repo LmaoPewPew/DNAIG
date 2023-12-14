@@ -130,10 +130,12 @@ public class ApplicationController {
 
     /*************MENU-ITEM METHODS**************/
     //FILE
+
+    private final FileChooser directoryChooser = new FileChooser();
     @FXML
     void saveFile(ActionEvent event) {
         // Automatically Save .YAML file in Downloads folder
-        FileChooser directoryChooser = new FileChooser();
+        //FileChooser directoryChooser = new FileChooser();
 
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPEG/JPG", "*.jpg", "*.jpeg"));
@@ -157,7 +159,7 @@ public class ApplicationController {
     @FXML
     void exportYaml(ActionEvent event) {
         // Save Image of the Rendered image in specific Folder (like SaveFileAs)
-        FileChooser directoryChooser = new FileChooser();
+        //FileChooser directoryChooser = new FileChooser();
 
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("YAML", "*.yaml"));
         directoryChooser.setTitle("Save Scene");
@@ -175,6 +177,19 @@ public class ApplicationController {
     @FXML
     void importYaml(ActionEvent event) {
         // Loads .YAML file into project
+        //FileChooser directoryChooser = new FileChooser();
+
+        directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("YAML", "*.yaml"));
+        directoryChooser.setTitle("Save Scene");
+
+        File file = directoryChooser.showOpenDialog(new Stage());
+
+        try{
+            System.out.println(file.getPath());
+            CustomScene.getScene().yamlImport(file);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //EDIT

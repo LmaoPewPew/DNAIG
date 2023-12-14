@@ -85,6 +85,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
      * @param factor The scaling factor.
      */
     public void scale(double factor) {
+        scale = factor;
         for (Face face : faces) {
             for (Vertex vertex : face) {
                 vertex.setCoordinates(vertex.getCoordinates().scalarMultiplication(factor));
