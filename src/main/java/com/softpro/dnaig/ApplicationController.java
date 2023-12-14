@@ -132,6 +132,7 @@ public class ApplicationController {
     //FILE
 
     private final FileChooser directoryChooser = new FileChooser();
+
     @FXML
     void saveFile(ActionEvent event) {
         // Automatically Save .YAML file in Downloads folder
@@ -143,10 +144,10 @@ public class ApplicationController {
 
         directoryChooser.setTitle("Save Image");
         File file = directoryChooser.showSaveDialog(new Stage());
-        try{
+        try {
             Output.getOutput().exportImage(file);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("No File selected");
         }
     }
@@ -166,10 +167,10 @@ public class ApplicationController {
 
         File file = directoryChooser.showSaveDialog(new Stage());
 
-        try{
+        try {
             System.out.println(file.getPath());
             CustomScene.getScene().yamlExport(file);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("No File selected");
         }
     }
@@ -184,10 +185,10 @@ public class ApplicationController {
 
         File file = directoryChooser.showOpenDialog(new Stage());
 
-        try{
+        try {
             System.out.println(file.getPath());
             CustomScene.getScene().yamlImport(file);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -445,14 +446,13 @@ public class ApplicationController {
             textFieldVALUES[9] = cb.getValue();
         }
         scrollPaneProperties.setContent(gp);
-        //updateModelSettings(contentType, id, textFieldVALUES);
+        updateModelSettings(contentType, id, textFieldVALUES);
     }
 
 
     //////Da PreviewWindow nich wirklich wichtig ist, SOUT einfach den wert jedesMal
 
-        //Muss schauen ob das unten auch klappt
-
+    //Muss schauen ob das unten auch klappt
 
 
     // Live Update Coord-Sys Bar
@@ -481,10 +481,19 @@ public class ApplicationController {
             properties.setLength(Integer.parseInt(values[7]));
             properties.setWidth(Integer.parseInt(values[8]));
             properties.setLightvariants(Config.cameravariants.valueOf(values[9]));
-
         }
+
+
+        
+        printArray(values);
     }
 
+    public static void printArray(String[] arr) {
+        System.out.print("Array elements: ");
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i] + " ");
+        }
+    }
 
     private void numericOnly(TextField field) {
         field.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -493,7 +502,6 @@ public class ApplicationController {
     }
 
     /*************THEME CHANGE**************/
-
 
     private void setLightMode() {
         removeStylesheet("DarkMode.css");
@@ -549,6 +557,7 @@ public class ApplicationController {
     }
 
     private Stage stage;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
