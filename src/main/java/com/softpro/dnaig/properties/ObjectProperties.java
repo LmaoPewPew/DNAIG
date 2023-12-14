@@ -34,7 +34,7 @@ public class ObjectProperties implements Properties {
     }
 
     public String[] getAll() {
-        return new String[]{this.id, this.name, this.faces, this.vertices, this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return id, Name, Faces, Vertices, pos x, pos y, pos z, rot x, rot y, rot z
+        return new String[]{this.id, this.name, this.faces, this.vertices, this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2], this.scale}; //Return id, Name, Faces, Vertices, pos x, pos y, pos z, rot x, rot y, rot z, scale
     }
 
     public String getFaces() {
@@ -85,7 +85,7 @@ public class ObjectProperties implements Properties {
 
     public void setPos(String[] pos) {
         this.pos = pos;
-        System.out.println("x" + pos[0] + "y" + pos[1] + "z" + pos[2]);
+        //System.out.println("x" + pos[0] + "y" + pos[1] + "z" + pos[2]);
     }
 
     public String[] getRot() {

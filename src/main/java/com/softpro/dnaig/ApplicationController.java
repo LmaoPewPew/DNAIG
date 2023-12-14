@@ -9,6 +9,7 @@ import com.softpro.dnaig.properties.Properties;
 import com.softpro.dnaig.rayTracer.CustomScene;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -28,14 +29,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.event.ChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 
 public class ApplicationController {
@@ -347,8 +346,29 @@ public class ApplicationController {
         gp.add(new Text("Position:"), 0, 2);
 
         TextField xPos = new TextField(propertiesList.get(id).getPos()[0]);
+        xPos.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+            propertiesList.get(Integer.parseInt(lastClickedID)).setPos(new String[]{
+                    newValue,
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[1],
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[2]
+            });
+        });
         TextField yPos = new TextField(propertiesList.get(id).getPos()[1]);
+        yPos.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+            propertiesList.get(Integer.parseInt(lastClickedID)).setPos(new String[]{
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[0],
+                    newValue,
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[2]
+            });
+        });
         TextField zPos = new TextField(propertiesList.get(id).getPos()[2]);
+        zPos.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+            propertiesList.get(Integer.parseInt(lastClickedID)).setPos(new String[]{
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[0],
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[1],
+                    newValue
+            });
+        });
         numericOnly(xPos);
         numericOnly(yPos);
         numericOnly(zPos);
@@ -367,8 +387,32 @@ public class ApplicationController {
         gp.add(new Text("Rotation:"), 0, 6);
 
         TextField xRot = new TextField(propertiesList.get(id).getRot()[0]);
+        xRot.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+            propertiesList.get(Integer.parseInt(lastClickedID)).setRot(new String[]{
+                    newValue,
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[1],
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[2]
+            });
+        });
+
         TextField yRot = new TextField(propertiesList.get(id).getRot()[1]);
+        yRot.textProperty().addListener((observable, oldValue, newValue) -> {               //update value;
+            propertiesList.get(Integer.parseInt(lastClickedID)).setRot(new String[]{
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[0],
+                    newValue,
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[2]
+            });
+        });
+
         TextField zRot = new TextField(propertiesList.get(id).getRot()[2]);
+        zRot.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+            propertiesList.get(Integer.parseInt(lastClickedID)).setRot(new String[]{
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[0],
+                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[1],
+                    newValue
+            });
+        });
+
         numericOnly(xRot);
         numericOnly(yRot);
         numericOnly(zRot);
@@ -390,6 +434,11 @@ public class ApplicationController {
             ObjectProperties op = (ObjectProperties) propertiesList.get(id);
 
             TextField scaleTF = new TextField(op.getRot()[0]);
+            scaleTF.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+                    ObjectProperties opTest = (ObjectProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                    opTest.setScale(newValue);
+            });
+
             gp.add(new Text("Scale:"), 0, 10);
             gp.add(scaleTF, 1, 10);
             textFieldVALUES[7] = scaleTF.getText();
@@ -413,11 +462,34 @@ public class ApplicationController {
             gp.addRow(2);
 
             gp.add(new Text("Brigthness:"), 0, 11);
-            gp.add(new TextField(String.valueOf(lp.getBrightness())), 1, 11);
+            TextField bright = new TextField(String.valueOf(lp.getBrightness()));
+            bright.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                opTest.setBrightness(newValue);
+            });
+            gp.add(bright, 1, 11);
 
             ChoiceBox<String> cb = new ChoiceBox<>();
-            String[] choice = {"Light A", "Light B", "Light C"};
+            String[] choice = {"POINT", "SPOT", "SUN", "AREA"};
             cb.getItems().setAll(choice);
+
+            //Known Bug: nach wechsel auf ein anderes Objekt, light verliert value.
+            cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {               //update value
+                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                if(Config.lightvariants.POINT.toString().equals(newValue)){
+                    opTest.setLightvariants(Config.lightvariants.POINT);
+                }
+                if(Config.lightvariants.SPOT.toString().equals(newValue)){
+                    opTest.setLightvariants(Config.lightvariants.SPOT);
+                }
+                if(Config.lightvariants.SUN.toString().equals(newValue)){
+                    opTest.setLightvariants(Config.lightvariants.SUN);
+                }
+                if(Config.lightvariants.AREA.toString().equals(newValue)){
+                    opTest.setLightvariants(Config.lightvariants.AREA);
+                }
+            });
+            cb.setValue(lp.getLightvariants().toString());
             gp.add(new Text("Variant:"), 0, 12);
             gp.add(cb, 1, 12);
 
@@ -429,14 +501,37 @@ public class ApplicationController {
             gp.addRow(3);
 
             gp.add(new Text("Length:"), 0, 11);
-            gp.add(new TextField(String.valueOf(cp.getLength())), 1, 11);
+            TextField length = new TextField(String.valueOf(cp.getLength()));
+            length.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+                CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                opTest.setLength(Integer.parseInt(newValue));
+            });
+            gp.add(length, 1, 11);
 
             gp.add(new Text("Width:"), 0, 12);
-            gp.add(new TextField(String.valueOf(cp.getWidth())), 1, 12);
+            TextField width = new TextField(String.valueOf(cp.getWidth()));
+            width.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+                CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                opTest.setWidth(Integer.parseInt(newValue));
+            });
+            gp.add(width, 1, 12);
 
             ChoiceBox<String> cb = new ChoiceBox<>();
-            String[] choice = {"Camera A", "Camera B", "Camera C"};
+            String[] choice = {"CAM1", "CAM2", "CAM3"};
             cb.getItems().setAll(choice);
+            cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {               //update value
+                CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                if(Config.cameravariants.CAM1.toString().equals(newValue)){
+                    opTest.setCameravariants(Config.cameravariants.CAM1);
+                }
+                if(Config.cameravariants.CAM2.toString().equals(newValue)){
+                    opTest.setCameravariants(Config.cameravariants.CAM2);
+                }
+                if(Config.cameravariants.CAM3.toString().equals(newValue)){
+                    opTest.setCameravariants(Config.cameravariants.CAM3);
+                }
+            });
+            cb.setValue(cp.getCameravariants().toString());
             gp.add(new Text("Variants:"), 0, 13);
             gp.add(cb, 1, 13);
 
@@ -480,7 +575,7 @@ public class ApplicationController {
 
             properties.setLength(Integer.parseInt(values[7]));
             properties.setWidth(Integer.parseInt(values[8]));
-            properties.setLightvariants(Config.cameravariants.valueOf(values[9]));
+            properties.setCameravariants(Config.cameravariants.valueOf(values[9]));
 
         }
     }

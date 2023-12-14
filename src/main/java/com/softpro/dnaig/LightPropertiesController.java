@@ -27,10 +27,11 @@ public class LightPropertiesController implements Initializable {
         System.out.println("submit settings ");
     }
 
-    String[] choice = {"Licht A", "Licht B", "Licht C"};
+    String[] choice = {"POINT", "SPOT", "SUN", "AREA"};
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBoxLightProperties.getItems().setAll(choice);
+        choiceBoxLightProperties.setValue("POINT");
     }
 }

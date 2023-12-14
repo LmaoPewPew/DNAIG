@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 
 public class CameraProperties implements Properties {
     Config.type categoryType;
-    private Config.cameravariants cameravariants;
+    private Config.cameravariants cameravariants = Config.cameravariants.CAM1;
     private String name;
     private String id;
     private String[] pos;
@@ -82,7 +82,7 @@ public class CameraProperties implements Properties {
         return cameravariants;
     }
 
-    public void setLightvariants(Config.cameravariants cameravariants) {
+    public void setCameravariants(Config.cameravariants cameravariants) {
         this.cameravariants = cameravariants;
     }
 
@@ -101,4 +101,5 @@ public class CameraProperties implements Properties {
     public void setLength(int length) {
         this.length = length;
     }
+
 }

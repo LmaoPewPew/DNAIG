@@ -14,8 +14,7 @@ public class Config {
     public static enum cameravariants{
         CAM1,
         CAM2,
-        CAM3,
-        CAM4
+        CAM3
     }
 
     public static enum type{

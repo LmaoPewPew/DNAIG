@@ -27,10 +27,11 @@ public class CameraPropertiesController implements Initializable {
         System.out.println("submit settings ");
     }
 
-    String[] choice = {"Camera A", "Camera B", "Camera C"};
+    String[] choice = {"CAM1", "CAM2", "CAM3"};
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         choiceBoxCameraProperties.getItems().setAll(choice);
+        choiceBoxCameraProperties.setValue("CAM1");
     }
 }

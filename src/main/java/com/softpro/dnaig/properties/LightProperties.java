@@ -7,7 +7,7 @@ import javafx.scene.image.ImageView;
 public class LightProperties implements Properties {
     Config.type categoryType;
     private int brightness;
-    private Config.lightvariants lightvariants;
+    private Config.lightvariants lightvariants = Config.lightvariants.POINT;
     private String name;
     private String id;
     private String[] pos;
