@@ -249,4 +249,8 @@ public class CameraController {
         //mouseEvent.get
     }
 
+    public CameraControlWrapper getCameraControlWrapper(Model3D model) {
+        return modelCameraMap.get(model);
+    }
+
 }

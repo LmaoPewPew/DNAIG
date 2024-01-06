@@ -1,5 +1,7 @@
 package com.softpro.dnaig;
 
+import com.softpro.dnaig.objData.light.Light;
+import com.softpro.dnaig.objData.light.PointLight;
 import com.softpro.dnaig.objData.mesh.Entity;
 import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.properties.CameraProperties;
@@ -9,6 +11,7 @@ import com.softpro.dnaig.properties.Properties;
 import com.softpro.dnaig.rayTracer.CustomScene;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
+import com.softpro.dnaig.utils.Vector3D;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -85,7 +88,8 @@ public class ApplicationController {
     @FXML
     private StackPane previewPane;
     private PreviewWindow previewWindow;
-    final List<Entity> entityList = new ArrayList<>();
+    final ArrayList<Entity> entityList = new ArrayList<>();
+    final ArrayList<Light> lightList = new ArrayList<>();
     private static int objectID = 0;
 
     public ApplicationController() {
@@ -206,7 +210,13 @@ public class ApplicationController {
 
     // OPEN OBJECT SETTINGS SCENE (LIGHT AND/OR CAMERA)
     private void openLightPropertiesWindows() throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
+
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
+
+        //FXMLLoader loader = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
+        Parent root = loader.load();
+
+        LightPropertiesController lightPropertiesController = loader.getController();
 
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
@@ -214,7 +224,12 @@ public class ApplicationController {
         primaryStage.setScene(scene);
 
         primaryStage.initModality(Modality.APPLICATION_MODAL);
-        primaryStage.show();
+        //primaryStage.show();
+        primaryStage.showAndWait();
+
+        Vector3D[] value = lightPropertiesController.getValues();
+        System.out.println(value[0] + "\n" + value[1]);
+        lightList.add(new PointLight(value[0], value[1]));
 
     }
 
@@ -524,7 +539,10 @@ public class ApplicationController {
         System.out.println(renderButton.getText());
         System.out.println(renderButton.getStyleClass());
 
-        if ((renderButton.getText().equals("Cancel"))) loadRayTracer();
+        if ((renderButton.getText().equals("Cancel"))) {
+
+            loadRayTracer();
+        }
         else cancelRayTracer();
     }
 
@@ -560,6 +578,11 @@ public class ApplicationController {
     void loadRayTracer() {
         Output output = Output.getOutput();
         output.clear();
+        entityList.forEach(System.out::println);
+        entityList.forEach(entity -> previewWindow.getEntityData(entity));
+       // previewWindow.getEntityData(entityList.get(0));
+        System.out.println(lightList.size());
+        output.setScene(entityList, lightList, null);
         output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished);
     }
 

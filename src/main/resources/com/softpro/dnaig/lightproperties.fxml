@@ -15,7 +15,7 @@
             <Insets left="25.0" right="25.0" />
          </FlowPane.margin>
       </Label>
-      <TextField prefHeight="25.0" prefWidth="172.0" />
+      <TextField fx:id="brightnessTF" prefHeight="25.0" prefWidth="172.0" />
       <VBox.margin>
          <Insets left="10.0" />
       </VBox.margin>
@@ -27,11 +27,11 @@
          </FlowPane.margin>
       </Label>
       <Label text="X:" />
-      <TextField maxWidth="50.0" />
+      <TextField maxWidth="50.0" fx:id="xPosTF" />
       <Label text="Y:" />
-      <TextField maxWidth="50.0" />
+      <TextField fx:id="yPosTF" maxWidth="50.0" />
       <Label text="Z:" />
-      <TextField maxWidth="50.0" />
+      <TextField fx:id="zPosTF" maxWidth="50.0" />
       <VBox.margin>
          <Insets left="5.0" />
       </VBox.margin>
