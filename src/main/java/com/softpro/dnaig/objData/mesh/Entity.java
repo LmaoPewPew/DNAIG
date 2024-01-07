@@ -101,12 +101,12 @@ public class Entity implements TriangleMesh, Iterable<Face> {
      * @param z Rotation on the z-axis.
      */
     public void rotate(double x, double y, double z) {
+        System.out.println(x + " " + y + " " + z);
         for (Face face : faces) {
             for (Vertex vertex : face) {
                 Vector3D newCoordinates = vertex.getCoordinates();
-                newCoordinates.rotateX(x);
-                newCoordinates.rotateY(y);
-                newCoordinates.rotateZ(z);
+                newCoordinates.rotate(x, y, z);
+                System.out.println(newCoordinates);
             }
         }
     }
@@ -182,6 +182,8 @@ public class Entity implements TriangleMesh, Iterable<Face> {
      */
     public void setOrient(Vector3D orient) {
         this.orient = orient;
+
+        rotate(Math.toRadians(orient.getX()), Math.toRadians(orient.getY()), Math.toRadians(orient.getZ()));
     }
 
     /**
@@ -216,7 +218,11 @@ public class Entity implements TriangleMesh, Iterable<Face> {
     @Override
     public ArrayList<Triangle> getTriangles(double factor) {
         ArrayList<Triangle> triangles = new ArrayList<>();
-        faces.forEach(face -> triangles.addAll(Arrays.asList(face.toTriangle(factor / 2, color))));
+        faces.forEach(face -> {
+            Face temp = new Face(face);
+            temp.forEach(vertex -> vertex.setCoordinates(vertex.getCoordinates().scalarMultiplication(factor)));
+            triangles.addAll(Arrays.asList(temp.toTriangle(factor / 1, color)));
+        });
         return triangles;
     }
 

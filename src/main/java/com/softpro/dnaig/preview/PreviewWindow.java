@@ -183,12 +183,20 @@ public class PreviewWindow {
         return currentMode;
     }
 
-    public void updatePosition(int id, double x, double y, double z) {
+    public void updatePosition(int id, double x, double y, double z, double xRot, double yRot, double zRot) {
         Model3D model = tempModelList.get(id);
         CameraControlWrapper wrapper = cameraController.getCameraControlWrapper(model);
         Translate translate = wrapper.getT();
+        Rotate rotateX = wrapper.getrX();
+        Rotate rotateY = wrapper.getrY();
+        Rotate rotateZ = wrapper.getrZ();
+
         translate.setX(x);
         translate.setY(y);
         translate.setZ(z);
+
+        rotateX.setAngle(xRot);
+        rotateY.setAngle(yRot);
+        rotateZ.setAngle(zRot);
     }
 }

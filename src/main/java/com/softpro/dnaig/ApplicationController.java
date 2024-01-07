@@ -142,6 +142,7 @@ public class ApplicationController {
     //FILE
 
     private final FileChooser directoryChooser = new FileChooser();
+
     @FXML
     void saveFile(ActionEvent event) {
         // Automatically Save .YAML file in Downloads folder
@@ -153,10 +154,10 @@ public class ApplicationController {
 
         directoryChooser.setTitle("Save Image");
         File file = directoryChooser.showSaveDialog(new Stage());
-        try{
+        try {
             Output.getOutput().exportImage(file);
 
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println("No File selected");
         }
     }
@@ -176,10 +177,10 @@ public class ApplicationController {
 
         File file = directoryChooser.showSaveDialog(new Stage());
 
-        try{
+        try {
             System.out.println(file.getPath());
             CustomScene.getScene().yamlExport(file);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println("No File selected");
         }
     }
@@ -194,10 +195,10 @@ public class ApplicationController {
 
         File file = directoryChooser.showOpenDialog(new Stage());
 
-        try{
+        try {
             System.out.println(file.getPath());
             CustomScene.getScene().yamlImport(file);
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -356,7 +357,6 @@ public class ApplicationController {
         }
 
 
-
         //add properties: id, name, pos xyz, rot xyz
         String[] textFieldVALUES = new String[11];
 
@@ -378,26 +378,49 @@ public class ApplicationController {
         TextField yPos = new TextField(propertiesList.get(id).getPos()[1]);
         TextField zPos = new TextField(propertiesList.get(id).getPos()[2]);
 
+        TextField xRot = new TextField(propertiesList.get(id).getRot()[0]);
+        TextField yRot = new TextField(propertiesList.get(id).getRot()[1]);
+        TextField zRot = new TextField(propertiesList.get(id).getRot()[2]);
+
         int finalId = id;
         xPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) { // if focus lost
                 System.out.println(xPos.getText());
-                previewWindow.updatePosition(Integer.parseInt(lastClickedID), Double.parseDouble(xPos.getText()), Double.parseDouble(yPos.getText()), Double.parseDouble(zPos.getText()));
-                propertiesList.get(finalId).setPos(new String[]{xPos.getText(), yPos.getText(), zPos.getText()});
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot);
             }
         });
         yPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) { // if focus lost
                 System.out.println("Focus lost on the TextField");
-                previewWindow.updatePosition(Integer.parseInt(lastClickedID), Double.parseDouble(xPos.getText()), Double.parseDouble(yPos.getText()), Double.parseDouble(zPos.getText()));
-                propertiesList.get(finalId).setPos(new String[]{xPos.getText(), yPos.getText(), zPos.getText()});
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot);
             }
         });
         zPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) { // if focus lost
+
                 System.out.println("Focus lost on the TextField");
-                previewWindow.updatePosition(Integer.parseInt(lastClickedID), Double.parseDouble(xPos.getText()), Double.parseDouble(yPos.getText()), Double.parseDouble(zPos.getText()));
-                propertiesList.get(finalId).setPos(new String[]{xPos.getText(), yPos.getText(), zPos.getText()});
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot);
+            }
+        });
+
+        xRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot);
+            }
+        });
+
+        yRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot);
+            }
+        });
+
+        zRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot);
             }
         });
 
@@ -418,9 +441,7 @@ public class ApplicationController {
 
         gp.add(new Text("Rotation:"), 0, 6);
 
-        TextField xRot = new TextField(propertiesList.get(id).getRot()[0]);
-        TextField yRot = new TextField(propertiesList.get(id).getRot()[1]);
-        TextField zRot = new TextField(propertiesList.get(id).getRot()[2]);
+
         numericOnly(xRot);
         numericOnly(yRot);
         numericOnly(zRot);
@@ -500,11 +521,23 @@ public class ApplicationController {
         //updateModelSettings(contentType, id, textFieldVALUES);
     }
 
+    private void updateData(int id, TextField xPos, TextField yPos, TextField zPos, TextField xRot, TextField yRot, TextField zRot) {
+        previewWindow.updatePosition(
+                Integer.parseInt(lastClickedID),
+                Double.parseDouble(xPos.getText()),
+                Double.parseDouble(yPos.getText()),
+                Double.parseDouble(zPos.getText()),
+                Double.parseDouble(xRot.getText()),
+                Double.parseDouble(yRot.getText()),
+                Double.parseDouble(zRot.getText())
+        );
+        propertiesList.get(id).setPos(new String[]{xPos.getText(), yPos.getText(), zPos.getText()});
+        propertiesList.get(id).setRot(new String[]{xRot.getText(), yRot.getText(), zRot.getText()});
+    }
 
     //////Da PreviewWindow nich wirklich wichtig ist, SOUT einfach den wert jedesMal
 
-        //Muss schauen ob das unten auch klappt
-
+    //Muss schauen ob das unten auch klappt
 
 
     // Live Update Coord-Sys Bar
@@ -578,8 +611,7 @@ public class ApplicationController {
 
         if ((renderButton.getText().equals("Cancel"))) {
             loadRayTracer();
-        }
-        else cancelRayTracer();
+        } else cancelRayTracer();
     }
 
     void switchRenderButtonStyleClass() {
@@ -603,6 +635,7 @@ public class ApplicationController {
     }
 
     private Stage stage;
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -618,27 +651,28 @@ public class ApplicationController {
         //entityList.forEach(entity -> previewWindow.getEntityData(entity));
 
         for (Properties properties : propertiesList) {
-            if(properties instanceof LightProperties lightProperties){
+            if (properties instanceof LightProperties lightProperties) {
                 PointLight pointLight = null;
-                for(Light light : lightList){
-                    if(light.getID() == Integer.parseInt(lightProperties.getId())){
+                for (Light light : lightList) {
+                    if (light.getID() == Integer.parseInt(lightProperties.getId())) {
                         pointLight = (PointLight) light;
                         pointLight = new PointLight(pointLight.getID(), new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2])), new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2])));
                         break;
                     }
                 }
-                if(pointLight != null){
+                if (pointLight != null) {
                     PointLight finalPointLight = pointLight;
                     lightList.removeIf(light -> light.getID() == finalPointLight.getID());
                     lightList.add(pointLight);
                 }
-            }else if(properties instanceof ObjectProperties objectProperties) {
+            } else if (properties instanceof ObjectProperties objectProperties) {
                 Entity entity = null;
                 for (Entity entity1 : entityList) {
                     if (entity1.getID() == Integer.parseInt(objectProperties.getId())) {
                         entity = entity1;
                         entity.setPivot(new Vector3D(Double.parseDouble(objectProperties.getPos()[0]), Double.parseDouble(objectProperties.getPos()[1]), Double.parseDouble(objectProperties.getPos()[2])));
                         entity.setOrient(new Vector3D(Double.parseDouble(objectProperties.getRot()[0]), Double.parseDouble(objectProperties.getRot()[1]), Double.parseDouble(objectProperties.getRot()[2])));
+                        System.out.println("Orientation: " + entity.getOrient());
                         break;
                     }
                 }
@@ -651,7 +685,7 @@ public class ApplicationController {
         }
 
 
-       // previewWindow.getEntityData(entityList.get(0));
+        // previewWindow.getEntityData(entityList.get(0));
         System.out.println(lightList.size());
         output.setScene(entityList, lightList, null);
         output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished);
@@ -667,14 +701,14 @@ public class ApplicationController {
                 objectListView.getItems().remove(properties.getButton());
                 propertiesList.remove(properties);
                 PointLight pointLight = null;
-                for(Light light : lightList){
-                    if(light.getID() == objID){
+                for (Light light : lightList) {
+                    if (light.getID() == objID) {
                         System.out.println("DELETE LIGHT");
                         pointLight = (PointLight) light;
                         break;
                     }
                 }
-                if(pointLight != null) lightList.remove(pointLight);
+                if (pointLight != null) lightList.remove(pointLight);
                 return;
             }
         }

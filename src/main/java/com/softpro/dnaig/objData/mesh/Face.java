@@ -1,8 +1,10 @@
 package com.softpro.dnaig.objData.mesh;
 
+import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
 import java.util.Iterator;
+import java.util.Vector;
 
 /**
  * Represents a Face in a 3D model, composed of vertices, a smoothing group, and a material.
@@ -20,6 +22,12 @@ public class Face implements Iterable<Vertex> {
      */
     public Face() {
         this.vertices = new Vertex[]{new Vertex(), new Vertex(), new Vertex()};
+    }
+
+    public Face(Face face){
+        this.vertices = face.vertices.clone();
+        this.smoothingGroup = face.smoothingGroup;
+        this.material = face.material;
     }
 
     /**
@@ -128,4 +136,5 @@ public class Face implements Iterable<Vertex> {
             }
         };
     }
+
 }
