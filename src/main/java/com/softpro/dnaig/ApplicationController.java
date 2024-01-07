@@ -9,6 +9,7 @@ import com.softpro.dnaig.properties.Properties;
 import com.softpro.dnaig.rayTracer.CustomScene;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+
 
 
 public class ApplicationController {
@@ -66,8 +68,11 @@ public class ApplicationController {
     @FXML
     private MenuItem mSaveAs;
     @FXML
-    private MenuItem menuTheme;
-
+    private RadioMenuItem mTheme;
+    @FXML
+    private MenuItem mAbout;
+    @FXML
+    private RadioMenuItem mVoice;
     //Rest
     @FXML
     private Button renderButton;
@@ -196,9 +201,14 @@ public class ApplicationController {
     //EDIT
     @FXML
     void changeThemeMode(ActionEvent event) {
-        isLightMode = !isLightMode;
-        if (isLightMode) setLightMode();
-        else setDarkMode();
+        if (mTheme.isSelected()){
+            mTheme.setText("Darkmode");
+            setDarkMode();
+        }
+        else {
+            mTheme.setText("Lightmode");
+            setLightMode();
+        }
     }
 
     //HELP
@@ -670,8 +680,15 @@ public class ApplicationController {
     }
 
 
-    /*************One Time METHODS**************/
+    /*************Voice Assistant**************/
 
+    @FXML
+    void voiceAssistant(ActionEvent event) {
+       boolean isSelected = mVoice.isSelected();
+        System.out.println(isSelected);
+    }
+
+    /*************One Time METHODS**************/
     // Location might change once finished (?)
     public void deleteObject(int objID) {
         for (Properties properties : propertiesList) {
@@ -706,5 +723,10 @@ public class ApplicationController {
 
     public void handleKey(KeyEvent event) {
         if (previewWindow != null) previewWindow.handleKey(event);
+    }
+
+    @FXML
+    void aboutSection(ActionEvent event) {
+        System.out.println("3D-Modelling Raytracer, created as a school project");
     }
 }
