@@ -182,4 +182,13 @@ public class PreviewWindow {
     public ObjectProperty<Mode> getCurrentMode() {
         return currentMode;
     }
+
+    public void updatePosition(int id, double x, double y, double z) {
+        Model3D model = tempModelList.get(id);
+        CameraControlWrapper wrapper = cameraController.getCameraControlWrapper(model);
+        Translate translate = wrapper.getT();
+        translate.setX(x);
+        translate.setY(y);
+        translate.setZ(z);
+    }
 }

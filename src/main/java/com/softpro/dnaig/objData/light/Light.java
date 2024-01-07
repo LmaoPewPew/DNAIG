@@ -11,4 +11,6 @@ public interface Light {
      * @return YAML representation of the light
      */
     String toYaml();
+
+    int getID();
 }
