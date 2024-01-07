@@ -28,12 +28,14 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import javax.swing.event.ChangeEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 
 public class ApplicationController {
@@ -580,12 +582,21 @@ public class ApplicationController {
         }
     }
 
-
+    //nur ein - am anfang
     private void numericOnly(TextField field) {
         field.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*(\\.\\d*)?")) field.setText(newValue.replaceAll("[^\\d.]", ""));
+            if (!newValue.matches("-?\\d*(\\.\\d*)?")) field.setText(newValue.replaceAll("[^\\d.]", ""));
         });
     }
+
+    // mehrere - überall, egal wo.
+/*  private void numericOnly(TextField field) {
+        field.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("-?\\d*\\.?\\d*")) field.setText(newValue.replaceAll("[^\\d.-]", ""));
+        });
+    }
+*/
+
 
     /*************THEME CHANGE**************/
 
