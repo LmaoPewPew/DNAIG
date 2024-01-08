@@ -463,9 +463,6 @@ public class ApplicationController {
 
         gp.add(new Text("Rotation:"), 0, 6);
 
-        TextField xRot = new TextField(propertiesList.get(id).getRot()[0]);
-        TextField yRot = new TextField(propertiesList.get(id).getRot()[1]);
-        TextField zRot = new TextField(propertiesList.get(id).getRot()[2]);
         numericOnly(xRot);
         numericOnly(yRot);
         numericOnly(zRot);
@@ -645,7 +642,7 @@ public class ApplicationController {
 
             properties.setLength(Integer.parseInt(values[7]));
             properties.setWidth(Integer.parseInt(values[8]));
-            properties.setLightvariants(Config.cameravariants.valueOf(values[9]));
+            //properties.setLightvariants(Config.cameravariants.valueOf(values[9]));
 
         }
     }
