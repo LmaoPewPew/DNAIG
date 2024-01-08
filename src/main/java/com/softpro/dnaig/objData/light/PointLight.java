@@ -34,6 +34,9 @@ public class PointLight implements Light {
     }
 
     @Override
+    public Vector3D getIntensity(){return intensity;}
+
+    @Override
     public Vector3D getIntensity(Vector3D fromPosition) {
         return intensity;
     }
@@ -43,13 +46,18 @@ public class PointLight implements Light {
         return String.format(
                 """
                 -\tposition: %s
-                \tKe: { r: %f, g: %f, b: %f }      \s
-                """, position.toYaml(), intensity.getX(), intensity.getY(), intensity.getZ()
+                \tKe: %s
+                """, position.toYaml(), intensity.toColorYaml()
         );
     }
 
     @Override
     public int getID() {
         return id;
+    }
+
+    @Override
+    public void setID(int id) {
+        this.id = id;
     }
 }

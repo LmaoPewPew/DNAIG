@@ -254,6 +254,7 @@ public class ObjFileReader {
         // BufferedReader is closed after finishing parsing the file.
         br.close();
 
+        faceList.forEach(face -> System.out.println(face.getMaterial()));
         //An Entity object representing the 3D model defined in the OBJ file.
         return new Entity(objectName, path, objectID, faceList, vertexList.size());
     }
