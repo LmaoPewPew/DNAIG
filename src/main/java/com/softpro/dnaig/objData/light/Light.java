@@ -7,8 +7,13 @@ public interface Light {
     Vector3D getPosition();
     Vector3D getIntensity(Vector3D fromPosition);
 
+    Vector3D getIntensity();
+
     /**
      * @return YAML representation of the light
      */
     String toYaml();
+
+    int getID();
+    void setID(int id);
 }

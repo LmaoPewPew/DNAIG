@@ -5,8 +5,12 @@ import com.softpro.dnaig.objData.light.Light;
 import com.softpro.dnaig.utils.Vector3D;
 
 public class PointLight implements Light {
+
+    int id;
+
     Vector3D position;
     Vector3D intensity;
+
 
     /**
      * @param position 3D position of the light
@@ -15,12 +19,22 @@ public class PointLight implements Light {
     public PointLight(Vector3D position, Vector3D intensity){
         this.position=position;
         this.intensity=intensity;
+        this.id = 0;
+    }
+
+    public PointLight(int id, Vector3D position, Vector3D intensity){
+        this.position=position;
+        this.intensity=intensity;
+        this.id = id;
     }
 
     @Override
     public Vector3D getPosition() {
         return position;
     }
+
+    @Override
+    public Vector3D getIntensity(){return intensity;}
 
     @Override
     public Vector3D getIntensity(Vector3D fromPosition) {
@@ -32,8 +46,18 @@ public class PointLight implements Light {
         return String.format(
                 """
                 -\tposition: %s
-                \tKe: { r: %f, g: %f, b: %f }      \s
-                """, position.toYaml(), intensity.getX(), intensity.getY(), intensity.getZ()
+                \tKe: %s
+                """, position.toYaml(), intensity.toColorYaml()
         );
+    }
+
+    @Override
+    public int getID() {
+        return id;
+    }
+
+    @Override
+    public void setID(int id) {
+        this.id = id;
     }
 }

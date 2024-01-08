@@ -3,6 +3,7 @@ package com.softpro.dnaig.objData.mesh;
 import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
 
     // Face objects that make up the Entity.
     private final ArrayList<Face> faces;
+    private ArrayList<Face> faceAltered;
 
    // private final ArrayList<Triangle> triangleFaces;
     // Object name.
@@ -31,7 +33,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
     // Amount of vertices
     private final int vertexCount;
     // Unique identifier.
-    private final int id;
+    private int id;
 
     private String path;
 
@@ -47,6 +49,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
         this.id = entityID++;
 
         this.faces = new ArrayList<>(0);
+        this.faceAltered = new ArrayList<>(0);
         this.pivot = new Vector3D();
 
         this.vertexCount = 0;
@@ -68,6 +71,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
         this.color = Color.WHITE;
 
         this.faces = faces;
+        this.faceAltered = (ArrayList<Face>) this.faces.clone();
         this.pivot = new Vector3D();
 
         this.vertexCount = vertexCount;
@@ -85,12 +89,21 @@ public class Entity implements TriangleMesh, Iterable<Face> {
      * @param factor The scaling factor.
      */
     public void scale(double factor) {
+        /*
+        this.faceAltered = (ArrayList<Face>) this.faces.clone();
         scale = factor;
-        for (Face face : faces) {
+        for (Face face : faceAltered) {
             for (Vertex vertex : face) {
                 vertex.setCoordinates(vertex.getCoordinates().scalarMultiplication(factor));
             }
         }
+
+         */
+        this.scale = factor;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -101,12 +114,12 @@ public class Entity implements TriangleMesh, Iterable<Face> {
      * @param z Rotation on the z-axis.
      */
     public void rotate(double x, double y, double z) {
+        System.out.println(x + " " + y + " " + z);
         for (Face face : faces) {
             for (Vertex vertex : face) {
                 Vector3D newCoordinates = vertex.getCoordinates();
-                newCoordinates.rotateX(x);
-                newCoordinates.rotateY(y);
-                newCoordinates.rotateZ(z);
+                newCoordinates.rotate(x, y, z);
+                System.out.println(newCoordinates);
             }
         }
     }
@@ -182,6 +195,8 @@ public class Entity implements TriangleMesh, Iterable<Face> {
      */
     public void setOrient(Vector3D orient) {
         this.orient = orient;
+
+        rotate(Math.toRadians(orient.getX()), Math.toRadians(orient.getY()), Math.toRadians(orient.getZ()));
     }
 
     /**
@@ -192,13 +207,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
     public void setPivot(Vector3D pivot) {
         this.pivot = pivot;
 
-        for (Face face : faces) {
-            for (Vertex vertex : face) {
-                Vector3D temp = vertex.getCoordinates();
-                temp.add(pivot);
-                vertex.setCoordinates(temp);
-            }
-        }
+
     }
 
     public void setColor(Color color) {
@@ -215,8 +224,22 @@ public class Entity implements TriangleMesh, Iterable<Face> {
 
     @Override
     public ArrayList<Triangle> getTriangles(double factor) {
+        faceAltered.clear();
+        for (int i = 0; i < faces.size(); i++) {
+            faceAltered.add(new Face(faces.get(i)));
+            Face faceCopy = faceAltered.get(i);
+            for(Vertex vertex : faceCopy){
+                Vector3D temp = new Vector3D(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());
+                temp.add(pivot);
+                vertex.setCoordinates(temp);
+            }
+        }
         ArrayList<Triangle> triangles = new ArrayList<>();
-        faces.forEach(face -> triangles.addAll(Arrays.asList(face.toTriangle(factor / 2, color))));
+        faceAltered.forEach(face -> {
+            Face temp = new Face(face);
+            temp.forEach(vertex -> vertex.setCoordinates(vertex.getCoordinates().scalarMultiplication(scale)));
+            triangles.addAll(Arrays.asList(temp.toTriangle(factor / 1, color)));
+        });
         return triangles;
     }
 

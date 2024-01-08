@@ -213,7 +213,14 @@ public class Vector3D {
 
     public String toYaml(){
         return String.format(
-                "{ x: %f, y: %f, z: %f }",
+                "\n\t\tx: %f\n\t\ty: %f\n\t\tz: %f\n",
+                x, y, z
+        );
+    }
+
+    public String toColorYaml(){
+        return String.format(
+                "\n\t\tr: %f\n\t\tg: %f\n\t\tb: %f\n",
                 x, y, z
         );
     }

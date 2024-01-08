@@ -1,6 +1,10 @@
 package com.softpro.dnaig;
 
+import com.softpro.dnaig.objData.light.Light;
+import com.softpro.dnaig.objData.mesh.Entity;
 import com.softpro.dnaig.properties.Properties;
+import com.softpro.dnaig.rayTracer.Camera;
+import com.softpro.dnaig.rayTracer.CustomScene;
 import com.softpro.dnaig.rayTracer.RayTracer;
 import com.softpro.dnaig.utils.Config;
 import javafx.application.Application;
@@ -19,7 +23,9 @@ import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.function.Consumer;
 
 public class Output extends Application {
@@ -201,5 +207,13 @@ public class Output extends Application {
 
     public static void main(String[] args) {
         launch(args);
+    }
+
+    public void setScene(ArrayList<Entity> entityList, ArrayList<Light> lightList, Camera camera) {
+        try {
+            CustomScene.getScene().setScene(entityList, lightList, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

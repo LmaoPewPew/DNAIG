@@ -1,6 +1,8 @@
 package com.softpro.dnaig.preview;
 
 import com.softpro.dnaig.ApplicationController;
+import com.softpro.dnaig.objData.mesh.Entity;
+import com.softpro.dnaig.utils.Vector3D;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
@@ -14,6 +16,8 @@ import org.fxyz3d.importers.Model3D;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+
+import com.softpro.dnaig.objData.mesh.Entity;
 
 public class PreviewWindow {
     private final int WIDTH = 1280;
@@ -156,7 +160,43 @@ public class PreviewWindow {
         }
     }
 
+    public void getEntityData(Entity entity){
+        int id = entity.getID();
+        Model3D model = tempModelList.get(id);
+
+        CameraControlWrapper wrapper = cameraController.getCameraControlWrapper(model);
+        Translate translate = wrapper.getT();
+
+        entity.setPivot(new Vector3D(
+            translate.getX(),
+            translate.getZ(),
+                translate.getY())
+        );
+
+        System.out.println("Pivot: " + entity.getPivot());
+
+        System.out.println(model);
+        System.out.println("ID: " + id);
+    }
+
     public ObjectProperty<Mode> getCurrentMode() {
         return currentMode;
+    }
+
+    public void updatePosition(int id, double x, double y, double z, double xRot, double yRot, double zRot) {
+        Model3D model = tempModelList.get(id);
+        CameraControlWrapper wrapper = cameraController.getCameraControlWrapper(model);
+        Translate translate = wrapper.getT();
+        Rotate rotateX = wrapper.getrX();
+        Rotate rotateY = wrapper.getrY();
+        Rotate rotateZ = wrapper.getrZ();
+
+        translate.setX(x);
+        translate.setY(y);
+        translate.setZ(z);
+
+        rotateX.setAngle(xRot);
+        rotateY.setAngle(yRot);
+        rotateZ.setAngle(zRot);
     }
 }

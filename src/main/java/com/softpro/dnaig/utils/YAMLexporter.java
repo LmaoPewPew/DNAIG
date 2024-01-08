@@ -43,10 +43,10 @@ public class YAMLexporter {
         }
     }
 
-    public static void importScene(File file) {
-        ArrayList<Entity> entities = new ArrayList<>();
-        ArrayList<Light> lights = new ArrayList<>();
-        Camera camera = new Camera();
+    public static void importScene(File file, ArrayList<Entity> entities, ArrayList<Light> lights, Camera camera) {
+        entities.clear();
+        lights.clear();
+        // Camera camera = new Camera();
 
         // Defines mode of reading
         enum State {
@@ -89,15 +89,12 @@ public class YAMLexporter {
                     case MODELS -> {
                         if (line.contains("filePath:")) {
                             filePath = line.split("filePath:")[1].replaceAll("\"", "").trim();
-                            System.out.println(filePath);
                         } else if (line.contains("position:")) {
-                            position = extractVector(line, "position:");
+                            position = extractVector(reader);
                         } else if (line.contains("rotation:")) {
-                            rotation = extractVector(line, "rotation:");
+                            rotation = extractVector(reader);
                         } else if (line.contains("scale:")) {
                             scale = Double.parseDouble(line.split(":")[1].trim());
-                        } else if (line.contains("color:")) {
-                            color = extractVector(line, "color:");
                         }
                         if (!filePath.isEmpty() && position != null && rotation != null && scale != 0) {
                             Entity entity = null;
@@ -120,29 +117,32 @@ public class YAMLexporter {
                     }
                     // Extract camera
                     case CAMERA -> {
-                        if (line.contains("lookAt:")) {
-                            lookAt = extractVector(line, "lookAt:");
-                        } else if (line.contains("up:")) {
-                            up = extractVector(line, "up:");
+                        if (line.contains("position:")) {
+                            position = extractVector(reader);
+                        } else if (line.contains("lookAt:")) {
+                            lookAt = extractVector(reader);
+                        } else if (line.contains("upVec:")) {
+                            up = extractVector(reader);
                         } else if (line.contains("width:")) {
                             width = Integer.parseInt(line.split(":")[1].trim());
                         } else if (line.contains("height:")) {
                             height = Integer.parseInt(line.split(":")[1].trim());
-                        } else if (line.contains("fov:")) {
+                        } else if (line.contains("fieldOfView:")) {
                             fov = Double.parseDouble(line.split(":")[1].trim());
                         }
-                        if (lookAt != null && up != null && width != 0 && height != 0 && fov != 0) {
-
+                        if (position != null && lookAt != null && up != null && width != 0 && height != 0 && fov != 0) {
+                            // camera = new Camera(position, lookAt, up, fov, width, height);
                         }
                     }
                     // Extract point lights
                     case POINTLIGHTS -> {
                         if (line.contains("position:")) {
-                            position = extractVector(line, "position:");
+                            position = extractVector(reader);
                         } else if (line.contains("Ke:")) {
-                            color = extractVector(line, "Ke:");
+                            color = extractVector(reader);
                         }
                         if (position != null && color != null) {
+                            System.out.println("Position: " + position + " Color: " + color);
                             lights.add(new PointLight(position, color));
                             position = null;
                             color = null;
@@ -162,23 +162,21 @@ public class YAMLexporter {
         }
     }
 
-    /**
-     * Extracts a vector from a line in the YAML file
-     *
-     * @param line   Line to extract vector from
-     * @param keyword Keyword to search for
-     * @return Vector3D
-     */
-    private static Vector3D extractVector(String line, String keyword) {
+    private static Vector3D extractVector(BufferedReader reader) throws IOException {
         Vector3D vec;
-        String pos = line.split(keyword)[1].replaceAll("[{}]", "").trim();
-        String[] posArr = pos.split(",");
-
-        vec = new Vector3D(
-                Double.parseDouble(posArr[0].split(":")[1].trim()),
-                Double.parseDouble(posArr[1].split(":")[1].trim()),
-                Double.parseDouble(posArr[2].split(":")[1].trim())
-        );
+        String line;
+        double x = 0, y = 0, z = 0;
+        for (int i = 0; i < 3; i++) {
+            line = reader.readLine();
+            if (line.contains("x:") || line.contains("r:")) {
+                x = Double.parseDouble(line.split(":")[1].trim());
+            } else if (line.contains("y:") || line.contains("g:")) {
+                y = Double.parseDouble(line.split(":")[1].trim());
+            } else if (line.contains("z:") || line.contains("b:")) {
+                z = Double.parseDouble(line.split(":")[1].trim());
+            }
+        }
+        vec = new Vector3D(x, y, z);
         return vec;
     }
 }

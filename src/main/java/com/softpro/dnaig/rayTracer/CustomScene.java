@@ -111,13 +111,13 @@ public class CustomScene {
            entity2.setPivot(new Vector3D(0.25, 0.25, 0));
        entity3.setPivot(new Vector3D(-0.25, -0.25, 0));
         entity4.setPivot(new Vector3D(-0.5, 0, -0.1));
-        */
+
         entities.add(ObjFileReader.createObject("C:\\Users\\leonv\\Desktop\\ObjDateien\\cone.obj", 0));
 
         for (Entity entity : entities){
             objects.addAll(entity.getTriangles(1));
         }
-
+*/
         /*
         //  objects.addAll(entity.getTriangles(factor));
      //   objects.addAll(entity2.getTriangles(factor));
@@ -126,11 +126,11 @@ public class CustomScene {
 
         System.out.println(objects.size());
 
- */
+
         lights.add(new PointLight(new Vector3D(0, 3, -3), new Vector3D(8, 5, 10)));
         lights.add(new PointLight(new Vector3D(4, 2, -1.5), new Vector3D(6, 2, 1)));
 
-
+ */
 
 
     }
@@ -148,7 +148,7 @@ public class CustomScene {
      * @param file The file to import the scene from.
      */
     public void yamlImport(File file){
-        YAMLexporter.importScene(file);
+        YAMLexporter.importScene(file, entities, lights, RayTracer.camera);
     }
 
     /**
@@ -177,6 +177,10 @@ public class CustomScene {
     public void setScene(ArrayList<Entity> entities, ArrayList<Light> lights, Camera camera) {
         this.entities = entities;
         this.lights = lights;
+        lights.forEach(light -> {
+                    System.out.println(light.getPosition());
+            System.out.println(light.getIntensity());
+                });
        // RayTracer.camera = camera;
 
         this.objects = new ArrayList<>();

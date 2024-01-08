@@ -6,15 +6,15 @@ import javafx.scene.image.ImageView;
 
 public class LightProperties implements Properties {
     Config.type categoryType;
-    private int brightness;
-    private Config.lightvariants lightvariants = Config.lightvariants.POINT;
+    private String brightness;
+    private Config.lightvariants lightvariants;
     private String name;
     private String id;
     private String[] pos;
     private String[] rot;
     private Button button;
 
-    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, int brightness, String objName, String objID, String[] pos, String[] objRot) {
+    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, String brightness, String objName, String objID, String[] pos, String[] objRot) {
         this.categoryType = categoryType;
         this.lightvariants = lightvariants;
         this.brightness = brightness;
@@ -74,12 +74,12 @@ public class LightProperties implements Properties {
         this.button = button;
     }
 
-    public int getBrightness() {
+    public String getBrightness() {
         return brightness;
     }
 
     public void setBrightness(String brightness) {
-        this.brightness = Integer.parseInt(brightness);
+        this.brightness = brightness;
     }
 
     public Config.lightvariants getLightvariants() {

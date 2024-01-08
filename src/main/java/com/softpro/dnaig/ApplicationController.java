@@ -1,16 +1,24 @@
 package com.softpro.dnaig;
 
+import com.softpro.dnaig.objData.light.Light;
+import com.softpro.dnaig.objData.light.PointLight;
 import com.softpro.dnaig.objData.mesh.Entity;
 import com.softpro.dnaig.preview.PreviewWindow;
 import com.softpro.dnaig.properties.CameraProperties;
 import com.softpro.dnaig.properties.LightProperties;
 import com.softpro.dnaig.properties.ObjectProperties;
 import com.softpro.dnaig.properties.Properties;
+import com.softpro.dnaig.rayTracer.Camera;
 import com.softpro.dnaig.rayTracer.CustomScene;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
-
+import com.softpro.dnaig.utils.Vector3D;
+import com.softpro.dnaig.utils.YAMLexporter;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -33,11 +41,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
-
+import java.util.*;
 
 
 public class ApplicationController {
@@ -90,7 +94,8 @@ public class ApplicationController {
     @FXML
     private StackPane previewPane;
     private PreviewWindow previewWindow;
-    final List<Entity> entityList = new ArrayList<>();
+    final ArrayList<Entity> entityList = new ArrayList<>();
+    final ArrayList<Light> lightList = new ArrayList<>();
     private static int objectID = 0;
 
     public ApplicationController() {
@@ -104,10 +109,12 @@ public class ApplicationController {
 
     @FXML
     void importLightObject(MouseEvent event) throws IOException {
-        int id = objectID++;
+        int id = objectID;
+        createGUIObject(null, id, Config.type.LIGHT);
         openLightPropertiesWindows();
         previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/lightbulb/lightbulb.obj", id);
-        createGUIObject(null, id, Config.type.LIGHT);
+
+        objectID++;
     }
 
     @FXML
@@ -192,7 +199,22 @@ public class ApplicationController {
 
         try {
             System.out.println(file.getPath());
-            CustomScene.getScene().yamlImport(file);
+            //CustomScene.getScene().yamlImport(file);
+            YAMLexporter.importScene(file, entityList, lightList, null);
+            for (Entity entity : entityList) {
+                int id = objectID++;
+                latestFile = new File(entity.getObjPath());
+                entity.setId(id);
+                createGUIObject(entity, id, Config.type.OBJECT);
+            }
+            for (Light light : lightList) {
+                int id = objectID++;
+                light.setID(id);
+                System.out.println(light.toYaml());
+                LightProperties lp = new LightProperties(Config.type.LIGHT, Config.lightvariants.POINT, String.format("%f, %f, %f", light.getIntensity().getX(), light.getIntensity().getY(), light.getIntensity().getZ()), "light", String.valueOf(id), new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())}, new String[]{"0","0","0"});
+                loadImage(lp, Config.type.LIGHT);
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -217,7 +239,13 @@ public class ApplicationController {
 
     // OPEN OBJECT SETTINGS SCENE (LIGHT AND/OR CAMERA)
     private void openLightPropertiesWindows() throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
+
+        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
+
+        //FXMLLoader loader = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
+        Parent root = loader.load();
+
+        LightPropertiesController lightPropertiesController = loader.getController();
 
         Scene scene = new Scene(root);
         Stage primaryStage = new Stage();
@@ -225,7 +253,17 @@ public class ApplicationController {
         primaryStage.setScene(scene);
 
         primaryStage.initModality(Modality.APPLICATION_MODAL);
-        primaryStage.show();
+        //primaryStage.show();
+        primaryStage.showAndWait();
+
+        Vector3D[] value = lightPropertiesController.getValues();
+        System.out.println(value[0] + "\n" + value[1]);
+        lightList.add(new PointLight(objectID, value[0], value[1]));
+
+
+        LightProperties currentLightProperties = (LightProperties) propertiesList.get(propertiesList.size() - 1);
+        currentLightProperties.setPos(new String[]{Double.toString(value[0].getX()), Double.toString(value[0].getY()), Double.toString(value[0].getZ())});
+        currentLightProperties.setBrightness(String.format("%f, %f, %f", value[1].getX(), value[1].getY(), value[1].getZ()));
 
     }
 
@@ -255,7 +293,7 @@ public class ApplicationController {
         CameraProperties cp;
 
         if (categoryType == Config.type.LIGHT) {     //load light properties
-            lp = new LightProperties(categoryType, Config.lightvariants.POINT, 100, "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"});
+            lp = new LightProperties(categoryType, Config.lightvariants.POINT, "", "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"});
             loadImage(lp, categoryType);
         } else if (categoryType == Config.type.OBJECT) {          //load object properties
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
@@ -340,6 +378,7 @@ public class ApplicationController {
             }
         }
 
+
         //add properties: id, name, pos xyz, rot xyz
         String[] textFieldVALUES = new String[11];
 
@@ -358,29 +397,55 @@ public class ApplicationController {
         gp.add(new Text("Position:"), 0, 2);
 
         TextField xPos = new TextField(propertiesList.get(id).getPos()[0]);
-        xPos.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-            propertiesList.get(Integer.parseInt(lastClickedID)).setPos(new String[]{
-                    newValue,
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[1],
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[2]
-            });
-        });
         TextField yPos = new TextField(propertiesList.get(id).getPos()[1]);
-        yPos.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-            propertiesList.get(Integer.parseInt(lastClickedID)).setPos(new String[]{
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[0],
-                    newValue,
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[2]
-            });
-        });
         TextField zPos = new TextField(propertiesList.get(id).getPos()[2]);
-        zPos.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-            propertiesList.get(Integer.parseInt(lastClickedID)).setPos(new String[]{
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[0],
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getPos()[1],
-                    newValue
-            });
+
+        TextField xRot = new TextField(propertiesList.get(id).getRot()[0]);
+        TextField yRot = new TextField(propertiesList.get(id).getRot()[1]);
+        TextField zRot = new TextField(propertiesList.get(id).getRot()[2]);
+
+        int finalId = id;
+        xPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println(xPos.getText());
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
+            }
         });
+        yPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
+            }
+        });
+        zPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
+            }
+        });
+
+        xRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
+            }
+        });
+
+        yRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
+            }
+        });
+
+        zRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
+            }
+        });
+
         numericOnly(xPos);
         numericOnly(yPos);
         numericOnly(zPos);
@@ -399,32 +464,8 @@ public class ApplicationController {
         gp.add(new Text("Rotation:"), 0, 6);
 
         TextField xRot = new TextField(propertiesList.get(id).getRot()[0]);
-        xRot.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-            propertiesList.get(Integer.parseInt(lastClickedID)).setRot(new String[]{
-                    newValue,
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[1],
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[2]
-            });
-        });
-
         TextField yRot = new TextField(propertiesList.get(id).getRot()[1]);
-        yRot.textProperty().addListener((observable, oldValue, newValue) -> {               //update value;
-            propertiesList.get(Integer.parseInt(lastClickedID)).setRot(new String[]{
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[0],
-                    newValue,
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[2]
-            });
-        });
-
         TextField zRot = new TextField(propertiesList.get(id).getRot()[2]);
-        zRot.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-            propertiesList.get(Integer.parseInt(lastClickedID)).setRot(new String[]{
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[0],
-                    propertiesList.get(Integer.parseInt(lastClickedID)).getRot()[1],
-                    newValue
-            });
-        });
-
         numericOnly(xRot);
         numericOnly(yRot);
         numericOnly(zRot);
@@ -446,11 +487,12 @@ public class ApplicationController {
             ObjectProperties op = (ObjectProperties) propertiesList.get(id);
 
             TextField scaleTF = new TextField(op.getRot()[0]);
-            scaleTF.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-                    ObjectProperties opTest = (ObjectProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                    opTest.setScale(newValue);
+            scaleTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) { // if focus lost
+                    System.out.println("Focus lost on the TextField");
+                    updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, scaleTF);
+                }
             });
-
             gp.add(new Text("Scale:"), 0, 10);
             gp.add(scaleTF, 1, 10);
             textFieldVALUES[7] = scaleTF.getText();
@@ -552,9 +594,25 @@ public class ApplicationController {
             textFieldVALUES[9] = cb.getValue();
         }
         scrollPaneProperties.setContent(gp);
-        updateModelSettings(contentType, id, textFieldVALUES);
+        //updateModelSettings(contentType, id, textFieldVALUES);
     }
 
+    private void updateData(int id, TextField xPos, TextField yPos, TextField zPos, TextField xRot, TextField yRot, TextField zRot, TextField scaleTF) {
+        previewWindow.updatePosition(
+                Integer.parseInt(lastClickedID),
+                Double.parseDouble(xPos.getText()),
+                Double.parseDouble(yPos.getText()),
+                Double.parseDouble(zPos.getText()),
+                Double.parseDouble(xRot.getText()),
+                Double.parseDouble(yRot.getText()),
+                Double.parseDouble(zRot.getText())
+        );
+        propertiesList.get(id).setPos(new String[]{xPos.getText(), yPos.getText(), zPos.getText()});
+        propertiesList.get(id).setRot(new String[]{xRot.getText(), yRot.getText(), zRot.getText()});
+        if(propertiesList.get(id) instanceof ObjectProperties objectProperties && scaleTF != null) {
+            objectProperties.setScale(scaleTF.getText());
+        }
+    }
 
     //////Da PreviewWindow nich wirklich wichtig ist, SOUT einfach den wert jedesMal
 
@@ -587,12 +645,12 @@ public class ApplicationController {
 
             properties.setLength(Integer.parseInt(values[7]));
             properties.setWidth(Integer.parseInt(values[8]));
-            properties.setCameravariants(Config.cameravariants.valueOf(values[9]));
+            properties.setLightvariants(Config.cameravariants.valueOf(values[9]));
 
         }
     }
 
-    //nur ein - am anfang
+
     private void numericOnly(TextField field) {
         field.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("-?\\d*(\\.\\d*)?")) field.setText(newValue.replaceAll("[^\\d.]", ""));
@@ -639,8 +697,9 @@ public class ApplicationController {
         System.out.println(renderButton.getText());
         System.out.println(renderButton.getStyleClass());
 
-        if ((renderButton.getText().equals("Cancel"))) loadRayTracer();
-        else cancelRayTracer();
+        if ((renderButton.getText().equals("Cancel"))) {
+            loadRayTracer();
+        } else cancelRayTracer();
     }
 
     void switchRenderButtonStyleClass() {
@@ -676,6 +735,59 @@ public class ApplicationController {
     void loadRayTracer() {
         Output output = Output.getOutput();
         output.clear();
+        entityList.forEach(System.out::println);
+        //entityList.forEach(entity -> previewWindow.getEntityData(entity));
+
+        for (Properties properties : propertiesList) {
+            if (properties instanceof LightProperties lightProperties) {
+                PointLight pointLight = null;
+                for (Light light : lightList) {
+                    if (light.getID() == Integer.parseInt(lightProperties.getId())) {
+                        pointLight = (PointLight) light;
+                        System.out.println(pointLight.getPosition());
+                        Vector3D pos = new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2]));
+                        Vector3D brightness = new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2]));
+                        //Vector3D brightness = new Vector3D(3.0,4.0,1.0);
+                        pointLight = new PointLight(pointLight.getID(), pos, brightness);
+                        //pointLight = new PointLight(pointLight.getID(), new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2])), new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2])));
+                        break;
+                    }
+                }
+                if (pointLight != null) {
+                    PointLight finalPointLight = pointLight;
+                    lightList.removeIf(light -> light.getID() == finalPointLight.getID());
+                    lightList.add(pointLight);
+                }
+            } else if (properties instanceof ObjectProperties objectProperties) {
+                Entity entity = null;
+                for (Entity entity1 : entityList) {
+                    if (entity1.getID() == Integer.parseInt(objectProperties.getId())) {
+                        entity = entity1;
+                        entity.setPivot(new Vector3D(Double.parseDouble(objectProperties.getPos()[0]), Double.parseDouble(objectProperties.getPos()[1]), Double.parseDouble(objectProperties.getPos()[2])));
+                        entity.setOrient(new Vector3D(Double.parseDouble(objectProperties.getRot()[0]), Double.parseDouble(objectProperties.getRot()[1]), Double.parseDouble(objectProperties.getRot()[2])));
+                        entity.scale(Double.parseDouble(objectProperties.getScale() == null ? "1" : objectProperties.getScale()));
+                        objectProperties.setRot(new String[]{"0","0","0"});
+                        objectProperties.setScale("1");
+                        System.out.println("Orientation: " + entity.getOrient());
+                        break;
+                    }
+                }
+                if (entity != null) {
+                    Entity finalEntity = entity;
+                    entityList.removeIf(entity1 -> entity1.getID() == finalEntity.getID());
+                    entityList.add(entity);
+                }
+            } else if(properties instanceof CameraProperties cameraProperties) {
+                Camera camera = null;
+
+            }
+        }
+
+
+        // previewWindow.getEntityData(entityList.get(0));
+        System.out.println(entityList.size());
+        System.out.println(lightList.size());
+        output.setScene(entityList, lightList, null);
         output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished);
     }
 
@@ -689,13 +801,23 @@ public class ApplicationController {
     }
 
     /*************One Time METHODS**************/
+
     // Location might change once finished (?)
     public void deleteObject(int objID) {
         for (Properties properties : propertiesList) {
             if (properties.getId().equals(String.valueOf(objID))) {
                 objectListView.getItems().remove(properties.getButton());
                 propertiesList.remove(properties);
-                break;
+                PointLight pointLight = null;
+                for (Light light : lightList) {
+                    if (light.getID() == objID) {
+                        System.out.println("DELETE LIGHT");
+                        pointLight = (PointLight) light;
+                        break;
+                    }
+                }
+                if (pointLight != null) lightList.remove(pointLight);
+                return;
             }
         }
     }
