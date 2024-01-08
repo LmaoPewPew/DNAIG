@@ -6,7 +6,7 @@ import javafx.scene.image.ImageView;
 
 public class CameraProperties implements Properties {
     Config.type categoryType;
-    private Config.cameravariants cameravariants = Config.cameravariants.CAM1;
+    private Config.cameravariants cameravariants;
     private String name;
     private String id;
     private String[] pos;

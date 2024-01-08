@@ -14,11 +14,7 @@ import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.ObjFileReader;
 import com.softpro.dnaig.utils.Vector3D;
 import com.softpro.dnaig.utils.YAMLexporter;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -41,8 +37,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Objects;
 
 public class ApplicationController {
 
@@ -54,13 +51,6 @@ public class ApplicationController {
     URL objectIMG = getClass().getResource("sprites/Obj_img.png");
     URL lightObjImg = getClass().getResource("sprites/light_Img.png");
     URL cameraObjImg = getClass().getResource("sprites/Camera_img.png");
-
-    /**
-     * //Relative Path, won't work
-     * String objectIMG = "../resources/com/softpro/dnaig/sprites/Obj_img_OLD.png";
-     * String lightObjImg = "../resources/com/softpro/dnaig/sprites/light_Img_OLD.png";
-     * String cameraObjImg = "../resources/com/softpro/dnaig/sprites/Camera_img.png";
-     */
 
     //Menu
     @FXML
@@ -77,14 +67,12 @@ public class ApplicationController {
     private MenuItem mAbout;
     @FXML
     private RadioMenuItem mVoice;
+
     //Rest
     @FXML
     private Button renderButton;
     @FXML
     private ScrollPane scrollPaneProperties;
-    private boolean isLightMode = true;
-
-
     @FXML
     private ListView<Button> objectListView;
     private final LinkedList<Properties> propertiesList = new LinkedList<>();
@@ -97,6 +85,7 @@ public class ApplicationController {
     final ArrayList<Entity> entityList = new ArrayList<>();
     final ArrayList<Light> lightList = new ArrayList<>();
     private static int objectID = 0;
+    private boolean camExist = false;
 
     public ApplicationController() {
     }
@@ -111,7 +100,6 @@ public class ApplicationController {
     void importLightObject(MouseEvent event) throws IOException {
         int id = objectID;
         createGUIObject(null, id, Config.type.LIGHT);
-        openLightPropertiesWindows();
         previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/lightbulb/lightbulb.obj", id);
 
         objectID++;
@@ -119,8 +107,9 @@ public class ApplicationController {
 
     @FXML
     void importCameraObject(MouseEvent event) throws IOException {
+        camExist = true;
+        System.out.println(camExist);
         int id = objectID++;
-        openCameraPropertiesWindows();
         previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/camera/camera.obj", id);
         createGUIObject(null, id, Config.type.CAMERA);
     }
@@ -237,48 +226,7 @@ public class ApplicationController {
 
     /*************OBJECTS**************/
 
-    // OPEN OBJECT SETTINGS SCENE (LIGHT AND/OR CAMERA)
-    private void openLightPropertiesWindows() throws IOException {
 
-        FXMLLoader loader = new FXMLLoader(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
-
-        //FXMLLoader loader = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("lightProperties.fxml")));
-        Parent root = loader.load();
-
-        LightPropertiesController lightPropertiesController = loader.getController();
-
-        Scene scene = new Scene(root);
-        Stage primaryStage = new Stage();
-        primaryStage.setTitle("lightProperties");
-        primaryStage.setScene(scene);
-
-        primaryStage.initModality(Modality.APPLICATION_MODAL);
-        //primaryStage.show();
-        primaryStage.showAndWait();
-
-        Vector3D[] value = lightPropertiesController.getValues();
-        System.out.println(value[0] + "\n" + value[1]);
-        lightList.add(new PointLight(objectID, value[0], value[1]));
-
-
-        LightProperties currentLightProperties = (LightProperties) propertiesList.get(propertiesList.size() - 1);
-        currentLightProperties.setPos(new String[]{Double.toString(value[0].getX()), Double.toString(value[0].getY()), Double.toString(value[0].getZ())});
-        currentLightProperties.setBrightness(String.format("%f, %f, %f", value[1].getX(), value[1].getY(), value[1].getZ()));
-
-    }
-
-    private void openCameraPropertiesWindows() throws IOException {
-        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("cameraProperties.fxml")));
-
-        Scene scene = new Scene(root);
-        Stage primaryStage = new Stage();
-        primaryStage.setTitle("cameraProperties");
-        primaryStage.setScene(scene);
-
-        primaryStage.initModality(Modality.APPLICATION_MODAL);
-        primaryStage.show();
-
-    }
 
     // ListView
     void createGUIObject(Entity e, int id, Config.type objectType) {
@@ -508,6 +456,7 @@ public class ApplicationController {
             gp.add(vertTF, 1, 12);
 
         } else if (contentType == Config.type.LIGHT) {
+            //TODO
             System.out.println("Light");
             LightProperties lp = (LightProperties) propertiesList.get(id);
             gp.addRow(2);
@@ -546,6 +495,10 @@ public class ApplicationController {
 
             textFieldVALUES[7] = String.valueOf(lp.getBrightness());
             textFieldVALUES[8] = cb.getValue();
+
+            //TODO COLOR PICKER:
+            //https://docs.oracle.com/javafx/2/ui_controls/color-picker.htm#:~:text=Use%20the%20ColorPicker%20class%20of,to%20declare%20a%20ColorPicker%20object.
+
         } else if (contentType == Config.type.CAMERA) {
             System.out.println("Camera");
             CameraProperties cp = (CameraProperties) propertiesList.get(id);
@@ -557,7 +510,7 @@ public class ApplicationController {
                 CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
                 opTest.setLength(Integer.parseInt(newValue));
             });
-            gp.add(length, 1, 11);
+            gp.add(length, 1, 12);
 
             gp.add(new Text("Width:"), 0, 12);
             TextField width = new TextField(String.valueOf(cp.getWidth()));
@@ -565,26 +518,50 @@ public class ApplicationController {
                 CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
                 opTest.setWidth(Integer.parseInt(newValue));
             });
-            gp.add(width, 1, 12);
+            gp.add(width, 1, 13);
 
+            //TODO: das updated nicht nach jedem wächsel!!!
             ChoiceBox<String> cb = new ChoiceBox<>();
-            String[] choice = {"Camera A", "Camera B", "Camera C"};
+            String[] choice = {"HD", "FullHD", "Custom"};
+
             cb.getItems().setAll(choice);
-            cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {               //update value
+            cb.setValue(choice[1]);
+
+            cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {             //update value
                 CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
                 if(Config.cameravariants.CAM1.toString().equals(newValue)){
                     opTest.setCameravariants(Config.cameravariants.CAM1);
+                    length.setEditable(false);
+                    width.setEditable(false);
+                    length.setText("1080");
+                    width.setText("720");
+                    System.out.println("HD");
                 }
                 if(Config.cameravariants.CAM2.toString().equals(newValue)){
                     opTest.setCameravariants(Config.cameravariants.CAM2);
+                    length.setEditable(false);
+                    width.setEditable(false);
+                    length.setText("1920");
+                    width.setText("1080");
+
+                    System.out.println("FullHD");
                 }
                 if(Config.cameravariants.CAM3.toString().equals(newValue)){
                     opTest.setCameravariants(Config.cameravariants.CAM3);
+                    length.setEditable(true);
+                    width.setEditable(true);
+
+                    //Textfiller 4k
+                    length.setText("3840");
+                    width.setText("2160");
+
+                    System.out.println("Custom");
                 }
             });
+
             cb.setValue(cp.getCameravariants().toString());
             gp.add(new Text("Variants:"), 0, 13);
-            gp.add(cb, 1, 13);
+            gp.add(cb, 1, 11);
 
             textFieldVALUES[7] = String.valueOf(cp.getLength());
             textFieldVALUES[8] = String.valueOf(cp.getWidth());
@@ -647,12 +624,18 @@ public class ApplicationController {
         }
     }
 
-
     private void numericOnly(TextField field) {
         field.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("-?\\d*(\\.\\d*)?")) field.setText(newValue.replaceAll("[^\\d.]", ""));
         });
     }
+
+    private void numericOnlyRes(TextField field) {
+        field.textProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue.matches("\\d*")) field.setText(newValue.replaceAll("[^\\d.]", ""));
+        });
+    }
+
 
     // mehrere - überall, egal wo.
 /*  private void numericOnly(TextField field) {
@@ -662,9 +645,7 @@ public class ApplicationController {
     }
 */
 
-
     /*************THEME CHANGE**************/
-
     private void setLightMode() {
         removeStylesheet("DarkMode.css");
         addStylesheet("LightMode.css");
@@ -689,14 +670,17 @@ public class ApplicationController {
     /*************Render Functions**************/
     @FXML
     void renderFunc(ActionEvent event) {
-        switchRenderButtonStyleClass();
-
-        System.out.println(renderButton.getText());
-        System.out.println(renderButton.getStyleClass());
-
-        if ((renderButton.getText().equals("Cancel"))) {
-            loadRayTracer();
-        } else cancelRayTracer();
+        System.out.println(camExist);
+        if (!camExist) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "No Camera input detected! \nPlease add a Camera beforehand", ButtonType.CANCEL);
+            alert.setTitle("No Camera Detected!");
+            alert.showAndWait();
+        } else {
+            switchRenderButtonStyleClass();
+            if ((renderButton.getText().equals("Cancel"))) {
+                loadRayTracer();
+            } else cancelRayTracer();
+        }
     }
 
     void switchRenderButtonStyleClass() {
@@ -729,6 +713,7 @@ public class ApplicationController {
         switchRenderButtonStyleClass();
     }
 
+    @FXML
     void loadRayTracer() {
         Output output = Output.getOutput();
         output.clear();
@@ -795,6 +780,13 @@ public class ApplicationController {
     void voiceAssistant(ActionEvent event) {
        boolean isSelected = mVoice.isSelected();
         System.out.println(isSelected);
+
+        //So bald Feature geht, muss alles weg damit.
+        Alert alert = new Alert(Alert.AlertType.ERROR, "THIS FEATURE IS STILL WORK IN PROGRESS, FUTURE UPDATES WILL BE RELEASED SOON!", ButtonType.CANCEL);
+        alert.setTitle("WIP");
+        alert.showAndWait();
+        mVoice.setSelected(false);
+        ////////////////////////////////////////
     }
 
     /*************One Time METHODS**************/
@@ -846,6 +838,10 @@ public class ApplicationController {
 
     @FXML
     void aboutSection(ActionEvent event) {
+        Alert alert = new Alert(Alert.AlertType.NONE, "A Java-Based Raytracer with an In-Build 3D-Model viewer and editor, easy to use for beginner and experienced " + "or even the visibly impaired (coming soon!).", ButtonType.CANCEL);
+        alert.setTitle("About");
+        alert.showAndWait();
+
         System.out.println("3D-Modelling Raytracer, created as a school project");
     }
 }

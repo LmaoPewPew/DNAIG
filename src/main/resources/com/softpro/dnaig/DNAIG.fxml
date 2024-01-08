@@ -22,16 +22,16 @@
 <VBox fx:id="parent" minHeight="748.8" minWidth="1331.2" prefHeight="400.0" prefWidth="1331.2" styleClass="root" stylesheets="@style/LightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softpro.dnaig.ApplicationController">
     <MenuBar styleClass="menu">
         <Menu mnemonicParsing="false" text="File">
-         <MenuItem fx:id="mSave" mnemonicParsing="false" onAction="#saveFile" text="Save" />
+            <MenuItem fx:id="mSave" mnemonicParsing="false" onAction="#saveFile" text="Save" />
             <MenuItem fx:id="mSaveAs" mnemonicParsing="false" onAction="#saveFileAs" text="Save as" />
             <MenuItem fx:id="mExport" mnemonicParsing="false" onAction="#exportYaml" text="Export" />
             <MenuItem fx:id="mImport" mnemonicParsing="false" onAction="#importYaml" text="Import" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-         <RadioMenuItem fx:id="mTheme" mnemonicParsing="false" onAction="#changeThemeMode" text="Theme" />
+            <RadioMenuItem fx:id="mTheme" mnemonicParsing="false" onAction="#changeThemeMode" text="Theme" />
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-         <RadioMenuItem fx:id="mVoice" mnemonicParsing="false" onAction="#voiceAssistant" text="Voice Assistant" />
+            <RadioMenuItem fx:id="mVoice" mnemonicParsing="false" onAction="#voiceAssistant" text="Voice Assistant" />
             <MenuItem fx:id="mAbout" mnemonicParsing="false" onAction="#aboutSection" text="About" />
         </Menu>
     </MenuBar>
@@ -60,27 +60,27 @@
                     <VBox.margin>
                         <Insets bottom="5.0" top="5.0" />
                     </VBox.margin>
-               <padding>
-                  <Insets left="2.0" right="2.0" />
-               </padding>
+                    <padding>
+                        <Insets left="2.0" right="2.0" />
+                    </padding>
                 </Button>
                 <Button focusTraversable="false" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importCameraObject" prefHeight="65.0" prefWidth="80.0" textAlignment="CENTER">
                     <VBox.margin>
                         <Insets bottom="5.0" top="10.0" />
                     </VBox.margin>
-               <graphic>
-                  <ImageView accessibleText="Object Source" blendMode="DARKEN" fitWidth="80.0" onMouseClicked="#importObject" pickOnBounds="true" preserveRatio="true">
-                     <viewport>
-                        <Rectangle2D width="50.0" />
-                     </viewport>
-                     <image>
-                        <Image url="@sprites/Camera_img.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <padding>
-                  <Insets right="2.0" />
-               </padding>
+                    <graphic>
+                        <ImageView accessibleText="Object Source" blendMode="DARKEN" fitWidth="80.0" onMouseClicked="#importObject" pickOnBounds="true" preserveRatio="true">
+                            <viewport>
+                                <Rectangle2D width="50.0" />
+                            </viewport>
+                            <image>
+                                <Image url="@sprites/Camera_img.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <padding>
+                        <Insets right="2.0" />
+                    </padding>
                 </Button>
                 <Button focusTraversable="false" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importLightObject" prefHeight="65.0" prefWidth="80.0" textAlignment="CENTER">
                     <graphic>
@@ -99,7 +99,7 @@
                     <Insets left="15.0" right="15.0" />
                 </padding>
             </VBox>
-         <ScrollPane fx:id="scrollPaneProperties" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+            <ScrollPane fx:id="scrollPaneProperties" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" />
             <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="125.0" SplitPane.resizableWithParent="false">
                 <center>
                     <Button id="btnRender" fx:id="renderButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#renderFunc" prefHeight="30.0" prefWidth="90.0" text="Render" textAlignment="CENTER" textFill="#161317">
@@ -114,9 +114,9 @@
                         </BorderPane.margin>
                     </Button>
                 </center>
-            <padding>
-               <Insets top="10.0" />
-            </padding>
+                <padding>
+                    <Insets top="10.0" />
+                </padding>
             </BorderPane>
             <padding>
                 <Insets bottom="10.0" top="5.0" />
