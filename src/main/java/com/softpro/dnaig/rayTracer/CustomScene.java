@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class CustomScene {
     public static CustomScene scene;
-    ArrayList<Object3D> objects = new ArrayList<Object3D>();
+    public ArrayList<Object3D> objects = new ArrayList<Object3D>();
     public ArrayList<Light> lights = new ArrayList<Light>();
     public ArrayList<Entity> entities = new ArrayList<>();
     public CustomScene() throws IOException {
@@ -204,6 +204,7 @@ public class CustomScene {
             objects.addAll(entity.getTriangles(1));
         }
 
+        System.out.println(1);
        // lights.add(new PointLight(new Vector3D(0, 3, -3), new Vector3D(8, 5, 10)));
        // lights.add(new PointLight(new Vector3D(4, 2, -1.5), new Vector3D(13, 2, 1)));
     }

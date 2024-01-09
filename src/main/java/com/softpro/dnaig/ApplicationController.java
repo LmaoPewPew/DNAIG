@@ -16,10 +16,7 @@ import com.softpro.dnaig.utils.Vector3D;
 import com.softpro.dnaig.utils.YAMLexporter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -30,7 +27,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -505,10 +501,10 @@ public class ApplicationController {
             gp.addRow(3);
 
             gp.add(new Text("Length:"), 0, 11);
-            TextField length = new TextField(String.valueOf(cp.getLength()));
+            TextField length = new TextField(String.valueOf(cp.getHeight()));
             length.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                opTest.setLength(Integer.parseInt(newValue));
+                opTest.setHeight(Integer.parseInt(newValue));
             });
             gp.add(length, 1, 12);
 
@@ -563,7 +559,7 @@ public class ApplicationController {
             gp.add(new Text("Variants:"), 0, 13);
             gp.add(cb, 1, 11);
 
-            textFieldVALUES[7] = String.valueOf(cp.getLength());
+            textFieldVALUES[7] = String.valueOf(cp.getHeight());
             textFieldVALUES[8] = String.valueOf(cp.getWidth());
             textFieldVALUES[9] = cb.getValue();
         }
@@ -617,7 +613,7 @@ public class ApplicationController {
         } else if (contentType == Config.type.CAMERA) {
             CameraProperties properties = (CameraProperties) propertiesList.get(id);
 
-            properties.setLength(Integer.parseInt(values[7]));
+            properties.setHeight(Integer.parseInt(values[7]));
             properties.setWidth(Integer.parseInt(values[8]));
             //properties.setLightvariants(Config.cameravariants.valueOf(values[9]));
 
@@ -723,23 +719,15 @@ public class ApplicationController {
         for (Properties properties : propertiesList) {
             if (properties instanceof LightProperties lightProperties) {
                 PointLight pointLight = null;
-                for (Light light : lightList) {
-                    if (light.getID() == Integer.parseInt(lightProperties.getId())) {
-                        pointLight = (PointLight) light;
-                        System.out.println(pointLight.getPosition());
-                        Vector3D pos = new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2]));
-                        Vector3D brightness = new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2]));
-                        //Vector3D brightness = new Vector3D(3.0,4.0,1.0);
-                        pointLight = new PointLight(pointLight.getID(), pos, brightness);
-                        //pointLight = new PointLight(pointLight.getID(), new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2])), new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2])));
-                        break;
-                    }
-                }
-                if (pointLight != null) {
-                    PointLight finalPointLight = pointLight;
-                    lightList.removeIf(light -> light.getID() == finalPointLight.getID());
-                    lightList.add(pointLight);
-                }
+                //System.out.println(pointLight.getPosition());
+                Vector3D pos = new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2]));
+                Vector3D brightness = new Vector3D(Double.parseDouble(lightProperties.getBrightness()), Double.parseDouble(lightProperties.getBrightness()), Double.parseDouble(lightProperties.getBrightness()));
+                //Vector3D brightness = new Vector3D(3.0,4.0,1.0);
+                pointLight = new PointLight(Integer.parseInt(lightProperties.getId()), pos, brightness);
+                //pointLight = new PointLight(pointLight.getID(), new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2])), new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2])));
+                PointLight finalPointLight = pointLight;
+                lightList.removeIf(light -> light.getID() == finalPointLight.getID());
+                lightList.add(pointLight);
             } else if (properties instanceof ObjectProperties objectProperties) {
                 Entity entity = null;
                 for (Entity entity1 : entityList) {
