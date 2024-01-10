@@ -87,9 +87,7 @@ public class ApplicationController {
     final ArrayList<Light> lightList = new ArrayList<>();
     private static int objectID = 0;
     private boolean camExist = false;
-
-    public ApplicationController() {
-    }
+    private int josh = 0;//boolean josh = true;
 
 
     /* *****************************************METHODS***************************************** */
@@ -734,21 +732,26 @@ public class ApplicationController {
         }
     }
 
-    private static void switchRanderButtonFunction() throws IOException, URISyntaxException {
-        String filePath = "src/main/java/com/softpro/dnaig/assets/whistle.mp4";
-        File videoFile = new File(filePath);
-        if (Desktop.isDesktopSupported()) {
-            Desktop desktop = Desktop.getDesktop();
-            if (desktop.isSupported(Desktop.Action.OPEN)) {
-                desktop.open(videoFile);
+    private void switchRanderButtonFunction() throws IOException {
+        if (josh > 9) {
+            josh = 0;
+            String filePath = "src/main/java/com/softpro/dnaig/assets/whistle.mp4";
+            File videoFile = new File(filePath);
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (desktop.isSupported(Desktop.Action.OPEN)) {
+                    desktop.open(videoFile);
+                } else {
+                    System.out.println("Opening files is not supported on this platform.");
+                    // You may want to provide an alternative method for opening the file.
+                }
             } else {
-                System.out.println("Opening files is not supported on this platform.");
+                System.out.println("Desktop is not supported on this platform.");
                 // You may want to provide an alternative method for opening the file.
             }
-        } else {
-            System.out.println("Desktop is not supported on this platform.");
-            // You may want to provide an alternative method for opening the file.
         }
+        josh++;
+        System.out.println(josh);
     }
 
     void switchRenderButtonStyleClass() {
