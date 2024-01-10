@@ -12,9 +12,9 @@ public class Config {
     }
 
     public static enum cameravariants{
-        CAM1,
-        CAM2,
-        CAM3
+        HD,
+        FullHD,
+        Custom
     }
 
     public static enum type{

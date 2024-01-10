@@ -196,7 +196,7 @@ public class ApplicationController {
                 int id = objectID++;
                 light.setID(id);
                 System.out.println(light.toYaml());
-                LightProperties lp = new LightProperties(Config.type.LIGHT, Config.lightvariants.POINT, String.format("%f, %f, %f", light.getIntensity().getX(), light.getIntensity().getY(), light.getIntensity().getZ()), "light", String.valueOf(id), new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())}, new String[]{"0","0","0"});
+                LightProperties lp = new LightProperties(Config.type.LIGHT, Config.lightvariants.POINT, String.format("%f, %f, %f", light.getIntensity().getX(), light.getIntensity().getY(), light.getIntensity().getZ()), "light", String.valueOf(id), new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())}, new String[]{"0","0","0"}, new String[]{"0","0","0"});
                 loadImage(lp, Config.type.LIGHT);
             }
 
@@ -237,7 +237,7 @@ public class ApplicationController {
         CameraProperties cp;
 
         if (categoryType == Config.type.LIGHT) {     //load light properties
-            lp = new LightProperties(categoryType, Config.lightvariants.POINT, "", "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"});
+            lp = new LightProperties(categoryType, Config.lightvariants.POINT, "0", "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"});
             loadImage(lp, categoryType);
         } else if (categoryType == Config.type.OBJECT) {          //load object properties
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
@@ -246,7 +246,7 @@ public class ApplicationController {
             op = new ObjectProperties(categoryType, e, String.valueOf(id), e.getObjName(), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Double.toString(e.getPivot().getX()), Double.toString(e.getPivot().getY()), Double.toString(e.getPivot().getZ())}, new String[]{Double.toString(e.getOrient().getX()), Double.toString(e.getOrient().getY()), Double.toString(e.getOrient().getZ())});
             loadImage(op, categoryType);
         } else {          //load camera properties
-            cp = new CameraProperties(categoryType, Config.cameravariants.CAM1, "camera", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, 1920, 1080);
+            cp = new CameraProperties(categoryType, Config.cameravariants.HD, "camera", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, 1920, 1080);
             loadImage(cp, categoryType);
         }
     }
@@ -321,7 +321,6 @@ public class ApplicationController {
                 id = i;
             }
         }
-
 
         //add properties: id, name, pos xyz, rot xyz
         String[] textFieldVALUES = new String[11];
@@ -452,18 +451,43 @@ public class ApplicationController {
             gp.add(vertTF, 1, 12);
 
         } else if (contentType == Config.type.LIGHT) {
-            //TODO
             System.out.println("Light");
             LightProperties lp = (LightProperties) propertiesList.get(id);
             gp.addRow(2);
 
             gp.add(new Text("Brigthness:"), 0, 11);
-            TextField bright = new TextField(String.valueOf(lp.getBrightness()));
-            bright.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+
+            gp.add(new Text("R:"), 0, 12);
+            TextField r = new TextField(String.valueOf(lp.getRgb()[0]));
+            r.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                opTest.setBrightness(newValue);
+                opTest.setRgbR(newValue);
             });
-            gp.add(bright, 1, 11);
+            gp.add(r, 1, 12);
+
+            gp.add(new Text("G:"), 0, 13);
+            TextField g = new TextField(String.valueOf(lp.getRgb()[1]));
+            g.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                opTest.setRgbG(newValue);
+            });
+            gp.add(g, 1, 13);
+
+            gp.add(new Text("B:"), 0, 14);
+            TextField b = new TextField(String.valueOf(lp.getRgb()[2]));
+            b.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                opTest.setRgbB(newValue);
+            });
+            gp.add(b, 1, 14);
+
+            gp.add(new Text("Intensity :"), 0, 15);
+            TextField intensity = new TextField(String.valueOf(lp.getIntensity()));
+            intensity.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                opTest.setIntensity(newValue);
+            });
+            gp.add(intensity, 1, 15);
 
             ChoiceBox<String> cb = new ChoiceBox<>();
             String[] choice = {"POINT", "SPOT", "SUN", "AREA"};
@@ -486,10 +510,10 @@ public class ApplicationController {
                 }
             });
             cb.setValue(lp.getLightvariants().toString());
-            gp.add(new Text("Variant:"), 0, 12);
-            gp.add(cb, 1, 12);
+            gp.add(new Text("Variant:"), 0, 16);
+            gp.add(cb, 1, 16);
 
-            textFieldVALUES[7] = String.valueOf(lp.getBrightness());
+            textFieldVALUES[7] = String.valueOf(lp.getIntensity());
             textFieldVALUES[8] = cb.getValue();
 
             //TODO COLOR PICKER:
@@ -516,7 +540,6 @@ public class ApplicationController {
             });
             gp.add(width, 1, 13);
 
-            //TODO: das updated nicht nach jedem wächsel!!!
             ChoiceBox<String> cb = new ChoiceBox<>();
             String[] choice = {"HD", "FullHD", "Custom"};
 
@@ -525,16 +548,16 @@ public class ApplicationController {
 
             cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {             //update value
                 CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                if(Config.cameravariants.CAM1.toString().equals(newValue)){
-                    opTest.setCameravariants(Config.cameravariants.CAM1);
+                if(Config.cameravariants.HD.toString().equals(newValue)){
+                    opTest.setCameravariants(Config.cameravariants.HD);
                     length.setEditable(false);
                     width.setEditable(false);
                     length.setText("1080");
                     width.setText("720");
                     System.out.println("HD");
                 }
-                if(Config.cameravariants.CAM2.toString().equals(newValue)){
-                    opTest.setCameravariants(Config.cameravariants.CAM2);
+                if(Config.cameravariants.FullHD.toString().equals(newValue)){
+                    opTest.setCameravariants(Config.cameravariants.FullHD);
                     length.setEditable(false);
                     width.setEditable(false);
                     length.setText("1920");
@@ -542,8 +565,8 @@ public class ApplicationController {
 
                     System.out.println("FullHD");
                 }
-                if(Config.cameravariants.CAM3.toString().equals(newValue)){
-                    opTest.setCameravariants(Config.cameravariants.CAM3);
+                if(Config.cameravariants.Custom.toString().equals(newValue)){
+                    opTest.setCameravariants(Config.cameravariants.Custom);
                     length.setEditable(true);
                     width.setEditable(true);
 
@@ -608,7 +631,7 @@ public class ApplicationController {
         } else if (contentType == Config.type.LIGHT) {
             LightProperties properties = (LightProperties) propertiesList.get(id);
 
-            properties.setBrightness(values[7]);
+            properties.setIntensity(values[7]);
             properties.setLightvariants(Config.lightvariants.valueOf(values[8]));
         } else if (contentType == Config.type.CAMERA) {
             CameraProperties properties = (CameraProperties) propertiesList.get(id);
@@ -721,7 +744,7 @@ public class ApplicationController {
                 PointLight pointLight = null;
                 //System.out.println(pointLight.getPosition());
                 Vector3D pos = new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2]));
-                Vector3D brightness = new Vector3D(Double.parseDouble(lightProperties.getBrightness()), Double.parseDouble(lightProperties.getBrightness()), Double.parseDouble(lightProperties.getBrightness()));
+                Vector3D brightness = new Vector3D(Double.parseDouble(lightProperties.getIntensity()), Double.parseDouble(lightProperties.getIntensity()), Double.parseDouble(lightProperties.getIntensity()));
                 //Vector3D brightness = new Vector3D(3.0,4.0,1.0);
                 pointLight = new PointLight(Integer.parseInt(lightProperties.getId()), pos, brightness);
                 //pointLight = new PointLight(pointLight.getID(), new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2])), new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2])));
