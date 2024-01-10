@@ -564,7 +564,19 @@ public class ApplicationController {
             cb.setValue(choice[1]);
 
             cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {             //update value
-                CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                CameraProperties opTest = null;
+
+                //workaround
+                for (Properties properties : propertiesList) {
+                    if (properties instanceof CameraProperties cameraProperties) {
+                        if (Objects.equals(cameraProperties.getId(), lastClickedID))
+                            opTest = cameraProperties;
+                    }
+                }
+
+                if (opTest == null)
+                    return;
+
                 if(Config.cameravariants.HD.toString().equals(newValue)){
                     opTest.setCameravariants(Config.cameravariants.HD);
                     length.setEditable(false);

@@ -3,6 +3,8 @@ package com.softpro.dnaig;
 import com.softpro.dnaig.objData.light.Light;
 import com.softpro.dnaig.objData.mesh.Entity;
 import com.softpro.dnaig.properties.Properties;
+import com.softpro.dnaig.rayTracer.CallbackInterface;
+import com.softpro.dnaig.rayTracer.RTRunnable;
 import com.softpro.dnaig.rayTracer.Camera;
 import com.softpro.dnaig.rayTracer.CustomScene;
 import com.softpro.dnaig.rayTracer.RayTracer;
@@ -25,6 +27,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.concurrent.CompletableFuture;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -49,8 +52,11 @@ public class Output extends Application {
         drawDefaultBackground();
     }
 
+    private Consumer<Void> callbackWhenRayTracerFinished;
     public void openRayTracer(LinkedList<Properties> propertiesList, Stage primaryStage, Consumer<Void> callbackWhenRayTracerFinished) {
         //ToDO:abarbeiten der propertiesListe
+
+        this.callbackWhenRayTracerFinished = callbackWhenRayTracerFinished;
 
         // check if window is opened for the first time
         if (localStage == null) {
@@ -80,17 +86,34 @@ public class Output extends Application {
                 try {
                     r.trace();
 
+                    //TODO
                     // callback to ApplicationController when tracing is finished or cancelled
-                    Platform.runLater(() -> callbackWhenRayTracerFinished.accept(null));
+                    //Platform.runLater(() -> callbackWhenRayTracerFinished.accept(null));
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
                 return null;
             }
         };
-        Thread renderThread = new Thread(task);
-        renderThread.setPriority(2);
+
+        RTRunnable runnable = new RTRunnable(task, this::callbackWhenRTFinished);
+        Thread renderThread = new Thread(runnable);
         renderThread.start();
+
+        /*RayTracer r = new RayTracer();
+        try {
+            r.trace();
+
+            // callback to ApplicationController when tracing is finished or cancelled
+            Platform.runLater(() -> callbackWhenRayTracerFinished.accept(null));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }*/
+    }
+
+    private void callbackWhenRTFinished(String s) {
+        System.out.println("Main finished");
+        Platform.runLater(() -> callbackWhenRayTracerFinished.accept(null));
     }
 
     private void repaint() {
@@ -160,6 +183,35 @@ public class Output extends Application {
             buffer_ptr = 0;
         }
 
+    }
+
+    int h = HEIGHT / Config.TILES;
+    int w = WIDTH / Config.TILES;
+    int buffer_test_size = w*h;
+    int[][] buffer_test = new int[Config.THREADS][buffer_test_size];
+    int[] buffer_ptr_test = new int[Config.THREADS];
+    public void setPixelTest(int tid, int x, int y, int c, int work) {
+        if (x > WIDTH - 1 || y > HEIGHT - 1 || x < 0 || y < 0) {
+            return;
+        }
+
+        int index = x % w + (y % h) * w;
+
+        // add alpha value to color (opacity is always 100%)
+        buffer_test[tid][index] = (0xFF<<24) | c;
+        buffer_ptr_test[tid]++;
+
+        // if buffer is full, write data out to screen
+        if (buffer_ptr_test[tid] >= buffer_test_size) {
+            // draw output
+            canvas.getGraphicsContext2D().getPixelWriter().setPixels(x-w+1, y-h+1, w, h, PixelFormat.getIntArgbInstance(), buffer_test[tid], 0, w);
+
+            // clear buffer
+            buffer_test[tid] = new int[buffer_test_size];
+            buffer_ptr_test[tid] = 0;
+
+            //System.out.printf("Writing task %d\n", work);
+        }
     }
 
     public static void dispose(){
