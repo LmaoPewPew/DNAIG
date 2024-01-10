@@ -714,6 +714,7 @@ public class ApplicationController {
         Output output = Output.getOutput();
         output.clear();
         entityList.forEach(System.out::println);
+        Camera camera = null;
         //entityList.forEach(entity -> previewWindow.getEntityData(entity));
 
         for (Properties properties : propertiesList) {
@@ -721,7 +722,12 @@ public class ApplicationController {
                 PointLight pointLight = null;
                 //System.out.println(pointLight.getPosition());
                 Vector3D pos = new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2]));
-                Vector3D brightness = new Vector3D(Double.parseDouble(lightProperties.getBrightness()), Double.parseDouble(lightProperties.getBrightness()), Double.parseDouble(lightProperties.getBrightness()));
+                Vector3D brightness;
+                if(!lightProperties.getBrightness().equals("")) {
+                    brightness = new Vector3D(Double.parseDouble(lightProperties.getBrightness()), Double.parseDouble(lightProperties.getBrightness()), Double.parseDouble(lightProperties.getBrightness()));
+                } else {
+                    brightness = new Vector3D(10, 10, 10);
+                }
                 //Vector3D brightness = new Vector3D(3.0,4.0,1.0);
                 pointLight = new PointLight(Integer.parseInt(lightProperties.getId()), pos, brightness);
                 //pointLight = new PointLight(pointLight.getID(), new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2])), new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2])));
@@ -748,8 +754,9 @@ public class ApplicationController {
                     entityList.add(entity);
                 }
             } else if(properties instanceof CameraProperties cameraProperties) {
-                Camera camera = null;
-
+                Vector3D pos = new Vector3D(Double.parseDouble(cameraProperties.getPos()[0]), Double.parseDouble(cameraProperties.getPos()[1]), Double.parseDouble(cameraProperties.getPos()[2]));
+                Vector3D rot = new Vector3D(Double.parseDouble(cameraProperties.getRot()[0]), Double.parseDouble(cameraProperties.getRot()[1]), Double.parseDouble(cameraProperties.getRot()[2]));
+                camera = new Camera(pos, rot, cameraProperties.getWidth(), cameraProperties.getHeight());
             }
         }
 
@@ -757,7 +764,7 @@ public class ApplicationController {
         // previewWindow.getEntityData(entityList.get(0));
         System.out.println(entityList.size());
         System.out.println(lightList.size());
-        output.setScene(entityList, lightList, null);
+        output.setScene(entityList, lightList, camera);
         output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished);
     }
 

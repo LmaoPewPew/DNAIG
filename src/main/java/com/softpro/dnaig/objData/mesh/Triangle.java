@@ -29,6 +29,13 @@ public class Triangle implements Object3D {
         m = new Material_RT(new Vector3D(color.getRed(), color.getGreen(), color.getBlue()));
         m.setReference(this);
     }
+    public Triangle(Vector3D p1, Vector3D p2, Vector3D p3, Material material){
+        this.p1 = p1;
+        this.p2 = p2;
+        this.p3 = p3;
+        m = new Material_RT(material);
+        m.setReference(this);
+    }
 
     public Triangle(Face face, Color color){
         for (int i = 0; i<3; i++) {
@@ -57,6 +64,35 @@ public class Triangle implements Object3D {
             }
         }
         m = new Material_RT(new Vector3D(color.getRed(), color.getGreen(), color.getBlue()));
+        m.setReference(this);
+    }
+    public Triangle(Face face){
+        for (int i = 0; i<3; i++) {
+            Vertex vertex = face.getVertex(i);
+            switch (i) {
+                case 0 ->
+                        this.p1 = new Vector3D(
+                                vertex.getCoordinates().getX(),
+                                vertex.getCoordinates().getY(),
+                                vertex.getCoordinates().getZ()
+                        );
+                case 1 ->
+                        this.p2 = new Vector3D(
+                                vertex.getCoordinates().getX(),
+                                vertex.getCoordinates().getY(),
+                                vertex.getCoordinates().getZ()
+                        );
+                case 2 ->
+                        this.p3 = new Vector3D(
+                                vertex.getCoordinates().getX(),
+                                vertex.getCoordinates().getY(),
+                                vertex.getCoordinates().getZ()
+                        );
+                default -> {
+                }
+            }
+        }
+        m = new Material_RT(face.getMaterial());
         m.setReference(this);
     }
     public Triangle(Face face, double factor, Color color){

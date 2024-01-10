@@ -154,11 +154,7 @@ public class YAMLexporter {
         } catch (IOException e) {
             System.out.println("Error while reading YAML file");
         }finally {
-            try {
-                CustomScene.getScene().setScene(entities, lights, camera);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            CustomScene.getScene().setScene(entities, lights, camera);
         }
     }
 

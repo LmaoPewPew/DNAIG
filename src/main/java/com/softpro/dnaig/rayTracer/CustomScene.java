@@ -18,7 +18,8 @@ public class CustomScene {
     public ArrayList<Object3D> objects = new ArrayList<Object3D>();
     public ArrayList<Light> lights = new ArrayList<Light>();
     public ArrayList<Entity> entities = new ArrayList<>();
-    public CustomScene() throws IOException {
+    public Camera camera = new Camera();
+    public CustomScene() {
 
 /*
         objects.add(new Sphere(5, new Vector3D(), Color.GREEN));
@@ -156,7 +157,7 @@ public class CustomScene {
      * @return The scene.
      * @throws IOException If the scene is null.
      */
-    public static CustomScene getScene() throws IOException {
+    public static CustomScene getScene() {
         if(scene==null){
             scene = new CustomScene();
         }
@@ -177,6 +178,7 @@ public class CustomScene {
     public void setScene(ArrayList<Entity> entities, ArrayList<Light> lights, Camera camera) {
         this.entities = entities;
         this.lights = lights;
+        this.camera = camera;
         lights.forEach(light -> {
                     System.out.println(light.getPosition());
             System.out.println(light.getIntensity());
@@ -201,10 +203,9 @@ public class CustomScene {
         double factor = Math.max(Math.max(maxX, maxY), maxZ);
 
         for (Entity entity : entities){
-            objects.addAll(entity.getTriangles(1));
+            objects.addAll(entity.getTriangles(factor));
         }
 
-        System.out.println(1);
        // lights.add(new PointLight(new Vector3D(0, 3, -3), new Vector3D(8, 5, 10)));
        // lights.add(new PointLight(new Vector3D(4, 2, -1.5), new Vector3D(13, 2, 1)));
     }

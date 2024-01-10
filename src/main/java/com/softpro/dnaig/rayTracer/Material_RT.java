@@ -1,5 +1,6 @@
 package com.softpro.dnaig.rayTracer;
 
+import com.softpro.dnaig.objData.mesh.Material;
 import com.softpro.dnaig.objData.mesh.Object3D;
 import com.softpro.dnaig.objData.light.Light;
 import com.softpro.dnaig.utils.ColorConverter;
@@ -21,6 +22,12 @@ public class Material_RT {
 
     public Material_RT(Vector3D color) {
         this.ambient = color;
+    }
+
+    public Material_RT(Material material){
+        this.ambient = new Vector3D(material.getKa()[0], material.getKa()[1], material.getKa()[2]);
+        this.diffus = new Vector3D(material.getKd()[0], material.getKd()[1], material.getKd()[2]);
+        this.specular = new Vector3D(material.getKs()[0], material.getKs()[1], material.getKs()[2]);
     }
 
     public Material_RT(Vector3D color, Object3D ref) {
