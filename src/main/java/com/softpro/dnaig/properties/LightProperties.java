@@ -6,23 +6,25 @@ import javafx.scene.image.ImageView;
 
 public class LightProperties implements Properties {
     Config.type categoryType;
-    private String brightness;
+    private String intensity;
     private Config.lightvariants lightvariants;
     private String name;
     private String id;
     private String[] pos;
     private String[] rot;
+    private String[] rgb;
     private Button button;
 
-    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, String brightness, String objName, String objID, String[] pos, String[] objRot) {
+    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, String intensity, String objName, String objID, String[] pos, String[] objRot, String[] objRGB) {
         this.categoryType = categoryType;
         this.lightvariants = lightvariants;
-        this.brightness = brightness;
+        this.intensity = intensity;
         this.name = objName;
         this.id = objID;
         this.pos = pos;
         this.rot = objRot;
         this.button = new Button();
+        this.rgb = objRGB;
     }
 
     public String[] getAll() {
@@ -74,12 +76,12 @@ public class LightProperties implements Properties {
         this.button = button;
     }
 
-    public String getBrightness() {
-        return brightness;
+    public String getIntensity() {
+        return intensity;
     }
 
-    public void setBrightness(String brightness) {
-        this.brightness = brightness;
+    public void setIntensity(String intensity) {
+        this.intensity = intensity;
     }
 
     public Config.lightvariants getLightvariants() {
@@ -89,4 +91,25 @@ public class LightProperties implements Properties {
     public void setLightvariants(Config.lightvariants lightvariants) {
         this.lightvariants = lightvariants;
     }
+
+    public String[] getRgb() {
+        return rgb;
+    }
+
+    public void setRgb(String[] rgb) {
+        this.rgb = rgb;
+    }
+
+    public void setRgbR(String r) {
+        this.rgb[0] = r;
+    }
+
+    public void setRgbG(String g) {
+        this.rgb[1] = g;
+    }
+
+    public void setRgbB(String b) {
+        this.rgb[2] = b;
+    }
+
 }

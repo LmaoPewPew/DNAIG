@@ -6,17 +6,17 @@ import javafx.scene.image.ImageView;
 
 public class CameraProperties implements Properties {
     Config.type categoryType;
-    private Config.cameravariants cameravariants = Config.cameravariants.CAM1;
+    private Config.cameravariants cameravariants;
     private String name;
     private String id;
     private String[] pos;
     private String[] rot;
     private int width;
-    private int length;
+    private int height;
     private Button button;
 
 
-    public CameraProperties(Config.type categoryType, Config.cameravariants cameravariants, String objName, String objID, String[] pos, String[] objRot, int width, int length) {
+    public CameraProperties(Config.type categoryType, Config.cameravariants cameravariants, String objName, String objID, String[] pos, String[] objRot, int width, int height) {
         this.categoryType = categoryType;
         this.cameravariants = cameravariants;
         this.name = objName;
@@ -24,7 +24,7 @@ public class CameraProperties implements Properties {
         this.pos = pos;
         this.rot = objRot;
         this.width = width;
-        this.length = length;
+        this.height = height;
         this.button = new Button();
     }
 
@@ -94,12 +94,12 @@ public class CameraProperties implements Properties {
         this.width = width;
     }
 
-    public int getLength() {
-        return length;
+    public int getHeight() {
+        return height;
     }
 
-    public void setLength(int length) {
-        this.length = length;
+    public void setHeight(int height) {
+        this.height = height;
     }
 
 }
