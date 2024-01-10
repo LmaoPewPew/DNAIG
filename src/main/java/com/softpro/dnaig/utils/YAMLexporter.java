@@ -94,7 +94,8 @@ public class YAMLexporter {
                         } else if (line.contains("rotation:")) {
                             rotation = extractVector(reader);
                         } else if (line.contains("scale:")) {
-                            scale = Double.parseDouble(line.split(":")[1].trim());
+                            Vector3D value = extractVector(reader);
+                            scale = (value.getX() + value.getY() + value.getZ()) / 3;
                         }
                         if (!filePath.isEmpty() && position != null && rotation != null && scale != 0) {
                             Entity entity = null;
