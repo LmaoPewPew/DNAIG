@@ -18,6 +18,10 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -29,6 +33,7 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -700,7 +705,12 @@ public class ApplicationController {
 
     /*************Render Functions**************/
     @FXML
-    void renderFunc(ActionEvent event) {
+    void renderFunc(ActionEvent event) throws IOException, URISyntaxException {
+
+        joshing();
+
+
+        /*
         System.out.println(camExist);
         if (!camExist) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Camera input detected! \nPlease add a Camera beforehand", ButtonType.CANCEL);
@@ -711,6 +721,27 @@ public class ApplicationController {
             if ((renderButton.getText().equals("Cancel"))) {
                 loadRayTracer();
             } else cancelRayTracer();
+        }
+         */
+    }
+
+    private static void joshing() throws IOException, URISyntaxException {
+        String filePath = "src/main/java/com/softpro/dnaig/assets/whistle.mp4";
+
+        File videoFile = new File(filePath);
+
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+
+            if (desktop.isSupported(Desktop.Action.OPEN)) {
+                desktop.open(videoFile);
+            } else {
+                System.out.println("Opening files is not supported on this platform.");
+                // You may want to provide an alternative method for opening the file.
+            }
+        } else {
+            System.out.println("Desktop is not supported on this platform.");
+            // You may want to provide an alternative method for opening the file.
         }
     }
 
