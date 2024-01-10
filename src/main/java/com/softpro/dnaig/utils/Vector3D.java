@@ -49,24 +49,24 @@ public class Vector3D {
      * @param angleZ Rotation around the z-axis
      */
     public void rotate(double angleX, double angleY, double angleZ){
-        double cos = Math.cos(angleX);
-        double sin = Math.sin(angleX);
+        double cos = Math.cos((angleX/360)*2*Math.PI);
+        double sin = Math.sin((angleX/360)*2*Math.PI);
         double[][] rotationX = {
                 {1, 0, 0},
                 {0, cos, -sin},
                 {0, sin, cos}
         };
 
-        cos = Math.cos(angleY);
-        sin = Math.sin(angleY);
+        cos = Math.cos((angleY/360)*2*Math.PI);
+        sin = Math.sin((angleY/360)*2*Math.PI);
         double[][] rotationY = {
                 {cos, 0, sin},
                 {0, 1, 0},
                 {-sin, 0, cos}
         };
 
-        cos = Math.cos(angleZ);
-        sin = Math.sin(angleZ);
+        cos = Math.cos((angleZ/360)*2*Math.PI);
+        sin = Math.sin((angleZ/360)*2*Math.PI);
         double[][] rotationZ = {
                 {cos, -sin, 0},
                 {sin, cos, 0},

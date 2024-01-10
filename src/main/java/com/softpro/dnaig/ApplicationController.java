@@ -237,7 +237,7 @@ public class ApplicationController {
         CameraProperties cp;
 
         if (categoryType == Config.type.LIGHT) {     //load light properties
-            lp = new LightProperties(categoryType, Config.lightvariants.POINT, "0", "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"});
+            lp = new LightProperties(categoryType, Config.lightvariants.POINT, "1", "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, new String[]{"1", "1", "1"});
             loadImage(lp, categoryType);
         } else if (categoryType == Config.type.OBJECT) {          //load object properties
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
@@ -737,6 +737,7 @@ public class ApplicationController {
         Output output = Output.getOutput();
         output.clear();
         entityList.forEach(System.out::println);
+        Camera camera = null;
         //entityList.forEach(entity -> previewWindow.getEntityData(entity));
 
         for (Properties properties : propertiesList) {
@@ -771,7 +772,9 @@ public class ApplicationController {
                     entityList.add(entity);
                 }
             } else if(properties instanceof CameraProperties cameraProperties) {
-                Camera camera = null;
+                Vector3D pos = new Vector3D(Double.parseDouble(cameraProperties.getPos()[0]), Double.parseDouble(cameraProperties.getPos()[1]), Double.parseDouble(cameraProperties.getPos()[2]));
+                Vector3D rot = new Vector3D(Double.parseDouble(cameraProperties.getRot()[0]), Double.parseDouble(cameraProperties.getRot()[1]), Double.parseDouble(cameraProperties.getRot()[2]));
+                camera = new Camera(pos, rot, cameraProperties.getWidth(), cameraProperties.getHeight());
 
             }
         }
@@ -780,7 +783,7 @@ public class ApplicationController {
         // previewWindow.getEntityData(entityList.get(0));
         System.out.println(entityList.size());
         System.out.println(lightList.size());
-        output.setScene(entityList, lightList, null);
+        output.setScene(entityList, lightList, camera);
         output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished);
     }
 

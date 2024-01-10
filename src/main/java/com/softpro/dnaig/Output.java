@@ -210,10 +210,6 @@ public class Output extends Application {
     }
 
     public void setScene(ArrayList<Entity> entityList, ArrayList<Light> lightList, Camera camera) {
-        try {
-            CustomScene.getScene().setScene(entityList, lightList, null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        CustomScene.getScene().setScene(entityList, lightList, camera);
     }
 }

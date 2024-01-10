@@ -8,11 +8,12 @@ import java.io.IOException;
 
 public class RayTracer {
 
-    static Camera camera = new Camera();
+    static Camera camera;
     int n = 0;
 
     public void trace() throws IOException {
         long time = System.currentTimeMillis();
+        camera = CustomScene.getScene().camera;
 
         for(int i = 0; i< Output.WIDTH; i++){
             for(int j = 0; j<Output.HEIGHT; j++){
@@ -22,11 +23,11 @@ public class RayTracer {
                     return;
 
                 double u= camera.getL() + i + 0.5;
-                u = u/200;
+                //u = u/200;
                 double v= camera.getT() - (j+0.5);
-                v = v/200;
-                //Vector3D s = Util.add(camera.getU().skalarmultiplication(u), camera.getV().skalarmultiplication(v), camera.getW_d_negated());
-                Vector3D s = Util.add(camera.getU().scalarMultiplication(u), camera.getV().scalarMultiplication(v), camera.getScreen()).subtract(camera.getEye());
+                //v = v/200;
+                Vector3D s = Util.add(camera.getU().scalarMultiplication(u), camera.getV().scalarMultiplication(v), camera.getW_d_negated());
+                //Vector3D s = Util.add(camera.getU().scalarMultiplication(u), camera.getV().scalarMultiplication(v), camera.getScreen()).subtract(camera.getEye());
                 Vector3D dir = s.normalize();
 
                 n++;

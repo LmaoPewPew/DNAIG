@@ -119,6 +119,35 @@ public class Face implements Iterable<Vertex> {
         }
         return triangles;
     }
+    public Triangle[] toTriangle(double factor) {
+        Triangle[] triangles;
+        if (vertices.length >= 4) {
+            triangles = new Triangle[2];
+
+            triangles[0] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[1].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    material
+            );
+            triangles[1] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[3].getCoordinates().scalarMultiplication(1 / factor),
+                    material
+            );
+
+        } else {
+            triangles = new Triangle[1];
+            triangles[0] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[1].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    material
+            );
+        }
+        return triangles;
+    }
 
     @Override
     public Iterator<Vertex> iterator() {
