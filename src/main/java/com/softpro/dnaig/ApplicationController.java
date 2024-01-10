@@ -807,21 +807,43 @@ public class ApplicationController {
 
     // Location might change once finished (?)
     public void deleteObject(int objID) {
+        System.out.println(objID);
+        System.out.println(propertiesList.size());
         for (Properties properties : propertiesList) {
-            if (properties.getId().equals(String.valueOf(objID))) {
-                objectListView.getItems().remove(properties.getButton());
-                propertiesList.remove(properties);
-                PointLight pointLight = null;
-                for (Light light : lightList) {
-                    if (light.getID() == objID) {
-                        System.out.println("DELETE LIGHT");
-                        pointLight = (PointLight) light;
-                        break;
+            System.out.println("test");
+            if(properties instanceof LightProperties lightProperties) {
+                if (properties.getId().equals(String.valueOf(objID))) {
+                    System.out.println("Test");
+                    objectListView.getItems().remove(properties.getButton());
+                    propertiesList.remove(properties);
+                    PointLight pointLight = null;
+                    for (Light light : lightList) {
+                        if (light.getID() == objID) {
+                            System.out.println("DELETE LIGHT");
+                            pointLight = (PointLight) light;
+                            break;
+                        }
                     }
+                    if (pointLight != null) lightList.remove(pointLight);
+                    return;
                 }
-                if (pointLight != null) lightList.remove(pointLight);
-                return;
+            }else if(properties instanceof ObjectProperties objectProperties) {
+                System.out.println("DELETE OBJECT");
+                if (properties.getId().equals(String.valueOf(objID))) {
+                    objectListView.getItems().remove(properties.getButton());
+                    propertiesList.remove(properties);
+                    Entity entity = null;
+                    for (Entity entity1 : entityList) {
+                        if (entity1.getID() == Integer.parseInt(objectProperties.getId())) {
+                            entity = entity1;
+                            break;
+                        }
+                    }
+                    if (entity != null) entityList.remove(entity);
+                    return;
+                }
             }
+            else System.out.println(properties.getName());
         }
     }
 

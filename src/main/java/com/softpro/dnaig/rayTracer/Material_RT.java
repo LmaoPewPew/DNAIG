@@ -25,6 +25,12 @@ public class Material_RT {
     }
 
     public Material_RT(Material material){
+        if(material==null){
+            this.ambient = new Vector3D(0.5, 0.5, 0.5);
+            this.diffus = new Vector3D(0.7, 0.7, 0.7);
+            this.specular = new Vector3D(0.3, 0.3, 0.3);
+            return;
+        }
         this.ambient = new Vector3D(material.getKa()[0], material.getKa()[1], material.getKa()[2]);
         this.diffus = new Vector3D(material.getKd()[0], material.getKd()[1], material.getKd()[2]);
         this.specular = new Vector3D(material.getKs()[0], material.getKs()[1], material.getKs()[2]);
