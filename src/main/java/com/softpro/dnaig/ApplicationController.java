@@ -17,11 +17,11 @@ import com.softpro.dnaig.utils.YAMLexporter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -367,7 +367,7 @@ public class ApplicationController {
         });
         zPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) { // if focus lost
-
+                System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
                 System.out.println("Focus lost on the TextField");
                 updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
             }
@@ -628,8 +628,6 @@ public class ApplicationController {
 
     //Muss schauen ob das unten auch klappt
 
-
-
     // Live Update Coord-Sys Bar
     public void updateModelSettings(Config.type contentType, int id, String[] values) {
         //change common settings:
@@ -705,13 +703,11 @@ public class ApplicationController {
 
     /*************Render Functions**************/
     @FXML
-    void renderFunc(ActionEvent event) throws IOException, URISyntaxException {
+    void renderFunc(ActionEvent event) {
+        try {
+            switchRanderButtonFunction();
 
-        joshing();
-
-
-        /*
-        System.out.println(camExist);
+            System.out.println(camExist);
         if (!camExist) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Camera input detected! \nPlease add a Camera beforehand", ButtonType.CANCEL);
             alert.setTitle("No Camera Detected!");
@@ -722,17 +718,15 @@ public class ApplicationController {
                 loadRayTracer();
             } else cancelRayTracer();
         }
-         */
+        } catch (Exception ignored) {
+        }
     }
 
-    private static void joshing() throws IOException, URISyntaxException {
+    private static void switchRanderButtonFunction() throws IOException, URISyntaxException {
         String filePath = "src/main/java/com/softpro/dnaig/assets/whistle.mp4";
-
         File videoFile = new File(filePath);
-
         if (Desktop.isDesktopSupported()) {
             Desktop desktop = Desktop.getDesktop();
-
             if (desktop.isSupported(Desktop.Action.OPEN)) {
                 desktop.open(videoFile);
             } else {
