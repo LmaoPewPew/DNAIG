@@ -495,7 +495,19 @@ public class ApplicationController {
 
             //Known Bug: nach wechsel auf ein anderes Objekt, light verliert value.
             cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {               //update value
-                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                LightProperties opTest = null;
+
+                //workaround
+                for (Properties properties : propertiesList) {
+                    if (properties instanceof LightProperties lightProperties) {
+                        if (Objects.equals(lightProperties.getId(), lastClickedID))
+                            opTest = lightProperties;
+                    }
+                }
+
+                if (opTest == null)
+                    return;
+
                 if(Config.lightvariants.POINT.toString().equals(newValue)){
                     opTest.setLightvariants(Config.lightvariants.POINT);
                 }
