@@ -12,8 +12,19 @@ import java.util.ArrayList;
 
 public class YAMLexporter {
 
+    /**
+     * StringBuilder for writing to file
+     */
     private static StringBuilder sb;
 
+    /**
+     * Exports scene to YAML file
+     *
+     * @param file   file to export to
+     * @param objects objects to export
+     * @param lights lights to export
+     * @param camera camera to export
+     */
     public static void exportScene(
             File file,
             ArrayList<Entity> objects,
@@ -43,6 +54,14 @@ public class YAMLexporter {
         }
     }
 
+    /**
+     * Imports scene from YAML file
+     *
+     * @param file file to import from
+     * @param entities entities to import
+     * @param lights lights to import
+     * @param camera camera to import
+     */
     public static void importScene(File file, ArrayList<Entity> entities, ArrayList<Light> lights, Camera camera) {
         entities.clear();
         lights.clear();
@@ -163,6 +182,13 @@ public class YAMLexporter {
         }
     }
 
+    /**
+     * Extracts vector from YAML file
+     *
+     * @param reader reader to read from
+     * @return extracted vector
+     * @throws IOException if an I/O error occurs
+     */
     private static Vector3D extractVector(BufferedReader reader) throws IOException {
         Vector3D vec;
         String line;

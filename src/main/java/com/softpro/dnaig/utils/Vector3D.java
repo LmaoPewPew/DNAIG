@@ -4,26 +4,50 @@ import com.softpro.dnaig.rayTracer.Util;
 
 public class Vector3D {
 
+    /**
+     * x, y, z coordinates of the vector
+     */
     private double x, y, z;
 
+    /**
+     * Creates a new Vector3D with the given coordinates
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param z z coordinate
+     */
     public Vector3D(double x, double y, double z) {
         this.x = x;
         this.y = y;
         this.z = z;
     }
 
+    /**
+     * Creates a null Vector3D
+     */
     public Vector3D() {
         this.x = 0;
         this.y = 0;
         this.z = 0;
     }
 
+    /**
+     * Adds the given Vector3D to this Vector3D
+     * @param v Vector3D to add
+     */
     public void add(Vector3D v) {
         x += v.getX();
         y += v.getY();
         z += v.getZ();
     }
 
+    /**
+     * Rotates the Vector3D around the given angles
+     *
+     * @param angleX Rotation around the x-axis
+     * @param angleY Rotation around the y-axis
+     * @param angleZ Rotation around the z-axis
+     */
     public void rotate(double angleX, double angleY, double angleZ){
         double cos = Math.cos(angleX);
         double sin = Math.sin(angleX);
@@ -57,6 +81,13 @@ public class Vector3D {
         z = result[2];
     }
 
+    /**
+     * Multiplies the given matrix with the given vector
+     *
+     * @param rotationMatrix Matrix to multiply with
+     * @param doubles Vector to multiply with
+     * @return Result of the multiplication
+     */
     private double[] multiplyMatrixWithVector(double[][] rotationMatrix, double[] doubles) {
         int rows = rotationMatrix.length;
         int cols = rotationMatrix[0].length;
