@@ -102,6 +102,7 @@ public class ObjectProperties implements Properties {
 
     public void setScale(String scale) {
         this.scale = scale;
+        System.out.println("Scale" + scale);
     }
 
 

@@ -429,7 +429,7 @@ public class ApplicationController {
             System.out.println("Object");
             ObjectProperties op = (ObjectProperties) propertiesList.get(id);
 
-            TextField scaleTF = new TextField(op.getRot()[0]);
+            TextField scaleTF = new TextField(op.getScale()==null? "1":op.getScale());
             scaleTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue) { // if focus lost
                     System.out.println("Focus lost on the TextField");
@@ -797,9 +797,9 @@ public class ApplicationController {
                 PointLight pointLight = null;
                 //System.out.println(pointLight.getPosition());
                 Vector3D pos = new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2]));
-                Vector3D brightness = new Vector3D(Double.parseDouble(lightProperties.getIntensity()), Double.parseDouble(lightProperties.getIntensity()), Double.parseDouble(lightProperties.getIntensity()));
-                //Vector3D brightness = new Vector3D(3.0,4.0,1.0);
-                pointLight = new PointLight(Integer.parseInt(lightProperties.getId()), pos, brightness);
+                Vector3D rgb = new Vector3D(Double.parseDouble(lightProperties.getRgb()[0]), Double.parseDouble(lightProperties.getRgb()[1]), Double.parseDouble(lightProperties.getRgb()[2]));
+                rgb = rgb.scalarMultiplication(Double.parseDouble(lightProperties.getIntensity()));
+                pointLight = new PointLight(Integer.parseInt(lightProperties.getId()), pos, rgb);
                 //pointLight = new PointLight(pointLight.getID(), new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2])), new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2])));
                 PointLight finalPointLight = pointLight;
                 lightList.removeIf(light -> light.getID() == finalPointLight.getID());
@@ -813,7 +813,7 @@ public class ApplicationController {
                         entity.setOrient(new Vector3D(Double.parseDouble(objectProperties.getRot()[0]), Double.parseDouble(objectProperties.getRot()[1]), Double.parseDouble(objectProperties.getRot()[2])));
                         entity.scale(Double.parseDouble(objectProperties.getScale() == null ? "1" : objectProperties.getScale()));
                         objectProperties.setRot(new String[]{"0","0","0"});
-                        objectProperties.setScale("1");
+                        objectProperties.setScale(objectProperties.getScale() == null ? "1" : objectProperties.getScale());
                         System.out.println("Orientation: " + entity.getOrient());
                         break;
                     }

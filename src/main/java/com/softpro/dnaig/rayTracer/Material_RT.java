@@ -34,6 +34,7 @@ public class Material_RT {
         this.ambient = new Vector3D(material.getKa()[0], material.getKa()[1], material.getKa()[2]);
         this.diffus = new Vector3D(material.getKd()[0], material.getKd()[1], material.getKd()[2]);
         this.specular = new Vector3D(material.getKs()[0], material.getKs()[1], material.getKs()[2]);
+        //this.specular = new Vector3D(1, 1, 1);
     }
 
     public Material_RT(Vector3D color, Object3D ref) {
@@ -51,19 +52,19 @@ public class Material_RT {
             Vector3D positionToLight = l.getPosition().subtract(position).normalize();
             Vector3D moved = position.move(Util.EPSILON, positionToLight);
             Ray shadow = new Ray(moved, positionToLight);
-            boolean shadowed = shadow.castShadow();
+            boolean shadowed = shadow.castShadow(l.getPosition());
 
             Vector3D ret = new Vector3D();
             ret.add(ambient.multiply(l.getIntensity(position)));
 
             if(!shadowed){
                 Vector3D normal = reference.getNormal(position);
-                double NL = Math.max(Math.abs(normal.product(positionToLight)), 0);
+                double NL = Math.abs(normal.product(positionToLight));
                 ret.add(diffus.multiply(l.getIntensity(position)).scalarMultiplication(NL));
 
                 Vector3D refl = normal.scalarMultiplication(NL*2).subtract(positionToLight).normalize();
                 Vector3D v = RayTracer.camera.getEye().subtract(position).normalize();
-                double RV = Math.max(refl.product(v), 0);
+                double RV = Math.abs(refl.product(v));
                 ret.add(specular.multiply(l.getIntensity(position)).scalarMultiplication(Math.pow(RV, phongExponent)));
             }
             double dist = l.getPosition().subtract(position).length();

@@ -45,8 +45,8 @@ public class Ray {
         }
     }
 
-    public boolean castShadow() throws IOException {
-        double t = Double.MAX_VALUE-1;
+    public boolean castShadow(Vector3D lightPosition) {
+        double t = position.subtract(lightPosition).length();
         for(Object3D o: CustomScene.getScene().objects){
             double t2 = o.intersect(this);
             if(t2 > 0 && t2< t){

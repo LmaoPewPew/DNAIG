@@ -214,4 +214,16 @@ public class Triangle implements Object3D {
         Vector3D tmp2 = p2.subtract(p1).normalize();
         return tmp1.crossProduct(tmp2).normalize();
     }
+
+    public Vector3D getP1() {
+        return p1;
+    }
+
+    public Vector3D getP2() {
+        return p2;
+    }
+
+    public Vector3D getP3() {
+        return p3;
+    }
 }

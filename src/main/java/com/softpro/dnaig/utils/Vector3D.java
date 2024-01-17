@@ -2,12 +2,15 @@ package com.softpro.dnaig.utils;
 
 import com.softpro.dnaig.rayTracer.Util;
 
+import java.util.ArrayList;
+
 public class Vector3D {
 
     /**
      * x, y, z coordinates of the vector
      */
     private double x, y, z;
+
 
     /**
      * Creates a new Vector3D with the given coordinates
@@ -49,28 +52,31 @@ public class Vector3D {
      * @param angleZ Rotation around the z-axis
      */
     public void rotate(double angleX, double angleY, double angleZ){
-        double cos = Math.cos((angleX/360)*2*Math.PI);
-        double sin = Math.sin((angleX/360)*2*Math.PI);
+        double cos = round(Math.cos((angleX/360)*2*Math.PI), 7);
+        double sin = round(Math.sin((angleX/360)*2*Math.PI), 7);
         double[][] rotationX = {
-                {1, 0, 0},
-                {0, cos, -sin},
-                {0, sin, cos}
+                {1, 0, 0, 0},
+                {0, cos, -sin, 0},
+                {0, sin, cos, 0},
+                {0, 0, 0, 1}
         };
 
-        cos = Math.cos((angleY/360)*2*Math.PI);
-        sin = Math.sin((angleY/360)*2*Math.PI);
+        cos = round(Math.cos((angleY/360)*2*Math.PI), 7);
+        sin = round(Math.sin((angleY/360)*2*Math.PI), 7);
         double[][] rotationY = {
-                {cos, 0, sin},
-                {0, 1, 0},
-                {-sin, 0, cos}
+                {cos, 0, sin, 0},
+                {0, 1, 0, 0},
+                {-sin, 0, cos, 0},
+                {0, 0, 0, 1}
         };
 
-        cos = Math.cos((angleZ/360)*2*Math.PI);
-        sin = Math.sin((angleZ/360)*2*Math.PI);
+        cos = round(Math.cos((angleZ/360)*2*Math.PI), 7);
+        sin = round(Math.sin((angleZ/360)*2*Math.PI), 7);
         double[][] rotationZ = {
-                {cos, -sin, 0},
-                {sin, cos, 0},
-                {0, 0, 1}
+                {cos, -sin, 0, 0},
+                {sin, cos, 0, 0},
+                {0, 0, 1, 0},
+                {0, 0, 0, 1}
         };
 
         double[][] rotationMatrix = multiplyMatrices(rotationX, rotationY, rotationZ);
@@ -89,6 +95,11 @@ public class Vector3D {
      * @return Result of the multiplication
      */
     private double[] multiplyMatrixWithVector(double[][] rotationMatrix, double[] doubles) {
+        double[] tmp = new double[4];
+        for (int i = 0; i<doubles.length; i++) {
+            tmp[i] = doubles[i];
+        }
+        doubles = tmp.clone();
         int rows = rotationMatrix.length;
         int cols = rotationMatrix[0].length;
         double[] result = new double[rows];
@@ -104,16 +115,35 @@ public class Vector3D {
         return result;
     }
 
+    private double round(double num, int n){
+        num = num*Math.pow(10, n);
+        num = (int)num;
+        num = num/Math.pow(10, n);
+        return num;
+    }
+
     private double[][] multiplyMatrices(double[][] rotationX, double[][] rotationY, double[][] rotationZ) {
         int rowsA = rotationX.length;
         int colsA = rotationX[0].length;
         int colsB = rotationY[0].length;
-        double[][] result = new double[rowsA][colsB];
+        double[][] result1 = new double[rowsA][colsB];
 
         for (int i = 0; i < rowsA; i++) {
             for (int j = 0; j < colsB; j++) {
                 for (int k = 0; k < colsA; k++) {
-                    result[i][j] += rotationX[i][k] * rotationY[k][j];
+                    result1[i][j] += rotationX[i][k] * rotationY[k][j];
+                }
+            }
+        }
+
+        int rowsC = rotationZ.length;
+        int colsC = rotationZ[0].length;
+        int colsD = result1[0].length;
+        double[][] result = new double[rowsA][colsB];
+        for (int i = 0; i < rowsC; i++) {
+            for (int j = 0; j < colsD; j++) {
+                for (int k = 0; k < colsC; k++) {
+                    result[i][j] += rotationZ[i][k] * result1[k][j];
                 }
             }
         }

@@ -55,7 +55,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
         this.vertexCount = 0;
 
         this.objName = String.format("object%d", id);
-        this.orient = new Vector3D(1, 0, 0);
+        this.orient = new Vector3D(0, 0, 0);
     }
 
     /**
@@ -115,9 +115,15 @@ public class Entity implements TriangleMesh, Iterable<Face> {
         System.out.println(x + " " + y + " " + z);
         for (Face face : faces) {
             for (Vertex vertex : face) {
+                System.out.println("Old: " + vertex.getCoordinates());
+                Vector3D oldCoordinates = new Vector3D(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());
                 Vector3D newCoordinates = vertex.getCoordinates();
                 newCoordinates.rotate(x, y, z);
-                System.out.println(newCoordinates);
+                System.out.println("New: " + newCoordinates);
+                System.out.println();
+                if(Math.abs(oldCoordinates.getZ())!=Math.abs(newCoordinates.getZ()) || Math.abs(oldCoordinates.getX())!=Math.abs(newCoordinates.getX())){
+                    System.out.println();
+                }
             }
         }
     }
@@ -194,7 +200,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
     public void setOrient(Vector3D orient) {
         this.orient = orient;
 
-        rotate(Math.toRadians(orient.getX()), Math.toRadians(orient.getY()), Math.toRadians(orient.getZ()));
+        //rotate(orient.getX(), orient.getY(), orient.getZ());
     }
 
     /**
@@ -228,6 +234,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
             Face faceCopy = faceAltered.get(i);
             for(Vertex vertex : faceCopy){
                 Vector3D temp = new Vector3D(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());
+                temp.rotate(orient.getX(), orient.getY(), orient.getZ());
                 temp.add(pivot);
                 vertex.setCoordinates(temp);
             }
