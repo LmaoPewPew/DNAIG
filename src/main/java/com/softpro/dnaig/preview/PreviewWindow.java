@@ -10,6 +10,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import org.fxyz3d.importers.Model3D;
 
@@ -54,15 +55,16 @@ public class PreviewWindow {
             Rotate rY = new Rotate(0, Rotate.Y_AXIS);
             Rotate rZ = new Rotate(0, Rotate.Z_AXIS);
             Translate t = new Translate();
+            Scale s = new Scale(1, 1, 1);
 
             tempModelList.put(id, model);
 
-            cameraController.getModelCameraMap().put(model, new CameraControlWrapper(rX, rY, rZ, t));
+            cameraController.getModelCameraMap().put(model, new CameraControlWrapper(rX, rY, rZ, t, s));
 
             cameraController.setSelected(model);
             currentMode.set(Mode.MOVE_OBJECT_XY);
 
-            model.getRoot().getTransforms().addAll(rX, rY, rZ, t);
+            model.getRoot().getTransforms().addAll(rX, rY, rZ, t, s);
             //model.getRoot().getParent().getTransforms().add(t);
 
         } catch (IOException e) {
@@ -183,13 +185,17 @@ public class PreviewWindow {
         return currentMode;
     }
 
-    public void updatePosition(int id, double x, double y, double z, double xRot, double yRot, double zRot) {
+    public void updatePosition(int id, double x, double y, double z, double xRot, double yRot, double zRot, double scale) {
         Model3D model = tempModelList.get(id);
         CameraControlWrapper wrapper = cameraController.getCameraControlWrapper(model);
         Translate translate = wrapper.getT();
         Rotate rotateX = wrapper.getrX();
         Rotate rotateY = wrapper.getrY();
         Rotate rotateZ = wrapper.getrZ();
+        Scale s = wrapper.getS();
+        s.setX(scale);
+        s.setY(scale);
+        s.setZ(scale);
 
         translate.setX(x);
         translate.setY(y);

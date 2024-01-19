@@ -149,6 +149,8 @@ public class Face implements Iterable<Vertex>, Cloneable {
         return triangles;
     }
 
+
+
     @Override
     public Iterator<Vertex> iterator() {
         return new Iterator<Vertex>() {

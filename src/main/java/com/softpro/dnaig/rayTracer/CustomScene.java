@@ -114,20 +114,35 @@ public class CustomScene {
         double maxX = Double.MIN_VALUE;
         double maxY = Double.MIN_VALUE;
         double maxZ = Double.MIN_VALUE;
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        double minZ = Double.MAX_VALUE;
         for (Entity entity : this.entities){
             for (Face face1: entity.getFaces()) {
                 for (int i = 0; i<face1.getVerticeCount(); i++) {
-                    maxX = Math.max(maxX, Math.abs(face1.getVertex(i).getCoordinates().getX()));
-                    maxY = Math.max(maxY, Math.abs(face1.getVertex(i).getCoordinates().getY()));
-                    maxZ = Math.max(maxZ, Math.abs(face1.getVertex(i).getCoordinates().getZ()));
+                    maxX = Math.max(maxX, face1.getVertex(i).getCoordinates().getX());
+                    maxY = Math.max(maxY, face1.getVertex(i).getCoordinates().getY());
+                    maxZ = Math.max(maxZ, face1.getVertex(i).getCoordinates().getZ());
+                    minX = Math.min(minX, face1.getVertex(i).getCoordinates().getX());
+                    minY = Math.min(minY, face1.getVertex(i).getCoordinates().getY());
+                    minZ = Math.min(minZ, face1.getVertex(i).getCoordinates().getZ());
                 }
             }
         }
 
-        double factor = Math.max(Math.max(maxX, maxY), maxZ);
+        /*
+        if(Math.abs(camera.getEye().getY()-minY) < Math.abs(camera.getEye().getY()-maxY)){
+            objects.add(new Plane(new Vector3D(-1, maxY+Math.abs(maxY), -1), new Vector3D(1, maxY+Math.abs(maxY), -1), new Vector3D(-1, maxY+Math.abs(maxY), 1),  Color.LIGHTGRAY));
+        } else {
+            objects.add(new Plane(new Vector3D(-1, minY-Math.abs(minY), -1), new Vector3D(1, minY-Math.abs(minY), -1), new Vector3D(-1, minY-Math.abs(minY), 1),  Color.LIGHTGRAY));
+        }
+
+         */
+
+        double factor = Math.max(Math.max(Math.abs(maxX), Math.abs(maxY)), Math.abs(maxZ));
 
         for (Entity entity : entities){
-            objects.addAll(entity.getTriangles(factor));
+            objects.addAll(entity.getTriangles(1));
         }
 
        // lights.add(new PointLight(new Vector3D(0, 3, -3), new Vector3D(8, 5, 10)));

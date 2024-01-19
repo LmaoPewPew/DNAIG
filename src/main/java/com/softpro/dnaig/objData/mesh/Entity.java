@@ -253,6 +253,8 @@ public class Entity implements TriangleMesh, Iterable<Face> {
         return triangles;
     }
 
+    
+
     @Override
     public String toYaml() {
         return String.format(

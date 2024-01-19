@@ -350,90 +350,20 @@ public class ApplicationController {
         TextField yRot = new TextField(propertiesList.get(id).getRot()[1]);
         TextField zRot = new TextField(propertiesList.get(id).getRot()[2]);
 
+        TextField scaleTF = null;
         int finalId = id;
-        xPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // if focus lost
-                System.out.println(xPos.getText());
-                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
-            }
-        });
-        yPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // if focus lost
-                System.out.println("Focus lost on the TextField");
-                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
-            }
-        });
-        zPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // if focus lost
-                System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
-                System.out.println("Focus lost on the TextField");
-                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
-            }
-        });
-
-        xRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // if focus lost
-                System.out.println("Focus lost on the TextField");
-                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
-            }
-        });
-
-        yRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // if focus lost
-                System.out.println("Focus lost on the TextField");
-                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
-            }
-        });
-
-        zRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue) { // if focus lost
-                System.out.println("Focus lost on the TextField");
-                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, null);
-            }
-        });
-
-        numericOnly(xPos);
-        numericOnly(yPos);
-        numericOnly(zPos);
-        textFieldVALUES[1] = xPos.getText();
-        textFieldVALUES[2] = yPos.getText();
-        textFieldVALUES[3] = zPos.getText();
-
-
-        gp.add(new Text("X:"), 0, 3);
-        gp.add(xPos, 1, 3);
-        gp.add(new Text("Y:"), 0, 4);
-        gp.add(yPos, 1, 4);
-        gp.add(new Text("Z:"), 0, 5);
-        gp.add(zPos, 1, 5);
-
-        gp.add(new Text("Rotation:"), 0, 6);
-
-        numericOnly(xRot);
-        numericOnly(yRot);
-        numericOnly(zRot);
-        textFieldVALUES[4] = xRot.getText();
-        textFieldVALUES[5] = yRot.getText();
-        textFieldVALUES[6] = zRot.getText();
-
-
-        gp.add(new Text("X:"), 0, 7);
-        gp.add(xRot, 1, 7);
-        gp.add(new Text("Y:"), 0, 8);
-        gp.add(yRot, 1, 8);
-        gp.add(new Text("Z:"), 0, 9);
-        gp.add(zRot, 1, 9);
-
 
         if (contentType == Config.type.OBJECT) {
             System.out.println("Object");
             ObjectProperties op = (ObjectProperties) propertiesList.get(id);
 
-            TextField scaleTF = new TextField(op.getScale()==null? "1":op.getScale());
+            scaleTF = new TextField(op.getScale()==null? "1":op.getScale());
+            TextField finalScaleTF = scaleTF;
+            scaleTF = finalScaleTF;
             scaleTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue) { // if focus lost
                     System.out.println("Focus lost on the TextField");
-                    updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, scaleTF);
+                    updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, finalScaleTF);
                 }
             });
             gp.add(new Text("Scale:"), 0, 10);
@@ -613,25 +543,112 @@ public class ApplicationController {
             textFieldVALUES[8] = String.valueOf(cp.getWidth());
             textFieldVALUES[9] = cb.getValue();
         }
+
+        TextField fScale = scaleTF;
+        xPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println(xPos.getText());
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+            }
+        });
+        yPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+            }
+        });
+        zPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+            }
+        });
+
+        xRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+            }
+        });
+
+        yRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+            }
+        });
+
+        zRot.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                System.out.println("Focus lost on the TextField");
+                updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+            }
+        });
+
+        numericOnly(xPos);
+        numericOnly(yPos);
+        numericOnly(zPos);
+        textFieldVALUES[1] = xPos.getText();
+        textFieldVALUES[2] = yPos.getText();
+        textFieldVALUES[3] = zPos.getText();
+
+
+        gp.add(new Text("X:"), 0, 3);
+        gp.add(xPos, 1, 3);
+        gp.add(new Text("Y:"), 0, 4);
+        gp.add(yPos, 1, 4);
+        gp.add(new Text("Z:"), 0, 5);
+        gp.add(zPos, 1, 5);
+
+        gp.add(new Text("Rotation:"), 0, 6);
+
+        numericOnly(xRot);
+        numericOnly(yRot);
+        numericOnly(zRot);
+        textFieldVALUES[4] = xRot.getText();
+        textFieldVALUES[5] = yRot.getText();
+        textFieldVALUES[6] = zRot.getText();
+
+
+        gp.add(new Text("X:"), 0, 7);
+        gp.add(xRot, 1, 7);
+        gp.add(new Text("Y:"), 0, 8);
+        gp.add(yRot, 1, 8);
+        gp.add(new Text("Z:"), 0, 9);
+        gp.add(zRot, 1, 9);
+
+
         scrollPaneProperties.setContent(gp);
         //updateModelSettings(contentType, id, textFieldVALUES);
     }
 
     private void updateData(int id, TextField xPos, TextField yPos, TextField zPos, TextField xRot, TextField yRot, TextField zRot, TextField scaleTF) {
-        previewWindow.updatePosition(
-                Integer.parseInt(lastClickedID),
-                Double.parseDouble(xPos.getText()),
-                Double.parseDouble(yPos.getText()),
-                Double.parseDouble(zPos.getText()),
-                Double.parseDouble(xRot.getText()),
-                Double.parseDouble(yRot.getText()),
-                Double.parseDouble(zRot.getText())
-        );
-        propertiesList.get(id).setPos(new String[]{xPos.getText(), yPos.getText(), zPos.getText()});
-        propertiesList.get(id).setRot(new String[]{xRot.getText(), yRot.getText(), zRot.getText()});
         if(propertiesList.get(id) instanceof ObjectProperties objectProperties && scaleTF != null) {
             objectProperties.setScale(scaleTF.getText());
+            previewWindow.updatePosition(
+                    Integer.parseInt(lastClickedID),
+                    Double.parseDouble(xPos.getText()),
+                    Double.parseDouble(yPos.getText()),
+                    Double.parseDouble(zPos.getText()),
+                    Double.parseDouble(xRot.getText()),
+                    Double.parseDouble(yRot.getText()),
+                    Double.parseDouble(zRot.getText()),
+                    Double.parseDouble(scaleTF.getText())
+                    );
+        } else {
+            previewWindow.updatePosition(
+                    Integer.parseInt(lastClickedID),
+                    Double.parseDouble(xPos.getText()),
+                    Double.parseDouble(yPos.getText()),
+                    Double.parseDouble(zPos.getText()),
+                    Double.parseDouble(xRot.getText()),
+                    Double.parseDouble(yRot.getText()),
+                    Double.parseDouble(zRot.getText()),
+                    1);
         }
+        propertiesList.get(id).setPos(new String[]{xPos.getText(), yPos.getText(), zPos.getText()});
+        propertiesList.get(id).setRot(new String[]{xRot.getText(), yRot.getText(), zRot.getText()});
     }
 
     //////Da PreviewWindow nich wirklich wichtig ist, SOUT einfach den wert jedesMal

@@ -8,6 +8,7 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import org.fxyz3d.importers.Model3D;
 
@@ -26,6 +27,7 @@ public class CameraController {
     private final Rotate cameraRX;
     private final Rotate cameraRY;
     private final Translate cameraT;
+    private final Scale scale;
     private final View view;
 
     public CameraController(PreviewWindow previewWindow, SubScene subScene, /*Stage stage,*/ View view, Overlay overlay) {
@@ -36,6 +38,7 @@ public class CameraController {
         cameraRX = new Rotate(0, Rotate.X_AXIS);
         cameraRY = new Rotate(0, Rotate.Y_AXIS);
         cameraT = new Translate(0, 0, 0);
+        scale = new Scale(1, 1, 1);
 
         modelCameraMap = new HashMap<>();
 

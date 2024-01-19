@@ -1,6 +1,7 @@
 package com.softpro.dnaig.preview;
 
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 
 public class CameraControlWrapper {
@@ -9,12 +10,14 @@ public class CameraControlWrapper {
     private Rotate rY;
     private Rotate rZ;
     private Translate t;
+    private Scale s;
 
-    public CameraControlWrapper(Rotate rX, Rotate rY, Rotate rZ, Translate t) {
+    public CameraControlWrapper(Rotate rX, Rotate rY, Rotate rZ, Translate t, Scale s) {
         this.rX = rX;
         this.rY = rY;
         this.rZ = rZ;
         this.t = t;
+        this.s = s;
     }
 
     public void updatePivotAfterMove() {
@@ -63,4 +66,8 @@ public class CameraControlWrapper {
     public void setT(Translate t) {
         this.t = t;
     }
+
+    public Scale getS() { return s; }
+
+    public void setS(Scale s) { this.s = s; }
 }
