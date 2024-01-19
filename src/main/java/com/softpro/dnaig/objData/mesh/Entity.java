@@ -69,7 +69,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
         this.id = id;
 
         this.faces = faces;
-        this.faceAltered = (ArrayList<Face>) this.faces.clone();
+        this.faceAltered = new ArrayList<>();
         this.pivot = new Vector3D();
 
         this.vertexCount = vertexCount;
@@ -230,7 +230,8 @@ public class Entity implements TriangleMesh, Iterable<Face> {
     public ArrayList<Triangle> getTriangles(double factor) {
         faceAltered.clear();
         for (int i = 0; i < faces.size(); i++) {
-            faceAltered.add(new Face(faces.get(i)));
+            //faceAltered.add(new Face(faces.get(i)));
+            faceAltered.add(faces.get(i).clone());
             Face faceCopy = faceAltered.get(i);
             for(Vertex vertex : faceCopy){
                 Vector3D temp = new Vector3D(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());

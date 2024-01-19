@@ -22,6 +22,7 @@ public class CustomScene {
     public ArrayList<Entity> entities = new ArrayList<>();
     public Camera camera = new Camera();
     public CustomScene() {
+        /*
         lights.add(new PointLight(new Vector3D(2, 3, 1), new Vector3D(8, 8, 8)));
         camera = new Camera(new Vector3D(1, 0.5, 1), new Vector3D(), Config.WIDTH, Config.HEIGHT);
 
@@ -54,6 +55,8 @@ public class CustomScene {
         double factor = Math.max(Math.max(maxX, maxY), maxZ);
 
         objects.addAll(e1.getTriangles(factor));
+
+         */
 
     }
 

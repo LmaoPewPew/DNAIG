@@ -9,9 +9,9 @@ import java.util.Vector;
 /**
  * Represents a Face in a 3D model, composed of vertices, a smoothing group, and a material.
  */
-public class Face implements Iterable<Vertex> {
+public class Face implements Iterable<Vertex>, Cloneable {
     // Array of Vertex objects that make up a Face object.
-    private final Vertex[] vertices;
+    private Vertex[] vertices;
     // Integer that contains the smoothing group mode.
     private int smoothingGroup;
     // Material object for each Face object.
@@ -166,4 +166,29 @@ public class Face implements Iterable<Vertex> {
         };
     }
 
+    public Face bla(){
+        Vertex[] verts = new Vertex[vertices.length];
+        for (int i = 0; i<vertices.length; i++){
+            Vector3D v = new Vector3D(vertices[i].getCoordinates().getX(), vertices[i].getCoordinates().getY(), vertices[i].getCoordinates().getZ());
+            verts[i].setCoordinates(v);
+        }
+        int smtGrp = smoothingGroup;
+        Material m = material;
+        return new Face(verts, m, smtGrp);
+    }
+
+    @Override
+    public Face clone() {
+        try {
+            Face clone = (Face) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            clone.vertices = new Vertex[vertices.length];
+            for (int i = 0; i<vertices.length; i++){
+                clone.vertices[i] = vertices[i].clone();
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
+    }
 }
