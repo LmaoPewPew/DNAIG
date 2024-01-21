@@ -17,10 +17,6 @@ import com.softpro.dnaig.utils.YAMLexporter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.TextField;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -33,7 +29,6 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -70,6 +65,7 @@ public class ApplicationController {
     private RadioMenuItem mVoice;
 
     //Rest
+    private final FileChooser directoryChooser = new FileChooser();
     @FXML
     private Button renderButton;
     @FXML
@@ -87,6 +83,7 @@ public class ApplicationController {
     final ArrayList<Light> lightList = new ArrayList<>();
     private static int objectID = 0;
     private boolean camExist = false;
+    private Stage stage;
 
 
     /* *****************************************METHODS***************************************** */
@@ -94,6 +91,12 @@ public class ApplicationController {
 
     /*************BUTTON CLICK ACTION METHODS**************/
 
+    /**
+     * Imports a light object and adds it to the GUI and preview window.
+     *
+     * @param event The MouseEvent triggering the import operation.
+     * @throws IOException If an I/O error occurs during the import process.
+     */
     @FXML
     void importLightObject(MouseEvent event) throws IOException {
         int id = objectID;
@@ -103,6 +106,12 @@ public class ApplicationController {
         objectID++;
     }
 
+    /**
+     * Imports a camera object, sets the 'camExist' flag, and adds it to the GUI and preview window.
+     *
+     * @param event The MouseEvent triggering the import operation.
+     * @throws IOException If an I/O error occurs during the import process.
+     */
     @FXML
     void importCameraObject(MouseEvent event) throws IOException {
         camExist = true;
@@ -112,6 +121,11 @@ public class ApplicationController {
         createGUIObject(null, id, Config.type.CAMERA);
     }
 
+    /**
+     * Imports an object from a specified file, creates an Entity, and adds it to the GUI and preview window.
+     *
+     * @param event The MouseEvent triggering the import operation.
+     */
     @FXML
     void importObject(MouseEvent event) {
         File entityFile = fileChooser();
@@ -128,10 +142,12 @@ public class ApplicationController {
     }
 
     /*************MENU-ITEM METHODS**************/
-    //FILE
 
-    private final FileChooser directoryChooser = new FileChooser();
-
+    /**
+     * Saves the rendered image in various image formats (PNG, JPEG/JPG, BMP) based on user selection.
+     *
+     * @param event The ActionEvent triggering the save operation.
+     */
     @FXML
     void saveFile(ActionEvent event) {
         // Automatically Save .YAML file in Downloads folder
@@ -151,11 +167,11 @@ public class ApplicationController {
         }
     }
 
-    @FXML
-    void saveFileAs(ActionEvent event) {
-        // Save .YAML file in specific folder (Downloads will open first tho)
-    }
-
+    /**
+     * Exports the current scene to a YAML file.
+     *
+     * @param event The ActionEvent triggering the export.
+     */
     @FXML
     void exportYaml(ActionEvent event) {
         // Save Image of the Rendered image in specific Folder (like SaveFileAs)
@@ -207,7 +223,6 @@ public class ApplicationController {
         }
     }
 
-    //EDIT
     @FXML
     void changeThemeMode(ActionEvent event) {
         if (mTheme.isSelected()){
@@ -220,19 +235,27 @@ public class ApplicationController {
         }
     }
 
-    //HELP
-
     /*************OBJECTS**************/
 
-
-
-    // ListView
+    /**
+     * Creates a GUI representation of an object, adding it to the object list view.
+     *
+     * @param e          The Entity object representing the object.
+     * @param id         The ID of the object.
+     * @param objectType The type of the object (LIGHT, OBJECT, CAMERA).
+     */
     void createGUIObject(Entity e, int id, Config.type objectType) {
         loadObjectProperties(e, id, objectType);
         setObjectListView();
     }
 
-    // ListView add Objects (IMG-View)
+    /**
+     * Loads properties of an object (Object, Light, or Camera) based on its type.
+     *
+     * @param e            The Entity object representing the object.
+     * @param id           The ID of the object.
+     * @param categoryType The type of the object (LIGHT, OBJECT, CAMERA).
+     */
     private void loadObjectProperties(Entity e, int id, Config.type categoryType) {
         ObjectProperties op;
         LightProperties lp;
@@ -253,12 +276,21 @@ public class ApplicationController {
         }
     }
 
+    /**
+     * Adds the button representing the object to the object list view.
+     */
     private void setObjectListView() {
-        //ObjectList Region
+        // ObjectList Region
         objectListView.setPadding(new Insets(10, 5, 10, 5));
-        objectListView.getItems().add(propertiesList.getLast().getButton()); //davor  propertiesList.get(propertiesList.size() - 1).getButton()
+        objectListView.getItems().add(propertiesList.getLast().getButton()); // davor propertiesList.get(propertiesList.size() - 1).getButton()
     }
 
+    /**
+     * Sets the button with an image and event handler based on the provided category type.
+     *
+     * @param iv           The ImageView representing the object.
+     * @param categoryType The type of the object (LIGHT, OBJECT, CAMERA).
+     */
     private void setButton(ImageView iv, Config.type categoryType) {
         Button button = propertiesList.getLast().getButton();
         iv.setFitWidth(100);
@@ -277,7 +309,12 @@ public class ApplicationController {
         });
     }
 
-    // GET IMAGES
+    /**
+     * Loads an image based on the provided properties and category type, then adds it to the properties list.
+     *
+     * @param op           The Properties object representing the object's properties.
+     * @param categoryType The type of the object (LIGHT, OBJECT, CAMERA).
+     */
     private void loadImage(Properties op, Config.type categoryType) {
         Image image;
         if (categoryType == Config.type.OBJECT) {      //object
@@ -300,13 +337,17 @@ public class ApplicationController {
             }
         }
         propertiesList.add(op);
-        setButton(new ImageView(image), categoryType); //setButton and call function
+        setButton(new ImageView(image), categoryType); // setButton and call function
     }
 
 
     /*************OBJECT COORDINATES**************/
 
-
+    /**
+     * Updates the properties grid with the details of the selected object based on the provided content type.
+     *
+     * @param contentType The type of the content (LIGHT, OBJECT, CAMERA).
+     */
     public void updateProperties(Config.type contentType) {
         GridPane gp = new GridPane();
         gp.setVisible(true);
@@ -622,8 +663,20 @@ public class ApplicationController {
         //updateModelSettings(contentType, id, textFieldVALUES);
     }
 
+    /**
+     * Updates the data of the selected object based on the provided input fields.
+     *
+     * @param id      The ID of the selected object.
+     * @param xPos    The TextField for X-position.
+     * @param yPos    The TextField for Y-position.
+     * @param zPos    The TextField for Z-position.
+     * @param xRot    The TextField for X-rotation.
+     * @param yRot    The TextField for Y-rotation.
+     * @param zRot    The TextField for Z-rotation.
+     * @param scaleTF The TextField for scaling (only for ObjectProperties).
+     */
     private void updateData(int id, TextField xPos, TextField yPos, TextField zPos, TextField xRot, TextField yRot, TextField zRot, TextField scaleTF) {
-        if(propertiesList.get(id) instanceof ObjectProperties objectProperties && scaleTF != null) {
+        if (propertiesList.get(id) instanceof ObjectProperties objectProperties && scaleTF != null) {
             objectProperties.setScale(scaleTF.getText());
             previewWindow.updatePosition(
                     Integer.parseInt(lastClickedID),
@@ -634,8 +687,9 @@ public class ApplicationController {
                     Double.parseDouble(yRot.getText()),
                     Double.parseDouble(zRot.getText()),
                     Double.parseDouble(scaleTF.getText())
-                    );
+            );
         } else {
+            // Update position without scaling (or for non-ObjectProperties)
             previewWindow.updatePosition(
                     Integer.parseInt(lastClickedID),
                     Double.parseDouble(xPos.getText()),
@@ -644,110 +698,90 @@ public class ApplicationController {
                     Double.parseDouble(xRot.getText()),
                     Double.parseDouble(yRot.getText()),
                     Double.parseDouble(zRot.getText()),
-                    1);
+                    1
+            );
         }
+        // Update the position and rotation in the properties list
         propertiesList.get(id).setPos(new String[]{xPos.getText(), yPos.getText(), zPos.getText()});
         propertiesList.get(id).setRot(new String[]{xRot.getText(), yRot.getText(), zRot.getText()});
     }
 
-    //////Da PreviewWindow nich wirklich wichtig ist, SOUT einfach den wert jedesMal
-
-    //Muss schauen ob das unten auch klappt
-
-    // Live Update Coord-Sys Bar
-    public void updateModelSettings(Config.type contentType, int id, String[] values) {
-        //change common settings:
-        propertiesList.get(id).setName(values[0]);
-
-        String[] pos = {values[1], values[2], values[3]};
-        propertiesList.get(id).setPos(pos);
-
-        String[] rot = {values[4], values[5], values[6]};
-        propertiesList.get(id).setRot(rot);
-
-        if (contentType == Config.type.OBJECT) {
-            ObjectProperties properties = (ObjectProperties) propertiesList.get(id);
-
-            properties.setScale(values[7]);
-        } else if (contentType == Config.type.LIGHT) {
-            LightProperties properties = (LightProperties) propertiesList.get(id);
-
-            properties.setIntensity(values[7]);
-            properties.setLightvariants(Config.lightvariants.valueOf(values[8]));
-        } else if (contentType == Config.type.CAMERA) {
-            CameraProperties properties = (CameraProperties) propertiesList.get(id);
-
-            properties.setHeight(Integer.parseInt(values[7]));
-            properties.setWidth(Integer.parseInt(values[8]));
-            //properties.setLightvariants(Config.cameravariants.valueOf(values[9]));
-
-        }
-    }
-
+    /**
+     * Restricts the input of the provided TextField to numeric values only.
+     *
+     * @param field The TextField to restrict to numeric values.
+     */
     private void numericOnly(TextField field) {
         field.textProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.matches("-?\\d*(\\.\\d*)?")) field.setText(newValue.replaceAll("[^\\d.]", ""));
         });
     }
 
-    private void numericOnlyRes(TextField field) {
-        field.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("\\d*")) field.setText(newValue.replaceAll("[^\\d.]", ""));
-        });
-    }
-
-
-    // mehrere - überall, egal wo.
-/*  private void numericOnly(TextField field) {
-        field.textProperty().addListener((observable, oldValue, newValue) -> {
-            if (!newValue.matches("-?\\d*\\.?\\d*")) field.setText(newValue.replaceAll("[^\\d.-]", ""));
-        });
-    }
-*/
-
-    /*************THEME CHANGE**************/
+    /**
+     * Sets the application theme to light mode.
+     */
     private void setLightMode() {
         removeStylesheet("DarkMode.css");
         addStylesheet("LightMode.css");
     }
 
+    /**
+     * Sets the application theme to dark mode.
+     */
     private void setDarkMode() {
         removeStylesheet("LightMode.css");
         addStylesheet("DarkMode.css");
     }
 
+    /**
+     * Adds a stylesheet to the application's stylesheets list.
+     *
+     * @param stylesheet The name of the stylesheet to add.
+     */
     private void addStylesheet(String stylesheet) {
         String stylesheetPath = Objects.requireNonNull(getClass().getResource("/com/softpro/dnaig/style/" + stylesheet)).toExternalForm();
         parent.getStylesheets().add(stylesheetPath);
     }
 
+    /**
+     * Removes a stylesheet from the application's stylesheets list.
+     *
+     * @param stylesheet The name of the stylesheet to remove.
+     */
     private void removeStylesheet(String stylesheet) {
         String stylesheetPath = Objects.requireNonNull(getClass().getResource("/com/softpro/dnaig/style/" + stylesheet)).toExternalForm();
         parent.getStylesheets().remove(stylesheetPath);
     }
 
-
     /*************Render Functions**************/
+    /**
+     * Handles the rendering functionality, including starting or canceling the ray tracer.
+     *
+     * @param event The ActionEvent triggering the rendering.
+     */
     @FXML
     void renderFunc(ActionEvent event) {
-        try {
-            switchRanderButtonFunction();
-            System.out.println(camExist);
+        System.out.println(camExist);
+
+        // Check if a camera is available
         if (!camExist) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Camera input detected! \nPlease add a Camera beforehand", ButtonType.CANCEL);
             alert.setTitle("No Camera Detected!");
             alert.showAndWait();
         } else {
+            // Switch the style class and execute rendering or cancellation accordingly
             switchRenderButtonStyleClass();
             if ((renderButton.getText().equals("Cancel"))) {
                 loadRayTracer();
-            } else cancelRayTracer();
-        }
-        } catch (Exception ignored) {
+            } else {
+                cancelRayTracer();
+            }
         }
     }
 
-
+    /**
+     * Switches the style class of the render button based on its current state.
+     */
     void switchRenderButtonStyleClass() {
         if ((renderButton.getText().equals("Render"))) {
             renderButton.setText("Cancel");
@@ -760,109 +794,132 @@ public class ApplicationController {
         }
     }
 
+    /**
+     * Cancels the ongoing ray tracer process.
+     */
     void cancelRayTracer() {
-        //Code that stops RayTracer...
-        System.out.println("getting Canceled!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        //output.cancelRayTracer();
+        // Code to stop the RayTracer...
+        System.out.println("Getting Canceled!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        //output.cancelRayTracer(); // Uncomment and replace with actual method call if applicable
         Output.getOutput().cancelRayTracer();
         switchRenderButtonStyleClass();
     }
 
-    private Stage stage;
-
+    /**
+     * Sets the stage for the controller.
+     *
+     * @param stage The JavaFX stage.
+     */
     public void setStage(Stage stage) {
         this.stage = stage;
     }
 
+    /**
+     * Callback method invoked when the ray tracer finishes rendering.
+     *
+     * @param unused Unused parameter.
+     */
     public void callbackWhenRayTracerFinished(Void unused) {
         switchRenderButtonStyleClass();
     }
 
+    /**
+     * Loads the Ray Tracer with the current scene configuration and starts the rendering process.
+     */
     @FXML
     void loadRayTracer() {
         Output output = Output.getOutput();
         output.clear();
         entityList.forEach(System.out::println);
         Camera camera = null;
-        //entityList.forEach(entity -> previewWindow.getEntityData(entity));
 
+        // Iterate through the properties list to configure lights, objects, and camera
         for (Properties properties : propertiesList) {
             if (properties instanceof LightProperties lightProperties) {
-                PointLight pointLight = null;
-                //System.out.println(pointLight.getPosition());
-                Vector3D pos = new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2]));
-                Vector3D rgb = new Vector3D(Double.parseDouble(lightProperties.getRgb()[0]), Double.parseDouble(lightProperties.getRgb()[1]), Double.parseDouble(lightProperties.getRgb()[2]));
-                rgb = rgb.scalarMultiplication(Double.parseDouble(lightProperties.getIntensity()));
-                pointLight = new PointLight(Integer.parseInt(lightProperties.getId()), pos, rgb);
-                //pointLight = new PointLight(pointLight.getID(), new Vector3D(Double.parseDouble(lightProperties.getPos()[0]), Double.parseDouble(lightProperties.getPos()[1]), Double.parseDouble(lightProperties.getPos()[2])), new Vector3D(Double.parseDouble(lightProperties.getBrightness().split(", ")[0]), Double.parseDouble(lightProperties.getBrightness().split(", ")[1]), Double.parseDouble(lightProperties.getBrightness().split(", ")[2])));
-                PointLight finalPointLight = pointLight;
-                lightList.removeIf(light -> light.getID() == finalPointLight.getID());
+                // Configure PointLight based on LightProperties
+                PointLight pointLight = new PointLight(
+                        Integer.parseInt(lightProperties.getId()),
+                        new Vector3D(Double.parseDouble(lightProperties.getPos()[0]),
+                                Double.parseDouble(lightProperties.getPos()[1]),
+                                Double.parseDouble(lightProperties.getPos()[2])),
+                        new Vector3D(Double.parseDouble(lightProperties.getRgb()[0]),
+                                Double.parseDouble(lightProperties.getRgb()[1]),
+                                Double.parseDouble(lightProperties.getRgb()[2]))
+                                .scalarMultiplication(Double.parseDouble(lightProperties.getIntensity()))
+                );
+
+                // Remove and update existing light in the lightList
+                lightList.removeIf(light -> light.getID() == pointLight.getID());
                 lightList.add(pointLight);
             } else if (properties instanceof ObjectProperties objectProperties) {
+                // Configure Entity based on ObjectProperties
                 Entity entity = null;
                 for (Entity entity1 : entityList) {
                     if (entity1.getID() == Integer.parseInt(objectProperties.getId())) {
                         entity = entity1;
-                        entity.setPivot(new Vector3D(Double.parseDouble(objectProperties.getPos()[0]), Double.parseDouble(objectProperties.getPos()[1]), Double.parseDouble(objectProperties.getPos()[2])));
-                        entity.setOrient(new Vector3D(Double.parseDouble(objectProperties.getRot()[0]), Double.parseDouble(objectProperties.getRot()[1]), Double.parseDouble(objectProperties.getRot()[2])));
+                        entity.setPivot(new Vector3D(Double.parseDouble(objectProperties.getPos()[0]),
+                                Double.parseDouble(objectProperties.getPos()[1]),
+                                Double.parseDouble(objectProperties.getPos()[2])));
+                        entity.setOrient(new Vector3D(Double.parseDouble(objectProperties.getRot()[0]),
+                                Double.parseDouble(objectProperties.getRot()[1]),
+                                Double.parseDouble(objectProperties.getRot()[2])));
                         entity.scale(Double.parseDouble(objectProperties.getScale() == null ? "1" : objectProperties.getScale()));
-                        objectProperties.setRot(new String[]{"0","0","0"});
+                        objectProperties.setRot(new String[]{"0", "0", "0"});
                         objectProperties.setScale(objectProperties.getScale() == null ? "1" : objectProperties.getScale());
                         System.out.println("Orientation: " + entity.getOrient());
                         break;
                     }
                 }
+
+                // Remove and update existing entity in the entityList
                 if (entity != null) {
                     Entity finalEntity = entity;
                     entityList.removeIf(entity1 -> entity1.getID() == finalEntity.getID());
                     entityList.add(entity);
                 }
-            } else if(properties instanceof CameraProperties cameraProperties) {
-                Vector3D pos = new Vector3D(Double.parseDouble(cameraProperties.getPos()[0]), Double.parseDouble(cameraProperties.getPos()[1]), Double.parseDouble(cameraProperties.getPos()[2]));
-                Vector3D rot = new Vector3D(Double.parseDouble(cameraProperties.getRot()[0]), Double.parseDouble(cameraProperties.getRot()[1]), Double.parseDouble(cameraProperties.getRot()[2]));
+            } else if (properties instanceof CameraProperties cameraProperties) {
+                // Configure Camera based on CameraProperties
+                Vector3D pos = new Vector3D(Double.parseDouble(cameraProperties.getPos()[0]),
+                        Double.parseDouble(cameraProperties.getPos()[1]),
+                        Double.parseDouble(cameraProperties.getPos()[2]));
+                Vector3D rot = new Vector3D(Double.parseDouble(cameraProperties.getRot()[0]),
+                        Double.parseDouble(cameraProperties.getRot()[1]),
+                        Double.parseDouble(cameraProperties.getRot()[2]));
                 camera = new Camera(pos, rot, cameraProperties.getWidth(), cameraProperties.getHeight());
-
             }
         }
 
-
-        // previewWindow.getEntityData(entityList.get(0));
         System.out.println(entityList.size());
         System.out.println(lightList.size());
+
+        // Set the scene and start the ray tracer
         output.setScene(entityList, lightList, camera);
         output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished);
     }
 
-
-    /*************Voice Assistant**************/
-
-    @FXML
-    void voiceAssistant(ActionEvent event) {
-       boolean isSelected = mVoice.isSelected();
-        System.out.println(isSelected);
-
-        //So bald Feature geht, muss alles weg damit.
-        Alert alert = new Alert(Alert.AlertType.ERROR, "THIS FEATURE IS STILL WORK IN PROGRESS, FUTURE UPDATES WILL BE RELEASED SOON!", ButtonType.CANCEL);
-        alert.setTitle("WIP");
-        alert.showAndWait();
-        mVoice.setSelected(false);
-        ////////////////////////////////////////
-    }
-
     /*************One Time METHODS**************/
 
-    // Location might change once finished (?)
+    /**
+     * Deletes an object or light based on its ID.
+     *
+     * @param objID The ID of the object or light to be deleted.
+     */
     public void deleteObject(int objID) {
         System.out.println(objID);
         System.out.println(propertiesList.size());
+
+        // Iterate through propertiesList to find and delete the object or light
         for (Properties properties : propertiesList) {
             System.out.println("test");
-            if(properties instanceof LightProperties lightProperties) {
+            if (properties instanceof LightProperties lightProperties) {
+                // Delete light if found
                 if (properties.getId().equals(String.valueOf(objID))) {
                     System.out.println("Test");
                     objectListView.getItems().remove(properties.getButton());
                     propertiesList.remove(properties);
                     PointLight pointLight = null;
+
+                    // Find the corresponding light in the lightList
                     for (Light light : lightList) {
                         if (light.getID() == objID) {
                             System.out.println("DELETE LIGHT");
@@ -870,30 +927,42 @@ public class ApplicationController {
                             break;
                         }
                     }
+
+                    // Remove the light from the lightList
                     if (pointLight != null) lightList.remove(pointLight);
                     return;
                 }
-            }else if(properties instanceof ObjectProperties objectProperties) {
+            } else if (properties instanceof ObjectProperties objectProperties) {
+                // Delete object if found
                 System.out.println("DELETE OBJECT");
                 if (properties.getId().equals(String.valueOf(objID))) {
                     objectListView.getItems().remove(properties.getButton());
                     propertiesList.remove(properties);
                     Entity entity = null;
+
+                    // Find the corresponding entity in the entityList
                     for (Entity entity1 : entityList) {
                         if (entity1.getID() == Integer.parseInt(objectProperties.getId())) {
                             entity = entity1;
                             break;
                         }
                     }
+
+                    // Remove the entity from the entityList
                     if (entity != null) entityList.remove(entity);
                     return;
                 }
+            } else {
+                System.out.println(properties.getName());
             }
-            else System.out.println(properties.getName());
         }
     }
 
-    // FILES AND PATHS
+    /**
+     * Opens a FileChooser to select an OBJ file and returns the selected file.
+     *
+     * @return The selected OBJ file.
+     */
     File fileChooser() {
         fileChooser.setTitle("Open .obj File");
         String fileString;
@@ -905,25 +974,45 @@ public class ApplicationController {
         return latestFile;
     }
 
+    /**
+     * Sets the ID of the last clicked object or light.
+     *
+     * @param s The ID to be set.
+     */
     public void setLastClickedID(String s) {
         this.lastClickedID = s;
     }
 
+    /**
+     * Initializes the controller. Called after the FXML file has been loaded.
+     */
     public void initialize() {
         previewWindow = new PreviewWindow(previewPane, this);
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("OBJ Files", "*.obj"));
     }
 
+    /**
+     * Handles key events.
+     *
+     * @param event The key event to be handled.
+     */
     public void handleKey(KeyEvent event) {
         if (previewWindow != null) previewWindow.handleKey(event);
     }
 
+    /**
+     * Displays an about section with information about the application.
+     *
+     * @param event The action event that triggers the about section.
+     */
     @FXML
     void aboutSection(ActionEvent event) {
-        Alert alert = new Alert(Alert.AlertType.NONE, "A Java-Based Raytracer with an In-Build 3D-Model viewer and editor, easy to use for beginner and experienced " + "or even the visibly impaired (coming soon!).", ButtonType.CANCEL);
+        Alert alert = new Alert(Alert.AlertType.NONE, "A Java-Based Raytracer with an In-Build 3D-Model viewer and editor, easy to use for beginner and experienced " +
+                "or even the visibly impaired (coming soon!).", ButtonType.CANCEL);
         alert.setTitle("About");
         alert.showAndWait();
 
         System.out.println("3D-Modelling Raytracer, created as a school project");
     }
+
 }
