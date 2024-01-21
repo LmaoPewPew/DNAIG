@@ -52,7 +52,6 @@ public class ApplicationController {
     URL objectIMG = getClass().getResource("sprites/Obj_img.png");
     URL lightObjImg = getClass().getResource("sprites/light_Img.png");
     URL cameraObjImg = getClass().getResource("sprites/Camera_img.png");
-    String ModelFilePath = "src/main/java/com/softpro/dnaig/assets/3dLoadfiler.mp4";
 
     //Menu
     @FXML
@@ -88,7 +87,6 @@ public class ApplicationController {
     final ArrayList<Light> lightList = new ArrayList<>();
     private static int objectID = 0;
     private boolean camExist = false;
-    private int renderFunc = 0;
 
 
     /* *****************************************METHODS***************************************** */
@@ -749,27 +747,6 @@ public class ApplicationController {
         }
     }
 
-    private void switchRanderButtonFunction() throws IOException {
-        if (renderFunc > 19) {
-            renderFunc = 0;
-            String filePath = ModelFilePath;
-            File videoFile = new File(filePath);
-            if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                if (desktop.isSupported(Desktop.Action.OPEN)) {
-                    desktop.open(videoFile);
-                } else {
-                    System.out.println("Opening files is not supported on this platform.");
-                    // You may want to provide an alternative method for opening the file.
-                }
-            } else {
-                System.out.println("Desktop is not supported on this platform.");
-                // You may want to provide an alternative method for opening the file.
-            }
-        }
-        renderFunc++;
-        System.out.println(renderFunc);
-    }
 
     void switchRenderButtonStyleClass() {
         if ((renderButton.getText().equals("Render"))) {
