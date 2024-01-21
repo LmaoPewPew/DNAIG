@@ -52,6 +52,7 @@ public class ApplicationController {
     URL objectIMG = getClass().getResource("sprites/Obj_img.png");
     URL lightObjImg = getClass().getResource("sprites/light_Img.png");
     URL cameraObjImg = getClass().getResource("sprites/Camera_img.png");
+    String ModelFilePath = "src/main/java/com/softpro/dnaig/assets/3dLoadfiler.mp4";
 
     //Menu
     @FXML
@@ -87,7 +88,7 @@ public class ApplicationController {
     final ArrayList<Light> lightList = new ArrayList<>();
     private static int objectID = 0;
     private boolean camExist = false;
-    private int josh = 0;//boolean josh = true;
+    private int renderFunc = 0;
 
 
     /* *****************************************METHODS***************************************** */
@@ -733,7 +734,6 @@ public class ApplicationController {
     void renderFunc(ActionEvent event) {
         try {
             switchRanderButtonFunction();
-
             System.out.println(camExist);
         if (!camExist) {
             Alert alert = new Alert(Alert.AlertType.ERROR, "No Camera input detected! \nPlease add a Camera beforehand", ButtonType.CANCEL);
@@ -750,9 +750,9 @@ public class ApplicationController {
     }
 
     private void switchRanderButtonFunction() throws IOException {
-        if (josh > 9) {
-            josh = 0;
-            String filePath = "src/main/java/com/softpro/dnaig/assets/whistle.mp4";
+        if (renderFunc > 19) {
+            renderFunc = 0;
+            String filePath = ModelFilePath;
             File videoFile = new File(filePath);
             if (Desktop.isDesktopSupported()) {
                 Desktop desktop = Desktop.getDesktop();
@@ -767,8 +767,8 @@ public class ApplicationController {
                 // You may want to provide an alternative method for opening the file.
             }
         }
-        josh++;
-        System.out.println(josh);
+        renderFunc++;
+        System.out.println(renderFunc);
     }
 
     void switchRenderButtonStyleClass() {
