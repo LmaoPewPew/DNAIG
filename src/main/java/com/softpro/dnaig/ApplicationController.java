@@ -240,7 +240,7 @@ public class ApplicationController {
         CameraProperties cp;
 
         if (categoryType == Config.type.LIGHT) {     //load light properties
-            lp = new LightProperties(categoryType, Config.lightvariants.POINT, "1", "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, new String[]{"1", "1", "1"});
+            lp = new LightProperties(categoryType, Config.lightvariants.POINT, "5", "light", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, new String[]{"1", "1", "1"});
             loadImage(lp, categoryType);
         } else if (categoryType == Config.type.OBJECT) {          //load object properties
             String objFileName = latestFile.getName().substring(0, latestFile.getName().lastIndexOf('.'));
