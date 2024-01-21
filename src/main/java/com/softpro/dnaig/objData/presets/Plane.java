@@ -10,6 +10,8 @@ import java.io.IOException;
 
 public class Plane implements Object3D {
 
+    private Vector3D o;
+    private Vector3D normal;
     private Vector3D p1;
     private Vector3D p2;
     private Vector3D p3;
@@ -21,19 +23,22 @@ public class Plane implements Object3D {
         this.p1=p1;
         this.p2=p2;
         this.p3=p3;
+        this.o = p1;
+        this.normal = getNormal(new Vector3D());
         m = new Material_RT(new Vector3D(color.getRed(), color.getGreen(), color.getBlue()));
         m.setReference(this);
+    }
+
+    public Plane(Vector3D o, Vector3D normal){
+        this.o = o;
+        this.normal = normal;
     }
 
     @Override
     public double intersect(Ray ray) {
         Vector3D origin = ray.position;
         Vector3D direction = ray.direction;
-        Vector3D o = p1;
-        Vector3D v1 = p3.subtract(p1);
-        Vector3D v2 = p2.subtract(p1);
-        Vector3D normal = getNormal(new Vector3D());
-        if(direction.scalarProduct(normal) == 0 || v1.crossProduct(v2).length() == 0){
+        if(direction.scalarProduct(normal) == 0){
             return Double.MAX_VALUE;
         }
         double res = normal.product(o);

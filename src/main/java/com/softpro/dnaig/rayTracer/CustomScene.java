@@ -5,10 +5,7 @@ import com.softpro.dnaig.objData.light.Light;
 import com.softpro.dnaig.objData.light.PointLight;
 import com.softpro.dnaig.objData.mesh.*;
 import com.softpro.dnaig.objData.presets.Plane;
-import com.softpro.dnaig.utils.Config;
-import com.softpro.dnaig.utils.ObjFileReader;
-import com.softpro.dnaig.utils.Vector3D;
-import com.softpro.dnaig.utils.YAMLexporter;
+import com.softpro.dnaig.utils.*;
 import javafx.scene.paint.Color;
 
 import java.io.File;
@@ -21,9 +18,14 @@ public class CustomScene {
     public ArrayList<Light> lights = new ArrayList<Light>();
     public ArrayList<Entity> entities = new ArrayList<>();
     public Camera camera = new Camera();
+    public OctreeCell root;
+
     public CustomScene() {
-        lights.add(new PointLight(new Vector3D(2, 3, 1), new Vector3D(8, 8, 8)));
-        camera = new Camera(new Vector3D(1, 0.5, 1), new Vector3D(), Config.WIDTH, Config.HEIGHT);
+
+/*
+        lights.add(new PointLight(new Vector3D(2, 3, 2), new Vector3D(8, 8, 8)));
+        camera = new Camera(new Vector3D(2, 2, 2), new Vector3D(), Config.WIDTH, Config.HEIGHT);
+
 
         objects.add(new Plane(new Vector3D(-1, -4, -1), new Vector3D(1, -4, -1), new Vector3D(-1, -4, 1), Color.LIGHTGRAY));
         objects.add(new Plane(new Vector3D(-1, -1, -4), new Vector3D(1, -1, -4), new Vector3D(-1, 1, -4), Color.LIGHTGRAY));
@@ -34,26 +36,40 @@ public class CustomScene {
             //e1 = ObjFileReader.createObject("C:/Users/silas/IdeaProjects/SoftProject/src/main/java/com/softpro/dnaig/assets/objFile/cube/cube.obj", 1);
             //e1 = ObjFileReader.createObject("C:/Users/silas/IdeaProjects/SoftProject/src/main/java/com/softpro/dnaig/assets/objFile/icosphere/ico.obj", 1);
             //e1 = ObjFileReader.createObject("C:/Users/silas/IdeaProjects/SoftProject/src/main/java/com/softpro/dnaig/assets/objFile/quadCube/cube4.obj", 1);
-            e1 = ObjFileReader.createObject("C:/Users/silas/IdeaProjects/SoftProject/src/main/java/com/softpro/dnaig/assets/objFile/starDestroyer/stardestroyer.obj", 1);
-            //e1 = ObjFileReader.createObject("C:/Users/silas/IdeaProjects/SoftProject/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.obj", 1);
+            //e1 = ObjFileReader.createObject("C:/Users/silas/IdeaProjects/SoftProject/src/main/java/com/softpro/dnaig/assets/objFile/starDestroyer/stardestroyer.obj", 1);
+            e1 = ObjFileReader.createObject("C:/Users/silas/IdeaProjects/SoftProject/src/main/java/com/softpro/dnaig/assets/objFile/astonMartin/astonMartin.obj", 1);
         }catch (java.io.IOException e) {
             System.out.println("ups");
         }
-        e1.setOrient(new Vector3D(0, 90, 0));
+        //e1.setOrient(new Vector3D(0, 90, 0));
+        entities.add(e1);
         double maxX = Double.MIN_VALUE;
         double maxY = Double.MIN_VALUE;
         double maxZ = Double.MIN_VALUE;
-        for (Face face1: e1.getFaces()) {
-            for (int i = 0; i<face1.getVerticeCount(); i++) {
-                maxX = Math.max(maxX, Math.abs(face1.getVertex(i).getCoordinates().getX()));
-                maxY = Math.max(maxY, Math.abs(face1.getVertex(i).getCoordinates().getY()));
-                maxZ = Math.max(maxZ, Math.abs(face1.getVertex(i).getCoordinates().getZ()));
-            }
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        double minZ = Double.MAX_VALUE;
+        e1.scale(0.0005);
+        ArrayList<Triangle> triangles= new ArrayList<>();
+        triangles.addAll(e1.getTriangles(1));
+        for (Triangle t:triangles) {
+            maxX = Math.max(maxX, t.getBoundingBox().getMaxVec().getX());
+            maxY = Math.max(maxY, t.getBoundingBox().getMaxVec().getY());
+            maxZ = Math.max(maxZ, t.getBoundingBox().getMaxVec().getZ());
+            minX = Math.min(minX, t.getBoundingBox().getMinVec().getX());
+            minY = Math.min(minY, t.getBoundingBox().getMinVec().getY());
+            minZ = Math.min(minZ, t.getBoundingBox().getMinVec().getZ());
         }
 
         double factor = Math.max(Math.max(maxX, maxY), maxZ);
 
-        objects.addAll(e1.getTriangles(factor));
+        //objects.addAll(e1.getTriangles(factor));
+
+        root = new OctreeCell(new BoundingBox(new Vector3D(maxX, maxY, maxZ), new Vector3D(minX, minY, minZ)), triangles, 3);
+        root.createTree(0);
+
+ */
+
 
     }
 
@@ -108,27 +124,38 @@ public class CustomScene {
 
         this.objects = new ArrayList<>();
 
+        ArrayList<Triangle> triangles = new ArrayList<>();
+        for (Entity entity : entities){
+            //objects.addAll(entity.getTriangles(1));
+            triangles.addAll(entity.getTriangles(1));
+        }
         double maxX = Double.MIN_VALUE;
         double maxY = Double.MIN_VALUE;
         double maxZ = Double.MIN_VALUE;
-        for (Entity entity : this.entities){
-            for (Face face1: entity.getFaces()) {
-                for (int i = 0; i<face1.getVerticeCount(); i++) {
-                    maxX = Math.max(maxX, Math.abs(face1.getVertex(i).getCoordinates().getX()));
-                    maxY = Math.max(maxY, Math.abs(face1.getVertex(i).getCoordinates().getY()));
-                    maxZ = Math.max(maxZ, Math.abs(face1.getVertex(i).getCoordinates().getZ()));
-                }
-            }
+        double minX = Double.MAX_VALUE;
+        double minY = Double.MAX_VALUE;
+        double minZ = Double.MAX_VALUE;
+        for (Triangle t:triangles) {
+            maxX = Math.max(maxX, t.getBoundingBox().getMaxVec().getX());
+            maxY = Math.max(maxY, t.getBoundingBox().getMaxVec().getY());
+            maxZ = Math.max(maxZ, t.getBoundingBox().getMaxVec().getZ());
+            minX = Math.min(minX, t.getBoundingBox().getMinVec().getX());
+            minY = Math.min(minY, t.getBoundingBox().getMinVec().getY());
+            minZ = Math.min(minZ, t.getBoundingBox().getMinVec().getZ());
         }
 
-        double factor = Math.max(Math.max(maxX, maxY), maxZ);
-
-        for (Entity entity : entities){
-            objects.addAll(entity.getTriangles(factor));
+        /*
+        if(Math.abs(camera.getEye().getY()-minY) < Math.abs(camera.getEye().getY()-maxY)){
+            objects.add(new Plane(new Vector3D(-1, maxY+Math.abs(maxY), -1), new Vector3D(1, maxY+Math.abs(maxY), -1), new Vector3D(-1, maxY+Math.abs(maxY), 1),  Color.LIGHTGRAY));
+        } else {
+            objects.add(new Plane(new Vector3D(-1, minY-Math.abs(minY), -1), new Vector3D(1, minY-Math.abs(minY), -1), new Vector3D(-1, minY-Math.abs(minY), 1),  Color.LIGHTGRAY));
         }
 
-       // lights.add(new PointLight(new Vector3D(0, 3, -3), new Vector3D(8, 5, 10)));
-       // lights.add(new PointLight(new Vector3D(4, 2, -1.5), new Vector3D(13, 2, 1)));
+         */
+        root = new OctreeCell(new BoundingBox(new Vector3D(maxX, maxY, maxZ), new Vector3D(minX, minY, minZ)), triangles, 3);
+        root.createTree(0);
+
+
     }
 
 }

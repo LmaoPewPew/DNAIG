@@ -3,6 +3,7 @@ package com.softpro.dnaig.objData.mesh;
 import com.softpro.dnaig.rayTracer.Material_RT;
 import com.softpro.dnaig.rayTracer.Ray;
 import com.softpro.dnaig.rayTracer.Util;
+import com.softpro.dnaig.utils.BoundingBox;
 import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
@@ -11,6 +12,8 @@ import java.io.IOException;
 public class Triangle implements Object3D {
 
     Vector3D p1, p2, p3;
+    BoundingBox boundingBox;
+
     Material_RT m = new Material_RT(new Vector3D(1, 0, 0));
     {
         m.setReference(this);
@@ -20,6 +23,7 @@ public class Triangle implements Object3D {
         this.p1 = p1;
         this.p2 = p2;
         this.p3 = p3;
+        boundingBox = calculateBoundingBox();
     }
 
     public Triangle(Vector3D p1, Vector3D p2, Vector3D p3, Color color){
@@ -28,6 +32,7 @@ public class Triangle implements Object3D {
         this.p3 = p3;
         m = new Material_RT(new Vector3D(color.getRed(), color.getGreen(), color.getBlue()));
         m.setReference(this);
+        boundingBox = calculateBoundingBox();
     }
     public Triangle(Vector3D p1, Vector3D p2, Vector3D p3, Material material){
         this.p1 = p1;
@@ -35,6 +40,7 @@ public class Triangle implements Object3D {
         this.p3 = p3;
         m = new Material_RT(material);
         m.setReference(this);
+        boundingBox = calculateBoundingBox();
     }
 
     public Triangle(Face face, Color color){
@@ -65,6 +71,7 @@ public class Triangle implements Object3D {
         }
         m = new Material_RT(new Vector3D(color.getRed(), color.getGreen(), color.getBlue()));
         m.setReference(this);
+        boundingBox = calculateBoundingBox();
     }
     public Triangle(Face face){
         for (int i = 0; i<3; i++) {
@@ -94,6 +101,7 @@ public class Triangle implements Object3D {
         }
         m = new Material_RT(face.getMaterial());
         m.setReference(this);
+        boundingBox = calculateBoundingBox();
     }
     public Triangle(Face face, double factor, Color color){
         for (int i = 0; i<3; i++) {
@@ -123,6 +131,7 @@ public class Triangle implements Object3D {
         }
         m = new Material_RT(new Vector3D(color.getRed(), color.getGreen(), color.getBlue()));
         m.setReference(this);
+        boundingBox = calculateBoundingBox();
     }
 
 
@@ -225,5 +234,21 @@ public class Triangle implements Object3D {
 
     public Vector3D getP3() {
         return p3;
+    }
+
+    private BoundingBox calculateBoundingBox(){
+        double x = Math.max(Math.max(p1.getX(), p2.getX()), p3.getX());
+        double y = Math.max(Math.max(p1.getY(), p2.getY()), p3.getY());
+        double z = Math.max(Math.max(p1.getZ(), p2.getZ()), p3.getZ());
+        Vector3D maxVec = new Vector3D(x, y, z);
+        x = Math.min(Math.min(p1.getX(), p2.getX()), p3.getX());
+        y = Math.min(Math.min(p1.getY(), p2.getY()), p3.getY());
+        z = Math.min(Math.min(p1.getZ(), p2.getZ()), p3.getZ());
+        Vector3D minVec = new Vector3D(x, y, z);
+        return new BoundingBox(maxVec, minVec);
+    }
+
+    public BoundingBox getBoundingBox() {
+        return boundingBox;
     }
 }

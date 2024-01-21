@@ -10,6 +10,7 @@ import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Ray {
     public Vector3D position;
@@ -29,17 +30,35 @@ public class Ray {
         if(depth > Util.maxRecursionDepth){
             return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
-        Object3D intersect = null;
-        double t = Double.MAX_VALUE-1;
-        for(Object3D o: CustomScene.getScene().objects){
-            double t2 = o.intersect(this);
-            if(t2 > 0 && t2< t){
-                intersect = o;
-                t = t2;
+        Object3D intersectP = null;
+        double t2 = -1;
+        double tp = Double.MAX_VALUE-1;
+
+        for (Object3D o : CustomScene.getScene().objects) {
+            t2 = o.intersect(this);
+            if (t2 > 0 && t2 < tp) {
+                intersectP = o;
+                tp = t2;
             }
         }
-        if(intersect!=null){
-            return intersect.getColor(this.getPosition(t), depth);
+        double t = Double.MAX_VALUE;
+        Object3D intersect = null;
+
+        ArrayList<OctreeCell> cells = CustomScene.getScene().root.getSortedIntersects(position, direction);
+        for (OctreeCell cell:cells) {
+            for (Triangle o: cell.content) {
+                t2 = o.intersect(this);
+                if(t2 > 0 && t2< t){
+                    intersect = o;
+                    t = t2;
+                }
+            }
+            if(t<tp){
+                return intersect.getColor(this.getPosition(t), depth);
+            }
+        }
+        if(intersectP!=null){
+            return intersectP.getColor(this.getPosition(tp), depth);
         } else {
             return ColorConverter.colorToRGBConverter(Color.BLACK);
         }
@@ -47,10 +66,20 @@ public class Ray {
 
     public boolean castShadow(Vector3D lightPosition) {
         double t = position.subtract(lightPosition).length();
+        double t2 = -1;
         for(Object3D o: CustomScene.getScene().objects){
-            double t2 = o.intersect(this);
+            t2 = o.intersect(this);
             if(t2 > 0 && t2< t){
                 return true;
+            }
+        }
+        ArrayList<OctreeCell> cells = CustomScene.getScene().root.getSortedIntersects(position, direction);
+        for (OctreeCell cell:cells) {
+            for (Triangle o : cell.content) {
+                t2 = o.intersect(this);
+                if (t2 > 0 && t2 < t) {
+                    return true;
+                }
             }
         }
         return false;

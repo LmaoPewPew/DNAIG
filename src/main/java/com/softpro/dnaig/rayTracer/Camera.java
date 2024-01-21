@@ -30,7 +30,7 @@ public class Camera {
         Z = new Vector3D(eye.getX(), eye.getY(), eye.getZ());
         Z.add(dir);
         UP = new Vector3D(0, 1, 0);
-        if(UP.scalarProduct(eye.subtract(Z))==0){
+        if(UP.crossProduct(eye.subtract(Z)).length()==0){
             UP = new Vector3D(0, 0, 1);
         }
         W = eye.subtract(Z).normalize();
