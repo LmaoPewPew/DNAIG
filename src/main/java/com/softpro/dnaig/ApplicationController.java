@@ -25,6 +25,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -428,42 +429,32 @@ public class ApplicationController {
             LightProperties lp = (LightProperties) propertiesList.get(id);
             gp.addRow(2);
 
-            gp.add(new Text("Brigthness:"), 0, 11);
+            gp.add(new Text("Color:"), 0, 11);
 
-            gp.add(new Text("R:"), 0, 12);
-            TextField r = new TextField(String.valueOf(lp.getRgb()[0]));
-            r.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+            ColorPicker colorPicker = new ColorPicker();
+            colorPicker.setOnAction(actionEvent -> {
+                Color selectedColor = colorPicker.getValue();
+                double red = selectedColor.getRed() * 255;
+                double green = selectedColor.getGreen() * 255;
+                double blue = selectedColor.getBlue() * 255;
+                System.out.println("Red: " + (int) red + ", Green: " + (int) green + ", Blue: " + (int) blue);
                 LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                opTest.setRgbR(newValue);
+                opTest.setRgbR(String.valueOf(red));
+                opTest.setRgbG(String.valueOf(green));
+                opTest.setRgbB(String.valueOf(blue));
             });
-            gp.add(r, 1, 12);
+            gp.add(colorPicker, 1,12);
 
-            gp.add(new Text("G:"), 0, 13);
-            TextField g = new TextField(String.valueOf(lp.getRgb()[1]));
-            g.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                opTest.setRgbG(newValue);
-            });
-            gp.add(g, 1, 13);
-
-            gp.add(new Text("B:"), 0, 14);
-            TextField b = new TextField(String.valueOf(lp.getRgb()[2]));
-            b.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                opTest.setRgbB(newValue);
-            });
-            gp.add(b, 1, 14);
-
-            gp.add(new Text("Intensity :"), 0, 15);
+            gp.add(new Text("Intensity :"), 0, 13);
             TextField intensity = new TextField(String.valueOf(lp.getIntensity()));
             intensity.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
                 opTest.setIntensity(newValue);
             });
-            gp.add(intensity, 1, 15);
+            gp.add(intensity, 1, 13);
 
             ChoiceBox<String> cb = new ChoiceBox<>();
-            String[] choice = {"POINT", "SPOT", "SUN", "AREA"};
+            String[] choice = {"POINT"};
             cb.getItems().setAll(choice);
 
             //Known Bug: nach wechsel auf ein anderes Objekt, light verliert value.
@@ -484,25 +475,14 @@ public class ApplicationController {
                 if(Config.lightvariants.POINT.toString().equals(newValue)){
                     opTest.setLightvariants(Config.lightvariants.POINT);
                 }
-                if(Config.lightvariants.SPOT.toString().equals(newValue)){
-                    opTest.setLightvariants(Config.lightvariants.SPOT);
-                }
-                if(Config.lightvariants.SUN.toString().equals(newValue)){
-                    opTest.setLightvariants(Config.lightvariants.SUN);
-                }
-                if(Config.lightvariants.AREA.toString().equals(newValue)){
-                    opTest.setLightvariants(Config.lightvariants.AREA);
-                }
             });
             cb.setValue(lp.getLightvariants().toString());
-            gp.add(new Text("Variant:"), 0, 16);
-            gp.add(cb, 1, 16);
+            gp.add(new Text("Variant:"), 0, 14);
+            gp.add(cb, 1, 14);
 
             textFieldVALUES[7] = String.valueOf(lp.getIntensity());
             textFieldVALUES[8] = cb.getValue();
 
-            //TODO COLOR PICKER:
-            //https://docs.oracle.com/javafx/2/ui_controls/color-picker.htm#:~:text=Use%20the%20ColorPicker%20class%20of,to%20declare%20a%20ColorPicker%20object.
 
         } else if (contentType == Config.type.CAMERA) {
             System.out.println("Camera");
