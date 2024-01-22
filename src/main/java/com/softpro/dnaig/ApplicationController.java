@@ -57,13 +57,9 @@ public class ApplicationController {
     @FXML
     private MenuItem mSave;
     @FXML
-    private MenuItem mSaveAs;
-    @FXML
     private RadioMenuItem mTheme;
     @FXML
     private MenuItem mAbout;
-    @FXML
-    private RadioMenuItem mVoice;
 
     //Rest
     private final FileChooser directoryChooser = new FileChooser();
@@ -115,11 +111,14 @@ public class ApplicationController {
      */
     @FXML
     void importCameraObject(MouseEvent event) throws IOException {
-        camExist = true;
-        System.out.println(camExist);
-        int id = objectID++;
-        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/camera/camera.obj", id);
-        createGUIObject(null, id, Config.type.CAMERA);
+        if (!camExist) {
+            camExist = true;
+            System.out.println(camExist);
+
+            int id = objectID++;
+            previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/camera/camera.obj", id);
+            createGUIObject(null, id, Config.type.CAMERA);
+        }
     }
 
     /**
@@ -366,13 +365,11 @@ public class ApplicationController {
             }
         }
 
-        //add properties: id, name, pos xyz, rot xyz
-        String[] textFieldVALUES = new String[11];
 
         TextField idTF = new TextField(propertiesList.get(id).getId());
         idTF.setEditable(false);
         TextField nameTF = new TextField(propertiesList.get(id).getName());
-        textFieldVALUES[0] = nameTF.getText();
+        // textFieldVALUES[0] = nameTF.getText();
 
         gp.add(new Text("ID:"), 0, 0);
         gp.add(idTF, 1, 0);
@@ -409,7 +406,7 @@ public class ApplicationController {
             });
             gp.add(new Text("Scale:"), 0, 10);
             gp.add(scaleTF, 1, 10);
-            textFieldVALUES[7] = scaleTF.getText();
+            // textFieldVALUES[7] = scaleTF.getText();
 
             TextField facesTF = new TextField(op.getFaces());
             facesTF.setEditable(false);
@@ -480,11 +477,24 @@ public class ApplicationController {
             gp.add(new Text("Variant:"), 0, 14);
             gp.add(cb, 1, 14);
 
-            textFieldVALUES[7] = String.valueOf(lp.getIntensity());
-            textFieldVALUES[8] = cb.getValue();
+            // textFieldVALUES[7] = String.valueOf(lp.getIntensity());
+            // textFieldVALUES[8] = cb.getValue();
 
 
         } else if (contentType == Config.type.CAMERA) {
+
+            CameraProperties opTest = null;
+
+            //workaround
+            for (Properties properties : propertiesList) {
+                if (properties instanceof CameraProperties cameraProperties) {
+                    if (Objects.equals(cameraProperties.getId(), lastClickedID))
+                        opTest = cameraProperties;
+                }
+            }
+
+            CameraProperties finalopTest = opTest;
+
             System.out.println("Camera");
             CameraProperties cp = (CameraProperties) propertiesList.get(id);
             gp.addRow(3);
@@ -492,16 +502,22 @@ public class ApplicationController {
             gp.add(new Text("Length:"), 0, 11);
             TextField length = new TextField(String.valueOf(cp.getHeight()));
             length.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-                CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                opTest.setHeight(Integer.parseInt(newValue));
+                //CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+
+                if (finalopTest != null)
+                    finalopTest.setHeight(Integer.parseInt(newValue));
             });
+
             gp.add(length, 1, 12);
 
             gp.add(new Text("Width:"), 0, 12);
             TextField width = new TextField(String.valueOf(cp.getWidth()));
+
+
             width.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-                CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                opTest.setWidth(Integer.parseInt(newValue));
+                // CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
+                if (finalopTest != null)
+                    finalopTest.setWidth(Integer.parseInt(newValue));
             });
             gp.add(width, 1, 13);
 
@@ -512,21 +528,14 @@ public class ApplicationController {
             cb.setValue(choice[1]);
 
             cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {             //update value
-                CameraProperties opTest = null;
 
-                //workaround
-                for (Properties properties : propertiesList) {
-                    if (properties instanceof CameraProperties cameraProperties) {
-                        if (Objects.equals(cameraProperties.getId(), lastClickedID))
-                            opTest = cameraProperties;
-                    }
-                }
 
-                if (opTest == null)
+
+                if (finalopTest == null)
                     return;
 
                 if(Config.cameravariants.HD.toString().equals(newValue)){
-                    opTest.setCameravariants(Config.cameravariants.HD);
+                    finalopTest.setCameravariants(Config.cameravariants.HD);
                     length.setEditable(false);
                     width.setEditable(false);
                     length.setText("1080");
@@ -534,7 +543,7 @@ public class ApplicationController {
                     System.out.println("HD");
                 }
                 if(Config.cameravariants.FullHD.toString().equals(newValue)){
-                    opTest.setCameravariants(Config.cameravariants.FullHD);
+                    finalopTest.setCameravariants(Config.cameravariants.FullHD);
                     length.setEditable(false);
                     width.setEditable(false);
                     length.setText("1920");
@@ -543,7 +552,7 @@ public class ApplicationController {
                     System.out.println("FullHD");
                 }
                 if(Config.cameravariants.Custom.toString().equals(newValue)){
-                    opTest.setCameravariants(Config.cameravariants.Custom);
+                    finalopTest.setCameravariants(Config.cameravariants.Custom);
                     length.setEditable(true);
                     width.setEditable(true);
 
@@ -559,9 +568,9 @@ public class ApplicationController {
             gp.add(new Text("Variants:"), 0, 13);
             gp.add(cb, 1, 11);
 
-            textFieldVALUES[7] = String.valueOf(cp.getHeight());
-            textFieldVALUES[8] = String.valueOf(cp.getWidth());
-            textFieldVALUES[9] = cb.getValue();
+            // textFieldVALUES[7] = String.valueOf(cp.getHeight());
+            // textFieldVALUES[8] = String.valueOf(cp.getWidth());
+            // textFieldVALUES[9] = cb.getValue();
         }
 
         TextField fScale = scaleTF;
@@ -609,9 +618,9 @@ public class ApplicationController {
         numericOnly(xPos);
         numericOnly(yPos);
         numericOnly(zPos);
-        textFieldVALUES[1] = xPos.getText();
-        textFieldVALUES[2] = yPos.getText();
-        textFieldVALUES[3] = zPos.getText();
+        // textFieldVALUES[1] = xPos.getText();
+        // textFieldVALUES[2] = yPos.getText();
+        // textFieldVALUES[3] = zPos.getText();
 
 
         gp.add(new Text("X:"), 0, 3);
@@ -626,9 +635,9 @@ public class ApplicationController {
         numericOnly(xRot);
         numericOnly(yRot);
         numericOnly(zRot);
-        textFieldVALUES[4] = xRot.getText();
-        textFieldVALUES[5] = yRot.getText();
-        textFieldVALUES[6] = zRot.getText();
+        // textFieldVALUES[4] = xRot.getText();
+        // textFieldVALUES[5] = yRot.getText();
+        // textFieldVALUES[6] = zRot.getText();
 
 
         gp.add(new Text("X:"), 0, 7);
@@ -640,7 +649,7 @@ public class ApplicationController {
 
 
         scrollPaneProperties.setContent(gp);
-        //updateModelSettings(contentType, id, textFieldVALUES);
+        //updateModelSettings(contentType, id, // textFieldVALUES);
     }
 
     /**
@@ -923,6 +932,28 @@ public class ApplicationController {
                     // Find the corresponding entity in the entityList
                     for (Entity entity1 : entityList) {
                         if (entity1.getID() == Integer.parseInt(objectProperties.getId())) {
+                            entity = entity1;
+                            break;
+                        }
+                    }
+
+                    // Remove the entity from the entityList
+                    if (entity != null) entityList.remove(entity);
+                    return;
+                }
+            } else if (properties instanceof CameraProperties cameraProperties) {
+                camExist = false;
+
+                // Delete object if found
+                System.out.println("DELETE OBJECT");
+                if (properties.getId().equals(String.valueOf(objID))) {
+                    objectListView.getItems().remove(properties.getButton());
+                    propertiesList.remove(properties);
+                    Entity entity = null;
+
+                    // Find the corresponding entity in the entityList
+                    for (Entity entity1 : entityList) {
+                        if (entity1.getID() == Integer.parseInt(cameraProperties.getId())) {
                             entity = entity1;
                             break;
                         }
