@@ -33,8 +33,8 @@ public class BoundingBox {
     }
 
     public boolean intersects(BoundingBox b){
-        Boolean test1 = b.maxVec.getX()<minVec.getX()||b.maxVec.getY()<minVec.getY()||b.maxVec.getZ()<minVec.getZ();
-        Boolean test2 = b.minVec.getX() > maxVec.getX()||b.minVec.getY() > maxVec.getY()||b.minVec.getZ() > maxVec.getZ();
+        Boolean test1 = b.maxVec.getX()+Util.EPSILON<minVec.getX()||b.maxVec.getY()+Util.EPSILON<minVec.getY()||b.maxVec.getZ()+Util.EPSILON<minVec.getZ();
+        Boolean test2 = b.minVec.getX()-Util.EPSILON > maxVec.getX()||b.minVec.getY()-Util.EPSILON > maxVec.getY()||b.minVec.getZ()-Util.EPSILON > maxVec.getZ();
         if(test1||test2){
             return false;
         } else {

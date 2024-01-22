@@ -22,13 +22,12 @@ public class CustomScene {
 
     public CustomScene() {
 
-/*
         lights.add(new PointLight(new Vector3D(2, 3, 2), new Vector3D(8, 8, 8)));
-        camera = new Camera(new Vector3D(2, 2, 2), new Vector3D(), Config.WIDTH, Config.HEIGHT);
+        camera = new Camera(new Vector3D(-2, -2, 2), new Vector3D(), Config.WIDTH, Config.HEIGHT);
 
 
-        objects.add(new Plane(new Vector3D(-1, -4, -1), new Vector3D(1, -4, -1), new Vector3D(-1, -4, 1), Color.LIGHTGRAY));
-        objects.add(new Plane(new Vector3D(-1, -1, -4), new Vector3D(1, -1, -4), new Vector3D(-1, 1, -4), Color.LIGHTGRAY));
+        //objects.add(new Plane(new Vector3D(-1, -4, -1), new Vector3D(1, -4, -1), new Vector3D(-1, -4, 1), Color.LIGHTGRAY));
+        //objects.add(new Plane(new Vector3D(-1, -1, -4), new Vector3D(1, -1, -4), new Vector3D(-1, 1, -4), Color.LIGHTGRAY));
 
         Entity e1 = null;
         try {
@@ -49,7 +48,8 @@ public class CustomScene {
         double minX = Double.MAX_VALUE;
         double minY = Double.MAX_VALUE;
         double minZ = Double.MAX_VALUE;
-        e1.scale(0.0005);
+        e1.scale(0.0002);
+        e1.setOrient(new Vector3D(0, 0, 0));
         ArrayList<Triangle> triangles= new ArrayList<>();
         triangles.addAll(e1.getTriangles(1));
         for (Triangle t:triangles) {
@@ -68,10 +68,11 @@ public class CustomScene {
         root = new OctreeCell(new BoundingBox(new Vector3D(maxX, maxY, maxZ), new Vector3D(minX, minY, minZ)), triangles, 3);
         root.createTree(0);
 
- */
 
 
     }
+
+
 
     /**
      * Exports the scene to a specified file.
@@ -144,14 +145,29 @@ public class CustomScene {
             minZ = Math.min(minZ, t.getBoundingBox().getMinVec().getZ());
         }
 
+        double maxXPlane = Double.MIN_VALUE;
+        double maxYPlane = Double.MIN_VALUE;
+        double maxZPlane = Double.MIN_VALUE;
+        double minXPlane = Double.MAX_VALUE;
+        double minYPlane = Double.MAX_VALUE;
+        double minZPlane = Double.MAX_VALUE;
+        for (Light l:lights) {
+            maxXPlane = Math.max(maxX, l.getPosition().getX());
+            maxYPlane = Math.max(maxY, l.getPosition().getY());
+            maxZPlane = Math.max(maxZ, l.getPosition().getZ());
+            minXPlane = Math.min(minX, l.getPosition().getX());
+            minYPlane = Math.min(minY, l.getPosition().getY());
+            minZPlane = Math.min(minZ, l.getPosition().getZ());
+        }
         /*
-        if(Math.abs(camera.getEye().getY()-minY) < Math.abs(camera.getEye().getY()-maxY)){
-            objects.add(new Plane(new Vector3D(-1, maxY+Math.abs(maxY), -1), new Vector3D(1, maxY+Math.abs(maxY), -1), new Vector3D(-1, maxY+Math.abs(maxY), 1),  Color.LIGHTGRAY));
+        if(Math.abs(camera.getEye().getY()-minYPlane) < Math.abs(camera.getEye().getY()-maxYPlane)){
+            objects.add(new Plane(new Vector3D(-1, maxYPlane+Math.abs(maxYPlane), -1), new Vector3D(1, maxYPlane+Math.abs(maxYPlane), -1), new Vector3D(-1, maxYPlane+Math.abs(maxYPlane), 1),  Color.LIGHTGRAY));
         } else {
-            objects.add(new Plane(new Vector3D(-1, minY-Math.abs(minY), -1), new Vector3D(1, minY-Math.abs(minY), -1), new Vector3D(-1, minY-Math.abs(minY), 1),  Color.LIGHTGRAY));
+            objects.add(new Plane(new Vector3D(-1, minYPlane-Math.abs(minYPlane), -1), new Vector3D(1, minYPlane-Math.abs(minYPlane), -1), new Vector3D(-1, minYPlane-Math.abs(minYPlane), 1),  Color.LIGHTGRAY));
         }
 
          */
+
         root = new OctreeCell(new BoundingBox(new Vector3D(maxX, maxY, maxZ), new Vector3D(minX, minY, minZ)), triangles, 3);
         root.createTree(0);
 

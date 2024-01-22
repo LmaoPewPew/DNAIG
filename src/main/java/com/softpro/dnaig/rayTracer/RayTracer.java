@@ -37,7 +37,7 @@ public class RayTracer implements CallbackInterface {
                 protected Void call() throws IOException {
 
                     int work = getCurrent();
-                    int tid = work;
+                    int tid = getCurrent();
                     //System.out.printf("Got thread id %d\n", tid);
 
                     int start_x = work_w * (work % Config.TILES);
