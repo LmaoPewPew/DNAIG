@@ -8,9 +8,6 @@ public class Config {
 
     public static enum lightvariants{
         POINT,  //musthave
-        SPOT,   //maybe implemented
-        SUN,    //maybe implemented
-        AREA    //maybe implemented
     }
 
     public static enum cameravariants{
