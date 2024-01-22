@@ -463,7 +463,7 @@ public class ApplicationController {
             gp.add(intensity, 1, 15);
 
             ChoiceBox<String> cb = new ChoiceBox<>();
-            String[] choice = {"POINT", "SPOT", "SUN", "AREA"};
+            String[] choice = {"POINT"};
             cb.getItems().setAll(choice);
 
             //Known Bug: nach wechsel auf ein anderes Objekt, light verliert value.
@@ -483,15 +483,6 @@ public class ApplicationController {
 
                 if(Config.lightvariants.POINT.toString().equals(newValue)){
                     opTest.setLightvariants(Config.lightvariants.POINT);
-                }
-                if(Config.lightvariants.SPOT.toString().equals(newValue)){
-                    opTest.setLightvariants(Config.lightvariants.SPOT);
-                }
-                if(Config.lightvariants.SUN.toString().equals(newValue)){
-                    opTest.setLightvariants(Config.lightvariants.SUN);
-                }
-                if(Config.lightvariants.AREA.toString().equals(newValue)){
-                    opTest.setLightvariants(Config.lightvariants.AREA);
                 }
             });
             cb.setValue(lp.getLightvariants().toString());
