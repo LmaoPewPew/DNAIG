@@ -17,6 +17,7 @@ import com.softpro.dnaig.utils.YAMLexporter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -350,6 +351,7 @@ public class ApplicationController {
      */
     public void updateProperties(Config.type contentType) {
         GridPane gp = new GridPane();
+
         gp.setVisible(true);
         gp.addColumn(2);
         gp.addRow(13);
@@ -397,7 +399,6 @@ public class ApplicationController {
 
             scaleTF = new TextField(op.getScale()==null? "1":op.getScale());
             TextField finalScaleTF = scaleTF;
-            scaleTF = finalScaleTF;
             scaleTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue) { // if focus lost
                     System.out.println("Focus lost on the TextField");
@@ -422,6 +423,19 @@ public class ApplicationController {
             gp.add(vertTF, 1, 12);
 
         } else if (contentType == Config.type.LIGHT) {
+
+            LightProperties opTest = null;
+
+
+            //workaround
+            for (Properties properties : propertiesList) {
+                if (properties instanceof LightProperties lightProperties) {
+                    if (Objects.equals(lightProperties.getId(), lastClickedID)) opTest = lightProperties;
+                }
+            }
+
+            LightProperties finalopTest = opTest;
+
             System.out.println("Light");
             LightProperties lp = (LightProperties) propertiesList.get(id);
             gp.addRow(2);
@@ -435,18 +449,19 @@ public class ApplicationController {
                 double green = selectedColor.getGreen() * 255;
                 double blue = selectedColor.getBlue() * 255;
                 System.out.println("Red: " + (int) red + ", Green: " + (int) green + ", Blue: " + (int) blue);
-                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                opTest.setRgbR(String.valueOf(red));
-                opTest.setRgbG(String.valueOf(green));
-                opTest.setRgbB(String.valueOf(blue));
+                if (finalopTest != null) {
+                    finalopTest.setRgbR(String.valueOf(red));
+                    finalopTest.setRgbG(String.valueOf(green));
+                    finalopTest.setRgbB(String.valueOf(blue));
+                }
             });
             gp.add(colorPicker, 1,12);
 
             gp.add(new Text("Intensity :"), 0, 13);
             TextField intensity = new TextField(String.valueOf(lp.getIntensity()));
             intensity.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
-                LightProperties opTest = (LightProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                opTest.setIntensity(newValue);
+                if (finalopTest != null)
+                    finalopTest.setIntensity(newValue);
             });
             gp.add(intensity, 1, 13);
 
@@ -456,30 +471,18 @@ public class ApplicationController {
 
             //Known Bug: nach wechsel auf ein anderes Objekt, light verliert value.
             cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {               //update value
-                LightProperties opTest = null;
 
-                //workaround
-                for (Properties properties : propertiesList) {
-                    if (properties instanceof LightProperties lightProperties) {
-                        if (Objects.equals(lightProperties.getId(), lastClickedID))
-                            opTest = lightProperties;
-                    }
-                }
 
-                if (opTest == null)
+                if (finalopTest == null)
                     return;
 
                 if(Config.lightvariants.POINT.toString().equals(newValue)){
-                    opTest.setLightvariants(Config.lightvariants.POINT);
+                    finalopTest.setLightvariants(Config.lightvariants.POINT);
                 }
             });
             cb.setValue(lp.getLightvariants().toString());
             gp.add(new Text("Variant:"), 0, 14);
             gp.add(cb, 1, 14);
-
-            // textFieldVALUES[7] = String.valueOf(lp.getIntensity());
-            // textFieldVALUES[8] = cb.getValue();
-
 
         } else if (contentType == Config.type.CAMERA) {
 
@@ -588,7 +591,6 @@ public class ApplicationController {
         });
         zPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) { // if focus lost
-                System.out.println("ZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZZ");
                 System.out.println("Focus lost on the TextField");
                 updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
             }
@@ -896,6 +898,7 @@ public class ApplicationController {
     public void deleteObject(int objID) {
         System.out.println(objID);
         System.out.println(propertiesList.size());
+        scrollPaneProperties.setContent(null);
 
         // Iterate through propertiesList to find and delete the object or light
         for (Properties properties : propertiesList) {
