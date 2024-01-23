@@ -25,8 +25,12 @@ public class RayTracer implements CallbackInterface {
     }
 
     int current = -1;
+    int threadCount = -1;
     public synchronized int getCurrent() {
         return ++current;
+    }
+    public synchronized int getThreadId() {
+        return ++threadCount;
     }
 
     public void trace() throws IOException {
@@ -42,7 +46,7 @@ public class RayTracer implements CallbackInterface {
                 protected Void call() throws IOException {
 
                     int work = getCurrent();
-                    int tid = work;
+                    int tid = getThreadId();
                     configured++;
                     //System.out.printf("Got thread id %d\n", tid);
 
