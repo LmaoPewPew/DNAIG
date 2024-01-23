@@ -54,6 +54,38 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>windows-portable</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jpackage.dest>target/dist/win-portable</jpackage.dest>
+                <jpackage.type>APP_IMAGE</jpackage.type>
+                <jpackage.windirchooser>false</jpackage.windirchooser>
+                <jpackage.winhelpurl></jpackage.winhelpurl>
+                <jpackage.winmenu>false</jpackage.winmenu>
+                <jpackage.winmenugroup></jpackage.winmenugroup>
+            </properties>
+        </profile>
+        <profile>
+            <id>windows-installer</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <jpackage.dest>target/dist/win-installer</jpackage.dest>
+                <jpackage.type>EXE</jpackage.type>
+                <jpackage.windirchooser>true</jpackage.windirchooser>
+                <jpackage.winhelpurl>https://github.com/LmaoPewPew/DNAIG</jpackage.winhelpurl>
+                <jpackage.winmenu>true</jpackage.winmenu>
+                <jpackage.winmenugroup>DNAIG Team</jpackage.winmenugroup>
+                <jpackage.winuuid>dcbecf04-13aa-425a-9d8e-32f24bb8dec3</jpackage.winuuid>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
@@ -92,17 +124,22 @@
                 <configuration>
                     <name>DNAIG</name>
                     <appVersion>0.9.1</appVersion>
-                    <vendor>com.softpro</vendor>
-                    <destination>target/dist</destination>
+                    <vendor>DNAIG Team</vendor>
+                    <destination>${jpackage.dest}</destination>
                     <module>com.softpro.dnaig/com.softpro.dnaig.MainApplication</module>
                     <runtimeImage>target/dnaig</runtimeImage>
                     <javaOptions>
                         <option>-Dfile.encoding=UTF-8</option>
                     </javaOptions>
-                    <type>APP_IMAGE</type>
+                    <type>${jpackage.type}</type>
                     <verbose>true</verbose>
                     <resourceDir>target/classes/com/softpro/dnaig/app</resourceDir>
                     <input>src/main/resources/com/softpro/dnaig/app</input>
+                    <winDirChooser>${jpackage.windirchooser}</winDirChooser>
+                    <winHelpUrl>${jpackage.winhelpurl}</winHelpUrl>
+                    <winMenu>${jpackage.winmenu}</winMenu>
+                    <winMenuGroup>${jpackage.winmenugroup}</winMenuGroup>
+                    <winUpgradeUuid>${jpackage.winuuid}</winUpgradeUuid>
                 </configuration>
             </plugin>
         </plugins>
