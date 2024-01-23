@@ -99,7 +99,12 @@ public class ApplicationController {
     void importLightObject(MouseEvent event) throws IOException {
         int id = objectID;
         createGUIObject(null, id, Config.type.LIGHT);
-        previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/lightbulb/lightbulb.obj", id);
+
+        try {
+            previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/lightbulb/lightbulb.obj", id);
+        } catch (Exception e) {
+            previewWindow.addObject("app/lightbulb/lightbulb.obj", id);
+        }
 
         objectID++;
     }
@@ -117,7 +122,13 @@ public class ApplicationController {
             System.out.println(camExist);
 
             int id = objectID++;
-            previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/camera/camera.obj", id);
+
+            try {
+                previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/camera/camera.obj", id);
+            } catch (Exception e) {
+                previewWindow.addObject("app/camera/camera.obj", id);
+            }
+
             createGUIObject(null, id, Config.type.CAMERA);
         }
     }
@@ -320,21 +331,33 @@ public class ApplicationController {
         Image image;
         if (categoryType == Config.type.OBJECT) {      //object
             try {
-                image = new Image(objectIMG.toURI().getPath().substring(1));
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
+                image = new Image(System.getProperty("java.home")+"/../app/Obj_img.png");
+            } catch (Exception unused) {
+                try {
+                    image = new Image(objectIMG.toURI().getPath().substring(1));
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
             }
         } else if (categoryType == Config.type.LIGHT) {       //light
             try {
-                image = new Image(lightObjImg.toURI().getPath().substring(1));
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
+                image = new Image(System.getProperty("java.home")+"/../app/light_Img.png");
+            } catch (Exception unused) {
+                try {
+                    image = new Image(lightObjImg.toURI().getPath().substring(1));
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
             }
         } else {    // camera
             try {
-                image = new Image(cameraObjImg.toURI().getPath().substring(1));
-            } catch (URISyntaxException e) {
-                throw new RuntimeException(e);
+                image = new Image(System.getProperty("java.home")+"/../app/Camera_img.png");
+            } catch (Exception unused) {
+                try {
+                    image = new Image(cameraObjImg.toURI().getPath().substring(1));
+                } catch (URISyntaxException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
         propertiesList.add(op);
@@ -445,9 +468,9 @@ public class ApplicationController {
             ColorPicker colorPicker = new ColorPicker();
             colorPicker.setOnAction(actionEvent -> {
                 Color selectedColor = colorPicker.getValue();
-                double red = selectedColor.getRed() * 255;
-                double green = selectedColor.getGreen() * 255;
-                double blue = selectedColor.getBlue() * 255;
+                double red = selectedColor.getRed();
+                double green = selectedColor.getGreen();
+                double blue = selectedColor.getBlue();
                 System.out.println("Red: " + (int) red + ", Green: " + (int) green + ", Blue: " + (int) blue);
                 if (finalopTest != null) {
                     finalopTest.setRgbR(String.valueOf(red));

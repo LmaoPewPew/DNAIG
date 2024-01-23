@@ -6,7 +6,7 @@
 
     <groupId>com.softpro</groupId>
     <artifactId>dnaig</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.9.1-beta</version>
     <name>dnaig</name>
 
     <properties>
@@ -74,16 +74,36 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.softpro.dnaig/com.softpro.dnaig.HelloApplication</mainClass>
+                            <mainClass>com.softpro.dnaig/com.softpro.dnaig.MainApplication</mainClass>
                             <launcher>app</launcher>
-                            <jlinkZipName>app</jlinkZipName>
-                            <jlinkImageName>app</jlinkImageName>
+                            <jlinkZipName>dnaig</jlinkZipName>
+                            <jlinkImageName>dnaig</jlinkImageName>
                             <noManPages>true</noManPages>
                             <stripDebug>true</stripDebug>
                             <noHeaderFiles>true</noHeaderFiles>
                         </configuration>
                     </execution>
                 </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.panteleyev</groupId>
+                <artifactId>jpackage-maven-plugin</artifactId>
+                <version>1.6.0</version>
+                <configuration>
+                    <name>DNAIG</name>
+                    <appVersion>0.9.1</appVersion>
+                    <vendor>com.softpro</vendor>
+                    <destination>target/dist</destination>
+                    <module>com.softpro.dnaig/com.softpro.dnaig.MainApplication</module>
+                    <runtimeImage>target/dnaig</runtimeImage>
+                    <javaOptions>
+                        <option>-Dfile.encoding=UTF-8</option>
+                    </javaOptions>
+                    <type>APP_IMAGE</type>
+                    <verbose>true</verbose>
+                    <resourceDir>target/classes/com/softpro/dnaig/app</resourceDir>
+                    <input>src/main/resources/com/softpro/dnaig/app</input>
+                </configuration>
             </plugin>
         </plugins>
     </build>

@@ -16,12 +16,21 @@ public class RayTracer implements CallbackInterface {
     private int threadsFinished = 0;
     private long startTime;
 
+    public int configured = 0;
+
     private final Thread[] threads = new Thread[Config.THREADS];
 
+    public boolean configurationComplete(){
+        return configured>=Config.THREADS;
+    }
 
     int current = -1;
+    int threadCount = -1;
     public synchronized int getCurrent() {
         return ++current;
+    }
+    public synchronized int getThreadId() {
+        return ++threadCount;
     }
 
     public void trace() throws IOException {
@@ -37,7 +46,8 @@ public class RayTracer implements CallbackInterface {
                 protected Void call() throws IOException {
 
                     int work = getCurrent();
-                    int tid = work;
+                    int tid = getThreadId();
+                    configured++;
                     //System.out.printf("Got thread id %d\n", tid);
 
                     int start_x = work_w * (work % Config.TILES);
@@ -91,6 +101,9 @@ public class RayTracer implements CallbackInterface {
                             }
                         }
                         //System.out.printf("Thread %d finished work %d\n", tid, work);
+                        while (!configurationComplete()){
+                            System.out.println("waiting");
+                        }
                         work = getCurrent();
                         start_x = work_w * (work % Config.TILES);
                         start_y = work_h * (work / Config.TILES);
