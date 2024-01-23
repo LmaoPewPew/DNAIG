@@ -188,7 +188,7 @@ public class Output extends Application {
     int h = HEIGHT / Config.TILES;
     int w = WIDTH / Config.TILES;
     int buffer_test_size = w*h;
-    int[][] buffer_test = new int[Config.THREADS][buffer_test_size];
+    int[][] buffer_test = new int[Config.TILES * Config.TILES][buffer_test_size];
     int[] buffer_ptr_test = new int[Config.THREADS];
     public synchronized void setPixelTest(int tid, int x, int y, int c, int work) {
         if (x > WIDTH - 1 || y > HEIGHT - 1 || x < 0 || y < 0) {
