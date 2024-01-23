@@ -33,8 +33,8 @@ public class BoundingBox {
     }
 
     public boolean intersects(BoundingBox b){
-        Boolean test1 = b.maxVec.getX()<minVec.getX()||b.maxVec.getY()<minVec.getY()||b.maxVec.getZ()<minVec.getZ();
-        Boolean test2 = b.minVec.getX() > maxVec.getX()||b.minVec.getY() > maxVec.getY()||b.minVec.getZ() > maxVec.getZ();
+        Boolean test1 = b.maxVec.getX()+Util.EPSILON<minVec.getX()||b.maxVec.getY()+Util.EPSILON<minVec.getY()||b.maxVec.getZ()+Util.EPSILON<minVec.getZ();
+        Boolean test2 = b.minVec.getX()-Util.EPSILON > maxVec.getX()||b.minVec.getY()-Util.EPSILON > maxVec.getY()||b.minVec.getZ()-Util.EPSILON > maxVec.getZ();
         if(test1||test2){
             return false;
         } else {
@@ -71,15 +71,6 @@ public class BoundingBox {
             }
         }
         return res;
-    }
-
-    public static void main(String[] args) {
-        BoundingBox boundingBox = new BoundingBox(new Vector3D(1, 1, 1), new Vector3D(-1, -1, -1));
-        BoundingBox boundingBox1 = new BoundingBox(new Vector3D(2, 1.2, 1), new Vector3D(1.1, 0.1, 0.1));
-        Vector3D or = new Vector3D(2, 0, 0);
-        Vector3D dir = new Vector3D(-1, 0, 0);
-        System.out.println(boundingBox.intersects(boundingBox1));
-        System.out.println(boundingBox1.intersect(or, dir));
     }
 
 }
