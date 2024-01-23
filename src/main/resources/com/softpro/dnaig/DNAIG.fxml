@@ -23,7 +23,6 @@
     <MenuBar styleClass="menu">
         <Menu mnemonicParsing="false" text="File">
             <MenuItem fx:id="mSave" mnemonicParsing="false" onAction="#saveFile" text="Save" />
-            <MenuItem fx:id="mSaveAs" mnemonicParsing="false" onAction="#saveFileAs" text="Save as" />
             <MenuItem fx:id="mExport" mnemonicParsing="false" onAction="#exportYaml" text="Export" />
             <MenuItem fx:id="mImport" mnemonicParsing="false" onAction="#importYaml" text="Import" />
         </Menu>
@@ -31,8 +30,7 @@
             <RadioMenuItem fx:id="mTheme" mnemonicParsing="false" onAction="#changeThemeMode" text="Theme" />
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <RadioMenuItem fx:id="mVoice" mnemonicParsing="false" onAction="#voiceAssistant" text="Voice Assistant" />
-            <MenuItem fx:id="mAbout" mnemonicParsing="false" onAction="#aboutSection" text="About" />
+           <MenuItem fx:id="mAbout" mnemonicParsing="false" onAction="#aboutSection" text="About" />
         </Menu>
     </MenuBar>
     <SplitPane dividerPositions="0.9045" minWidth="-Infinity" prefHeight="784.0" prefWidth="1330.0">
