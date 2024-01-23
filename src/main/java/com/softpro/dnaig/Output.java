@@ -196,25 +196,23 @@ public class Output extends Application {
             return;
         }
 
-        tid = Math.min(buffer_test.length-1, tid);
         int index = x % w + (y % h) * w;
-        index = Math.min(buffer_test[tid].length-1, index);
 
         // add alpha value to color (opacity is always 100%)
         buffer_test[tid][index] = (0xFF << 24) | c;
         buffer_ptr_test[tid]++;
 
-            // if buffer is full, write data out to screen
-            if (buffer_ptr_test[tid] >= buffer_test_size) {
-                // draw output
-                canvas.getGraphicsContext2D().getPixelWriter().setPixels(x - w + 1, y - h + 1, w, h, PixelFormat.getIntArgbInstance(), buffer_test[tid], 0, w);
+        // if buffer is full, write data out to screen
+        if (buffer_ptr_test[tid] >= buffer_test_size) {
+            // draw output
+            canvas.getGraphicsContext2D().getPixelWriter().setPixels(x - w + 1, y - h + 1, w, h, PixelFormat.getIntArgbInstance(), buffer_test[tid], 0, w);
 
-                // clear buffer
-                buffer_test[tid] = new int[buffer_test_size];
-                buffer_ptr_test[tid] = 0;
+            // clear buffer
+            buffer_test[tid] = new int[buffer_test_size];
+            buffer_ptr_test[tid] = 0;
 
-                //System.out.printf("Writing task %d\n", work);
-            }
+            //System.out.printf("Writing task %d\n", work);
+        }
     }
 
     public static void dispose(){

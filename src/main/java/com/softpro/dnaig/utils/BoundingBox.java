@@ -73,13 +73,4 @@ public class BoundingBox {
         return res;
     }
 
-    public static void main(String[] args) {
-        BoundingBox boundingBox = new BoundingBox(new Vector3D(1, 1, 1), new Vector3D(-1, -1, -1));
-        BoundingBox boundingBox1 = new BoundingBox(new Vector3D(2, 1.2, 1), new Vector3D(1.1, 0.1, 0.1));
-        Vector3D or = new Vector3D(2, 0, 0);
-        Vector3D dir = new Vector3D(-1, 0, 0);
-        System.out.println(boundingBox.intersects(boundingBox1));
-        System.out.println(boundingBox1.intersect(or, dir));
-    }
-
 }
