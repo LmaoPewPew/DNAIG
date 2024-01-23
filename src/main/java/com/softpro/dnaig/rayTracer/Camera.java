@@ -24,11 +24,11 @@ public class Camera {
     public Camera(){}
     public Camera(Vector3D position, Vector3D rotation, int width, int height){
         eye = position;
-        Z = new Vector3D(0, 0, 0);
-        Vector3D dir = Z.subtract(eye);
-        dir.rotate(rotation.getX(), rotation.getY(), rotation.getZ());
-        Z = new Vector3D(eye.getX(), eye.getY(), eye.getZ());
-        Z.add(dir);
+        //Z = new Vector3D(0, 0, 0);
+        //Vector3D dir = Z.subtract(eye);
+        eye.rotate(rotation.getX(), rotation.getY(), rotation.getZ());
+        //Z = new Vector3D(eye.getX(), eye.getY(), eye.getZ());
+        //Z.add(dir);
         UP = new Vector3D(0, 1, 0);
         if(UP.crossProduct(eye.subtract(Z)).length()==0){
             UP = new Vector3D(0, 0, 1);

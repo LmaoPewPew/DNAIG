@@ -236,6 +236,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
             for(Vertex vertex : faceCopy){
                 Vector3D temp = new Vector3D(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());
                 temp.rotate(orient.getX(), orient.getY(), orient.getZ());
+                temp = temp.scalarMultiplication(scale);
                 temp.add(pivot);
                 vertex.setCoordinates(temp);
             }
@@ -243,7 +244,6 @@ public class Entity implements TriangleMesh, Iterable<Face> {
         ArrayList<Triangle> triangles = new ArrayList<>();
         faceAltered.forEach(face -> {
             Face temp = new Face(face);
-            temp.forEach(vertex -> vertex.setCoordinates(vertex.getCoordinates().scalarMultiplication(scale)));
             if(color!=null) {
                 triangles.addAll(Arrays.asList(temp.toTriangle(factor, color)));
             } else {
