@@ -22,6 +22,7 @@ public class CustomScene {
 
     public CustomScene() {
 
+        /*
         lights.add(new PointLight(new Vector3D(2, 3, 2), new Vector3D(8, 8, 8)));
         camera = new Camera(new Vector3D(-2, -2, 2), new Vector3D(), Config.WIDTH, Config.HEIGHT);
 
@@ -67,6 +68,8 @@ public class CustomScene {
 
         root = new OctreeCell(new BoundingBox(new Vector3D(maxX, maxY, maxZ), new Vector3D(minX, minY, minZ)), triangles, 3);
         root.createTree(0);
+
+         */
 
 
 
