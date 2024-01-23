@@ -1,9 +1,8 @@
 package com.softpro.dnaig.properties;
+
 import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
-
-import java.util.function.Consumer;
 
 
 public interface Properties {
@@ -14,14 +13,20 @@ public interface Properties {
     String[] rot = new String[3];
     ImageView imageView = null;
     Button button = null;
-    String getId();
+
+    //GET
     Button getButton();
-
+    String getId();
     String getName();
-
     String[] getPos();
-
     String[] getRot();
+
+    //SET
     void setButton(Button button);
+    void setId(String id);
+    void setName(String name);
+    void setPos(String[] pos);
+    void setRot(String[] rot);
+
 
 }

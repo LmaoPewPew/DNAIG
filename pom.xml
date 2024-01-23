@@ -35,8 +35,11 @@
             <artifactId>fxyz3d-importers</artifactId>
             <version>0.6.0</version>
         </dependency>
-
-
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-swing</artifactId>
+            <version>11</version>
+        </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-api</artifactId>

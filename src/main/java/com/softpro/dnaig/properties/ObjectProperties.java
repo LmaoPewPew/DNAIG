@@ -13,28 +13,28 @@ public class ObjectProperties implements Properties {
     Config.type categoryType;
     private String name;
     private String id;
+    private String scale;
     private String faces;
     private String vertices;
     private String[] pos;
     private String[] rot;
     private Button button;
-
     private Entity entity;
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
+    public ObjectProperties(Config.type categoryType, Entity entity, String id, String name, String faces, String vertices, String[] pos, String[] rot) {
+        this.categoryType = categoryType;
+        this.entity = entity;
         this.id = id;
+        this.name = name;
+        this.faces = faces;
+        this.vertices = vertices;
+        this.pos = pos;
+        this.rot = rot;
+        this.button = new Button();
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String Name) {
-        this.name = Name;
+    public String[] getAll() {
+        return new String[]{this.id, this.name, this.faces, this.vertices, this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2], this.scale}; //Return id, Name, Faces, Vertices, pos x, pos y, pos z, rot x, rot y, rot z, scale
     }
 
     public String getFaces() {
@@ -53,42 +53,6 @@ public class ObjectProperties implements Properties {
         this.vertices = Vertices;
     }
 
-    public String[] getPos() {
-        return pos;
-    }
-
-    public void setPos(String[] Pos) {
-        this.pos = Pos;
-    }
-
-    public String[] getRot() {
-        return rot;
-    }
-
-    public void setRot(String[] Rot) {
-        this.rot = Rot;
-    }
-
-
-
-    public ObjectProperties(Config.type categoryType, Entity entity, String id, String name, String faces, String vertices, String[] pos, String[] rot) {
-        this.categoryType = categoryType;
-        this.entity = entity;
-        this.id = id;
-        this.name = name;
-        this.faces = faces;
-        this.vertices = vertices;
-        this.pos = pos;
-        this.rot = rot;
-        this.button = new Button();
-    }
-
-
-    public String[] getAll() {
-        return new String[]{this.id, this.name, this.faces, this.vertices, this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return id, Name, Faces, Vertices, pos x, pos y, pos z, rot x, rot y, rot z
-    }
-
-
     public void setButton(Button button) {
         this.button = button;
     }
@@ -96,6 +60,52 @@ public class ObjectProperties implements Properties {
     public Button getButton() {
         return button;
     }
+
+    //getter and setter
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        System.out.println(name);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String[] getPos() {
+        return pos;
+    }
+
+    public void setPos(String[] pos) {
+        this.pos = pos;
+        //System.out.println("x" + pos[0] + "y" + pos[1] + "z" + pos[2]);
+    }
+
+    public String[] getRot() {
+        return rot;
+    }
+
+    public void setRot(String[] rot) {
+        this.rot = rot;
+    }
+
+    public String getScale() {
+        return scale;
+    }
+
+    public void setScale(String scale) {
+        this.scale = scale;
+        System.out.println("Scale" + scale);
+    }
+
+
 
     public Entity getEntity() {
         return entity;

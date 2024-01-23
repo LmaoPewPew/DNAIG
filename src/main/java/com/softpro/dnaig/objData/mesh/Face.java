@@ -1,13 +1,17 @@
 package com.softpro.dnaig.objData.mesh;
 
+import com.softpro.dnaig.utils.Vector3D;
+import javafx.scene.paint.Color;
+
 import java.util.Iterator;
+import java.util.Vector;
 
 /**
  * Represents a Face in a 3D model, composed of vertices, a smoothing group, and a material.
  */
-public class Face implements Iterable<Vertex> {
+public class Face implements Iterable<Vertex>, Cloneable {
     // Array of Vertex objects that make up a Face object.
-    private final Vertex[] vertices;
+    private Vertex[] vertices;
     // Integer that contains the smoothing group mode.
     private int smoothingGroup;
     // Material object for each Face object.
@@ -18,6 +22,12 @@ public class Face implements Iterable<Vertex> {
      */
     public Face() {
         this.vertices = new Vertex[]{new Vertex(), new Vertex(), new Vertex()};
+    }
+
+    public Face(Face face){
+        this.vertices = face.vertices.clone();
+        this.smoothingGroup = face.smoothingGroup;
+        this.material = face.material;
     }
 
     /**
@@ -80,6 +90,67 @@ public class Face implements Iterable<Vertex> {
         return str.toString();
     }
 
+    public Triangle[] toTriangle(double factor, Color color) {
+        Triangle[] triangles;
+        if (vertices.length >= 4) {
+            triangles = new Triangle[2];
+
+            triangles[0] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[1].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    color
+            );
+            triangles[1] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[3].getCoordinates().scalarMultiplication(1 / factor),
+                    color
+            );
+
+        } else {
+            triangles = new Triangle[1];
+            triangles[0] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[1].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    color
+            );
+        }
+        return triangles;
+    }
+    public Triangle[] toTriangle(double factor) {
+        Triangle[] triangles;
+        if (vertices.length >= 4) {
+            triangles = new Triangle[2];
+
+            triangles[0] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[1].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    material
+            );
+            triangles[1] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[3].getCoordinates().scalarMultiplication(1 / factor),
+                    material
+            );
+
+        } else {
+            triangles = new Triangle[1];
+            triangles[0] = new Triangle(
+                    vertices[0].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[1].getCoordinates().scalarMultiplication(1 / factor),
+                    vertices[2].getCoordinates().scalarMultiplication(1 / factor),
+                    material
+            );
+        }
+        return triangles;
+    }
+
+
+
     @Override
     public Iterator<Vertex> iterator() {
         return new Iterator<Vertex>() {
@@ -95,5 +166,31 @@ public class Face implements Iterable<Vertex> {
                 return vertices[idx++];
             }
         };
+    }
+
+    public Face bla(){
+        Vertex[] verts = new Vertex[vertices.length];
+        for (int i = 0; i<vertices.length; i++){
+            Vector3D v = new Vector3D(vertices[i].getCoordinates().getX(), vertices[i].getCoordinates().getY(), vertices[i].getCoordinates().getZ());
+            verts[i].setCoordinates(v);
+        }
+        int smtGrp = smoothingGroup;
+        Material m = material;
+        return new Face(verts, m, smtGrp);
+    }
+
+    @Override
+    public Face clone() {
+        try {
+            Face clone = (Face) super.clone();
+            // TODO: copy mutable state here, so the clone can't change the internals of the original
+            clone.vertices = new Vertex[vertices.length];
+            for (int i = 0; i<vertices.length; i++){
+                clone.vertices[i] = vertices[i].clone();
+            }
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

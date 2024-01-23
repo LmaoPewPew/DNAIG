@@ -3,23 +3,29 @@ package com.softpro.dnaig.objData.mesh;
 import com.softpro.dnaig.utils.Vector3D;
 import javafx.scene.paint.Color;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 /**
  * Represents an Entity in 3D space, with properties such as its name, position, orientation,
  * and a collection of faces that make up the Entity.
  */
-public class Entity implements Iterable<Face> {
+public class Entity implements TriangleMesh, Iterable<Face> {
     // Static unique identifier for each object.
     private static int entityID = 0;
 
     // Face objects that make up the Entity.
     private final ArrayList<Face> faces;
+    private ArrayList<Face> faceAltered;
 
    // private final ArrayList<Triangle> triangleFaces;
     // Object name.
     private String objName;
+    // Path to the object file.
+    private String objPath;
+
     // 3D Vector which contains the position of the Entity in the application world space.
     private Vector3D pivot;
     // 3D Vector which contains the orientation of the Entity.
@@ -27,11 +33,12 @@ public class Entity implements Iterable<Face> {
     // Amount of vertices
     private final int vertexCount;
     // Unique identifier.
-    private final int id;
+    private int id;
 
     private String path;
 
     private Color color;
+    private double scale;
 
     /**
      * Creates a new Entity with default values.
@@ -42,12 +49,13 @@ public class Entity implements Iterable<Face> {
         this.id = entityID++;
 
         this.faces = new ArrayList<>(0);
+        this.faceAltered = new ArrayList<>(0);
         this.pivot = new Vector3D();
 
         this.vertexCount = 0;
 
         this.objName = String.format("object%d", id);
-        this.orient = new Vector3D(1, 0, 0);
+        this.orient = new Vector3D(0, 0, 0);
     }
 
     /**
@@ -57,18 +65,19 @@ public class Entity implements Iterable<Face> {
      * @param faces       A list of Face objects that make up the Entity.
      * @param vertexCount The number of vertices in the Entity
      */
-    public Entity(String objName, int id, ArrayList<Face> faces, int vertexCount) {
+    public Entity(String objName, String objPath, int id, ArrayList<Face> faces, int vertexCount) {
         this.id = id;
 
-        this.color = Color.WHITE;
-
         this.faces = faces;
+        this.faceAltered = new ArrayList<>();
         this.pivot = new Vector3D();
 
         this.vertexCount = vertexCount;
 
+        this.objPath = objPath;
         this.objName = objName.isEmpty() ? String.format("object%d", id) : objName;
         this.orient = new Vector3D(1, 0, 0);
+        this.scale = 1;
     }
 
     /**
@@ -78,11 +87,21 @@ public class Entity implements Iterable<Face> {
      * @param factor The scaling factor.
      */
     public void scale(double factor) {
-        for (Face face : faces) {
+        /*
+        this.faceAltered = (ArrayList<Face>) this.faces.clone();
+        scale = factor;
+        for (Face face : faceAltered) {
             for (Vertex vertex : face) {
                 vertex.setCoordinates(vertex.getCoordinates().scalarMultiplication(factor));
             }
         }
+
+         */
+        this.scale = factor;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     /**
@@ -93,14 +112,18 @@ public class Entity implements Iterable<Face> {
      * @param z Rotation on the z-axis.
      */
     public void rotate(double x, double y, double z) {
+        System.out.println(x + " " + y + " " + z);
         for (Face face : faces) {
             for (Vertex vertex : face) {
+                System.out.println("Old: " + vertex.getCoordinates());
+                Vector3D oldCoordinates = new Vector3D(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());
                 Vector3D newCoordinates = vertex.getCoordinates();
-                //newCoordinates = newCoordinates.rotateX(x);
-               // newCoordinates = newCoordinates.rotateY(y);
-                //newCoordinates = newCoordinates.rotateZ(z);
-
-                vertex.setCoordinates(newCoordinates);
+                newCoordinates.rotate(x, y, z);
+                System.out.println("New: " + newCoordinates);
+                System.out.println();
+                if(Math.abs(oldCoordinates.getZ())!=Math.abs(newCoordinates.getZ()) || Math.abs(oldCoordinates.getX())!=Math.abs(newCoordinates.getX())){
+                    System.out.println();
+                }
             }
         }
     }
@@ -165,6 +188,10 @@ public class Entity implements Iterable<Face> {
         return this.vertexCount;
     }
 
+    public String getObjPath() {
+        return objPath;
+    }
+
     /**
      * Sets the orientation of the Entity to a specified Vector3D.
      *
@@ -172,6 +199,8 @@ public class Entity implements Iterable<Face> {
      */
     public void setOrient(Vector3D orient) {
         this.orient = orient;
+
+        //rotate(orient.getX(), orient.getY(), orient.getZ());
     }
 
     /**
@@ -182,29 +211,60 @@ public class Entity implements Iterable<Face> {
     public void setPivot(Vector3D pivot) {
         this.pivot = pivot;
 
-        for (Face face : faces) {
-            for (Vertex vertex : face) {
-                Vector3D temp = vertex.getCoordinates();
-                temp.add(pivot);
-                vertex.setCoordinates(temp);
-            }
-        }
+
     }
 
     public void setColor(Color color) {
         this.color = color;
     }
 
+    public void setObjPath(String objPath) {
+        this.objPath = objPath;
+    }
+
     public Color getColor() {
         return color;
     }
 
+    @Override
     public ArrayList<Triangle> getTriangles(double factor) {
-        ArrayList<Triangle> triangles = new ArrayList<>();
-        for (Face face: faces) {
-            triangles.add(new Triangle(face, factor / 2, color));
+        faceAltered.clear();
+        for (int i = 0; i < faces.size(); i++) {
+            //faceAltered.add(new Face(faces.get(i)));
+            faceAltered.add(faces.get(i).clone());
+            Face faceCopy = faceAltered.get(i);
+            for(Vertex vertex : faceCopy){
+                Vector3D temp = new Vector3D(vertex.getCoordinates().getX(), vertex.getCoordinates().getY(), vertex.getCoordinates().getZ());
+                temp.rotate(orient.getX(), orient.getY(), orient.getZ());
+                temp.add(pivot);
+                vertex.setCoordinates(temp);
+            }
         }
+        ArrayList<Triangle> triangles = new ArrayList<>();
+        faceAltered.forEach(face -> {
+            Face temp = new Face(face);
+            temp.forEach(vertex -> vertex.setCoordinates(vertex.getCoordinates().scalarMultiplication(scale)));
+            if(color!=null) {
+                triangles.addAll(Arrays.asList(temp.toTriangle(factor, color)));
+            } else {
+                triangles.addAll(Arrays.asList(temp.toTriangle(factor)));
+            }
+        });
         return triangles;
+    }
+
+    
+
+    @Override
+    public String toYaml() {
+        return String.format(
+                """
+                -\tfilePath: "%s"
+                \tposition: %s
+                \trotation: %s
+                \tscale: %f
+                """, objPath, pivot.toYaml(), orient.toYaml(), scale
+        );
     }
 
     /**

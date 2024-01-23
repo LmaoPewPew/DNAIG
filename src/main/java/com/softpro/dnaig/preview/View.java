@@ -25,14 +25,15 @@ public class View {
         camera.setFarClip(50000.0);
         Rotate rz = new Rotate(180.0, Rotate.Z_AXIS);
         camera.getTransforms().add(rz);
-        camera.setTranslateX(200);
-        camera.setTranslateY(50);
-        camera.getTransforms().add(new Translate(0, 0, -600));
+        camera.setTranslateX(30);
+        camera.setTranslateY(10);
+        camera.getTransforms().add(new Translate(0, 0, -150));
 
         group = new Group();
 
         Axes axes = new Axes();
-        axes.setHeight(2500);
+        axes.setHeight(1000);
+        axes.setRadius(1);
         final Group grid = Grid.createGrid(1000, 25);
 
         group.getChildren().addAll(axes, grid);

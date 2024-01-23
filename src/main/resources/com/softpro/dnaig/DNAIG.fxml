@@ -8,6 +8,7 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
@@ -21,33 +22,33 @@
 <VBox fx:id="parent" minHeight="748.8" minWidth="1331.2" prefHeight="400.0" prefWidth="1331.2" styleClass="root" stylesheets="@style/LightMode.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.softpro.dnaig.ApplicationController">
     <MenuBar styleClass="menu">
         <Menu mnemonicParsing="false" text="File">
-            <MenuItem mnemonicParsing="false" text="Save as" />
-            <MenuItem mnemonicParsing="false" text="Export" />
-            <MenuItem mnemonicParsing="false" text="Import" />
+            <MenuItem fx:id="mSave" mnemonicParsing="false" onAction="#saveFile" text="Save" />
+            <MenuItem fx:id="mExport" mnemonicParsing="false" onAction="#exportYaml" text="Export" />
+            <MenuItem fx:id="mImport" mnemonicParsing="false" onAction="#importYaml" text="Import" />
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
-            <MenuItem fx:id="menuTheme" mnemonicParsing="false" onAction="#changeThemeMode" text="Theme" />
+            <RadioMenuItem fx:id="mTheme" mnemonicParsing="false" onAction="#changeThemeMode" text="Theme" />
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
-            <MenuItem mnemonicParsing="false" text="About" />
+           <MenuItem fx:id="mAbout" mnemonicParsing="false" onAction="#aboutSection" text="About" />
         </Menu>
     </MenuBar>
     <SplitPane dividerPositions="0.9045" minWidth="-Infinity" prefHeight="784.0" prefWidth="1330.0">
-        <SplitPane dividerPositions="0.8" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL" prefHeight="90.0" prefWidth="1200.0">
+        <SplitPane dividerPositions="0.8" minHeight="-Infinity" minWidth="-Infinity" orientation="VERTICAL">
             <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="397.0" prefWidth="1216.0" styleClass="content">
-                <StackPane fx:id="previewPane" prefHeight="551.0" prefWidth="1206.0">
+                <StackPane fx:id="previewPane">
                     <cursor>
                         <Cursor fx:constant="CROSSHAIR" />
                     </cursor>
                 </StackPane>
             </AnchorPane>
-            <ListView fx:id="objectListView" minHeight="150.0" orientation="HORIZONTAL" prefHeight="225.0" prefWidth="1216.0" />
+            <ListView fx:id="objectListView" maxHeight="-Infinity" minHeight="-Infinity" orientation="HORIZONTAL" prefHeight="150.0" />
         </SplitPane>
-        <SplitPane dividerPositions="0.33663366336633666, 0.8783592644978784" minHeight="-Infinity" orientation="VERTICAL" prefHeight="150.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
-            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" prefHeight="280.0" prefWidth="110.0" SplitPane.resizableWithParent="false">
-                <Button alignment="CENTER" contentDisplay="CENTER" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importObject" prefHeight="65.0" prefWidth="80.0" textAlignment="CENTER">
+        <SplitPane dividerPositions="0.33663366336633666, 0.9391796322489392" minHeight="-Infinity" orientation="VERTICAL" prefHeight="150.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
+            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="235.0" prefWidth="110.0" SplitPane.resizableWithParent="false">
+                <Button alignment="CENTER" contentDisplay="CENTER" focusTraversable="false" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importObject" prefHeight="65.0" prefWidth="80.0" textAlignment="CENTER">
                     <graphic>
-                        <ImageView accessibleText="Object Source" fitHeight="55.0" onMouseClicked="#importObject" pickOnBounds="true" preserveRatio="true">
+                        <ImageView accessibleText="Object Source" blendMode="DARKEN" fitHeight="55.0" onMouseClicked="#importObject" pickOnBounds="true" preserveRatio="true">
                             <viewport>
                                 <Rectangle2D width="50.0" />
                             </viewport>
@@ -57,20 +58,31 @@
                     <VBox.margin>
                         <Insets bottom="5.0" top="5.0" />
                     </VBox.margin>
+                    <padding>
+                        <Insets left="2.0" right="2.0" />
+                    </padding>
                 </Button>
-                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importCameraObject" prefHeight="65.0" prefWidth="80.0">
-                    <graphic>
-                        <ImageView fitHeight="55.0" pickOnBounds="true" preserveRatio="true">
-                            <Image url="@sprites/Camera_img.png" />
-                        </ImageView>
-                    </graphic>
+                <Button focusTraversable="false" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importCameraObject" prefHeight="65.0" prefWidth="80.0" textAlignment="CENTER">
                     <VBox.margin>
                         <Insets bottom="5.0" top="10.0" />
                     </VBox.margin>
-                </Button>
-                <Button minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importLightObject" prefHeight="65.0" prefWidth="80.0">
                     <graphic>
-                        <ImageView accessibleText="Light Source" fitHeight="60.0" pickOnBounds="true" preserveRatio="true">
+                        <ImageView accessibleText="Object Source" blendMode="DARKEN" fitWidth="80.0" onMouseClicked="#importObject" pickOnBounds="true" preserveRatio="true">
+                            <viewport>
+                                <Rectangle2D width="50.0" />
+                            </viewport>
+                            <image>
+                                <Image url="@sprites/Camera_img.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <padding>
+                        <Insets right="2.0" />
+                    </padding>
+                </Button>
+                <Button focusTraversable="false" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#importLightObject" prefHeight="65.0" prefWidth="80.0" textAlignment="CENTER">
+                    <graphic>
+                        <ImageView accessibleText="Light Source" blendMode="DARKEN" fitHeight="60.0" pickOnBounds="true" preserveRatio="true">
                             <Image url="@sprites/light_Img.png" />
                             <viewport>
                                 <Rectangle2D width="50.0" />
@@ -85,10 +97,10 @@
                     <Insets left="15.0" right="15.0" />
                 </padding>
             </VBox>
-         <ScrollPane fx:id="scrollPaneProperties" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" />
-            <BorderPane>
+            <ScrollPane fx:id="scrollPaneProperties" minHeight="-Infinity" prefHeight="200.0" prefWidth="200.0" />
+            <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="40.0" prefWidth="125.0" SplitPane.resizableWithParent="false">
                 <center>
-                    <Button id="btnRender" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onMouseClicked="#loadRayTracer" prefHeight="50.0" prefWidth="90.0" text="Render" textAlignment="CENTER" textFill="#161317">
+                    <Button id="btnRender" fx:id="renderButton" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#renderFunc" prefHeight="30.0" prefWidth="90.0" text="Render" textAlignment="CENTER" textFill="#161317">
                         <font>
                             <Font name="Arial Bold" size="12.0" />
                         </font>
@@ -100,9 +112,9 @@
                         </BorderPane.margin>
                     </Button>
                 </center>
-            <padding>
-               <Insets top="10.0" />
-            </padding>
+                <padding>
+                    <Insets top="10.0" />
+                </padding>
             </BorderPane>
             <padding>
                 <Insets bottom="10.0" top="5.0" />
