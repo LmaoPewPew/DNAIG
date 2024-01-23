@@ -468,9 +468,9 @@ public class ApplicationController {
             ColorPicker colorPicker = new ColorPicker();
             colorPicker.setOnAction(actionEvent -> {
                 Color selectedColor = colorPicker.getValue();
-                double red = selectedColor.getRed() * 255;
-                double green = selectedColor.getGreen() * 255;
-                double blue = selectedColor.getBlue() * 255;
+                double red = selectedColor.getRed();
+                double green = selectedColor.getGreen();
+                double blue = selectedColor.getBlue();
                 System.out.println("Red: " + (int) red + ", Green: " + (int) green + ", Blue: " + (int) blue);
                 if (finalopTest != null) {
                     finalopTest.setRgbR(String.valueOf(red));

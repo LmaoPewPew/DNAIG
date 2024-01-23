@@ -90,6 +90,7 @@ public class Output extends Application {
                     // callback to ApplicationController when tracing is finished or cancelled
                     //Platform.runLater(() -> callbackWhenRayTracerFinished.accept(null));
                 } catch (IOException e) {
+                    System.out.println("here");
                     throw new RuntimeException(e);
                 }
                 return null;
@@ -198,13 +199,13 @@ public class Output extends Application {
         int index = x % w + (y % h) * w;
 
         // add alpha value to color (opacity is always 100%)
-        buffer_test[tid][index] = (0xFF<<24) | c;
+        buffer_test[tid][index] = (0xFF << 24) | c;
         buffer_ptr_test[tid]++;
 
         // if buffer is full, write data out to screen
         if (buffer_ptr_test[tid] >= buffer_test_size) {
             // draw output
-            canvas.getGraphicsContext2D().getPixelWriter().setPixels(x-w+1, y-h+1, w, h, PixelFormat.getIntArgbInstance(), buffer_test[tid], 0, w);
+            canvas.getGraphicsContext2D().getPixelWriter().setPixels(x - w + 1, y - h + 1, w, h, PixelFormat.getIntArgbInstance(), buffer_test[tid], 0, w);
 
             // clear buffer
             buffer_test[tid] = new int[buffer_test_size];
