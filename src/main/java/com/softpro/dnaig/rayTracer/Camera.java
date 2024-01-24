@@ -8,25 +8,46 @@ public class Camera {
     private int r = -l;
     private int t = Output.HEIGHT/2;
     private int b = -t;
+    private double fov = (45.0/360)*2*Math.PI;
 
     private Vector3D UP = new Vector3D(0, 1, 0);
-    private Vector3D eye = new Vector3D(40, 40, -45);
+    private Vector3D eye = new Vector3D(4, 4, -4);
     private Vector3D Z = new Vector3D(0, 0, 0);
-
-    private Vector3D screen;
 
     private Vector3D W = eye.subtract(Z).normalize();
     private Vector3D U = UP.crossProduct(W).normalize();
     private Vector3D V = W.crossProduct(U).normalize();
 
-    private double d = t/Math.tan(Math.PI/4)/2;
+    private double d = t/(Math.tan(fov/2)*2);
     private Vector3D W_d_negated = W.scalarMultiplication(-d);
-    private boolean test;
 
-    public Camera(){
-        screen = Util.add(eye, W.scalarMultiplication(-40));
+    public Camera(){}
+    public Camera(Vector3D position, Vector3D rotation, int width, int height){
+        eye = position;
+        //Z = new Vector3D(0, 0, 0);
+        //Vector3D dir = Z.subtract(eye);
+        eye.rotate(rotation.getX(), rotation.getY(), rotation.getZ());
+        //Z = new Vector3D(eye.getX(), eye.getY(), eye.getZ());
+        //Z.add(dir);
+        UP = new Vector3D(0, 1, 0);
+        if(UP.crossProduct(eye.subtract(Z)).length()==0){
+            UP = new Vector3D(0, 0, 1);
+        }
+        W = eye.subtract(Z).normalize();
+        U = UP.crossProduct(W).normalize();
+        V = W.crossProduct(U).normalize();
+
+        d = t/(Math.tan(fov/2)*2);
+        W_d_negated = W.scalarMultiplication(-d);
+
+        /*
+        l = -width/2;
+        r = -l;
+        t = height/2;
+        b = -t;
+
+         */
     }
-
 
     public void setL(int l) {
         this.l = l;
@@ -124,13 +145,16 @@ public class Camera {
         return W_d_negated;
     }
 
-
-    public Vector3D getScreen() {
-        return screen;
-    }
-
-    public void setScreen(Vector3D screen) {
-        this.screen = screen;
-        eye = Util.add(screen, W.scalarMultiplication(40));
+    public String toYaml(){
+        return String.format(
+                """
+                \tposition: %s
+                \tlookAt: %s
+                \tupVec: %s
+                \tfieldOfView: %f
+                \twidth: %d
+                \theight: %d       \s
+                """, eye.toYaml(), Z.toYaml(), UP.toYaml(), fov, Output.WIDTH, Output.HEIGHT
+        );
     }
 }

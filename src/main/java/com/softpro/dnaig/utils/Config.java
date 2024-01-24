@@ -1,21 +1,19 @@
 package com.softpro.dnaig.utils;
 
 public class Config {
-    public static int HEIGHT =720;
+    public static int HEIGHT = 720;
     public static int WIDTH = 1280;
+    public static int THREADS = 4;
+    public static int TILES = 10;
 
     public static enum lightvariants{
         POINT,  //musthave
-        SPOT,   //maybe implemented
-        SUN,    //maybe implemented
-        AREA    //maybe implemented
     }
 
     public static enum cameravariants{
-        CAM1,
-        CAM2,
-        CAM3,
-        CAM4
+        HD,
+        FullHD,
+        Custom
     }
 
     public static enum type{

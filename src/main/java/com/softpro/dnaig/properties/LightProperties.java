@@ -1,37 +1,35 @@
 package com.softpro.dnaig.properties;
 
-import com.softpro.dnaig.ApplicationController;
 import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
-import java.util.function.Consumer;
-
 public class LightProperties implements Properties {
     Config.type categoryType;
-    private int brightness;
+    private String intensity;
     private Config.lightvariants lightvariants;
     private String name;
     private String id;
     private String[] pos;
     private String[] rot;
+    private String[] rgb;
     private Button button;
 
-    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, int brightness, String objName, String objID, String[] pos, String[] objRot) {
+    public LightProperties(Config.type categoryType, Config.lightvariants lightvariants, String intensity, String objName, String objID, String[] pos, String[] objRot, String[] objRGB) {
         this.categoryType = categoryType;
         this.lightvariants = lightvariants;
-        this.brightness = brightness;
+        this.intensity = intensity;
         this.name = objName;
         this.id = objID;
         this.pos = pos;
         this.rot = objRot;
         this.button = new Button();
+        this.rgb = objRGB;
     }
 
     public String[] getAll() {
         return new String[]{this.id, this.name, String.valueOf(this.lightvariants), this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, lightvariant, pos x, pos y, pos z, rot x, rot y, rot z
     }
-
 
     //getter and setter
     public String getName() {
@@ -78,12 +76,12 @@ public class LightProperties implements Properties {
         this.button = button;
     }
 
-    public int getBrightness() {
-        return brightness;
+    public String getIntensity() {
+        return intensity;
     }
 
-    public void setBrightness(int brightness) {
-        this.brightness = brightness;
+    public void setIntensity(String intensity) {
+        this.intensity = intensity;
     }
 
     public Config.lightvariants getLightvariants() {
@@ -93,4 +91,25 @@ public class LightProperties implements Properties {
     public void setLightvariants(Config.lightvariants lightvariants) {
         this.lightvariants = lightvariants;
     }
+
+    public String[] getRgb() {
+        return rgb;
+    }
+
+    public void setRgb(String[] rgb) {
+        this.rgb = rgb;
+    }
+
+    public void setRgbR(String r) {
+        this.rgb[0] = r;
+    }
+
+    public void setRgbG(String g) {
+        this.rgb[1] = g;
+    }
+
+    public void setRgbB(String b) {
+        this.rgb[2] = b;
+    }
+
 }

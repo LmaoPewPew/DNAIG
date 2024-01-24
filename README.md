@@ -6,7 +6,7 @@
 -->
 
 
-# DNAIG - Defenaty not AI generated
+# DNAIG - Definitely not AI generated
 
 Welcome to the DNAIG GitHub repository! We are a passionate team of eight, dedicated to pushing the boundaries of computer graphics. Our focus is on developing a cutting-edge Raytracer coupled with a robust 3D model editor.
 

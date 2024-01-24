@@ -3,6 +3,9 @@ module com.softpro.dnaig {
     requires javafx.fxml;
     requires org.fxyz3d.core;
     requires org.fxyz3d.importers;
+    requires java.desktop;
+    requires javafx.swing;
+
 
     opens com.softpro.dnaig to javafx.fxml;
 

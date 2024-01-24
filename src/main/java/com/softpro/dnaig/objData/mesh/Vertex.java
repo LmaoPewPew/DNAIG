@@ -6,7 +6,7 @@ import com.softpro.dnaig.utils.Vector3D;
 /**
  * Represents a vertex in 3D space with associated coordinates, normal, and texture information.
  */
-public class Vertex {
+public class Vertex implements Cloneable{
     private Vector3D coordinates;
     private Vector3D normal;
     private Vector3D texture;
@@ -98,5 +98,21 @@ public class Vertex {
     @Override
     public String toString() {
         return String.format("\tcoordinates: %s\n\tnormal: %s\n\ttexture: %s", coordinates, normal, texture);
+    }
+
+    @Override
+    public Vertex clone() {
+        try {
+            Vertex clone = (Vertex) super.clone();
+            Vector3D v1 = new Vector3D(coordinates.getX(), coordinates.getY(), coordinates.getZ());
+            Vector3D v2 = new Vector3D(normal.getX(), normal.getY(), normal.getZ());
+            Vector3D v3 = new Vector3D(texture.getX(), texture.getY(), texture.getZ());
+            clone.setCoordinates(v1);
+            clone.setNormal(v2);
+            clone.setTexture(v3);
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }

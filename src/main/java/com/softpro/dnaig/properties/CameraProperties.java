@@ -4,7 +4,7 @@ import com.softpro.dnaig.utils.Config;
 import javafx.scene.control.Button;
 import javafx.scene.image.ImageView;
 
-public class CameraProperties implements Properties{
+public class CameraProperties implements Properties {
     Config.type categoryType;
     private Config.cameravariants cameravariants;
     private String name;
@@ -12,11 +12,11 @@ public class CameraProperties implements Properties{
     private String[] pos;
     private String[] rot;
     private int width;
-    private int length;
+    private int height;
     private Button button;
 
 
-    public CameraProperties(Config.type categoryType, Config.cameravariants cameravariants, String objName, String objID, String[] pos, String[] objRot, int width, int length) {
+    public CameraProperties(Config.type categoryType, Config.cameravariants cameravariants, String objName, String objID, String[] pos, String[] objRot, int width, int height) {
         this.categoryType = categoryType;
         this.cameravariants = cameravariants;
         this.name = objName;
@@ -24,12 +24,12 @@ public class CameraProperties implements Properties{
         this.pos = pos;
         this.rot = objRot;
         this.width = width;
-        this.length = length;
+        this.height = height;
         this.button = new Button();
     }
 
     public String[] getAll() {
-        return new String[]{this.id, this.name, String.valueOf(this.cameravariants), this.pos[0],this.pos[1],this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, cameravariant, pos x, pos y, pos z, rot x, rot y, rot z
+        return new String[]{this.id, this.name, String.valueOf(this.cameravariants), this.pos[0], this.pos[1], this.pos[2], this.rot[0], this.rot[1], this.rot[2]}; //Return objID, objName, cameravariant, pos x, pos y, pos z, rot x, rot y, rot z
     }
 
     //getter and setter
@@ -65,6 +65,7 @@ public class CameraProperties implements Properties{
         this.rot = rot;
     }
 
+
     public ImageView getImageView() {
         return imageView;
     }
@@ -81,7 +82,7 @@ public class CameraProperties implements Properties{
         return cameravariants;
     }
 
-    public void setLightvariants(Config.cameravariants cameravariants) {
+    public void setCameravariants(Config.cameravariants cameravariants) {
         this.cameravariants = cameravariants;
     }
 
@@ -93,11 +94,12 @@ public class CameraProperties implements Properties{
         this.width = width;
     }
 
-    public int getLength() {
-        return length;
+    public int getHeight() {
+        return height;
     }
 
-    public void setLength(int length) {
-        this.length = length;
+    public void setHeight(int height) {
+        this.height = height;
     }
+
 }
