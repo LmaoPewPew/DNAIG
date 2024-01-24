@@ -62,7 +62,7 @@ public class PreviewWindow {
             cameraController.getModelCameraMap().put(model, new CameraControlWrapper(rX, rY, rZ, t, s));
 
             cameraController.setSelected(model);
-            currentMode.set(Mode.MOVE_OBJECT_XY);
+            //currentMode.set(Mode.MOVE_OBJECT_XY); //DISABLED OBJECT MOVEMENT VIA PREVIEW//
 
             model.getRoot().getTransforms().addAll(rX, rY, rZ, t, s);
             //model.getRoot().getParent().getTransforms().add(t);
@@ -158,7 +158,7 @@ public class PreviewWindow {
             currentMode.set(Mode.MOVE_CAMERA_XY);
         } else {
             cameraController.setSelected(tempModelList.get(id));
-            currentMode.set(Mode.MOVE_OBJECT_XY);
+            //currentMode.set(Mode.MOVE_OBJECT_XY); //DISABLED OBJECT MOVEMENT VIA PREVIEW//
         }
     }
 
