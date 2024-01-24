@@ -358,7 +358,7 @@ public class ApplicationController {
         gp.addRow(13);
 
         gp.setPadding(new Insets(5, 10, 5, 10));
-        gp.setVgap(8);
+        gp.setVgap(3);
 
         int id = 0;
 
@@ -520,7 +520,7 @@ public class ApplicationController {
             CameraProperties cp = (CameraProperties) propertiesList.get(id);
             gp.addRow(3);
 
-            gp.add(new Text("Width:"), 0, 13);
+            gp.add(new Text("Width:"), 0, 12);
             TextField width = new TextField(String.valueOf(cp.getHeight()));
             width.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 //CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
@@ -531,7 +531,7 @@ public class ApplicationController {
 
             gp.add(width, 1, 12);
 
-            gp.add(new Text("Height:"), 0, 12);
+            gp.add(new Text("Height:"), 0, 13);
             TextField height = new TextField(String.valueOf(cp.getWidth()));
 
 
@@ -542,6 +542,10 @@ public class ApplicationController {
             });
             gp.add(height, 1, 13);
 
+            width.setText("1280");
+            height.setText("720");
+
+            /*
             ChoiceBox<String> cb = new ChoiceBox<>();
             String[] choice = {"HD"};
             height.setEditable(false);
@@ -560,15 +564,14 @@ public class ApplicationController {
                     finalopTest.setCameravariants(Config.cameravariants.HD);
                     width.setEditable(false);
                     height.setEditable(false);
-                    width.setText("1280");
-                    height.setText("720");
                     System.out.println("HD");
                 }
             });
-
             cb.setValue(cp.getCameravariants().toString());
-            gp.add(new Text("Resolution:"), 0, 11);
-            gp.add(cb, 1, 11);
+            */
+
+            gp.add(new Text("HD-Res."), 0, 11);
+            //gp.add(cb, 1, 11);
 
             // textFieldVALUES[7] = String.valueOf(cp.getHeight());
             // textFieldVALUES[8] = String.valueOf(cp.getWidth());
