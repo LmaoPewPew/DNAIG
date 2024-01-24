@@ -358,6 +358,7 @@ public class ApplicationController {
         gp.addRow(13);
 
         gp.setPadding(new Insets(5, 10, 5, 10));
+        gp.setHgap(3);
         gp.setVgap(3);
 
         int id = 0;
@@ -451,7 +452,8 @@ public class ApplicationController {
             LightProperties lp = (LightProperties) propertiesList.get(id);
             gp.addRow(2);
 
-            gp.add(new Text("Color:"), 0, 11);
+            gp.add(new Text("Settings"), 0, 11);
+            gp.add(new Text("Color:"), 0, 12);
 
             ColorPicker colorPicker = new ColorPicker();
             colorPicker.setOnAction(actionEvent -> {
