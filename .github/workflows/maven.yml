@@ -5,30 +5,50 @@ on:
     types: [published]
 
 jobs:
-  build-win:
+  build-win-portable:
     runs-on: windows-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-    - name: Set up JDK 19
-      uses: actions/setup-java@v3
-      with:
-        java-version: '19'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: |
-        mvn -B clean javafx:jlink jpackage:jpackage --file pom.xml
-        mv target/dist/DNAIG/ 'target/dist/DNAIG-${{ github.ref_name }}'
-    - name: Archive Release
-      uses: thedoctor0/zip-release@0.7.5
-      with:
-        type: 'zip'
-        filename: 'DNAIG-${{ github.ref_name }}-windows-portable.zip'
-        directory: 'target/dist'
-        path: 'DNAIG-${{ github.ref_name }}'
-    - name: Release
-      uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
-      with:
-          files: target/dist/DNAIG-${{ github.ref_name }}-windows-portable.zip
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up JDK 19
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: |
+          mvn -P windows-portable -B clean javafx:jlink jpackage:jpackage --file pom.xml
+          mv target/dist/win-portable/DNAIG/ 'target/dist/win-portable/DNAIG-${{ github.ref_name }}'
+      - name: Archive Release
+        uses: thedoctor0/zip-release@0.7.5
+        with:
+          type: 'zip'
+          filename: 'DNAIG-${{ github.ref_name }}-windows-portable.zip'
+          directory: 'target/dist/win-portable'
+          path: 'DNAIG-${{ github.ref_name }}'
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: target/dist/win-portable/DNAIG-${{ github.ref_name }}-windows-portable.zip
+  build-win-installer:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up JDK 19
+        uses: actions/setup-java@v3
+        with:
+          java-version: '19'
+          distribution: 'temurin'
+          cache: maven
+      - name: Build with Maven
+        run: |
+          mvn -P windows-installer -B clean javafx:jlink jpackage:jpackage --file pom.xml
+          mv target/dist/win-installer/DNAIG-*.msi target/dist/win-installer/DNAIG-${{ github.ref_name }}-windows-installer.msi
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: target/dist/win-installer/DNAIG-${{ github.ref_name }}-windows-installer.msi
