@@ -76,7 +76,7 @@
             </activation>
             <properties>
                 <jpackage.dest>target/dist/win-installer</jpackage.dest>
-                <jpackage.type>EXE</jpackage.type>
+                <jpackage.type>MSI</jpackage.type>
                 <jpackage.windirchooser>true</jpackage.windirchooser>
                 <jpackage.winhelpurl>https://github.com/LmaoPewPew/DNAIG</jpackage.winhelpurl>
                 <jpackage.winmenu>true</jpackage.winmenu>
