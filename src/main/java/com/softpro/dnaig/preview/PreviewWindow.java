@@ -204,5 +204,7 @@ public class PreviewWindow {
         rotateX.setAngle(xRot);
         rotateY.setAngle(yRot);
         rotateZ.setAngle(zRot);
+
+        wrapper.updatePivotAfterMove();
     }
 }
