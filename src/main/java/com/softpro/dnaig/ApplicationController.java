@@ -82,6 +82,7 @@ public class ApplicationController {
     private static int objectID = 0;
     private boolean camExist = false;
     private Stage stage;
+    private boolean textFocus = false;
 
 
     /* *****************************************METHODS***************************************** */
@@ -372,6 +373,13 @@ public class ApplicationController {
         idTF.setEditable(false);
         TextField nameTF = new TextField(propertiesList.get(id).getName());
         // textFieldVALUES[0] = nameTF.getText();
+        nameTF.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) { // if focus lost
+                textFocus = false;
+            } else {
+                textFocus = true;
+            }
+        });
 
         gp.add(new Text("ID:"), 0, 0);
         gp.add(idTF, 1, 0);
@@ -403,6 +411,9 @@ public class ApplicationController {
                 if (!newValue) { // if focus lost
                     System.out.println("Focus lost on the TextField");
                     updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, finalScaleTF);
+                    textFocus = false;
+                } else {
+                    textFocus = true;
                 }
             });
             gp.add(new Text("Scale:"), 0, 10);
@@ -462,6 +473,13 @@ public class ApplicationController {
             intensity.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 if (finalopTest != null)
                     finalopTest.setIntensity(newValue);
+            });
+            intensity.focusedProperty().addListener((observableValue, oldValue, newValue) -> {
+                if (!newValue) { // if focus lost
+                    textFocus = false;
+                } else {
+                    textFocus = true;
+                }
             });
             gp.add(intensity, 1, 13);
 
@@ -562,18 +580,27 @@ public class ApplicationController {
             if (!newValue) { // if focus lost
                 System.out.println(xPos.getText());
                 updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+                textFocus = false;
+            } else {
+                textFocus = true;
             }
         });
         yPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) { // if focus lost
                 System.out.println("Focus lost on the TextField");
                 updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+                textFocus = false;
+            } else {
+                textFocus = true;
             }
         });
         zPos.focusedProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue) { // if focus lost
                 System.out.println("Focus lost on the TextField");
                 updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+                textFocus = false;
+            } else {
+                textFocus = true;
             }
         });
 
@@ -581,6 +608,9 @@ public class ApplicationController {
             if (!newValue) { // if focus lost
                 System.out.println("Focus lost on the TextField");
                 updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+                textFocus = false;
+            } else {
+                textFocus = true;
             }
         });
 
@@ -588,6 +618,9 @@ public class ApplicationController {
             if (!newValue) { // if focus lost
                 System.out.println("Focus lost on the TextField");
                 updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+                textFocus = false;
+            } else {
+                textFocus = true;
             }
         });
 
@@ -595,6 +628,9 @@ public class ApplicationController {
             if (!newValue) { // if focus lost
                 System.out.println("Focus lost on the TextField");
                 updateData(finalId, xPos, yPos, zPos, xRot, yRot, zRot, fScale);
+                textFocus = false;
+            } else {
+                textFocus = true;
             }
         });
 
@@ -992,7 +1028,7 @@ public class ApplicationController {
      * @param event The key event to be handled.
      */
     public void handleKey(KeyEvent event) {
-        if (previewWindow != null) previewWindow.handleKey(event);
+        if (previewWindow != null && !textFocus) previewWindow.handleKey(event);
     }
 
     /**
