@@ -272,7 +272,7 @@ public class ApplicationController {
             op = new ObjectProperties(categoryType, e, String.valueOf(id), e.getObjName(), Integer.toString(e.getFaces().size()), Integer.toString(e.getVertexCount()), new String[]{Double.toString(e.getPivot().getX()), Double.toString(e.getPivot().getY()), Double.toString(e.getPivot().getZ())}, new String[]{Double.toString(e.getOrient().getX()), Double.toString(e.getOrient().getY()), Double.toString(e.getOrient().getZ())});
             loadImage(op, categoryType);
         } else {          //load camera properties
-            cp = new CameraProperties(categoryType, Config.cameravariants.HD, "camera", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, 1920, 1080);
+            cp = new CameraProperties(categoryType, Config.cameravariants.HD, "camera", String.valueOf(id), new String[]{"0", "0", "0"}, new String[]{"0", "0", "0"}, 1280, 720);
             loadImage(cp, categoryType);
         }
     }
@@ -502,33 +502,34 @@ public class ApplicationController {
             CameraProperties cp = (CameraProperties) propertiesList.get(id);
             gp.addRow(3);
 
-            gp.add(new Text("Length:"), 0, 11);
-            TextField length = new TextField(String.valueOf(cp.getHeight()));
-            length.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+            gp.add(new Text("Width:"), 0, 13);
+            TextField width = new TextField(String.valueOf(cp.getHeight()));
+            width.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 //CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
 
                 if (finalopTest != null)
                     finalopTest.setHeight(Integer.parseInt(newValue));
             });
 
-            gp.add(length, 1, 12);
+            gp.add(width, 1, 12);
 
-            gp.add(new Text("Width:"), 0, 12);
-            TextField width = new TextField(String.valueOf(cp.getWidth()));
+            gp.add(new Text("Height:"), 0, 12);
+            TextField height = new TextField(String.valueOf(cp.getWidth()));
 
 
-            width.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
+            height.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 // CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
                 if (finalopTest != null)
                     finalopTest.setWidth(Integer.parseInt(newValue));
             });
-            gp.add(width, 1, 13);
+            gp.add(height, 1, 13);
 
             ChoiceBox<String> cb = new ChoiceBox<>();
-            String[] choice = {"HD", "FullHD", "Custom"};
-
+            String[] choice = {"HD"};
+            height.setEditable(false);
+            width.setEditable(false);
             cb.getItems().setAll(choice);
-            cb.setValue(choice[1]);
+            cb.setValue(choice[0]);
 
             cb.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {             //update value
 
@@ -539,36 +540,16 @@ public class ApplicationController {
 
                 if(Config.cameravariants.HD.toString().equals(newValue)){
                     finalopTest.setCameravariants(Config.cameravariants.HD);
-                    length.setEditable(false);
                     width.setEditable(false);
-                    length.setText("1080");
-                    width.setText("720");
+                    height.setEditable(false);
+                    width.setText("1280");
+                    height.setText("720");
                     System.out.println("HD");
-                }
-                if(Config.cameravariants.FullHD.toString().equals(newValue)){
-                    finalopTest.setCameravariants(Config.cameravariants.FullHD);
-                    length.setEditable(false);
-                    width.setEditable(false);
-                    length.setText("1920");
-                    width.setText("1080");
-
-                    System.out.println("FullHD");
-                }
-                if(Config.cameravariants.Custom.toString().equals(newValue)){
-                    finalopTest.setCameravariants(Config.cameravariants.Custom);
-                    length.setEditable(true);
-                    width.setEditable(true);
-
-                    //Textfiller 4k
-                    length.setText("3840");
-                    width.setText("2160");
-
-                    System.out.println("Custom");
                 }
             });
 
             cb.setValue(cp.getCameravariants().toString());
-            gp.add(new Text("Variants:"), 0, 13);
+            gp.add(new Text("Resolution:"), 0, 11);
             gp.add(cb, 1, 11);
 
             // textFieldVALUES[7] = String.valueOf(cp.getHeight());
