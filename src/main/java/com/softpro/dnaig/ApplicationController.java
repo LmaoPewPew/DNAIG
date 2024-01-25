@@ -142,6 +142,8 @@ public class ApplicationController {
     @FXML
     void importObject(MouseEvent event) {
         File entityFile = fileChooser();
+        if (entityFile == null) return;
+
         try {
             int id = objectID++;
             Entity entity = ObjFileReader.createObject(entityFile.getPath(), id);
@@ -1030,8 +1032,11 @@ public class ApplicationController {
         String fileString;
 
         latestFile = fileChooser.showOpenDialog(new Stage());
-        fileString = String.valueOf(latestFile.getParentFile());
-        fileChooser.setInitialDirectory(new File(fileString));
+
+        if (latestFile != null) {
+            fileString = String.valueOf(latestFile.getParentFile());
+            fileChooser.setInitialDirectory(new File(fileString));
+        }
 
         return latestFile;
     }
