@@ -264,8 +264,8 @@ public class Entity implements TriangleMesh, Iterable<Face> {
                 -\tfilePath: "%s"
                 \tposition: %s
                 \trotation: %s
-                \tscale: %f
-                """, objPath, pivot.toYaml(), orient.toYaml(), scale
+                \tscale: %s
+                """, objPath, pivot.toYaml(), orient.toYaml(), new Vector3D(scale, scale, scale).toYaml()
         );
     }
 
@@ -318,6 +318,10 @@ public class Entity implements TriangleMesh, Iterable<Face> {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public double getScale() {
+        return scale;
     }
 }
 

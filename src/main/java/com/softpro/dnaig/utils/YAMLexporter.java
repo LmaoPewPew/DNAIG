@@ -115,6 +115,8 @@ public class YAMLexporter {
                         } else if (line.contains("scale:")) {
                             Vector3D value = extractVector(reader);
                             scale = (value.getX() + value.getY() + value.getZ()) / 3;
+                            //String test = line.split("scale:")[0].trim();
+                            //scale = Double.parseDouble(line.split("scale:")[0].trim());
                         }
                         if (!filePath.isEmpty() && position != null && rotation != null && scale != 0) {
                             Entity entity = null;
@@ -151,7 +153,11 @@ public class YAMLexporter {
                             fov = Double.parseDouble(line.split(":")[1].trim());
                         }
                         if (position != null && lookAt != null && up != null && width != 0 && height != 0 && fov != 0) {
-                            camera = new Camera(position, lookAt, up, fov, width, height);
+                            //camera = new Camera(position, lookAt, up, fov, width, height);
+                            camera.setEye(position);
+                            camera.setZ(lookAt);
+                            //id = Ob
+                            //createGUIObject(null, id, Config.type.CAMERA);
                         }
                     }
                     // Extract point lights
