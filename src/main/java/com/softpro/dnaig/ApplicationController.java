@@ -811,11 +811,10 @@ public class ApplicationController {
             alert.showAndWait();
         } else {
             // Switch the style class and execute rendering or cancellation accordingly
-            switchRenderButtonStyleClass();
             if ((renderButton.getText().equals("Cancel"))) {
-                loadRayTracer();
-            } else {
                 cancelRayTracer();
+            } else {
+                loadRayTracer();
             }
         }
     }
@@ -935,7 +934,7 @@ public class ApplicationController {
 
         // Set the scene and start the ray tracer
         output.setScene(entityList, lightList, camera);
-        output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished);
+        output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished, this);
     }
 
     /*************One Time METHODS**************/

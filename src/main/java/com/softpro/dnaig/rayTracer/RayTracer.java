@@ -1,9 +1,11 @@
 package com.softpro.dnaig.rayTracer;
 
 
+import com.softpro.dnaig.ApplicationController;
 import com.softpro.dnaig.Output;
 import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.Vector3D;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 
 import java.io.IOException;
@@ -19,6 +21,12 @@ public class RayTracer implements CallbackInterface {
     public int configured = 0;
 
     private final Thread[] threads = new Thread[Config.THREADS];
+
+    private final ApplicationController applicationController;
+
+    public RayTracer(ApplicationController applicationController) {
+        this.applicationController = applicationController;
+    }
 
     public boolean configurationComplete(){
         return configured>=Config.THREADS;
@@ -63,8 +71,13 @@ public class RayTracer implements CallbackInterface {
                                 //System.out.println(j);
                                 //System.out.printf("Task %d: work=%d i=%d j=%d\n", tid, work, i, j);
                                 // check if RayTracer thread was asked to cancel
-                                if (Output.getOutput().isThreadCancelled())
-                                    return null;
+                                if (Output.getOutput().isThreadCancelled()) {
+                                    try {
+                                        Thread.currentThread().join();
+                                    } catch (InterruptedException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                                }
 
                                 //System.out.printf("Task %d: work=%d i=%d j=%d no cancel\n", tid, work, i, j);
 
@@ -129,6 +142,7 @@ public class RayTracer implements CallbackInterface {
 
         if (threadsFinished >= Config.THREADS) {
             System.out.println("Time: " + (System.currentTimeMillis() - startTime) / 1000.0 + "s");
+            Platform.runLater(() -> applicationController.callbackWhenRayTracerFinished(null));
         }
     }
 }

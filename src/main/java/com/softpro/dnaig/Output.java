@@ -53,7 +53,7 @@ public class Output extends Application {
     }
 
     private Consumer<Void> callbackWhenRayTracerFinished;
-    public void openRayTracer(LinkedList<Properties> propertiesList, Stage primaryStage, Consumer<Void> callbackWhenRayTracerFinished) {
+    public void openRayTracer(LinkedList<Properties> propertiesList, Stage primaryStage, Consumer<Void> callbackWhenRayTracerFinished, ApplicationController applicationController) {
         //ToDO:abarbeiten der propertiesListe
 
         this.callbackWhenRayTracerFinished = callbackWhenRayTracerFinished;
@@ -66,7 +66,7 @@ public class Output extends Application {
 
             localStage = new Stage();
 
-            localStage.setTitle("Simple Raytracer");
+            localStage.setTitle("DNAIG-RayTracer Output");
             localStage.setScene(new Scene(root));
             localStage.setResizable(false);
         }
@@ -77,12 +77,13 @@ public class Output extends Application {
         // reset stuff from possible previous runs
         threadCancelled = false;
         buffer = new int[BUFFER_SIZE];
+        resetPixelTest();
 
         // call RayTracer on new thread
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() {
-                RayTracer r = new RayTracer();
+                RayTracer r = new RayTracer(applicationController);
                 try {
                     r.trace();
 
@@ -215,6 +216,12 @@ public class Output extends Application {
         }
     }
 
+    public void resetPixelTest() {
+        buffer_test = new int[Config.THREADS][buffer_test_size];
+        buffer_ptr_test = new int[Config.THREADS];
+        canvas.getGraphicsContext2D().clearRect(0, 0, Config.WIDTH, Config.HEIGHT);
+    }
+
     public static void dispose(){
         Output inst = getOutput();
 
@@ -237,7 +244,7 @@ public class Output extends Application {
 
         primaryStage.show();
 
-        RayTracer r = new RayTracer();
+        RayTracer r = new RayTracer(null);
         r.trace();
     }
 
