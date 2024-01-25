@@ -162,6 +162,11 @@ public class YAMLexporter {
                             //camera = new Camera(position, lookAt, up, fov, width, height);
                             camera.setEye(position);
                             camera.setZ(lookAt);
+                            Config.getInstance().setWIDTH(width);
+                            Config.getInstance().setHEIGHT(height);
+                            camera.setFov(fov);
+                            camera.setWidth(width);
+                            camera.setHeight(height);
                             //id = Ob
                             //createGUIObject(null, id, Config.type.CAMERA);
                         }

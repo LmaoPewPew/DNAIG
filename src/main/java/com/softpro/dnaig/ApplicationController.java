@@ -288,8 +288,12 @@ public class ApplicationController {
 
             for (Properties properties : propertiesList) {
                 if (properties.getId().equals(String.valueOf(id))) {
-                    properties.setPos(new String[]{String.valueOf(camera.getEye().getX()), String.valueOf(camera.getEye().getY()), String.valueOf(camera.getEye().getZ())});
-                    properties.setRot(new String[]{"0", "0", "0"});
+                    if (properties instanceof CameraProperties cameraProperties) {
+                        cameraProperties.setPos(new String[]{String.valueOf(camera.getEye().getX()), String.valueOf(camera.getEye().getY()), String.valueOf(camera.getEye().getZ())});
+                        cameraProperties.setRot(new String[]{"0", "0", "0"});
+                        cameraProperties.setHeight(camera.getHeight());
+                        cameraProperties.setWidth(camera.getWidth());
+                    }
                 }
             }
 
@@ -651,8 +655,8 @@ public class ApplicationController {
 
             gp.add(height, 1, 13);
 
-            width.setText("1280");
-            height.setText("720");
+            width.setText(String.valueOf(finalopTest.getWidth()));
+            height.setText(String.valueOf(finalopTest.getHeight()));
 
             /*
             ChoiceBox<String> cb = new ChoiceBox<>();
@@ -679,7 +683,7 @@ public class ApplicationController {
             cb.setValue(cp.getCameravariants().toString());
             */
 
-            gp.add(new Text("Camera Resolution"), 0, 11);
+            gp.add(new Text("Resolution:"), 0, 11);
             //gp.add(cb, 1, 11);
 
             // textFieldVALUES[7] = String.valueOf(cp.getHeight());
