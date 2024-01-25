@@ -166,6 +166,7 @@ public class ApplicationController {
         // Automatically Save .YAML file in Downloads folder
         //FileChooser directoryChooser = new FileChooser();
 
+        directoryChooser.getExtensionFilters().clear();
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPEG/JPG", "*.jpg", "*.jpeg"));
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("BMP", "*.bmp"));
@@ -190,6 +191,7 @@ public class ApplicationController {
         // Save Image of the Rendered image in specific Folder (like SaveFileAs)
         //FileChooser directoryChooser = new FileChooser();
 
+        directoryChooser.getExtensionFilters().clear();
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("YAML", "*.yaml"));
         directoryChooser.setTitle("Save Scene");
 
@@ -208,8 +210,9 @@ public class ApplicationController {
         // Loads .YAML file into project
         //FileChooser directoryChooser = new FileChooser();
 
+        directoryChooser.getExtensionFilters().clear();
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("YAML", "*.yaml"));
-        directoryChooser.setTitle("Save Scene");
+        directoryChooser.setTitle("Load Scene");
 
         File file = directoryChooser.showOpenDialog(new Stage());
 
