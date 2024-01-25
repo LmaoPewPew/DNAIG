@@ -37,6 +37,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Objects;
 
 public class ApplicationController {
@@ -219,21 +220,75 @@ public class ApplicationController {
         File file = directoryChooser.showOpenDialog(new Stage());
 
         try {
+            Camera camera =  new Camera();
             System.out.println(file.getPath());
             //CustomScene.getScene().yamlImport(file);
-            YAMLexporter.importScene(file, entityList, lightList, null);
+            YAMLexporter.importScene(file, entityList, lightList, camera);
             for (Entity entity : entityList) {
                 int id = objectID++;
                 latestFile = new File(entity.getObjPath());
                 entity.setId(id);
                 createGUIObject(entity, id, Config.type.OBJECT);
+                previewWindow.addObject(entity.getObjPath(), entity.getID());
+                previewWindow.updatePosition(id, entity.getPivot().getX(), entity.getPivot().getY(), entity.getPivot().getZ(),
+                        entity.getOrient().getX(), entity.getOrient().getY(), entity.getOrient().getZ(), entity.getScale());
+
+                for (Properties properties : propertiesList) {
+                    if (properties instanceof ObjectProperties objectProperties) {
+                        if (objectProperties.getId().equals(String.valueOf(id))) {
+                            objectProperties.setScale(String.valueOf(entity.getScale()));
+                            objectProperties.setPos(new String[]{String.valueOf(entity.getPivot().getX()), String.valueOf(entity.getPivot().getY()), String.valueOf(entity.getPivot().getZ())});
+                            objectProperties.setRot(new String[]{String.valueOf(entity.getOrient().getX()), String.valueOf(entity.getOrient().getY()), String.valueOf(entity.getOrient().getZ()),});
+                            break;
+                        }
+                    }
+                }
             }
             for (Light light : lightList) {
                 int id = objectID++;
                 light.setID(id);
                 System.out.println(light.toYaml());
-                LightProperties lp = new LightProperties(Config.type.LIGHT, Config.lightvariants.POINT, String.format("%f, %f, %f", light.getIntensity().getX(), light.getIntensity().getY(), light.getIntensity().getZ()), "light", String.valueOf(id), new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())}, new String[]{"0","0","0"}, new String[]{"0","0","0"});
-                loadImage(lp, Config.type.LIGHT);
+                LightProperties lp = new LightProperties(Config.type.LIGHT, Config.lightvariants.POINT, "1", "light", String.valueOf(id), new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())}, new String[]{"0","0","0"}, new String[]{String.valueOf(light.getIntensity().getX()), String.valueOf(light.getIntensity().getY()), String.valueOf(light.getIntensity().getZ())});
+                //loadImage(lp, Config.type.LIGHT);
+                createGUIObject(null, id, Config.type.LIGHT);
+
+                try {
+                    previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/lightbulb/lightbulb.obj", id);
+                } catch (Exception e) {
+                    previewWindow.addObject("app/lightbulb/lightbulb.obj", id);
+                }
+
+                previewWindow.updatePosition(id, light.getPosition().getX(), light.getPosition().getY(), light.getPosition().getZ(),
+                        0, 0, 0, 1);
+
+                for (Properties properties : propertiesList) {
+                    if (properties.getId().equals(String.valueOf(id))) {
+                        properties.setPos(new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())});
+                        properties.setRot(new String[]{"0", "0", "0"});
+                    }
+                }
+            }
+
+            int id = objectID++;
+
+            try {
+                previewWindow.addObject("src/main/java/com/softpro/dnaig/assets/objFile/camera/camera.obj", id);
+            } catch (Exception e) {
+                previewWindow.addObject("app/camera/camera.obj", id);
+            }
+
+            createGUIObject(null, id, Config.type.CAMERA);
+            CameraProperties cp = new CameraProperties(Config.type.CAMERA, Config.cameravariants.HD, "camera", String.valueOf(id), new String[]{String.valueOf(camera.getEye().getX()), String.valueOf(camera.getEye().getY()), String.valueOf(camera.getEye().getZ())}, new String[]{"0", "0", "0"}, 1280, 720);
+            //loadImage(cp, Config.type.CAMERA);
+            camExist = true;
+            previewWindow.updatePosition(id, camera.getEye().getX(), camera.getEye().getY(), camera.getEye().getZ(),
+                    0, 0, 0, 1);
+
+            for (Properties properties : propertiesList) {
+                if (properties.getId().equals(String.valueOf(id))) {
+                    properties.setPos(new String[]{String.valueOf(camera.getEye().getX()), String.valueOf(camera.getEye().getY()), String.valueOf(camera.getEye().getZ())});
+                    properties.setRot(new String[]{"0", "0", "0"});
+                }
             }
 
         } catch (Exception e) {
@@ -877,6 +932,7 @@ public class ApplicationController {
         for (Properties properties : propertiesList) {
             if (properties instanceof LightProperties lightProperties) {
                 // Configure PointLight based on LightProperties
+
                 PointLight pointLight = new PointLight(
                         Integer.parseInt(lightProperties.getId()),
                         new Vector3D(Double.parseDouble(lightProperties.getPos()[0]),
@@ -886,6 +942,7 @@ public class ApplicationController {
                                 Double.parseDouble(lightProperties.getRgb()[1]),
                                 Double.parseDouble(lightProperties.getRgb()[2]))
                                 .scalarMultiplication(Double.parseDouble(lightProperties.getIntensity()))
+
                 );
 
                 // Remove and update existing light in the lightList

@@ -77,6 +77,7 @@ public class LightProperties implements Properties {
     }
 
     public String getIntensity() {
+        //return intensity.split(",")[0].trim();
         return intensity;
     }
 
