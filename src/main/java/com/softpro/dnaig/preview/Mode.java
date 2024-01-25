@@ -1,5 +1,9 @@
 package com.softpro.dnaig.preview;
 
+/**
+ * Enumeration class representing different modes of movement for Camera and Objects.
+ * Each mode encapsulates a specific action and target type.
+ */
 public enum Mode {
 
     ERROR("01100101 01110010 01110010 01101111 01110010", TargetType.ERROR, ActionType.ERROR),
@@ -25,27 +29,54 @@ public enum Mode {
     private final TargetType targetType;
     private final ActionType actionType;
 
+    /**
+     * Initializes a new Mode object with the specified name, target type, and action type.
+     *
+     * @param name The name of the mode.
+     * @param targetType The target type of the mode (CAMERA, OBJECT, or ERROR).
+     * @param actionType The action type of the mode (MOVE, ROTATE, or ERROR).
+     */
     Mode(String name, TargetType targetType, ActionType actionType) {
         this.name = name;
         this.targetType = targetType;
         this.actionType = actionType;
     }
 
+    /**
+     * Returns the name of the mode.
+     *
+     * @return The name of the mode.
+     */
     @Override
     public String toString() {
         return name;
     }
 
+    /**
+     * Returns the target type of the current mode.
+     *
+     * @return The target type of the current mode.
+     */
     public TargetType getTargetType() {
         return targetType;
     }
 
+    /**
+     * Enumeration class representing different target types.
+     *
+     * <p>Possible values are CAMERA, OBJECT, and ERROR.
+     */
     protected enum TargetType {
         CAMERA,
         OBJECT,
         ERROR
     }
 
+    /**
+     * Enumeration class representing different action types.
+     *
+     * <p>The possible action types are MOVE, ROTATE, and ERROR.
+     */
     protected enum ActionType {
         MOVE,
         ROTATE,

@@ -14,7 +14,20 @@ import org.fxyz3d.shapes.polygon.PolygonMeshView;
 *
 */
 
+/**
+ * The Grid class represents a grid-like structure in a 3D scene. It provides methods for creating a quadrilateral
+ * mesh and a Group containing the grid mesh.
+ */
 public class Grid {
+    /**
+     * Creates a quadrilateral mesh with the specified width, height, and subdivisions.
+     *
+     * @param width the width of the quadrilateral mesh
+     * @param height the height of the quadrilateral mesh
+     * @param subDivX the number of subdivisions along the x-axis
+     * @param subDivY the number of subdivisions along the y-axis
+     * @return the created quadrilateral mesh as a {@code PolygonMesh}
+     */
     private static PolygonMesh createQuadrilateralMesh(float width, float height, int subDivX, int subDivY) {
         final float minX = - width / 2f;
         final float minY = - height / 2f;
@@ -83,6 +96,13 @@ public class Grid {
         return mesh;
     }
 
+    /**
+     * Creates a grid with a specified size and delta.
+     *
+     * @param size  the size of the grid
+     * @param delta the spacing between grid lines
+     * @return a Group containing three PolygonMeshViews representing the grid in XY, XZ, and YZ planes
+     */
     public static Group createGrid(float size, float delta) {
         if (delta < 1) {
             delta = 1;

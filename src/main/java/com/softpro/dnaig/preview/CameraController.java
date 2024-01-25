@@ -30,6 +30,14 @@ public class CameraController {
     private final Scale scale;
     private final View view;
 
+    /**
+     * Represents a CameraController object that controls the camera in a 3D scene.
+     *
+     * @param previewWindow The PreviewWindow object to display the preview.
+     * @param subScene The SubScene object to set the camera for.
+     * @param view The View object representing the scene view.
+     * @param overlay The Overlay object to display overlays on the scene.
+     */
     public CameraController(PreviewWindow previewWindow, SubScene subScene, /*Stage stage,*/ View view, Overlay overlay) {
 
         this.previewWindow = previewWindow;
@@ -60,18 +68,36 @@ public class CameraController {
         overlay.getLblCameraTz().textProperty().bind(Bindings.concat("Z: ", this.view.getCamera().translateZProperty().asString()));
     }
 
+    /**
+     * Retrieves the mapping between the Model3D objects and their corresponding CameraControlWrapper objects.
+     *
+     * @return The HashMap representing the mapping between Model3D and CameraControlWrapper.
+     */
     public HashMap<Model3D, CameraControlWrapper> getModelCameraMap() {
         return modelCameraMap;
     }
 
+    /**
+     * Retrieves the currently selected Model3D object.
+     *
+     * @return The selected Model3D object, or null if no object is currently selected.
+     */
     public Model3D getSelected() {
         return selected;
     }
 
+    /**
+     * Sets the currently selected Model3D object.
+     *
+     * @param selected The Model3D object to set as the selected object.
+     */
     protected void setSelected(Model3D selected) {
         this.selected = selected;
     }
 
+    /**
+     * Resets the camera to its default position and orientation.
+     */
     public void resetCamera() {
         cameraRX.setAngle(0.0);
         cameraRY.setAngle(0.0);
@@ -83,6 +109,15 @@ public class CameraController {
         System.out.println("reset");
     }
 
+    /**
+     * Moves the camera in the specified direction.
+     *
+     * @param direction The direction to move the camera. Can be one of the following:
+     *                  - "R" for moving the camera to the right
+     *                  - "L" for moving the camera to the left
+     *                  - "D" for moving the camera down
+     *                  - "U" for moving the camera up
+     */
     public void moveCamera(String direction) {
         switch (direction) {
             case "R" -> cameraRY.setAngle(cameraRY.getAngle()+5);
@@ -92,16 +127,34 @@ public class CameraController {
         }
     }
 
+    /**
+     * Handles the scroll event by adjusting the translation of the camera along the z-axis.
+     *
+     * @param event The ScrollEvent object representing the scroll event.
+     */
     private void handleScroll(ScrollEvent event) {
         double delta = event.getDeltaY();
         Camera camera = this.view.getCamera();
         camera.setTranslateZ(camera.getTranslateZ() + delta * 2);
     }
 
+    /**
+     * Handles the mouse click event by setting the old position to the coordinates
+     * of the clicked point.
+     *
+     * @param event The MouseEvent object representing the mouse click event.
+     */
     private void handleMouseClick(MouseEvent event) {
         oldPos = new Point2D(event.getSceneX(), event.getSceneY());
     }
 
+    /**
+     * Handles the mouse release event by changing the current mode based on the target type and the current mode.
+     * If the target type is CAMERA and the current mode is not MOVE_CAMERA_XY, sets the current mode to MOVE_CAMERA_XY.
+     * If the target type is OBJECT and the current mode is not ROTATE_OBJECT_XY, sets the current mode to MOVE_OBJECT_XY.
+     *
+     * @param event The MouseEvent object representing the mouse release event.
+     */
     private void handleMouseRelease(MouseEvent event) {
         Mode currentMode = previewWindow.getCurrentMode().get();
         if (currentMode.getTargetType() == Mode.TargetType.CAMERA && currentMode != Mode.MOVE_CAMERA_XY) {
@@ -112,6 +165,11 @@ public class CameraController {
         //TODO: previous mode?
     }
 
+    /**
+     * Handles the mouse move event by performing different actions based on the current mode.
+     *
+     * @param event The MouseEvent object representing the mouse move event.
+     */
     private void handleMouseMove(MouseEvent event) {
         /*switch (previewWindow.getCurrentMode().get()) {
             case ROTATE_CAMERA_XY -> {}
@@ -170,6 +228,11 @@ public class CameraController {
         }*/
     }
 
+    /**
+     * Handles the mouse drag event by performing different actions based on the current mode and mouse button.
+     *
+     * @param event The MouseEvent object representing the mouse drag event.
+     */
     private void handleMouseDrag(MouseEvent event) {
         if (event.getButton() == MouseButton.PRIMARY) {
             switch (previewWindow.getCurrentMode().get()) {
@@ -247,11 +310,22 @@ public class CameraController {
         }
     }
 
+    /**
+     * Handles the mouse exit event.
+     *
+     * @param event The MouseEvent object representing the mouse exit event.
+     */
     private void handleMouseExit(MouseEvent event) {
         //System.out.printf("%f %f %f %f %f %f\n", event.getSceneX(), event.getSceneY(), event.getX(), event.getY(), event.getScreenX(), event.getScreenY());
         //mouseEvent.get
     }
 
+    /**
+     * Retrieves the CameraControlWrapper object associated with the specified Model3D.
+     *
+     * @param model The Model3D object for which to retrieve the CameraControlWrapper.
+     * @return The CameraControlWrapper associated with the specified Model3D.
+     */
     public CameraControlWrapper getCameraControlWrapper(Model3D model) {
         return modelCameraMap.get(model);
     }

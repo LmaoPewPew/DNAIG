@@ -20,6 +20,9 @@ import java.util.Map;
 
 import com.softpro.dnaig.objData.mesh.Entity;
 
+/**
+ * The PreviewWindow class represents a window for previewing and manipulating 3D models.
+ */
 public class PreviewWindow {
     private final int WIDTH = 1280;
     private final int HEIGHT = 720;
@@ -32,6 +35,12 @@ public class PreviewWindow {
     public StackPane root;
     private ApplicationController applicationController;
 
+    /**
+     * Represents a preview window for displaying 3D models.
+     *
+     * @param root The root container that holds the preview window.
+     * @param applicationController The application controller used for managing the application.
+     */
     public PreviewWindow(StackPane root, ApplicationController applicationController) {
         this.root = root;
         this.applicationController = applicationController;
@@ -48,6 +57,13 @@ public class PreviewWindow {
         //addObject("src/main/java/com/softpro/dnaig/assets/objFile/porsche/porsche.obj");
     }
 
+    /**
+     * Adds a 3D object to the preview window.
+     *
+     * @param path The file path of the 3D object.
+     * @param id The ID of the 3D object.
+     * @throws RuntimeException If there is an error loading the 3D object.
+     */
     public void addObject(String path, int id) {
         try {
             Model3D model = view.addObject(path);
@@ -72,6 +88,11 @@ public class PreviewWindow {
         }
     }
 
+    /**
+     * Removes a 3D object from the preview window.
+     *
+     * @param id The ID of the 3D object to remove.
+     */
     public void removeObject(int id) {
         Model3D model = tempModelList.get(id);
         view.removeObject(model);
@@ -80,6 +101,9 @@ public class PreviewWindow {
             cameraController.setSelected((Model3D) cameraController.getModelCameraMap().keySet().toArray()[0]);
     }
 
+    /**
+     * Removes the currently selected Model3D object from the preview window.
+     */
     public void removeSelected() {
         Model3D model = cameraController.getSelected();
         view.removeObject(model);
@@ -101,6 +125,11 @@ public class PreviewWindow {
         updateSelected(-1);
     }
 
+    /**
+     * Handles key events for the PreviewWindow class.
+     *
+     * @param event The KeyEvent object representing the key event.
+     */
     public void handleKey(KeyEvent event) {
         if (currentModifier.get() == null) {
             switch (event.getCode()) {
@@ -148,10 +177,20 @@ public class PreviewWindow {
         }
     }
 
+    /**
+     * Sets the current modifier key based on the provided KeyCode.
+     *
+     * @param keyCode The KeyCode representing the key pressed.
+     */
     private void setCurrentModifier(KeyCode keyCode) {
         currentModifier.set(keyCode);
     }
 
+    /**
+     * Updates the selected Model3D object based on the provided ID.
+     *
+     * @param id The ID of the Model3D object.
+     */
     public void updateSelected(int id) {
         if (id < 0) {
             cameraController.setSelected(null);
@@ -162,6 +201,11 @@ public class PreviewWindow {
         }
     }
 
+    /**
+     * Retrieves entity data for a given Entity object.
+     *
+     * @param entity The Entity object to retrieve data from.
+     */
     public void getEntityData(Entity entity){
         int id = entity.getID();
         Model3D model = tempModelList.get(id);
@@ -181,10 +225,27 @@ public class PreviewWindow {
         System.out.println("ID: " + id);
     }
 
+    /**
+     * Retrieves the current mode of the PreviewWindow.
+     *
+     * @return The current mode represented as an ObjectProperty of type Mode.
+     */
     public ObjectProperty<Mode> getCurrentMode() {
         return currentMode;
     }
 
+    /**
+     * Updates the position, rotation, and scale of a 3D model.
+     *
+     * @param id The ID of the 3D model.
+     * @param x The x-coordinate of the position.
+     * @param y The y-coordinate of the position.
+     * @param z The z-coordinate of the position.
+     * @param xRot The rotation angle along the X-axis.
+     * @param yRot The rotation angle along the Y-axis.
+     * @param zRot The rotation angle along the Z-axis.
+     * @param scale The scale factor of the model.
+     */
     public void updatePosition(int id, double x, double y, double z, double xRot, double yRot, double zRot, double scale) {
         Model3D model = tempModelList.get(id);
         CameraControlWrapper wrapper = cameraController.getCameraControlWrapper(model);
