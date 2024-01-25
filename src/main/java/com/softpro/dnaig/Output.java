@@ -86,10 +86,6 @@ public class Output extends Application {
                 RayTracer r = new RayTracer(applicationController);
                 try {
                     r.trace();
-
-                    //TODO
-                    // callback to ApplicationController when tracing is finished or cancelled
-                    //Platform.runLater(() -> callbackWhenRayTracerFinished.accept(null));
                 } catch (IOException e) {
                     System.out.println("here");
                     throw new RuntimeException(e);
@@ -101,16 +97,6 @@ public class Output extends Application {
         RTRunnable runnable = new RTRunnable(task, this::callbackWhenRTFinished);
         Thread renderThread = new Thread(runnable);
         renderThread.start();
-
-        /*RayTracer r = new RayTracer();
-        try {
-            r.trace();
-
-            // callback to ApplicationController when tracing is finished or cancelled
-            Platform.runLater(() -> callbackWhenRayTracerFinished.accept(null));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
     }
 
     private void callbackWhenRTFinished(String s) {
