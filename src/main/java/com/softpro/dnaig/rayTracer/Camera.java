@@ -1,14 +1,15 @@
 package com.softpro.dnaig.rayTracer;
 
 import com.softpro.dnaig.Output;
+import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.Vector3D;
 
 import java.util.Locale;
 
 public class Camera {
-    private int l = -Output.WIDTH/2;
+    private int l = -Config.getInstance().getWIDTH()/2;
     private int r = -l;
-    private int t = Output.HEIGHT/2;
+    private int t = Config.getInstance().getHEIGHT()/2;
     private int b = -t;
     private double fov = (45.0/360)*2*Math.PI;
 
@@ -174,7 +175,7 @@ public class Camera {
                 \tfieldOfView: %f
                 \twidth: %d
                 \theight: %d       \s
-                """, eye.toYaml(), Z.toYaml(), UP.toYaml(), fov, Output.WIDTH, Output.HEIGHT
+                """, eye.toYaml(), Z.toYaml(), UP.toYaml(), fov, Config.getInstance().getWIDTH(), Config.getInstance().getHEIGHT()
         );
     }
 }

@@ -33,12 +33,6 @@ import java.util.function.Consumer;
 
 public class Output extends Application {
 
-    public static final int WIDTH = Config.WIDTH;
-    public static final int HEIGHT = Config.HEIGHT;
-    private static final int BUFFER_SIZE = Config.HEIGHT / 5;
-
-    private int[] buffer = new int[BUFFER_SIZE];
-    private int buffer_ptr = 0;
     private volatile boolean threadCancelled = false;
 
     private Canvas canvas;
@@ -76,7 +70,6 @@ public class Output extends Application {
 
         // reset stuff from possible previous runs
         threadCancelled = false;
-        buffer = new int[BUFFER_SIZE];
         resetPixelTest();
 
         // call RayTracer on new thread
@@ -131,8 +124,8 @@ public class Output extends Application {
 
     private void drawDefaultBackground() {
         PixelWriter pixelWriter = canvas.getGraphicsContext2D().getPixelWriter();
-        for (int y = 0; y < HEIGHT; y++) {
-            for (int x = 0; x < WIDTH; x++) {
+        for (int y = 0; y < Config.getInstance().getHEIGHT(); y++) {
+            for (int x = 0; x < Config.getInstance().getWIDTH(); x++) {
                 pixelWriter.setColor(x, y, Color.BLUE);
             }
         }
@@ -144,8 +137,13 @@ public class Output extends Application {
 
     public static Output getOutput(){
         if(instance==null){
-            instance = new Output(WIDTH, HEIGHT);
+            instance = new Output(Config.getInstance().getWIDTH(), Config.getInstance().getHEIGHT());
         }
+        return instance;
+    }
+
+    public Output recreate() {
+        instance = new Output(Config.getInstance().getWIDTH(), Config.getInstance().getHEIGHT());
         return instance;
     }
 
@@ -153,33 +151,13 @@ public class Output extends Application {
         return threadCancelled;
     }
 
-
-    public void setPixel(int x, int y, int c){
-        if (x > WIDTH - 1 || y > HEIGHT - 1 || x < 0 || y < 0) {
-            return;
-        }
-
-        // add alpha value to color (opacity is always 100%)
-        buffer[buffer_ptr++] = (0xFF<<24) | c;
-
-        // if buffer is full, write data out to screen
-        if (buffer_ptr >= BUFFER_SIZE) {
-            canvas.getGraphicsContext2D().getPixelWriter().setPixels(x, y-BUFFER_SIZE+1, 1, BUFFER_SIZE, PixelFormat.getIntArgbInstance(), buffer, 0, 1);
-
-            // reset buffer
-            buffer = new int[BUFFER_SIZE];
-            buffer_ptr = 0;
-        }
-
-    }
-
-    int h = HEIGHT / Config.TILES;
-    int w = WIDTH / Config.TILES;
+    int h = Config.getInstance().getHEIGHT() / Config.getInstance().getTILES();
+    int w = Config.getInstance().getWIDTH() / Config.getInstance().getTILES();
     int buffer_test_size = w*h;
-    int[][] buffer_test = new int[Config.THREADS][buffer_test_size];
-    int[] buffer_ptr_test = new int[Config.THREADS];
+    int[][] buffer_test = new int[Config.getInstance().getTHREADS()][buffer_test_size];
+    int[] buffer_ptr_test = new int[Config.getInstance().getTHREADS()];
     public synchronized void setPixelTest(int tid, int x, int y, int c, int work) {
-        if (x > WIDTH - 1 || y > HEIGHT - 1 || x < 0 || y < 0) {
+        if (x > Config.getInstance().getWIDTH() - 1 || y > Config.getInstance().getHEIGHT() - 1 || x < 0 || y < 0) {
             return;
         }
 
@@ -203,9 +181,13 @@ public class Output extends Application {
     }
 
     public void resetPixelTest() {
-        buffer_test = new int[Config.THREADS][buffer_test_size];
-        buffer_ptr_test = new int[Config.THREADS];
-        canvas.getGraphicsContext2D().clearRect(0, 0, Config.WIDTH, Config.HEIGHT);
+        buffer_test = new int[Config.getInstance().getTHREADS()][buffer_test_size];
+        buffer_ptr_test = new int[Config.getInstance().getTHREADS()];
+        canvas.getGraphicsContext2D().clearRect(0, 0, Config.getInstance().getWIDTH(), Config.getInstance().getHEIGHT());
+    }
+
+    public void clearPixelTest() {
+        buffer_test = null;
     }
 
     public static void dispose(){

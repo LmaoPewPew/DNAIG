@@ -608,25 +608,47 @@ public class ApplicationController {
             gp.addRow(3);
 
             gp.add(new Text("Width:"), 0, 12);
-            TextField width = new TextField(String.valueOf(cp.getHeight()));
+            TextField width = new TextField(String.valueOf(cp.getWidth()));
             width.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 //CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
 
-                if (finalopTest != null)
-                    finalopTest.setHeight(Integer.parseInt(newValue));
+                if (finalopTest != null) {
+                    finalopTest.setWidth(Integer.parseInt(newValue));
+                    Config.getInstance().setWIDTH(Integer.parseInt(newValue));
+                }
+            });
+
+            width.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    textFocus = false;
+                } else {
+                    textFocus = true;
+                }
             });
 
             gp.add(width, 1, 12);
 
             gp.add(new Text("Height:"), 0, 13);
-            TextField height = new TextField(String.valueOf(cp.getWidth()));
+            TextField height = new TextField(String.valueOf(cp.getHeight()));
 
 
             height.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 // CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                if (finalopTest != null)
-                    finalopTest.setWidth(Integer.parseInt(newValue));
+                if (finalopTest != null) {
+                    finalopTest.setHeight(Integer.parseInt(newValue));
+                    Config.getInstance().setHEIGHT(Integer.parseInt(newValue));
+                }
+
             });
+
+            height.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    textFocus = false;
+                } else {
+                    textFocus = true;
+                }
+            });
+
             gp.add(height, 1, 13);
 
             width.setText("1280");
@@ -657,7 +679,7 @@ public class ApplicationController {
             cb.setValue(cp.getCameravariants().toString());
             */
 
-            gp.add(new Text("HD-Res."), 0, 11);
+            gp.add(new Text("Camera Resolution"), 0, 11);
             //gp.add(cb, 1, 11);
 
             // textFieldVALUES[7] = String.valueOf(cp.getHeight());
@@ -925,7 +947,7 @@ public class ApplicationController {
      */
     @FXML
     void loadRayTracer() {
-        Output output = Output.getOutput();
+        Output output = Output.getOutput().recreate();
         output.clear();
         entityList.forEach(System.out::println);
         Camera camera = null;
