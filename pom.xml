@@ -6,7 +6,7 @@
 
     <groupId>com.softpro</groupId>
     <artifactId>dnaig</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <name>dnaig</name>
 
     <properties>
@@ -123,7 +123,7 @@
                 <version>1.6.0</version>
                 <configuration>
                     <name>DNAIG</name>
-                    <appVersion>1.0.0</appVersion>
+                    <appVersion>1.0.1</appVersion>
                     <vendor>DNAIG Team</vendor>
                     <destination>${jpackage.dest}</destination>
                     <module>com.softpro.dnaig/com.softpro.dnaig.MainApplication</module>
