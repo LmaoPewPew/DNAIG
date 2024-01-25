@@ -3,6 +3,8 @@ package com.softpro.dnaig.rayTracer;
 import com.softpro.dnaig.Output;
 import com.softpro.dnaig.utils.Vector3D;
 
+import java.util.Locale;
+
 public class Camera {
     private int l = -Output.WIDTH/2;
     private int r = -l;
@@ -47,6 +49,23 @@ public class Camera {
         b = -t;
 
          */
+    }
+
+    public Camera(Vector3D eye, Vector3D lookAt, Vector3D up, double fov, int width, int height) {
+        this.eye = eye;
+        this.Z = lookAt;
+        this.UP = up;
+        this.fov = fov;
+
+        if(UP.crossProduct(eye.subtract(Z)).length()==0){
+            UP = new Vector3D(0, 0, 1);
+        }
+        W = eye.subtract(Z).normalize();
+        U = UP.crossProduct(W).normalize();
+        V = W.crossProduct(U).normalize();
+
+        d = t/(Math.tan(fov/2)*2);
+        W_d_negated = W.scalarMultiplication(-d);
     }
 
     public void setL(int l) {
@@ -147,6 +166,7 @@ public class Camera {
 
     public String toYaml(){
         return String.format(
+                Locale.US,
                 """
                 \tposition: %s
                 \tlookAt: %s

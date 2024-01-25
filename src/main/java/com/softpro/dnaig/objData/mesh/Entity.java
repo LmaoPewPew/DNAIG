@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * Represents an Entity in 3D space, with properties such as its name, position, orientation,
@@ -258,6 +259,7 @@ public class Entity implements TriangleMesh, Iterable<Face> {
     @Override
     public String toYaml() {
         return String.format(
+                Locale.US,
                 """
                 -\tfilePath: "%s"
                 \tposition: %s

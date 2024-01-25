@@ -4,6 +4,8 @@ package com.softpro.dnaig.objData.light;
 import com.softpro.dnaig.objData.light.Light;
 import com.softpro.dnaig.utils.Vector3D;
 
+import java.util.Locale;
+
 public class PointLight implements Light {
 
     int id;
@@ -44,6 +46,7 @@ public class PointLight implements Light {
     @Override
     public String toYaml() {
         return String.format(
+                Locale.US,
                 """
                 -\tposition: %s
                 \tKe: %s
