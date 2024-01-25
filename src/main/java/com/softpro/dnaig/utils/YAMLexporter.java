@@ -124,10 +124,14 @@ public class YAMLexporter {
                         if (!filePath.isEmpty() && position != null && rotation != null && scale != 0) {
                             Entity entity = null;
                             try {
-                                filePath = filePath.split("./")[1];
-                                String temp = String.format("%s/%s",objectPath, filePath);
-                                System.out.println(temp);
-                                entity = ObjFileReader.createObject(temp, id++);
+                                if (filePath.contains(":")) {
+                                    entity = ObjFileReader.createObject(filePath, id++);
+                                } else {
+                                    filePath = filePath.split("./")[1];
+                                    String temp = String.format("%s/%s",objectPath, filePath);
+                                    System.out.println(temp);
+                                    entity = ObjFileReader.createObject(temp, id++);
+                                }
                                 entity.setPivot(position);
                                 entity.setOrient(rotation);
                                 entity.scale(scale);
