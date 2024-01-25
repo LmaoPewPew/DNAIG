@@ -82,6 +82,7 @@ public class YAMLexporter {
         Vector3D rotation = null;
         double scale = 0;
         Vector3D color = null;
+        double intensity = -1;
         Vector3D lookAt = null;
         Vector3D up = null;
         int width = 0, height = 0;
@@ -166,10 +167,12 @@ public class YAMLexporter {
                             position = extractVector(reader);
                         } else if (line.contains("Ke:")) {
                             color = extractVector(reader);
+                        } else if (line.contains("intensity:")) {
+                            intensity = Double.parseDouble(line.split(":")[1].trim());
                         }
-                        if (position != null && color != null) {
-                            System.out.println("Position: " + position + " Color: " + color);
-                            lights.add(new PointLight(position, color));
+                        if (position != null && color != null && intensity != -1) {
+                            System.out.println("Position: " + position + " Color: " + color + " Intensity: " + intensity);
+                            lights.add(new PointLight(position, color, intensity));
                             position = null;
                             color = null;
                         }

@@ -17,7 +17,6 @@ import com.softpro.dnaig.utils.YAMLexporter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,7 +36,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Objects;
 
 public class ApplicationController {
@@ -248,7 +246,7 @@ public class ApplicationController {
                 int id = objectID++;
                 light.setID(id);
                 System.out.println(light.toYaml());
-                LightProperties lp = new LightProperties(Config.type.LIGHT, Config.lightvariants.POINT, "1", "light", String.valueOf(id), new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())}, new String[]{"0","0","0"}, new String[]{String.valueOf(light.getIntensity().getX()), String.valueOf(light.getIntensity().getY()), String.valueOf(light.getIntensity().getZ())});
+                LightProperties lp = new LightProperties(Config.type.LIGHT, Config.lightvariants.POINT, String.valueOf(light.getIntensity()), "light", String.valueOf(id), new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())}, new String[]{"0","0","0"}, new String[]{String.valueOf(light.getRgb().getX()), String.valueOf(light.getRgb().getY()), String.valueOf(light.getRgb().getZ())});
                 //loadImage(lp, Config.type.LIGHT);
                 createGUIObject(null, id, Config.type.LIGHT);
 
@@ -263,8 +261,12 @@ public class ApplicationController {
 
                 for (Properties properties : propertiesList) {
                     if (properties.getId().equals(String.valueOf(id))) {
-                        properties.setPos(new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())});
-                        properties.setRot(new String[]{"0", "0", "0"});
+                        if (properties instanceof LightProperties lightProperties) {
+                            lightProperties.setIntensity(String.valueOf(light.getIntensity()));
+                            lightProperties.setPos(new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())});
+                            lightProperties.setRot(new String[]{"0", "0", "0"});
+                            lightProperties.setRgb(new String[]{String.valueOf(light.getRgb().getX()), String.valueOf(light.getRgb().getY()), String.valueOf(light.getRgb().getZ())});
+                        }
                     }
                 }
             }
@@ -940,8 +942,8 @@ public class ApplicationController {
                                 Double.parseDouble(lightProperties.getPos()[2])),
                         new Vector3D(Double.parseDouble(lightProperties.getRgb()[0]),
                                 Double.parseDouble(lightProperties.getRgb()[1]),
-                                Double.parseDouble(lightProperties.getRgb()[2]))
-                                .scalarMultiplication(Double.parseDouble(lightProperties.getIntensity()))
+                                Double.parseDouble(lightProperties.getRgb()[2])),
+                        Double.parseDouble(lightProperties.getIntensity())
 
                 );
 
