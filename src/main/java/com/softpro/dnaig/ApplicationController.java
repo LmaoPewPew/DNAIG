@@ -142,6 +142,8 @@ public class ApplicationController {
     @FXML
     void importObject(MouseEvent event) {
         File entityFile = fileChooser();
+        if (entityFile == null) return;
+
         try {
             int id = objectID++;
             Entity entity = ObjFileReader.createObject(entityFile.getPath(), id);
@@ -166,6 +168,7 @@ public class ApplicationController {
         // Automatically Save .YAML file in Downloads folder
         //FileChooser directoryChooser = new FileChooser();
 
+        directoryChooser.getExtensionFilters().clear();
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG", "*.png"));
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPEG/JPG", "*.jpg", "*.jpeg"));
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("BMP", "*.bmp"));
@@ -190,6 +193,7 @@ public class ApplicationController {
         // Save Image of the Rendered image in specific Folder (like SaveFileAs)
         //FileChooser directoryChooser = new FileChooser();
 
+        directoryChooser.getExtensionFilters().clear();
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("YAML", "*.yaml"));
         directoryChooser.setTitle("Save Scene");
 
@@ -208,8 +212,9 @@ public class ApplicationController {
         // Loads .YAML file into project
         //FileChooser directoryChooser = new FileChooser();
 
+        directoryChooser.getExtensionFilters().clear();
         directoryChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("YAML", "*.yaml"));
-        directoryChooser.setTitle("Save Scene");
+        directoryChooser.setTitle("Load Scene");
 
         File file = directoryChooser.showOpenDialog(new Stage());
 
@@ -806,11 +811,10 @@ public class ApplicationController {
             alert.showAndWait();
         } else {
             // Switch the style class and execute rendering or cancellation accordingly
-            switchRenderButtonStyleClass();
             if ((renderButton.getText().equals("Cancel"))) {
-                loadRayTracer();
-            } else {
                 cancelRayTracer();
+            } else {
+                loadRayTracer();
             }
         }
     }
@@ -930,7 +934,7 @@ public class ApplicationController {
 
         // Set the scene and start the ray tracer
         output.setScene(entityList, lightList, camera);
-        output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished);
+        output.openRayTracer(propertiesList, stage, this::callbackWhenRayTracerFinished, this);
     }
 
     /*************One Time METHODS**************/
@@ -1027,8 +1031,11 @@ public class ApplicationController {
         String fileString;
 
         latestFile = fileChooser.showOpenDialog(new Stage());
-        fileString = String.valueOf(latestFile.getParentFile());
-        fileChooser.setInitialDirectory(new File(fileString));
+
+        if (latestFile != null) {
+            fileString = String.valueOf(latestFile.getParentFile());
+            fileChooser.setInitialDirectory(new File(fileString));
+        }
 
         return latestFile;
     }

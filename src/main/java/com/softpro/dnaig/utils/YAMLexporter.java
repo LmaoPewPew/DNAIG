@@ -151,7 +151,7 @@ public class YAMLexporter {
                             fov = Double.parseDouble(line.split(":")[1].trim());
                         }
                         if (position != null && lookAt != null && up != null && width != 0 && height != 0 && fov != 0) {
-                            // camera = new Camera(position, lookAt, up, fov, width, height);
+                            camera = new Camera(position, lookAt, up, fov, width, height);
                         }
                     }
                     // Extract point lights

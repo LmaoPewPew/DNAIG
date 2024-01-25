@@ -3,6 +3,7 @@ package com.softpro.dnaig.utils;
 import com.softpro.dnaig.rayTracer.Util;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class Vector3D {
 
@@ -269,11 +270,12 @@ public class Vector3D {
 
     @Override
     public String toString() {
-        return String.format("x: %f\t y: %f\t z: %f", x, y, z);
+        return String.format(Locale.US, "x: %f\t y: %f\t z: %f", x, y, z);
     }
 
     public String toYaml(){
         return String.format(
+                Locale.US,
                 "\n\t\tx: %f\n\t\ty: %f\n\t\tz: %f\n",
                 x, y, z
         );
@@ -281,6 +283,7 @@ public class Vector3D {
 
     public String toColorYaml(){
         return String.format(
+                Locale.US,
                 "\n\t\tr: %f\n\t\tg: %f\n\t\tb: %f\n",
                 x, y, z
         );
