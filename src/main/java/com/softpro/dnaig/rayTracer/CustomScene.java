@@ -2,11 +2,8 @@ package com.softpro.dnaig.rayTracer;
 
 
 import com.softpro.dnaig.objData.light.Light;
-import com.softpro.dnaig.objData.light.PointLight;
 import com.softpro.dnaig.objData.mesh.*;
-import com.softpro.dnaig.objData.presets.Plane;
 import com.softpro.dnaig.utils.*;
-import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.io.IOException;
@@ -122,7 +119,7 @@ public class CustomScene {
         this.camera = camera;
         lights.forEach(light -> {
                     System.out.println(light.getPosition());
-            System.out.println(light.getIntensity());
+            System.out.println(light.getRgb());
                 });
        // RayTracer.camera = camera;
 

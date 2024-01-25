@@ -17,7 +17,6 @@ import com.softpro.dnaig.utils.YAMLexporter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,7 +36,6 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.Locale;
 import java.util.Objects;
 
 public class ApplicationController {
@@ -248,7 +246,7 @@ public class ApplicationController {
                 int id = objectID++;
                 light.setID(id);
                 System.out.println(light.toYaml());
-                LightProperties lp = new LightProperties(Config.type.LIGHT, Config.lightvariants.POINT, "1", "light", String.valueOf(id), new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())}, new String[]{"0","0","0"}, new String[]{String.valueOf(light.getIntensity().getX()), String.valueOf(light.getIntensity().getY()), String.valueOf(light.getIntensity().getZ())});
+                LightProperties lp = new LightProperties(Config.type.LIGHT, Config.lightvariants.POINT, String.valueOf(light.getIntensity()), "light", String.valueOf(id), new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())}, new String[]{"0","0","0"}, new String[]{String.valueOf(light.getRgb().getX()), String.valueOf(light.getRgb().getY()), String.valueOf(light.getRgb().getZ())});
                 //loadImage(lp, Config.type.LIGHT);
                 createGUIObject(null, id, Config.type.LIGHT);
 
@@ -263,8 +261,12 @@ public class ApplicationController {
 
                 for (Properties properties : propertiesList) {
                     if (properties.getId().equals(String.valueOf(id))) {
-                        properties.setPos(new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())});
-                        properties.setRot(new String[]{"0", "0", "0"});
+                        if (properties instanceof LightProperties lightProperties) {
+                            lightProperties.setIntensity(String.valueOf(light.getIntensity()));
+                            lightProperties.setPos(new String[]{String.valueOf(light.getPosition().getX()), String.valueOf(light.getPosition().getY()), String.valueOf(light.getPosition().getZ())});
+                            lightProperties.setRot(new String[]{"0", "0", "0"});
+                            lightProperties.setRgb(new String[]{String.valueOf(light.getRgb().getX()), String.valueOf(light.getRgb().getY()), String.valueOf(light.getRgb().getZ())});
+                        }
                     }
                 }
             }
@@ -286,8 +288,12 @@ public class ApplicationController {
 
             for (Properties properties : propertiesList) {
                 if (properties.getId().equals(String.valueOf(id))) {
-                    properties.setPos(new String[]{String.valueOf(camera.getEye().getX()), String.valueOf(camera.getEye().getY()), String.valueOf(camera.getEye().getZ())});
-                    properties.setRot(new String[]{"0", "0", "0"});
+                    if (properties instanceof CameraProperties cameraProperties) {
+                        cameraProperties.setPos(new String[]{String.valueOf(camera.getEye().getX()), String.valueOf(camera.getEye().getY()), String.valueOf(camera.getEye().getZ())});
+                        cameraProperties.setRot(new String[]{"0", "0", "0"});
+                        cameraProperties.setHeight(camera.getHeight());
+                        cameraProperties.setWidth(camera.getWidth());
+                    }
                 }
             }
 
@@ -606,29 +612,51 @@ public class ApplicationController {
             gp.addRow(3);
 
             gp.add(new Text("Width:"), 0, 12);
-            TextField width = new TextField(String.valueOf(cp.getHeight()));
+            TextField width = new TextField(String.valueOf(cp.getWidth()));
             width.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 //CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
 
-                if (finalopTest != null)
-                    finalopTest.setHeight(Integer.parseInt(newValue));
+                if (finalopTest != null) {
+                    finalopTest.setWidth(Integer.parseInt(newValue));
+                    Config.getInstance().setWIDTH(Integer.parseInt(newValue));
+                }
+            });
+
+            width.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    textFocus = false;
+                } else {
+                    textFocus = true;
+                }
             });
 
             gp.add(width, 1, 12);
 
             gp.add(new Text("Height:"), 0, 13);
-            TextField height = new TextField(String.valueOf(cp.getWidth()));
+            TextField height = new TextField(String.valueOf(cp.getHeight()));
 
 
             height.textProperty().addListener((observable, oldValue, newValue) -> {               //update value
                 // CameraProperties opTest = (CameraProperties)propertiesList.get(Integer.parseInt(lastClickedID));
-                if (finalopTest != null)
-                    finalopTest.setWidth(Integer.parseInt(newValue));
+                if (finalopTest != null) {
+                    finalopTest.setHeight(Integer.parseInt(newValue));
+                    Config.getInstance().setHEIGHT(Integer.parseInt(newValue));
+                }
+
             });
+
+            height.focusedProperty().addListener((observable, oldValue, newValue) -> {
+                if (!newValue) {
+                    textFocus = false;
+                } else {
+                    textFocus = true;
+                }
+            });
+
             gp.add(height, 1, 13);
 
-            width.setText("1280");
-            height.setText("720");
+            width.setText(String.valueOf(finalopTest.getWidth()));
+            height.setText(String.valueOf(finalopTest.getHeight()));
 
             /*
             ChoiceBox<String> cb = new ChoiceBox<>();
@@ -655,7 +683,7 @@ public class ApplicationController {
             cb.setValue(cp.getCameravariants().toString());
             */
 
-            gp.add(new Text("HD-Res."), 0, 11);
+            gp.add(new Text("Resolution:"), 0, 11);
             //gp.add(cb, 1, 11);
 
             // textFieldVALUES[7] = String.valueOf(cp.getHeight());
@@ -923,7 +951,7 @@ public class ApplicationController {
      */
     @FXML
     void loadRayTracer() {
-        Output output = Output.getOutput();
+        Output output = Output.getOutput().recreate();
         output.clear();
         entityList.forEach(System.out::println);
         Camera camera = null;
@@ -940,8 +968,8 @@ public class ApplicationController {
                                 Double.parseDouble(lightProperties.getPos()[2])),
                         new Vector3D(Double.parseDouble(lightProperties.getRgb()[0]),
                                 Double.parseDouble(lightProperties.getRgb()[1]),
-                                Double.parseDouble(lightProperties.getRgb()[2]))
-                                .scalarMultiplication(Double.parseDouble(lightProperties.getIntensity()))
+                                Double.parseDouble(lightProperties.getRgb()[2])),
+                        Double.parseDouble(lightProperties.getIntensity())
 
                 );
 

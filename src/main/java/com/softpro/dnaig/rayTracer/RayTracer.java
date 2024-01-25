@@ -20,7 +20,7 @@ public class RayTracer implements CallbackInterface {
 
     public int configured = 0;
 
-    private final Thread[] threads = new Thread[Config.THREADS];
+    private final Thread[] threads = new Thread[Config.getInstance().getTHREADS()];
 
     private final ApplicationController applicationController;
 
@@ -29,7 +29,7 @@ public class RayTracer implements CallbackInterface {
     }
 
     public boolean configurationComplete(){
-        return configured>=Config.THREADS;
+        return configured>=Config.getInstance().getTHREADS();
     }
 
     int current = -1;
@@ -45,10 +45,10 @@ public class RayTracer implements CallbackInterface {
         startTime = System.currentTimeMillis();
         camera = CustomScene.getScene().camera;
 
-        int work_w = Output.WIDTH / Config.TILES;
-        int work_h = Output.HEIGHT / Config.TILES;
+        int work_w = Config.getInstance().getWIDTH() / Config.getInstance().getTILES();
+        int work_h = Config.getInstance().getHEIGHT() / Config.getInstance().getTILES();
 
-        for (int a = 0; a < Config.THREADS; a++) {
+        for (int a = 0; a < Config.getInstance().getTHREADS(); a++) {
             Task<Void> task = new Task<>() {
                 @Override
                 protected Void call() throws IOException {
@@ -58,10 +58,10 @@ public class RayTracer implements CallbackInterface {
                     configured++;
                     //System.out.printf("Got thread id %d\n", tid);
 
-                    int start_x = work_w * (work % Config.TILES);
-                    int start_y = work_h * (work / Config.TILES);
+                    int start_x = work_w * (work % Config.getInstance().getTILES());
+                    int start_y = work_h * (work / Config.getInstance().getTILES());
 
-                    while (work < Config.TILES*Config.TILES) {
+                    while (work < Config.getInstance().getTILES()*Config.getInstance().getTILES()) {
                         //System.out.printf("Thread %d working on task %d\n", tid, work);
 
                         for (int i = start_x; i < start_x + work_w; i++) {
@@ -118,8 +118,8 @@ public class RayTracer implements CallbackInterface {
                             System.out.println("waiting");
                         }
                         work = getCurrent();
-                        start_x = work_w * (work % Config.TILES);
-                        start_y = work_h * (work / Config.TILES);
+                        start_x = work_w * (work % Config.getInstance().getTILES());
+                        start_y = work_h * (work / Config.getInstance().getTILES());
                         //throw new RuntimeException("test");
                         //System.out.printf("got new work at x: %d y: %d\n", start_x, start_y);
                     }
@@ -140,9 +140,10 @@ public class RayTracer implements CallbackInterface {
     public void taskDone(String details) {
         threadsFinished++;
 
-        if (threadsFinished >= Config.THREADS) {
+        if (threadsFinished >= Config.getInstance().getTHREADS()) {
             System.out.println("Time: " + (System.currentTimeMillis() - startTime) / 1000.0 + "s");
             Platform.runLater(() -> applicationController.callbackWhenRayTracerFinished(null));
+            Output.getOutput().clearPixelTest();
         }
     }
 }

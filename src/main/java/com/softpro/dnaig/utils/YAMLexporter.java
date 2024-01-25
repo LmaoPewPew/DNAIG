@@ -75,6 +75,8 @@ public class YAMLexporter {
             NONE
         }
 
+        String objectPath = file.getAbsolutePath().split(file.getName())[0];
+
         State state = State.NONE;
 
         String filePath = "";
@@ -82,6 +84,7 @@ public class YAMLexporter {
         Vector3D rotation = null;
         double scale = 0;
         Vector3D color = null;
+        double intensity = -1;
         Vector3D lookAt = null;
         Vector3D up = null;
         int width = 0, height = 0;
@@ -121,7 +124,14 @@ public class YAMLexporter {
                         if (!filePath.isEmpty() && position != null && rotation != null && scale != 0) {
                             Entity entity = null;
                             try {
-                                entity = ObjFileReader.createObject(filePath, id++);
+                                if (filePath.contains(":")) {
+                                    entity = ObjFileReader.createObject(filePath, id++);
+                                } else {
+                                    filePath = filePath.split("./")[1];
+                                    String temp = String.format("%s/%s",objectPath, filePath);
+                                    System.out.println(temp);
+                                    entity = ObjFileReader.createObject(temp, id++);
+                                }
                                 entity.setPivot(position);
                                 entity.setOrient(rotation);
                                 entity.scale(scale);
@@ -156,6 +166,11 @@ public class YAMLexporter {
                             //camera = new Camera(position, lookAt, up, fov, width, height);
                             camera.setEye(position);
                             camera.setZ(lookAt);
+                            Config.getInstance().setWIDTH(width);
+                            Config.getInstance().setHEIGHT(height);
+                            camera.setFov(fov);
+                            camera.setWidth(width);
+                            camera.setHeight(height);
                             //id = Ob
                             //createGUIObject(null, id, Config.type.CAMERA);
                         }
@@ -166,10 +181,12 @@ public class YAMLexporter {
                             position = extractVector(reader);
                         } else if (line.contains("Ke:")) {
                             color = extractVector(reader);
+                        } else if (line.contains("intensity:")) {
+                            intensity = Double.parseDouble(line.split(":")[1].trim());
                         }
-                        if (position != null && color != null) {
-                            System.out.println("Position: " + position + " Color: " + color);
-                            lights.add(new PointLight(position, color));
+                        if (position != null && color != null && intensity != -1) {
+                            System.out.println("Position: " + position + " Color: " + color + " Intensity: " + intensity);
+                            lights.add(new PointLight(position, color, intensity));
                             position = null;
                             color = null;
                         }

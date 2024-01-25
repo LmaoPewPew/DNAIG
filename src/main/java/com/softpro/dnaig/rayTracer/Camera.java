@@ -1,14 +1,15 @@
 package com.softpro.dnaig.rayTracer;
 
 import com.softpro.dnaig.Output;
+import com.softpro.dnaig.utils.Config;
 import com.softpro.dnaig.utils.Vector3D;
 
 import java.util.Locale;
 
 public class Camera {
-    private int l = -Output.WIDTH/2;
+    private int l = -Config.getInstance().getWIDTH()/2;
     private int r = -l;
-    private int t = Output.HEIGHT/2;
+    private int t = Config.getInstance().getHEIGHT()/2;
     private int b = -t;
     private double fov = (45.0/360)*2*Math.PI;
 
@@ -22,6 +23,9 @@ public class Camera {
 
     private double d = t/(Math.tan(fov/2)*2);
     private Vector3D W_d_negated = W.scalarMultiplication(-d);
+
+    private int height;
+    private int width;
 
     public Camera(){}
     public Camera(Vector3D position, Vector3D rotation, int width, int height){
@@ -41,6 +45,9 @@ public class Camera {
 
         d = t/(Math.tan(fov/2)*2);
         W_d_negated = W.scalarMultiplication(-d);
+
+        this.width = width;
+        this.height = height;
 
         /*
         l = -width/2;
@@ -66,6 +73,9 @@ public class Camera {
 
         d = t/(Math.tan(fov/2)*2);
         W_d_negated = W.scalarMultiplication(-d);
+
+        this.width = width;
+        this.height = height;
     }
 
     public void setL(int l) {
@@ -114,6 +124,31 @@ public class Camera {
 
     public void setW_d_negated(Vector3D w_d_negated) {
         W_d_negated = w_d_negated;
+    }
+
+    public void setFov(double fov) {
+        this.fov = fov;
+        d = t/(Math.tan(fov/2)*2);
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public double getFov() {
+        return fov;
+    }
+
+    public int getHeight() {
+        return height;
+    }
+
+    public int getWidth() {
+        return width;
     }
 
     public int getL() {
@@ -174,7 +209,7 @@ public class Camera {
                 \tfieldOfView: %f
                 \twidth: %d
                 \theight: %d       \s
-                """, eye.toYaml(), Z.toYaml(), UP.toYaml(), fov, Output.WIDTH, Output.HEIGHT
+                """, eye.toYaml(), Z.toYaml(), UP.toYaml(), fov, Config.getInstance().getWIDTH(), Config.getInstance().getHEIGHT()
         );
     }
 }
